@@ -1,0 +1,26 @@
+{
+    "$ref": "#/definitions/SmsSenderDto",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "SmsSenderDto": {
+            "additionalProperties": false,
+            "description": "DTO for SMS sender\nUsed to define the details for sending an SMS message",
+            "properties": {
+                "message": {
+                    "description": "The content of the SMS message",
+                    "type": "string"
+                },
+                "senderPhone": {
+                    "description": "Sender's phone number\nMust be a valid phone number",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "message",
+                "senderPhone"
+            ],
+            "type": "object"
+        }
+    }
+}
+

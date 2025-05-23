@@ -1,0 +1,126 @@
+{
+  "$ref": "#/definitions/InfoResponseDto",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "InfoResponseDto": {
+      "additionalProperties": false,
+      "description": "DTO for information response\nExtends the base response class and adds integration information",
+      "properties": {
+        "code": {
+          "description": "Response code",
+          "type": "number"
+        },
+        "info": {
+          "$ref": "#/definitions/IntegrationInfoDto",
+          "description": "integration information"
+        },
+        "message": {
+          "description": "Response message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "info",
+        "message"
+      ],
+      "type": "object"
+    },
+    "IntegrationInfoDto": {
+      "additionalProperties": false,
+      "description": "DTO for integration information\nContains all information related to a service integration",
+      "properties": {
+        "description": {
+          "description": "Description of the integration and its services (optional)",
+          "type": "string"
+        },
+        "logo": {
+          "description": "The logo of the integration (optional)",
+          "type": "string"
+        },
+        "menu": {
+          "$ref": "#/definitions/MenuDto",
+          "description": "Option that will appear in the \"Main Menu\" section (optional)"
+        },
+        "onboardingUrl": {
+          "description": "The url for the onboarding process after installation of the integration",
+          "type": "string"
+        },
+        "requiredRoles": {
+          "description": "The roles that need to be accepted by the company",
+          "items": {
+            "$ref": "#/definitions/RolesEnum"
+          },
+          "type": "array"
+        },
+        "settings": {
+          "$ref": "#/definitions/MenuDto",
+          "description": "Option that will appear in the \"Settings\" section (optional)"
+        },
+        "title": {
+          "description": "The title of the integration",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/MessageTypeEnum",
+          "description": "The notification type which can be email, sms or push\nEach integration supports only one type of notification"
+        }
+      },
+      "required": [
+        "title",
+        "type"
+      ],
+      "type": "object"
+    },
+    "MenuDto": {
+      "$ref": "#/definitions/MenuDto_1",
+      "description": "DTO for menu items\nExtends TabDto and adds icon information"
+    },
+    "MenuDto_1": {
+      "additionalProperties": false,
+      "description": "DTO for menu items\nExtends TabDto and adds icon information",
+      "properties": {
+        "icon": {
+          "description": "The icon to be displayed for the menu item",
+          "type": "string"
+        },
+        "label": {
+          "description": "The name to be displayed for the menu item",
+          "type": "string"
+        },
+        "tabs": {
+          "description": "The list of tabs that will appear in the submenu and as a navigation bar above the main content\nIn case of only one tab, there will be neither a submenu nor a navigation bar.",
+          "items": {
+            "$ref": "#/definitions/TabDto"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "icon",
+        "label",
+        "tabs"
+      ],
+      "type": "object"
+    },
+    "TabDto": {
+      "additionalProperties": false,
+      "description": "DTO for tabs\nUsed for defining tabs in the user interface",
+      "properties": {
+        "label": {
+          "description": "The label displayed on the tab",
+          "type": "string"
+        },
+        "url": {
+          "description": "The URL associated with the tab.\nThe requests coming from the hoster will be signed\nwith jwt, which will contain information about the company",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "url"
+      ],
+      "type": "object"
+    }
+  }
+}

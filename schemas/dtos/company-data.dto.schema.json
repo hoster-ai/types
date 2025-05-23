@@ -1,0 +1,86 @@
+{
+  "$ref": "#/definitions/CompanyDataDto",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "CompanyDataDto": {
+      "additionalProperties": false,
+      "properties": {
+        "address1": {
+          "type": "string"
+        },
+        "address2": {
+          "type": "string"
+        },
+        "address3": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "$ref": "#/definitions/CountryEnum"
+        },
+        "defaultLanguage": {
+          "$ref": "#/definitions/LanguageEnum"
+        },
+        "emails": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "id": {
+          "type": "string"
+        },
+        "invoiceEmail": {
+          "type": "string"
+        },
+        "languages": {
+          "items": {
+            "$ref": "#/definitions/LanguageEnum"
+          },
+          "type": "array"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "postcode": {
+          "type": "string"
+        },
+        "privacyPolicyUrl": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "taxOffice": {
+          "type": "string"
+        },
+        "telephone": {
+          "type": "string"
+        },
+        "vat": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "address1",
+        "city",
+        "country",
+        "defaultLanguage",
+        "emails",
+        "id",
+        "invoiceEmail",
+        "languages",
+        "name",
+        "postcode",
+        "privacyPolicyUrl",
+        "telephone"
+      ],
+      "type": "object"
+    }
+  }
+}
