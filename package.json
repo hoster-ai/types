@@ -10,7 +10,13 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "typescript": "^5.8.3"
+    "@types/fs-extra": "^11.0.4",
+    "fs-extra": "^11.3.0",
+    "glob": "^11.0.2",
+    "quicktype": "^23.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "typescript-json-schema": "^0.65.1"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",

@@ -1,0 +1,220 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "AttachmentDto": {
+            "additionalProperties": false,
+            "description": "DTO for file attachments\nUsed for sending attached files with emails",
+            "properties": {
+                "content": {
+                    "description": "The content of the file in Base64 encoding",
+                    "type": "string"
+                },
+                "contentType": {
+                    "description": "The content type of the file (MIME type)",
+                    "type": "string"
+                },
+                "filename": {
+                    "description": "The name of the attached file",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "content",
+                "filename"
+            ],
+            "type": "object"
+        },
+        "EmailReceiverDto": {
+            "additionalProperties": false,
+            "description": "DTO for email recipients\nUsed to define the recipients of an email",
+            "properties": {
+                "bcc": {
+                    "description": "List of email addresses for blind carbon copy (optional)\nMust be valid and unique email addresses",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "cc": {
+                    "description": "List of email addresses for carbon copy (optional)\nMust be valid and unique email addresses",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "to": {
+                    "description": "The main email address",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "to"
+            ],
+            "type": "object"
+        },
+        "EmailSenderDto": {
+            "additionalProperties": false,
+            "description": "DTO for email sender\nUsed to define the details for sending an email",
+            "properties": {
+                "attachments": {
+                    "description": "File attachments (optional)",
+                    "items": {
+                        "$ref": "#/definitions/AttachmentDto"
+                    },
+                    "type": "array"
+                },
+                "fullName": {
+                    "description": "The full name of the sender",
+                    "type": "string"
+                },
+                "message": {
+                    "description": "The message content\nLength restriction from 1 to 50000 characters",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "The email subject\nLength restriction from 1 to 500 characters",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fullName",
+                "message",
+                "subject"
+            ],
+            "type": "object"
+        },
+        "PushReceiverDto": {
+            "additionalProperties": false,
+            "description": "DTO for push notification recipients\nUsed to define the recipients of a push notification",
+            "properties": {
+                "deviceTokens": {
+                    "description": "List of user device tokens\nMust contain at least one token",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "userId": {
+                    "description": "The user ID that will receive the push notification",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "deviceTokens",
+                "userId"
+            ],
+            "type": "object"
+        },
+        "PushSenderDto": {
+            "additionalProperties": false,
+            "description": "DTO for push notification sender\nUsed to define the details for sending a push notification",
+            "properties": {
+                "message": {
+                    "description": "The content of the push notification\nLength restriction from 1 to 1000 characters",
+                    "type": "string"
+                },
+                "messageId": {
+                    "description": "Unique identifier of the message\nLength restriction from 1 to 255 characters",
+                    "type": "string"
+                },
+                "subtitle": {
+                    "description": "The subtitle of the push notification (optional)\nLength restriction from 1 to 255 characters",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "The title of the push notification\nLength restriction from 1 to 255 characters",
+                    "type": "string"
+                },
+                "userId": {
+                    "description": "The user ID that will receive the push notification\nLength restriction from 1 to 255 characters",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "message",
+                "messageId",
+                "title",
+                "userId"
+            ],
+            "type": "object"
+        },
+        "SmsReceiverDto": {
+            "additionalProperties": false,
+            "description": "DTO for SMS recipients\nUsed to define the recipients of an SMS message",
+            "properties": {
+                "receiverPhones": {
+                    "description": "List of recipient phone numbers\nMust be valid phone numbers",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "receiverPhones"
+            ],
+            "type": "object"
+        },
+        "SmsSenderDto": {
+            "additionalProperties": false,
+            "description": "DTO for SMS sender\nUsed to define the details for sending an SMS message",
+            "properties": {
+                "message": {
+                    "description": "The content of the SMS message",
+                    "type": "string"
+                },
+                "senderPhone": {
+                    "description": "Sender's phone number\nMust be a valid phone number",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "message",
+                "senderPhone"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "notificationId": {
+            "description": "Unique identifier of the hoster message",
+            "type": "string"
+        },
+        "receiver": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/EmailReceiverDto"
+                },
+                {
+                    "$ref": "#/definitions/PushReceiverDto"
+                },
+                {
+                    "$ref": "#/definitions/SmsReceiverDto"
+                }
+            ],
+            "description": "Recipient details according to the integration's notification type"
+        },
+        "sender": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/EmailSenderDto"
+                },
+                {
+                    "$ref": "#/definitions/PushSenderDto"
+                },
+                {
+                    "$ref": "#/definitions/SmsSenderDto"
+                }
+            ],
+            "description": "Sender details according to the integration's notification type"
+        }
+    },
+    "required": [
+        "notificationId",
+        "receiver",
+        "sender"
+    ],
+    "type": "object"
+}
+

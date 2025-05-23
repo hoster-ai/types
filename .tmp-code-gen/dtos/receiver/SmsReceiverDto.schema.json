@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "DTO for SMS recipients\nUsed to define the recipients of an SMS message",
+    "properties": {
+        "receiverPhones": {
+            "description": "List of recipient phone numbers\nMust be valid phone numbers",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "receiverPhones"
+    ],
+    "type": "object"
+}
+

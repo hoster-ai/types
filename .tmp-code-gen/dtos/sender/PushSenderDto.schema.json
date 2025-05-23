@@ -1,0 +1,35 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "DTO for push notification sender\nUsed to define the details for sending a push notification",
+    "properties": {
+        "message": {
+            "description": "The content of the push notification\nLength restriction from 1 to 1000 characters",
+            "type": "string"
+        },
+        "messageId": {
+            "description": "Unique identifier of the message\nLength restriction from 1 to 255 characters",
+            "type": "string"
+        },
+        "subtitle": {
+            "description": "The subtitle of the push notification (optional)\nLength restriction from 1 to 255 characters",
+            "type": "string"
+        },
+        "title": {
+            "description": "The title of the push notification\nLength restriction from 1 to 255 characters",
+            "type": "string"
+        },
+        "userId": {
+            "description": "The user ID that will receive the push notification\nLength restriction from 1 to 255 characters",
+            "type": "string"
+        }
+    },
+    "required": [
+        "message",
+        "messageId",
+        "title",
+        "userId"
+    ],
+    "type": "object"
+}
+
