@@ -63,7 +63,7 @@ find_ts_files() {
 }
 
 # Για κάθε TypeScript αρχείο (recursive)
-find_ts_files | while read -r file; do
+while IFS= read -r file; do
     if [ -f "$file" ]; then
         # Υπολογισμός relative path από το DTO_DIR
         relative_path="${file#$DTO_DIR/}"
@@ -93,7 +93,7 @@ find_ts_files | while read -r file; do
         
         # Μετατροπή DTOs/Interfaces
         if [ ! -z "$types" ]; then
-            while IFS= read -r type_name; do
+            for type_name in $types; do
                 if [ ! -z "$type_name" ]; then
                     ((total_types++))
                     # Μετατροπή CamelCase σε kebab-case
@@ -110,7 +110,7 @@ find_ts_files | while read -r file; do
                     echo -e "  → Μετατροπή DTO: ${YELLOW}$type_name${NC}"
                     
                     # Εκτέλεση με tsconfig.json και refs για να μην ενσωματώνει τα enums
-                    if typescript-json-schema --noExtraProps --required --refs --aliasRefs --topRef "$TSCONFIG" "$type_name" -o "$output_file" 2>"$ERROR_LOG"; then
+                    if typescript-json-schema --noExtraProps --required --refs --aliasRefs --topRef --jsDoc extended "$TSCONFIG" "$type_name" -o "$output_file" 2>"$ERROR_LOG"; then
                         if [ -f "$output_file" ] && [ -s "$output_file" ]; then
                             echo -e "    ${GREEN}✓ Επιτυχής${NC} → $(basename "$output_file")"
                             ((successful++))
@@ -126,12 +126,12 @@ find_ts_files | while read -r file; do
                         fi
                     fi
                 fi
-            done <<< "$types"
+            done # <<< "$types" replaced by for loop
         fi
         
         # Μετατροπή ENUMs
         if [ ! -z "$enums" ]; then
-            while IFS= read -r enum_name; do
+            for enum_name in $enums; do
                 if [ ! -z "$enum_name" ]; then
                     ((total_types++))
                     # Μετατροπή CamelCase σε kebab-case
@@ -148,7 +148,7 @@ find_ts_files | while read -r file; do
                     echo -e "  → Μετατροπή ENUM: ${YELLOW}$enum_name${NC}"
                     
                     # Εκτέλεση με tsconfig.json - για enums δεν χρειάζονται refs
-                    if typescript-json-schema --noExtraProps --required "$TSCONFIG" "$enum_name" -o "$output_file" 2>"$ERROR_LOG"; then
+                    if typescript-json-schema --noExtraProps --required --jsDoc extended "$TSCONFIG" "$enum_name" -o "$output_file" 2>"$ERROR_LOG"; then
                         if [ -f "$output_file" ] && [ -s "$output_file" ]; then
                             echo -e "    ${GREEN}✓ Επιτυχής${NC} → $(basename "$output_file")"
                             ((successful++))
@@ -164,7 +164,7 @@ find_ts_files | while read -r file; do
                         fi
                     fi
                 fi
-            done <<< "$enums"
+            done # <<< "$enums" replaced by for loop
         fi
         
         # Αν δεν βρέθηκαν types
@@ -172,7 +172,7 @@ find_ts_files | while read -r file; do
             echo -e "  ${YELLOW}ℹ Δεν βρέθηκαν exported types${NC}"
         fi
     fi
-done
+done < <(find_ts_files)
 
 # Cleanup
 rm -f "$ERROR_LOG"

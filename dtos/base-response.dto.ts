@@ -14,6 +14,7 @@ export class BaseResponse {
 
   /**
    * Response message
+   * @minLength 1
    */
   @IsString()
   @IsNotEmpty()
