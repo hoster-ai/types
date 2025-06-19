@@ -10,7 +10,7 @@ const SOURCE_DIRS = {
   enums: path.resolve(__dirname, 'enums')
 };
 
-const OUTPUT_BASE_DIR = path.resolve(__dirname, 'generated');
+const OUTPUT_BASE_DIR = path.resolve(__dirname, '../generated');
 
 // Language configuration type
 type LanguageConfig = {

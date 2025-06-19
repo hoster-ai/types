@@ -9,7 +9,7 @@ const SOURCE_DIRS = {
   enums: path.resolve(__dirname, 'enums')
 };
 
-const OUTPUT_DIR = path.resolve(__dirname, 'generated/python');
+const OUTPUT_DIR = path.resolve(__dirname, '../generated/golang');
 
 // ANSI colors for console output
 const colors = {
@@ -28,21 +28,19 @@ const stats = {
   failed: 0
 };
 
-// Type mapping from TypeScript to Python
+// Type mapping from TypeScript to Go
 const typeMapping: Record<string, string> = {
-  'string': 'str',
-  'number': 'float',
+  'string': 'string',
+  'number': 'float64',
   'boolean': 'bool',
-  'any': 'Any',
-  'Date': 'datetime',
-  'object': 'dict',
-  'Array<': 'List[',
-  'Record<': 'Dict[',
-  'string[]': 'List[str]',
-  'number[]': 'List[float]',
-  'boolean[]': 'List[bool]',
-  // Fix for union types
-  '|': 'Union['
+  'any': 'interface{}',
+  'Date': 'time.Time',
+  'object': 'map[string]interface{}',
+  'Array<': '[]',
+  'Record<': 'map[',
+  'string[]': '[]string',
+  'number[]': '[]float64',
+  'boolean[]': '[]bool'
 };
 
 // Helper to find TypeScript files
@@ -62,36 +60,18 @@ async function setupDirectories() {
   await fs.ensureDir(path.join(OUTPUT_DIR, 'enums'));
 }
 
-// Convert TypeScript type to Python type
+// Convert TypeScript type to Go type
 function convertType(tsType: string): string {
-  // Handle optional types (ending with ?)
-  let isOptional = false;
-  if (tsType.endsWith('?')) {
-    isOptional = true;
-    tsType = tsType.slice(0, -1);
-  }
-  
-  // Check for union types with | operator
-  if (tsType.includes(' | ')) {
-    const unionTypes = tsType.split(' | ').map(t => convertType(t.trim()));
-    return isOptional ? 
-      `Optional[Union[${unionTypes.join(', ')}]]` : 
-      `Union[${unionTypes.join(', ')}]`;
-  }
-  
   // Check direct mappings
   if (typeMapping[tsType]) {
-    const pythonType = typeMapping[tsType];
-    return isOptional ? `Optional[${pythonType}]` : pythonType;
+    return typeMapping[tsType];
   }
   
   // Handle arrays
   if (tsType.includes('[]')) {
     const baseType = tsType.replace('[]', '');
-    const pythonBaseType = convertType(baseType);
-    return isOptional ? 
-      `Optional[List[${pythonBaseType}]]` : 
-      `List[${pythonBaseType}]`;
+    const goBaseType = convertType(baseType);
+    return `[]${goBaseType}`;
   }
   
   // Handle generics
@@ -102,25 +82,29 @@ function convertType(tsType: string): string {
       const innerType = genericMatch[2];
       
       if (container === 'Array') {
-        const pythonType = `List[${convertType(innerType)}]`;
-        return isOptional ? `Optional[${pythonType}]` : pythonType;
+        return `[]${convertType(innerType)}`;
       } else if (container === 'Record' || container === 'Map') {
         const keyValuePair = innerType.split(',').map(t => t.trim());
         if (keyValuePair.length === 2) {
-          const pythonType = `Dict[${convertType(keyValuePair[0])}, ${convertType(keyValuePair[1])}]`;
-          return isOptional ? `Optional[${pythonType}]` : pythonType;
+          return `map[${convertType(keyValuePair[0])}]${convertType(keyValuePair[1])}`;
         }
       }
     }
   }
   
+  // Handle optional types (ending with ?)
+  if (tsType.endsWith('?')) {
+    const baseType = tsType.slice(0, -1);
+    return `*${convertType(baseType)}`;
+  }
+  
   // Default: keep the type name (likely a custom type)
-  return isOptional ? `Optional[${tsType}]` : tsType;
+  return tsType;
 }
 
 // Extract field information from TypeScript class/interface
-function extractFields(content: string): Array<{ name: string, type: string, defaultValue: string | null, comment: string }> {
-  const fields: Array<{ name: string, type: string, defaultValue: string | null, comment: string }> = [];
+function extractFields(content: string): Array<{ name: string, type: string, tags: string, comment: string }> {
+  const fields: Array<{ name: string, type: string, tags: string, comment: string }> = [];
   const lines = content.split('\n');
   
   let currentComment = '';
@@ -150,32 +134,22 @@ function extractFields(content: string): Array<{ name: string, type: string, def
     }
     
     // Extract field definition
-    const fieldMatch = line.match(/([a-zA-Z0-9_]+)(\??):\s*([^;=]+)(=\s*([^;]+))?;/);
+    const fieldMatch = line.match(/([a-zA-Z0-9_]+)(\??):\s*([^;]+);/);
     if (fieldMatch) {
       const name = fieldMatch[1];
       const isOptional = fieldMatch[2] === '?';
       let type = fieldMatch[3].trim();
-      let defaultValue = fieldMatch[5] ? fieldMatch[5].trim() : null;
       
-      // Convert TypeScript type to Python type
-      let pythonType = convertType(type);
-      if (isOptional && !pythonType.startsWith('Optional[')) {
-        pythonType = `Optional[${pythonType}]`;
-      }
+      // Convert TypeScript type to Go type
+      const goType = convertType(type);
       
-      // Convert TypeScript default values to Python
-      if (defaultValue) {
-        if (defaultValue === 'true') defaultValue = 'True';
-        else if (defaultValue === 'false') defaultValue = 'False';
-        else if (defaultValue === 'null') defaultValue = 'None';
-        else if (defaultValue === '[]') defaultValue = '[]';
-        else if (defaultValue === '{}') defaultValue = '{}';
-      }
+      // Build JSON tag
+      const jsonTag = `\`json:"${name}"\``;
       
       fields.push({
         name,
-        type: pythonType,
-        defaultValue,
+        type: isOptional ? `*${goType}` : goType,
+        tags: jsonTag,
         comment: currentComment
       });
       
@@ -218,73 +192,67 @@ function extractEnumValues(content: string): Array<{ name: string, value: string
   return values;
 }
 
-// Generate Python dataclass from TypeScript class/interface
-function generatePythonDataclass(name: string, content: string): string {
+// Generate Go struct from TypeScript class/interface
+function generateGoStruct(name: string, content: string): string {
   const fields = extractFields(content);
   
-  let pythonClass = '# Auto-generated from TypeScript\n';
-  pythonClass += 'from dataclasses import dataclass, field\n';
-  pythonClass += 'from typing import List, Dict, Optional, Any, Union\n';
-  
-  // Import datetime if needed
-  if (content.includes('Date')) {
-    pythonClass += 'from datetime import datetime\n';
-  }
-  
-  pythonClass += '\n\n@dataclass\n';
-  pythonClass += `class ${name}:\n`;
-  
-  if (fields.length === 0) {
-    pythonClass += '    pass\n';
-    return pythonClass;
-  }
+  let goStruct = `// ${name} represents a ${name} DTO\n`;
+  goStruct += `type ${name} struct {\n`;
   
   for (const field of fields) {
     if (field.comment) {
-      pythonClass += `    # ${field.comment}\n`;
+      goStruct += `\t// ${field.comment}\n`;
     }
-    
-    if (field.defaultValue) {
-      if (field.defaultValue === 'None' && field.type.startsWith('Optional[')) {
-        pythonClass += `    ${field.name}: ${field.type} = None\n`;
-      } else {
-        pythonClass += `    ${field.name}: ${field.type} = ${field.defaultValue}\n`;
-      }
-    } else if (field.type.startsWith('Optional[')) {
-      pythonClass += `    ${field.name}: ${field.type} = None\n`;
-    } else if (field.type.startsWith('List[')) {
-      pythonClass += `    ${field.name}: ${field.type} = field(default_factory=list)\n`;
-    } else if (field.type.startsWith('Dict[')) {
-      pythonClass += `    ${field.name}: ${field.type} = field(default_factory=dict)\n`;
-    } else {
-      pythonClass += `    ${field.name}: ${field.type}\n`;
-    }
+    // Capitalize first letter of field name for Go export
+    const goFieldName = field.name.charAt(0).toUpperCase() + field.name.slice(1);
+    goStruct += `\t${goFieldName} ${field.type} ${field.tags}\n`;
   }
   
-  return pythonClass;
+  goStruct += `}\n`;
+  return goStruct;
 }
 
-// Generate Python enum from TypeScript enum
-function generatePythonEnum(name: string, content: string): string {
+// Generate Go enum (using iota or string constants) from TypeScript enum
+function generateGoEnum(name: string, content: string): string {
   const values = extractEnumValues(content);
-  
-  let pythonEnum = '# Auto-generated from TypeScript\n';
-  pythonEnum += 'from enum import Enum, auto\n\n\n';
-  pythonEnum += `class ${name}(Enum):\n`;
-  
-  if (values.length === 0) {
-    pythonEnum += '    pass\n';
-    return pythonEnum;
-  }
   
   // Determine if it's a string or numeric enum
   const isStringEnum = values.length > 0 && values[0].value.startsWith('"');
   
-  for (const val of values) {
-    pythonEnum += `    ${val.name} = ${val.value}\n`;
+  let goEnum = '';
+  
+  if (isStringEnum) {
+    // Generate string constants
+    goEnum += `// ${name} enum values\n`;
+    goEnum += `type ${name} string\n\n`;
+    goEnum += `const (\n`;
+    
+    for (const val of values) {
+      goEnum += `\t${name}${val.name} ${name} = ${val.value}\n`;
+    }
+    
+    goEnum += `)\n`;
+  } else {
+    // Generate numeric constants with iota
+    goEnum += `// ${name} enum values\n`;
+    goEnum += `type ${name} int\n\n`;
+    goEnum += `const (\n`;
+    
+    // Start with iota for the first one
+    let first = true;
+    for (const val of values) {
+      if (first) {
+        goEnum += `\t${name}${val.name} ${name} = iota\n`;
+        first = false;
+      } else {
+        goEnum += `\t${name}${val.name}\n`;
+      }
+    }
+    
+    goEnum += `)\n`;
   }
   
-  return pythonEnum;
+  return goEnum;
 }
 
 // Extract exported type or enum name
@@ -310,23 +278,7 @@ function extractExportedName(content: string): { type: 'class' | 'interface' | '
   return null;
 }
 
-// Create an __init__.py file in the directory and all parent directories
-async function createInitFiles(dirPath: string, baseDir: string) {
-  const relativePath = path.relative(baseDir, dirPath);
-  const parts = relativePath.split(path.sep);
-  
-  let currentPath = baseDir;
-  for (const part of parts) {
-    currentPath = path.join(currentPath, part);
-    const initFile = path.join(currentPath, '__init__.py');
-    
-    if (!fs.existsSync(initFile)) {
-      await fs.writeFile(initFile, '# Auto-generated __init__.py file\n');
-    }
-  }
-}
-
-// Process a TypeScript file and convert it to Python
+// Process a TypeScript file and convert it to Go
 async function processFile(filePath: string, outputDir: string, isEnum: boolean): Promise<void> {
   try {
     const content = await fs.readFile(filePath, 'utf8');
@@ -339,7 +291,7 @@ async function processFile(filePath: string, outputDir: string, isEnum: boolean)
     
     stats.processed++;
     
-    const { name, type } = exportedType;
+    const { name } = exportedType;
     console.log(`  → Converting ${colors.yellow}${name}${colors.reset}`);
     
     // Create output file path
@@ -354,22 +306,24 @@ async function processFile(filePath: string, outputDir: string, isEnum: boolean)
     const outputSubDir = path.join(outputDir, dirName);
     await fs.ensureDir(outputSubDir);
     
-    // Create __init__.py files
-    await createInitFiles(outputSubDir, outputDir);
+    const outputFile = path.join(outputSubDir, `${fileName}.go`);
     
-    const outputFile = path.join(outputSubDir, `${fileName}.py`);
+    // Generate Go code
+    let goCode = 'package contracts\n\n';
     
-    // Generate Python code
-    let pythonCode = '';
+    // Add imports if needed
+    if (content.includes('Date')) {
+      goCode += 'import "time"\n\n';
+    }
     
-    if (isEnum || type === 'enum') {
-      pythonCode = generatePythonEnum(name, content);
+    if (isEnum || exportedType.type === 'enum') {
+      goCode += generateGoEnum(name, content);
     } else {
-      pythonCode = generatePythonDataclass(name, content);
+      goCode += generateGoStruct(name, content);
     }
     
     // Write to file
-    await fs.writeFile(outputFile, pythonCode);
+    await fs.writeFile(outputFile, goCode);
     console.log(`    ${colors.green}✓ Success${colors.reset} → ${path.basename(outputFile)}`);
     stats.successful++;
   } catch (error) {
@@ -379,8 +333,8 @@ async function processFile(filePath: string, outputDir: string, isEnum: boolean)
 }
 
 // Process all TypeScript files in the specified directories
-async function generatePythonCode() {
-  console.log(`${colors.cyan}=== Generating Python code ===${colors.reset}`);
+async function generateGolangCode() {
+  console.log(`${colors.cyan}=== Generating Go code ===${colors.reset}`);
   
   // Process DTOs
   console.log(`\n${colors.blue}Processing DTOs from ${SOURCE_DIRS.dtos}${colors.reset}`);
@@ -405,13 +359,13 @@ async function main() {
     // Setup directories
     await setupDirectories();
     
-    console.log(`${colors.cyan}=== TypeScript to Python Code Generator ===${colors.reset}`);
+    console.log(`${colors.cyan}=== TypeScript to Go Code Generator ===${colors.reset}`);
     console.log(`Source DTOs: ${SOURCE_DIRS.dtos}`);
     console.log(`Source Enums: ${SOURCE_DIRS.enums}`);
     console.log(`Output Directory: ${OUTPUT_DIR}`);
     
-    // Generate Python code
-    await generatePythonCode();
+    // Generate Go code
+    await generateGolangCode();
     
     // Print summary
     console.log(`\n${colors.cyan}=== Generation Summary ===${colors.reset}`);

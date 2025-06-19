@@ -5,11 +5,11 @@ import { execSync } from 'child_process';
 
 // Διαδρομές και διαμόρφωση
 const ROOT_DIR = path.resolve(__dirname, '..');
-const GENERATED_DIR = path.resolve(ROOT_DIR, 'generated');
+const GENERATED_DIR = path.resolve(ROOT_DIR, '/generated');
 const DIST_DIR = path.resolve(ROOT_DIR, 'dist');
 const PACKAGE_JSON = require(path.resolve(ROOT_DIR, 'package.json'));
 const VERSION = PACKAGE_JSON.version;
-const ORGANIZATION = 'yourorg'; // Αλλάξτε το σε αυτό που χρησιμοποιείτε
+const ORGANIZATION = 'hosterai';
 
 // Διαμόρφωση γλωσσών και αποθετηρίων
 interface LanguageConfig {

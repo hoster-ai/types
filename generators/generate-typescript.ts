@@ -9,7 +9,7 @@ const SOURCE_DIRS = {
   enums: path.resolve(__dirname, 'enums')
 };
 
-const OUTPUT_DIR = path.resolve(__dirname, 'generated/typescript');
+const OUTPUT_DIR = path.resolve(__dirname, '../generated/typescript');
 
 // --- ANSI colors for console output ---
 const colors = {

@@ -1,4 +1,4 @@
-#!/usr//bin/env ts-node
+#!/usr/bin/env ts-node
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import { glob } from 'glob';
@@ -9,7 +9,7 @@ const SOURCE_DIRS = {
   enums: path.resolve(__dirname, 'enums')
 };
 
-const OUTPUT_DIR = path.resolve(__dirname, 'generated/rust/src');
+const OUTPUT_DIR = path.resolve(__dirname, '../generated/swift');
 
 // --- ANSI colors for console output ---
 const colors = {
@@ -25,18 +25,17 @@ const colors = {
 const stats = {
   processed: 0,
   successful: 0,
-  failed: 0,
-  modules: new Set<string>()
+  failed: 0
 };
 
-// --- Type mapping from TypeScript to Rust ---
+// --- Type mapping from TypeScript to Swift ---
 const typeMapping: Record<string, string> = {
   'string': 'String',
-  'number': 'f64',
-  'boolean': 'bool',
-  'any': 'serde_json::Value',
-  'Date': 'chrono::DateTime<chrono::Utc>',
-  'object': 'std::collections::HashMap<String, serde_json::Value>',
+  'number': 'Double',
+  'boolean': 'Bool',
+  'any': 'Any',
+  'Date': 'Date',
+  'object': '[String: Any]',
 };
 
 // --- Helper Functions ---
@@ -52,12 +51,8 @@ async function findFiles(pattern: string): Promise<string[]> {
 
 async function setupDirectories() {
   await fs.ensureDir(OUTPUT_DIR);
-  await fs.ensureDir(path.join(OUTPUT_DIR, 'dtos'));
-  await fs.ensureDir(path.join(OUTPUT_DIR, 'enums'));
-}
-
-function toSnakeCase(str: string): string {
-    return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`).replace(/^_/, '');
+  await fs.ensureDir(path.join(OUTPUT_DIR, 'Dtos'));
+  await fs.ensureDir(path.join(OUTPUT_DIR, 'Enums'));
 }
 
 function convertType(tsType: string): string {
@@ -76,29 +71,29 @@ function convertType(tsType: string): string {
       return convertType(`${nonNullType}${isOptional ? '?' : ''}`);
   }
 
-  let rustType;
+  let swiftType;
   if (tsType.endsWith('[]')) {
     const baseType = tsType.slice(0, -2);
-    rustType = `Vec<${convertType(baseType)}>`;
+    swiftType = `[${convertType(baseType)}]`;
   } else {
     const genericMatch = tsType.match(/(\w+)<(.+)>/);
     if (genericMatch) {
         const container = genericMatch[1];
         const inner = genericMatch[2];
         if (container === 'Array') {
-            rustType = `Vec<${convertType(inner)}>`;
+            swiftType = `[${convertType(inner)}]`;
         } else if (container === 'Record') {
             const [key, value] = inner.split(',').map(t => t.trim());
-            rustType = `std::collections::HashMap<${convertType(key)}, ${convertType(value)}>`;
+            swiftType = `[${convertType(key)}: ${convertType(value)}]`;
         } else {
-            rustType = typeMapping[tsType] || tsType;
+            swiftType = typeMapping[tsType] || tsType;
         }
     } else {
-        rustType = typeMapping[tsType] || tsType;
+        swiftType = typeMapping[tsType] || tsType;
     }
   }
 
-  return isOptional ? `Option<${rustType}>` : rustType;
+  return `${swiftType}${isOptional ? '?' : ''}`;
 }
 
 function extractFields(content: string): Array<{ name: string, type: string }> {
@@ -116,43 +111,46 @@ function extractFields(content: string): Array<{ name: string, type: string }> {
 
 function extractEnumValues(content: string): Array<{ name: string, value: string }> {
     const values: Array<{ name: string, value: string }> = [];
-    const enumRegex = /(\w+)\s*=\s*([`'"][\w-]+[`'"]|\d+)/g;
+    const enumRegex = /(\w+)\s*=\s*([`'"]([\w-]+)[`'"]|\d+)/g;
     let match;
     while ((match = enumRegex.exec(content)) !== null) {
-        values.push({ name: match[1], value: match[2].replace(/[`'"]/g, '') });
+        values.push({ name: match[1], value: match[3] || match[2] });
     }
     return values;
 }
 
-function generateRustStruct(name: string, content: string): string {
+function generateSwiftStruct(name: string, content: string): string {
     const fields = extractFields(content);
     
     const structFields = fields.map(field => {
-        const snakeName = toSnakeCase(field.name);
-        const rustType = convertType(field.type);
-        return `    pub ${snakeName}: ${rustType},`;
+        const swiftType = convertType(field.type);
+        return `    let ${field.name}: ${swiftType}`;
     }).join('\n');
 
-    return `use serde::{Serialize, Deserialize};
+    return `import Foundation
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct ${name} {
+struct ${name}: Codable {
 ${structFields}
 }
 `;
 }
 
-function generateRustEnum(name: string, content: string): string {
+function generateSwiftEnum(name: string, content: string): string {
     const values = extractEnumValues(content);
     if (values.length === 0) return '';
 
-    const enumValues = values.map(v => `    ${v.name},`).join('\n');
+    const isStringBacked = isNaN(parseInt(values[0].value, 10));
+    const backingType = isStringBacked ? 'String' : 'Int';
 
-    return `use serde::{Serialize, Deserialize};
+    const enumCases = values.map(v => {
+        const caseName = v.name.charAt(0).toLowerCase() + v.name.slice(1);
+        return `    case ${caseName} = ${isStringBacked ? `"${v.value}"` : v.value}`;
+    }).join('\n');
 
-#[derive(Serialize, Deserialize, Debug)]
-pub enum ${name} {
-${enumValues}
+    return `import Foundation
+
+enum ${name}: ${backingType}, Codable {
+${enumCases}
 }
 `;
 }
@@ -166,32 +164,6 @@ function extractExportedName(content: string): { type: 'class' | 'interface' | '
     return null;
 }
 
-async function createModFile(dir: string, moduleName: string) {
-    const modPath = path.join(dir, 'mod.rs');
-    const content = `pub mod ${moduleName};
-`;
-    await fs.appendFile(modPath, content);
-    stats.modules.add(modPath);
-}
-
-async function createCargoToml() {
-    const cargoPath = path.resolve(OUTPUT_DIR, '..', 'Cargo.toml');
-    const content = `[package]
-name = "contracts"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-chrono = { version = "0.4", features = ["serde"] }
-`;
-    if (!fs.existsSync(cargoPath)) {
-        await fs.writeFile(cargoPath, content);
-        console.log(`\n${colors.green}✓ Created Cargo.toml${colors.reset}`);
-    }
-}
-
 async function processFile(filePath: string, outputBaseDir: string, isEnum: boolean) {
     try {
         const content = await fs.readFile(filePath, 'utf8');
@@ -203,29 +175,24 @@ async function processFile(filePath: string, outputBaseDir: string, isEnum: bool
         }
 
         stats.processed++;
-        const { name, type } = exported;
+        const { name } = exported;
         
         const baseSourceDir = isEnum ? SOURCE_DIRS.enums : SOURCE_DIRS.dtos;
         const relativeDir = path.dirname(path.relative(baseSourceDir, filePath));
         const outputDir = path.join(outputBaseDir, relativeDir);
         await fs.ensureDir(outputDir);
 
-        const snakeName = toSnakeCase(name);
-        const outputFileName = `${snakeName}.rs`;
+        const outputFileName = `${name}.swift`;
         const outputPath = path.join(outputDir, outputFileName);
 
-        let rustCode = '';
+        let swiftCode = '';
         if (isEnum) {
-            rustCode = generateRustEnum(name, content);
+            swiftCode = generateSwiftEnum(name, content);
         } else {
-            rustCode = generateRustStruct(name, content);
+            swiftCode = generateSwiftStruct(name, content);
         }
 
-        await fs.writeFile(outputPath, rustCode);
-
-        // Update mod.rs
-        await createModFile(path.dirname(outputPath), path.basename(outputPath, '.rs'));
-
+        await fs.writeFile(outputPath, swiftCode);
         const relativeOutputPath = path.relative(OUTPUT_DIR, outputPath);
         console.log(`    ${colors.green}✓ Success${colors.reset} → ${relativeOutputPath}`);
         stats.successful++;
@@ -236,45 +203,34 @@ async function processFile(filePath: string, outputBaseDir: string, isEnum: bool
     }
 }
 
-async function finalizeMods() {
-    for (const modPath of stats.modules) {
-        const content = await fs.readFile(modPath, 'utf8');
-        const uniqueLines = [...new Set(content.split('\n'))].join('\n');
-        await fs.writeFile(modPath, uniqueLines);
-    }
-}
-
-async function generateRustCode() {
-    console.log(`${colors.cyan}=== Generating Rust code ===${colors.reset}`);
+async function generateSwiftCode() {
+    console.log(`${colors.cyan}=== Generating Swift code ===${colors.reset}`);
     
     console.log(`\n${colors.blue}Processing DTOs from ${SOURCE_DIRS.dtos}${colors.reset}`);
     const dtoFiles = await findFiles(`${SOURCE_DIRS.dtos}/**/*.ts`);
     for (const file of dtoFiles) {
         console.log(`  📄 Processing: ${colors.yellow}${path.basename(file)}${colors.reset}`);
-        await processFile(file, path.join(OUTPUT_DIR, 'dtos'), false);
+        await processFile(file, path.join(OUTPUT_DIR, 'Dtos'), false);
     }
 
     console.log(`\n${colors.blue}Processing Enums from ${SOURCE_DIRS.enums}${colors.reset}`);
     const enumFiles = await findFiles(`${SOURCE_DIRS.enums}/**/*.ts`);
     for (const file of enumFiles) {
         console.log(`  📄 Processing: ${colors.yellow}${path.basename(file)}${colors.reset}`);
-        await processFile(file, path.join(OUTPUT_DIR, 'enums'), true);
+        await processFile(file, path.join(OUTPUT_DIR, 'Enums'), true);
     }
-
-    await finalizeMods();
 }
 
 async function main() {
     try {
         await setupDirectories();
         
-        console.log(`${colors.cyan}=== TypeScript to Rust Code Generator ===${colors.reset}`);
+        console.log(`${colors.cyan}=== TypeScript to Swift Code Generator ===${colors.reset}`);
         console.log(`Source DTOs: ${SOURCE_DIRS.dtos}`);
         console.log(`Source Enums: ${SOURCE_DIRS.enums}`);
         console.log(`Output Directory: ${OUTPUT_DIR}`);
 
-        await generateRustCode();
-        await createCargoToml();
+        await generateSwiftCode();
 
         console.log(`\n${colors.cyan}=== Generation Summary ===${colors.reset}`);
         console.log(`Total processed: ${stats.processed}`);
@@ -282,7 +238,7 @@ async function main() {
         if (stats.failed > 0) {
             console.log(`${colors.red}Failed: ${stats.failed}${colors.reset}`);
         }
-        console.log(`\n${colors.green}✨ Generation complete! Files saved to: ${path.resolve(OUTPUT_DIR, '..')}${colors.reset}`);
+        console.log(`\n${colors.green}✨ Generation complete! Files saved to: ${OUTPUT_DIR}${colors.reset}`);
 
     } catch (error) {
         console.error(`${colors.red}Error: ${error instanceof Error ? error.message : String(error)}`);

@@ -9,8 +9,8 @@ const SOURCE_DIRS = {
   enums: path.resolve(__dirname, 'enums')
 };
 
-const OUTPUT_DIR = path.resolve(__dirname, 'generated/java');
-const PACKAGE_NAME = 'com.hoster.contracts';
+const OUTPUT_DIR = path.resolve(__dirname, '../generated/csharp');
+const NAMESPACE = 'Hoster.Contracts';
 
 // ANSI colors for console output
 const colors = {
@@ -29,19 +29,19 @@ const stats = {
   failed: 0
 };
 
-// Type mapping from TypeScript to Java
+// Type mapping from TypeScript to C#
 const typeMapping: Record<string, string> = {
-  'string': 'String',
-  'number': 'Double',
-  'boolean': 'Boolean',
-  'any': 'Object',
-  'Date': 'java.util.Date',
-  'object': 'java.util.Map<String, Object>',
-  'Array<': 'java.util.List<',
-  'Record<': 'java.util.Map<',
-  'string[]': 'java.util.List<String>',
-  'number[]': 'java.util.List<Double>',
-  'boolean[]': 'java.util.List<Boolean>'
+  'string': 'string',
+  'number': 'double',
+  'boolean': 'bool',
+  'any': 'object',
+  'Date': 'DateTime',
+  'object': 'Dictionary<string, object>',
+  'Array<': 'List<',
+  'Record<': 'Dictionary<',
+  'string[]': 'List<string>',
+  'number[]': 'List<double>',
+  'boolean[]': 'List<bool>'
 };
 
 // Helper to find TypeScript files
@@ -57,67 +57,66 @@ async function findFiles(pattern: string): Promise<string[]> {
 // Create directories if they don't exist
 async function setupDirectories() {
   await fs.ensureDir(OUTPUT_DIR);
-  
-  // Create package directories
-  const dtoPackage = path.join(OUTPUT_DIR, ...PACKAGE_NAME.split('.'), 'dto');
-  const enumPackage = path.join(OUTPUT_DIR, ...PACKAGE_NAME.split('.'), 'enums');
-  
-  await fs.ensureDir(dtoPackage);
-  await fs.ensureDir(enumPackage);
+  await fs.ensureDir(path.join(OUTPUT_DIR, 'DTOs'));
+  await fs.ensureDir(path.join(OUTPUT_DIR, 'Enums'));
 }
 
-// Convert TypeScript type to Java type
+// Convert TypeScript type to C# type
 function convertType(tsType: string): string {
-  // Java doesn't have nullable types like TypeScript/C#, but we can use Optional
-  let isOptional = false;
+  // Handle optional types (ending with ?)
+  let isNullable = false;
   if (tsType.endsWith('?')) {
-    isOptional = true;
+    isNullable = true;
     tsType = tsType.slice(0, -1);
   }
   
   // Check for union types with | operator
   if (tsType.includes(' | ')) {
-    // Java doesn't have union types, so we use Object or a more specific common type
+    // C# doesn't have direct union types, so we default to object
+    // or a more specific common type if possible
     const unionTypes = tsType.split(' | ').map(t => t.trim());
     
     // Check if null or undefined is in union
     if (unionTypes.includes('null') || unionTypes.includes('undefined')) {
+      isNullable = true;
       // Filter out null and undefined
       const nonNullTypes = unionTypes.filter(t => t !== 'null' && t !== 'undefined');
       
       // If only one type remains, use it
       if (nonNullTypes.length === 1) {
-        return isOptional ? `java.util.Optional<${convertType(nonNullTypes[0])}>` : convertType(nonNullTypes[0]);
+        return convertType(nonNullTypes[0]) + (isNullable ? '?' : '');
       }
     }
     
     // Check if all types are the same base type (e.g., all strings)
     const allStrings = unionTypes.every(t => t === 'string' || t.startsWith('"'));
     if (allStrings) {
-      return isOptional ? 'java.util.Optional<String>' : 'String';
+      return isNullable ? 'string?' : 'string';
     }
     
     // Check if all types are numbers
     const allNumbers = unionTypes.every(t => t === 'number' || !isNaN(Number(t)));
     if (allNumbers) {
-      return isOptional ? 'java.util.Optional<Double>' : 'Double';
+      return isNullable ? 'double?' : 'double';
     }
     
-    // Default to Object for mixed types
-    return isOptional ? 'java.util.Optional<Object>' : 'Object';
+    // Default to object for mixed types
+    return isNullable ? 'object?' : 'object';
   }
   
   // Check direct mappings
   if (typeMapping[tsType]) {
-    const javaType = typeMapping[tsType];
-    return isOptional ? `java.util.Optional<${javaType}>` : javaType;
+    const csharpType = typeMapping[tsType];
+    // Value types need ? for nullable, reference types don't
+    const isValueType = ['int', 'double', 'float', 'decimal', 'bool', 'DateTime'].some(t => csharpType === t);
+    return isNullable && isValueType ? `${csharpType}?` : csharpType;
   }
   
   // Handle arrays
   if (tsType.includes('[]')) {
     const baseType = tsType.replace('[]', '');
-    const javaBaseType = convertType(baseType);
-    return isOptional ? `java.util.Optional<java.util.List<${javaBaseType}>>` : `java.util.List<${javaBaseType}>`;
+    const csharpBaseType = convertType(baseType);
+    return `List<${csharpBaseType}>`;
   }
   
   // Handle generics
@@ -128,37 +127,23 @@ function convertType(tsType: string): string {
       const innerType = genericMatch[2];
       
       if (container === 'Array') {
-        const javaType = `java.util.List<${convertType(innerType)}>`;
-        return isOptional ? `java.util.Optional<${javaType}>` : javaType;
+        return `List<${convertType(innerType)}>`;
       } else if (container === 'Record' || container === 'Map') {
         const keyValuePair = innerType.split(',').map(t => t.trim());
         if (keyValuePair.length === 2) {
-          const javaType = `java.util.Map<${convertType(keyValuePair[0])}, ${convertType(keyValuePair[1])}>`;
-          return isOptional ? `java.util.Optional<${javaType}>` : javaType;
+          return `Dictionary<${convertType(keyValuePair[0])}, ${convertType(keyValuePair[1])}>`;
         }
       }
     }
   }
   
   // Default: keep the type name (likely a custom type)
-  return isOptional ? `java.util.Optional<${tsType}>` : tsType;
-}
-
-// Convert field name to Java convention
-function toJavaFieldName(name: string): string {
-  // Java uses camelCase for field names
-  return name;
-}
-
-// Convert to Java getter/setter name
-function toJavaAccessorName(name: string): string {
-  // Capitalize first letter for Java getter/setter convention
-  return name.charAt(0).toUpperCase() + name.slice(1);
+  return isNullable ? `${tsType}?` : tsType;
 }
 
 // Extract field information from TypeScript class/interface
-function extractFields(content: string): Array<{ name: string, type: string, isOptional: boolean, comment: string }> {
-  const fields: Array<{ name: string, type: string, isOptional: boolean, comment: string }> = [];
+function extractFields(content: string): Array<{ name: string, type: string, isRequired: boolean, comment: string }> {
+  const fields: Array<{ name: string, type: string, isRequired: boolean, comment: string }> = [];
   const lines = content.split('\n');
   
   let currentComment = '';
@@ -194,13 +179,13 @@ function extractFields(content: string): Array<{ name: string, type: string, isO
       const isOptional = fieldMatch[2] === '?';
       let type = fieldMatch[3].trim();
       
-      // Convert TypeScript type to Java type
-      const javaType = convertType(type);
+      // Convert TypeScript type to C# type
+      const csharpType = convertType(type);
       
       fields.push({
-        name: toJavaFieldName(name),
-        type: javaType,
-        isOptional,
+        name: name.charAt(0).toUpperCase() + name.slice(1), // C# convention: PascalCase for properties
+        type: csharpType,
+        isRequired: !isOptional,
         comment: currentComment
       });
       
@@ -243,126 +228,75 @@ function extractEnumValues(content: string): Array<{ name: string, value: string
   return values;
 }
 
-// Generate Java class from TypeScript class/interface
-function generateJavaClass(name: string, content: string): string {
+// Generate C# class from TypeScript class/interface
+function generateCSharpClass(name: string, content: string): string {
   const fields = extractFields(content);
   
-  let javaClass = '// Auto-generated from TypeScript\n';
-  javaClass += `package ${PACKAGE_NAME}.dto;\n\n`;
+  let csharpClass = '// Auto-generated from TypeScript\n';
+  csharpClass += 'using System;\n';
+  csharpClass += 'using System.Collections.Generic;\n';
+  csharpClass += 'using System.Text.Json.Serialization;\n\n';
   
-  // Add imports
-  const imports = new Set<string>();
-  imports.add('import com.fasterxml.jackson.annotation.JsonProperty;');
-  
-  let hasOptional = false;
-  let hasList = false;
-  let hasMap = false;
-  let hasDate = false;
-  
-  for (const field of fields) {
-    if (field.type.includes('Optional<')) {
-      hasOptional = true;
-    }
-    if (field.type.includes('List<')) {
-      hasList = true;
-    }
-    if (field.type.includes('Map<')) {
-      hasMap = true;
-    }
-    if (field.type.includes('Date')) {
-      hasDate = true;
-    }
-  }
-  
-  if (hasOptional) imports.add('import java.util.Optional;');
-  if (hasList) imports.add('import java.util.List;');
-  if (hasMap) imports.add('import java.util.Map;');
-  if (hasDate) imports.add('import java.util.Date;');
-  
-  // Add Lombok annotations for boilerplate reduction
-  imports.add('import lombok.Data;');
-  
-  // Add imports alphabetically
-  Array.from(imports).sort().forEach(imp => {
-    javaClass += `${imp}\n`;
-  });
-  
-  javaClass += '\n/**\n';
-  javaClass += ` * ${name} Data Transfer Object\n`;
-  javaClass += ' */\n';
-  javaClass += '@Data\n';
-  javaClass += `public class ${name} {\n\n`;
+  csharpClass += `namespace ${NAMESPACE}.DTOs\n{\n`;
+  csharpClass += `    /// <summary>\n`;
+  csharpClass += `    /// ${name} DTO\n`;
+  csharpClass += `    /// </summary>\n`;
+  csharpClass += `    public class ${name}\n    {\n`;
   
   for (const field of fields) {
-    // Add JavaDoc comment if available
     if (field.comment) {
-      javaClass += `    /**\n`;
-      javaClass += `     * ${field.comment}\n`;
-      javaClass += `     */\n`;
+      csharpClass += `        /// <summary>\n`;
+      csharpClass += `        /// ${field.comment}\n`;
+      csharpClass += `        /// </summary>\n`;
     }
     
-    // Add Jackson annotation for JSON property name
-    javaClass += `    @JsonProperty("${field.name}")\n`;
+    csharpClass += `        [JsonPropertyName("${field.name.charAt(0).toLowerCase() + field.name.slice(1)}")]\n`;
     
-    // Add field declaration
-    javaClass += `    private ${field.type} ${field.name};\n\n`;
+    if (field.isRequired) {
+      csharpClass += `        [JsonRequired]\n`;
+    }
+    
+    csharpClass += `        public ${field.type} ${field.name} { get; set; }\n\n`;
   }
   
-  javaClass += '}\n';
-  return javaClass;
+  csharpClass += '    }\n}\n';
+  return csharpClass;
 }
 
-// Generate Java enum from TypeScript enum
-function generateJavaEnum(name: string, content: string): string {
+// Generate C# enum from TypeScript enum
+function generateCSharpEnum(name: string, content: string): string {
   const values = extractEnumValues(content);
   
-  let javaEnum = '// Auto-generated from TypeScript\n';
-  javaEnum += `package ${PACKAGE_NAME}.enums;\n\n`;
+  let csharpEnum = '// Auto-generated from TypeScript\n';
+  csharpEnum += 'using System.Text.Json.Serialization;\n\n';
   
-  // Add imports
-  javaEnum += 'import com.fasterxml.jackson.annotation.JsonValue;\n\n';
-  
-  javaEnum += '/**\n';
-  javaEnum += ` * ${name} enumeration\n`;
-  javaEnum += ' */\n';
-  javaEnum += `public enum ${name} {\n`;
+  csharpEnum += `namespace ${NAMESPACE}.Enums\n{\n`;
+  csharpEnum += `    /// <summary>\n`;
+  csharpEnum += `    /// ${name} enumeration\n`;
+  csharpEnum += `    /// </summary>\n`;
   
   // Determine if it's a string or numeric enum
   const isStringEnum = values.length > 0 && values[0].value.startsWith('"');
+  
+  if (isStringEnum) {
+    csharpEnum += `    [JsonConverter(typeof(JsonStringEnumConverter))]\n`;
+  }
+  
+  csharpEnum += `    public enum ${name}\n    {\n`;
   
   for (let i = 0; i < values.length; i++) {
     const val = values[i];
     
     if (isStringEnum) {
-      javaEnum += `    ${val.name}(${val.value})${i < values.length - 1 ? ',' : ';'}\n`;
+      csharpEnum += `        [JsonPropertyName(${val.value})]\n`;
+      csharpEnum += `        ${val.name}${i < values.length - 1 ? ',' : ''}\n\n`;
     } else {
-      javaEnum += `    ${val.name}(${val.value})${i < values.length - 1 ? ',' : ';'}\n`;
+      csharpEnum += `        ${val.name} = ${val.value}${i < values.length - 1 ? ',' : ''}\n`;
     }
   }
   
-  // For string enums, add field and methods
-  if (isStringEnum) {
-    javaEnum += '\n    private final String value;\n\n';
-    javaEnum += '    private ' + name + '(String value) {\n';
-    javaEnum += '        this.value = value;\n';
-    javaEnum += '    }\n\n';
-    javaEnum += '    @JsonValue\n';
-    javaEnum += '    public String getValue() {\n';
-    javaEnum += '        return value;\n';
-    javaEnum += '    }\n';
-  } else {
-    javaEnum += '\n    private final int value;\n\n';
-    javaEnum += '    private ' + name + '(int value) {\n';
-    javaEnum += '        this.value = value;\n';
-    javaEnum += '    }\n\n';
-    javaEnum += '    @JsonValue\n';
-    javaEnum += '    public int getValue() {\n';
-    javaEnum += '        return value;\n';
-    javaEnum += '    }\n';
-  }
-  
-  javaEnum += '}\n';
-  return javaEnum;
+  csharpEnum += '    }\n}\n';
+  return csharpEnum;
 }
 
 // Extract exported type or enum name
@@ -388,8 +322,8 @@ function extractExportedName(content: string): { type: 'class' | 'interface' | '
   return null;
 }
 
-// Process a TypeScript file and convert it to Java
-async function processFile(filePath: string, isEnum: boolean): Promise<void> {
+// Process a TypeScript file and convert it to C#
+async function processFile(filePath: string, outputDir: string, isEnum: boolean): Promise<void> {
   try {
     const content = await fs.readFile(filePath, 'utf8');
     const exportedType = extractExportedName(content);
@@ -404,23 +338,24 @@ async function processFile(filePath: string, isEnum: boolean): Promise<void> {
     const { name, type } = exportedType;
     console.log(`  → Converting ${colors.yellow}${name}${colors.reset}`);
     
-    // Create package directories
-    const packageDir = path.join(OUTPUT_DIR, ...PACKAGE_NAME.split('.'), isEnum ? 'enums' : 'dto');
-    await fs.ensureDir(packageDir);
+    // Create output file path
+    const fileName = path.basename(filePath, '.ts')
+      .replace('.dto', '')
+      .replace('.enum', '');
     
-    const outputFile = path.join(packageDir, `${name}.java`);
+    const outputFile = path.join(outputDir, `${name}.cs`);
     
-    // Generate Java code
-    let javaCode = '';
+    // Generate C# code
+    let csharpCode = '';
     
     if (isEnum || type === 'enum') {
-      javaCode = generateJavaEnum(name, content);
+      csharpCode = generateCSharpEnum(name, content);
     } else {
-      javaCode = generateJavaClass(name, content);
+      csharpCode = generateCSharpClass(name, content);
     }
     
     // Write to file
-    await fs.writeFile(outputFile, javaCode);
+    await fs.writeFile(outputFile, csharpCode);
     console.log(`    ${colors.green}✓ Success${colors.reset} → ${path.basename(outputFile)}`);
     stats.successful++;
   } catch (error) {
@@ -430,15 +365,15 @@ async function processFile(filePath: string, isEnum: boolean): Promise<void> {
 }
 
 // Process all TypeScript files in the specified directories
-async function generateJavaCode() {
-  console.log(`${colors.cyan}=== Generating Java code ===${colors.reset}`);
+async function generateCSharpCode() {
+  console.log(`${colors.cyan}=== Generating C# code ===${colors.reset}`);
   
   // Process DTOs
   console.log(`\n${colors.blue}Processing DTOs from ${SOURCE_DIRS.dtos}${colors.reset}`);
   const dtoFiles = await findFiles(`${SOURCE_DIRS.dtos}/**/*.ts`);
   for (const file of dtoFiles) {
     console.log(`  📄 Processing: ${colors.yellow}${path.basename(file)}${colors.reset}`);
-    await processFile(file, false);
+    await processFile(file, path.join(OUTPUT_DIR, 'DTOs'), false);
   }
   
   // Process Enums
@@ -446,7 +381,7 @@ async function generateJavaCode() {
   const enumFiles = await findFiles(`${SOURCE_DIRS.enums}/**/*.ts`);
   for (const file of enumFiles) {
     console.log(`  📄 Processing: ${colors.yellow}${path.basename(file)}${colors.reset}`);
-    await processFile(file, true);
+    await processFile(file, path.join(OUTPUT_DIR, 'Enums'), true);
   }
 }
 
@@ -456,13 +391,13 @@ async function main() {
     // Setup directories
     await setupDirectories();
     
-    console.log(`${colors.cyan}=== TypeScript to Java Code Generator ===${colors.reset}`);
+    console.log(`${colors.cyan}=== TypeScript to C# Code Generator ===${colors.reset}`);
     console.log(`Source DTOs: ${SOURCE_DIRS.dtos}`);
     console.log(`Source Enums: ${SOURCE_DIRS.enums}`);
     console.log(`Output Directory: ${OUTPUT_DIR}`);
     
-    // Generate Java code
-    await generateJavaCode();
+    // Generate C# code
+    await generateCSharpCode();
     
     // Print summary
     console.log(`\n${colors.cyan}=== Generation Summary ===${colors.reset}`);

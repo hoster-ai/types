@@ -9,7 +9,7 @@ const SOURCE_DIRS = {
   enums: path.resolve(__dirname, 'enums')
 };
 
-const OUTPUT_DIR = path.resolve(__dirname, 'generated/php');
+const OUTPUT_DIR = path.resolve(__dirname, '../generated/php');
 const ROOT_NAMESPACE = 'Hoster\\Contracts';
 
 // --- ANSI colors for console output ---

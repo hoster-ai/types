@@ -9,7 +9,7 @@ const SOURCE_DIRS = {
   enums: path.resolve(__dirname, 'enums')
 };
 
-const OUTPUT_DIR = path.resolve(__dirname, 'generated/ruby');
+const OUTPUT_DIR = path.resolve(__dirname, '../generated/ruby');
 
 // --- ANSI colors for console output ---
 const colors = {
