@@ -1,4 +1,4 @@
-import { RolesEnum } from '../enums/roles.enum';
+import { RolesEnum } from "../enums/roles.enum";
 
 /**
  * DTO for JWT payload

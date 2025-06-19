@@ -1,9 +1,9 @@
 {
-  "name": "contracts",
-  "version": "1.0.0",
+  "name": "@hosterai/interfaces",
+  "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "generate-schemas": "./generate-schemas.sh && ./post-process-schemas.js"
   },
   "keywords": [],
   "author": "",

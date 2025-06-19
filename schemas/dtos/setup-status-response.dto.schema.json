@@ -11,12 +11,10 @@
         },
         "message": {
           "description": "Response message",
-          "minLength": 1,
           "type": "string"
         },
         "status": {
-          "$ref": "#/definitions/SetupStatusEnum",
-          "description": "The current setup status of the application.\nCorresponds to the values defined in SetupStatusEnum."
+          "$ref": "#/definitions/SetupStatusEnum"
         }
       },
       "required": [

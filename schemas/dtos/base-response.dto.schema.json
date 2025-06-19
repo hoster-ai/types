@@ -12,7 +12,6 @@
                 },
                 "message": {
                     "description": "Response message",
-                    "minLength": 1,
                     "type": "string"
                 }
             },

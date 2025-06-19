@@ -9,8 +9,14 @@ import {
   IsEnum,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { MessageTypeEnum } from '../enums/message-type.enum';
-import { RolesEnum } from '../enums/roles.enum';
+import { ActionsEnum } from '../../enums/actions.enum';
+import { EventsEnum } from '../../enums/events.enum';
+import { FieldDto } from '../field.dto';
+import { ResponseDataDto } from '../response-data.dto';
+import { UnitDto } from '../unit.dto';
+import { LanguageEnum } from '../../enums/language.enum';
+import { RolesEnum } from '../../enums/roles.enum';
+import { ActionDto } from '../action.dto';
 
 /**
  * DTO for tabs
@@ -69,7 +75,7 @@ class MenuDto {
  * DTO for integration information
  * Contains all information related to a service integration
  */
-export class IntegrationInfoDto {
+export class InfoDto {
   /**
    * The title of the integration
    */
@@ -91,34 +97,52 @@ export class IntegrationInfoDto {
   @IsOptional()
   description?: string;
 
-  /**
-   * The notification type which can be email, sms or push
-   * Each integration supports only one type of notification
-   */
-  @IsEnum(MessageTypeEnum)
-  @IsNotEmpty()
-  type: MessageTypeEnum;
+  @IsArray({ each: true })
+  @IsEnum(LanguageEnum)
+  supported_languages: LanguageEnum[];
 
-  /**
-   * Option that will appear in the "Settings" section (optional)
-   */
-  @IsOptional()
-  @Type(() => MenuDto)
-  settings?: MenuDto;
+  product_attributes?: FieldDto[];
 
-  /**
-   * Option that will appear in the "Main Menu" section (optional)
-   */
-  @IsOptional()
-  @Type(() => MenuDto)
-  menu?: MenuDto;
+  item_attributes?: FieldDto[];
 
-  /**
-   * The roles that need to be accepted by the company
-   */
+  listen_events?: EventsEnum[];
+
+ /**
+ * The roles that need to be accepted by the company
+ */
   @IsArray()
   @IsEnum(RolesEnum, { each: true })
   requiredRoles?: RolesEnum[];
+
+  unsupportedActions: ActionsEnum[] = [];
+  
+  adminPanel?: {
+    productTabs?: TabDto[];
+
+    actions?: {
+      client?: ActionDto[];
+      item?: ActionDto[];
+    };
+
+    menu?: MenuDto;
+
+    /**
+    * Option that will appear in the "Settings" section (optional)
+    */
+    settings?: MenuDto;
+  };
+
+  clientPanel?: {
+    // TODO Ισως να αλλαξουν ορολολογίες οταν σχεδιασουμε το client panel
+    // πχ topMenu και leftMenu
+    productTabs?: TabDto[];
+
+    actions?: {
+      item?: ActionDto[];
+    };
+
+    menu?: MenuDto;
+  };
 
   /**
    * The url for the onboarding process after installation of the integration
@@ -126,4 +150,8 @@ export class IntegrationInfoDto {
   @IsOptional()
   @IsUrl()
   onboardingUrl?: string;
+
+  payPerUseUnits?: UnitDto[];
+
+  responseDataFieldNames?: Record<keyof ResponseDataDto, string>;
 }
