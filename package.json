@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "generate-schemas": "./generate-schemas.sh && ./post-process-schemas.js"
+    "generate-schemas": "./generate-schemas.sh && ./post-process-schemas.js",
+    "generate": "./generate.ts",
+    "generate:all": "./generate.ts all"
   },
   "keywords": [],
   "author": "",
