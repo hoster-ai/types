@@ -1,11 +1,13 @@
 {
-  "name": "@hosterai/interfaces",
+  "name": "@hosterai/types",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "generate:schemas": "./generators/generate-schemas.sh && ./generators/post-process-schemas.js",
     "generate": "./generators/generate.ts",
-    "generate:all": "./generators/generate.ts all"
+    "generate:all": "./generators/generate.ts all",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -23,5 +25,8 @@
   "dependencies": {
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
