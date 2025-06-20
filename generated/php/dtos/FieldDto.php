@@ -2,7 +2,7 @@
 
 namespace Hoster\Contracts\Dtos;
 
-
+use Hoster\Contracts\Enums\FieldTypeEnum;
 
 class FieldDto 
 {

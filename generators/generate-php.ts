@@ -144,12 +144,30 @@ function extractEnumValues(content: string): Array<{ name: string, value: string
 function generatePhpClass(name: string, content: string, namespace: string): string {
     const fields = extractFields(content);
     const usedTypes = new Set<string>();
+    const imports = extractImports(content);
 
     const properties = fields.map(field => {
         const { phpType, docType } = convertType(field.type);
         
+        // Handle built-in PHP types with namespace
         if (phpType.includes('\\')) {
             usedTypes.add(phpType.replace('?', ''));
+        }
+        
+        // Handle custom types (enums, DTOs, etc.)
+        const baseType = phpType.replace('?', '').replace('[]', '');
+        if (!isBuiltInType(baseType) && !baseType.includes('\\')) {
+            // Check if we have an import for this type
+            const importInfo = imports.find(imp => imp.name === baseType);
+            if (importInfo) {
+                // Add the imported type with its namespace
+                const importPath = importInfo.path;
+                if (importPath.includes('/enums/')) {
+                    usedTypes.add(`${ROOT_NAMESPACE}\\Enums\\${baseType}`);
+                } else if (importPath.includes('/dtos/')) {
+                    usedTypes.add(`${ROOT_NAMESPACE}\\Dtos\\${baseType}`);
+                }
+            }
         }
 
         let propertyString = ``;
@@ -204,6 +222,36 @@ ${cases}
 `;
 }
 
+
+// Helper function to check if a type is a built-in PHP type
+function isBuiltInType(type: string): boolean {
+    const builtInTypes = ['string', 'int', 'float', 'bool', 'array', 'mixed', 'object', 'void', 'null', 'callable', 'iterable', 'resource'];
+    return builtInTypes.includes(type.toLowerCase());
+}
+
+// Extract imports from TypeScript content
+function extractImports(content: string): Array<{ name: string, path: string }> {
+    const imports: Array<{ name: string, path: string }> = [];
+    const importRegex = /import\s+(?:{\s*([^}]+)\s*}|([^\s;]+))\s+from\s+['"]([^'"]+)['"];/g;
+    
+    let match;
+    while ((match = importRegex.exec(content)) !== null) {
+        const [_, namedImports, defaultImport, path] = match;
+        
+        if (namedImports) {
+            // Handle named imports like: import { Type1, Type2 } from './path'
+            const names = namedImports.split(',').map(name => name.trim().split(' as ')[0].trim());
+            for (const name of names) {
+                imports.push({ name, path });
+            }
+        } else if (defaultImport) {
+            // Handle default imports like: import Type from './path'
+            imports.push({ name: defaultImport, path });
+        }
+    }
+    
+    return imports;
+}
 
 function extractExportedName(content: string): { type: 'class' | 'interface' | 'enum', name:string } | null {
     const match = content.match(/export\s+(?:class|interface|enum)\s+(\w+)/);

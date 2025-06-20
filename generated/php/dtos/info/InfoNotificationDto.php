@@ -2,7 +2,7 @@
 
 namespace Hoster\Contracts\Dtos\Info;
 
-
+use Hoster\Contracts\Enums\MessageTypeEnum;
 
 class InfoNotificationDto 
 {

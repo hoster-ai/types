@@ -2,7 +2,7 @@
 
 namespace Hoster\Contracts\Dtos;
 
-
+use Hoster\Contracts\Enums\LanguageEnum;
 
 class MultilangTextDto 
 {

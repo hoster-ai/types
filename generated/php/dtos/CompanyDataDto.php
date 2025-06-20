@@ -2,7 +2,8 @@
 
 namespace Hoster\Contracts\Dtos;
 
-
+use Hoster\Contracts\Enums\LanguageEnum;
+use Hoster\Contracts\Enums\CountryEnum;
 
 class CompanyDataDto 
 {
