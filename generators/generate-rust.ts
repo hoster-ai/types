@@ -5,8 +5,8 @@ import { glob } from 'glob';
 
 // --- Configuration ---
 const SOURCE_DIRS = {
-  dtos: path.resolve(__dirname, 'dtos'),
-  enums: path.resolve(__dirname, 'enums')
+  dtos: path.resolve(__dirname, '../dtos'),
+  enums: path.resolve(__dirname, '../enums')
 };
 
 const OUTPUT_DIR = path.resolve(__dirname, '../generated/rust/src');
