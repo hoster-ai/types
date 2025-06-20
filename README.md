@@ -10,32 +10,37 @@ This project provides tools to automatically generate Data Transfer Objects (DTO
 | Python     | ✅ Complete | `generate-python.ts`   |
 | C#         | ✅ Complete | `generate-csharp.ts`   |
 | Java       | ✅ Complete | `generate-java.ts`     |
-| PHP        | 🚧 Planned  | `generate-php.ts`      |
-| Ruby       | 🚧 Planned  | `generate-ruby.ts`     |
-| Rust       | 🚧 Planned  | `generate-rust.ts`     |
-| Swift      | 🚧 Planned  | `generate-swift.ts`    |
-| Kotlin     | 🚧 Planned  | `generate-kotlin.ts`   |
+| PHP        | ✅ Complete | `generate-php.ts`      |
+| Ruby       | ✅ Complete | `generate-ruby.ts`     |
+| Rust       | ✅ Complete | `generate-rust.ts`     |
+| Swift      | ✅ Complete | `generate-swift.ts`    |
+| Kotlin     | ✅ Complete | `generate-kotlin.ts`   |
 
 ## Usage
+
+**Important:** Before generating code for any language, you must first generate the JSON schemas by running:
+```bash
+npm run generate:schemas
+```
 
 ### Generate Code for All Supported Languages
 
 ```bash
-npx ts-node generate-languages.ts all
+npm run generate all
 ```
 
 ### Generate Code for a Specific Language
 
 ```bash
-npx ts-node generate-languages.ts <language>
+npm run generate -- <language>
 ```
 
 For example:
 ```bash
-npx ts-node generate-languages.ts golang
-npx ts-node generate-languages.ts python
-npx ts-node generate-languages.ts csharp
-npx ts-node generate-languages.ts java
+npm run generate -- golang
+npm run generate -- python
+npm run generate -- csharp
+npm run generate -- java
 ```
 
 ## Project Structure
@@ -48,6 +53,24 @@ npx ts-node generate-languages.ts java
   - `/csharp/` - Generated C# code
   - `/java/` - Generated Java code
   - ... (other languages as implemented)
+
+
+## Core DTOs
+
+This section describes some of the core Data Transfer Objects available in this project.
+
+### `ActionDto`
+
+The `ActionDto` defines the structure for an action that can be performed, typically represented as a button or link in a UI.
+
+-   `icon`: (string) The CSS class or identifier for the icon to be displayed.
+-   `label`: (string, optional) The text label for the action.
+-   `openMethod`: (string) Specifies how the action should be executed. Possible values are:
+    -   `"ajax_call"`: Perform an AJAX request.
+    -   `"small_iframe"`: Open in a small iframe.
+    -   `"medium_iframe"`: Open in a medium-sized iframe.
+    -   `"large_iframe"`: Open in a large iframe.
+-   `url`: (string) The URL or endpoint for the action.
 
 ## Implementation Details
 
@@ -82,7 +105,7 @@ To implement a generator for a new language:
 1. Create a new script (e.g., `generate-newlang.ts`) in the project root
 2. Implement the translation from TypeScript to the target language
 3. Ensure the generator follows the pattern of existing implementations
-4. Update the language entry in the `LANGUAGES` object in `generate-languages.ts`
+4. Update the language entry in the `LANGUAGES` object in `generate.ts`
 
 ## Dependencies
 
