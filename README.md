@@ -26,7 +26,7 @@ npm run generate:schemas
 ### Generate Code for All Supported Languages
 
 ```bash
-npm run generate all
+npm run generate -- all
 ```
 
 ### Generate Code for a Specific Language

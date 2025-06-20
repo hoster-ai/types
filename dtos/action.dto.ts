@@ -1,3 +1,5 @@
+import { OpenMethodEnum } from "../enums/open-method.enum";
+
 export class ActionDto {
     /**
      * The icon of the action.
@@ -10,7 +12,7 @@ export class ActionDto {
     label?: string;
 
     // TODO Να κανουμε documentation
-    openMethod: "ajax_call" | "small_iframe" | "medium_iframe" | "large_iframe"
+    openMethod: OpenMethodEnum;
   
     /**
      * The link of the action.

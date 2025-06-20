@@ -14,13 +14,7 @@
           "type": "string"
         },
         "openMethod": {
-          "enum": [
-            "ajax_call",
-            "large_iframe",
-            "medium_iframe",
-            "small_iframe"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/OpenMethodEnum"
         },
         "url": {
           "description": "The link of the action.",
