@@ -2,8 +2,6 @@
 
 namespace Hoster\Contracts\Dtos;
 
-
-
 class UnitDto 
 {
     public string $id;

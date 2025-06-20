@@ -2,22 +2,21 @@
 
 namespace Hoster\Contracts\Dtos\Receiver;
 
-
-
 class EmailReceiverDto 
 {
+    /**
+     * @var DTO for email recipients Used to define the recipients of an email export class EmailReceiverDto { The main email address
+     */
     public string $to;
 
-    public true }) $each;
-
     /**
+     * @var List of email addresses for carbon copy (optional) Must be valid and unique email addresses
      * @var string[]
      */
     public ?array $cc;
 
-    public true }) $each;
-
     /**
+     * @var List of email addresses for blind carbon copy (optional) Must be valid and unique email addresses
      * @var string[]
      */
     public ?array $bcc;

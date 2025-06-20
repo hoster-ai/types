@@ -2,7 +2,7 @@
 
 namespace Hoster\Contracts\Dtos;
 
-
+use Hoster\Contracts\Enums\RolesEnum;
 
 class JwtDto 
 {

@@ -69,14 +69,20 @@ function convertType(tsType: string): { phpType: string, docType: string | null 
   // Handle union types like 'string | null' or 'number | null'
   if (tsType.includes('|')) {
       const types = tsType.split('|').map(t => t.trim());
-      if (types.includes('null')) {
-          isOptional = true;
-      }
+      const hasNull = types.includes('null');
       const nonNullTypes = types.filter(t => t !== 'null');
       const phpTypes = nonNullTypes.map(t => convertType(t).phpType);
       const uniquePhpTypes = [...new Set(phpTypes)];
-      const finalType = uniquePhpTypes.join('|');
-      return { phpType: isOptional ? `?${finalType}` : finalType, docType: null };
+      
+      // For PHP 8.0+, use type1|type2|null syntax instead of ?type1|type2
+      if (hasNull || isOptional) {
+          // If it has null or is optional, add null to the union type
+          const finalType = [...uniquePhpTypes, 'null'].join('|');
+          return { phpType: finalType, docType: null };
+      } else {
+          const finalType = uniquePhpTypes.join('|');
+          return { phpType: finalType, docType: null };
+      }
   }
 
   // Handle array types like 'MyType[]'
@@ -109,17 +115,23 @@ function convertType(tsType: string): { phpType: string, docType: string | null 
 }
 
 function extractFields(content: string): Array<{ name: string, type: string, defaultValue: string | null, comment: string }> {
+    // First, remove all decorators to avoid interference with field extraction
+    const contentWithoutDecorators = content.replace(/@\w+(?:\([^)]*\))?/g, '');
+    
     const fields: Array<{ name: string, type: string, defaultValue: string | null, comment: string }> = [];
     const fieldRegex = /(?:(\/\*\*[\s\S]*?\*\/)\s*)?(public\s+|readonly\s+)?(\w+\??):\s*([^;=\n]+)(?:\s*=\s*([^;]+))?/g;
     let match;
-    while ((match = fieldRegex.exec(content)) !== null) {
+    
+    while ((match = fieldRegex.exec(contentWithoutDecorators)) !== null) {
         const [fullMatch, commentBlock, modifier, name, type, defaultValue] = match;
         
         if (name && type) {
+            // Extract comments from comment blocks
             const comment = commentBlock ? 
                 commentBlock.replace(/\/\*\*|\*\/|\*/g, '').split('\n').map(l => l.trim()).filter(Boolean).join(' ') :
                 '';
 
+            // Extract field information
             fields.push({
                 name: name.replace('?', ''),
                 type: `${type.trim()}${name.endsWith('?') ? '?' : ''}`,
@@ -144,31 +156,127 @@ function extractEnumValues(content: string): Array<{ name: string, value: string
 function generatePhpClass(name: string, content: string, namespace: string): string {
     const fields = extractFields(content);
     const usedTypes = new Set<string>();
+    
+    // First, extract all imports from the TypeScript file
     const imports = extractImports(content);
-
-    const properties = fields.map(field => {
-        const { phpType, docType } = convertType(field.type);
+    
+    // Create a map of type names to their import paths for quick lookup
+    const typeImportMap = new Map<string, string>();
+    imports.forEach(imp => {
+        typeImportMap.set(imp.name, imp.path);
+    });
+    
+    // Helper function to add used type with proper namespace
+    const addUsedType = (typeName: string) => {
+        // Skip null and built-in types
+        if (typeName === 'null' || isBuiltInType(typeName)) {
+            return;
+        }
+        
+        // Check if we have an import for this type
+        const importPath = typeImportMap.get(typeName);
+        if (importPath) {
+            // Determine namespace based on import path
+            if (importPath.includes('/enums/')) {
+                usedTypes.add(`${ROOT_NAMESPACE}\\Enums\\${typeName}`);
+            } else if (importPath.includes('/dtos/') || importPath.includes('/dto/')) {
+                // Handle DTOs in subfolders
+                if (importPath.includes('/sender/')) {
+                    usedTypes.add(`${ROOT_NAMESPACE}\\Dtos\\Sender\\${typeName}`);
+                } else if (importPath.includes('/receiver/')) {
+                    usedTypes.add(`${ROOT_NAMESPACE}\\Dtos\\Receiver\\${typeName}`);
+                } else if (importPath.includes('/info/')) {
+                    usedTypes.add(`${ROOT_NAMESPACE}\\Dtos\\Info\\${typeName}`);
+                } else {
+                    usedTypes.add(`${ROOT_NAMESPACE}\\Dtos\\${typeName}`);
+                }
+            }
+        } else {
+            // If no explicit import found, try to infer the namespace
+            if (typeName.endsWith('Dto')) {
+                // Try to infer subfolder from naming convention
+                if (typeName.startsWith('Email') || typeName.startsWith('Sms') || typeName.startsWith('Push')) {
+                    if (typeName.includes('Sender')) {
+                        usedTypes.add(`${ROOT_NAMESPACE}\\Dtos\\Sender\\${typeName}`);
+                    } else if (typeName.includes('Receiver')) {
+                        usedTypes.add(`${ROOT_NAMESPACE}\\Dtos\\Receiver\\${typeName}`);
+                    } else {
+                        usedTypes.add(`${ROOT_NAMESPACE}\\Dtos\\${typeName}`);
+                    }
+                } else if (typeName.includes('Info')) {
+                    usedTypes.add(`${ROOT_NAMESPACE}\\Dtos\\Info\\${typeName}`);
+                } else {
+                    usedTypes.add(`${ROOT_NAMESPACE}\\Dtos\\${typeName}`);
+                }
+            } else if (typeName.endsWith('Enum')) {
+                usedTypes.add(`${ROOT_NAMESPACE}\\Enums\\${typeName}`);
+            }
+        }
+    };
+    
+    // Process all fields to collect used types
+    fields.forEach(field => {
+        const { phpType } = convertType(field.type);
         
         // Handle built-in PHP types with namespace
         if (phpType.includes('\\')) {
             usedTypes.add(phpType.replace('?', ''));
+            return;
         }
         
-        // Handle custom types (enums, DTOs, etc.)
-        const baseType = phpType.replace('?', '').replace('[]', '');
-        if (!isBuiltInType(baseType) && !baseType.includes('\\')) {
-            // Check if we have an import for this type
-            const importInfo = imports.find(imp => imp.name === baseType);
-            if (importInfo) {
-                // Add the imported type with its namespace
-                const importPath = importInfo.path;
-                if (importPath.includes('/enums/')) {
-                    usedTypes.add(`${ROOT_NAMESPACE}\\Enums\\${baseType}`);
-                } else if (importPath.includes('/dtos/')) {
-                    usedTypes.add(`${ROOT_NAMESPACE}\\Dtos\\${baseType}`);
-                }
+        // Handle union types (e.g., Type1|Type2|null)
+        if (phpType.includes('|')) {
+            const types = phpType.split('|').map(t => t.trim());
+            types.forEach(type => addUsedType(type));
+        } else {
+            // Handle single type
+            const baseType = phpType.replace('?', '').replace('[]', '');
+            if (!isBuiltInType(baseType) && !baseType.includes('\\')) {
+                addUsedType(baseType);
             }
         }
+    });
+    
+    // Manually analyze field types for union types
+    fields.forEach(field => {
+        // Look for union types in the field type
+        if (field.type.includes('|')) {
+            // Extract type names from the union type
+            const typeNames = field.type.split('|').map(t => t.trim());
+            typeNames.forEach(typeName => {
+                // Remove optional marker and array notation
+                const cleanTypeName = typeName.replace('?', '').replace('[]', '');
+                // Check if this is a custom type (not built-in)
+                if (!isBuiltInType(cleanTypeName) && cleanTypeName !== 'null') {
+                    addUsedType(cleanTypeName);
+                }
+            });
+        }
+        
+        // Also check for array types like Type[] which might be DTOs
+        if (field.type.includes('[]')) {
+            const baseType = field.type.replace('[]', '').replace('?', '');
+            if (!isBuiltInType(baseType) && baseType !== 'null') {
+                addUsedType(baseType);
+            }
+        }
+    });
+    
+    // Also look for union types directly in the content
+    const unionTypeRegex = /:\s*([A-Za-z0-9_]+)\s*\|\s*([A-Za-z0-9_]+)\s*\|\s*([A-Za-z0-9_]+)/g;
+    let match;
+    while ((match = unionTypeRegex.exec(content)) !== null) {
+        for (let i = 1; i < match.length; i++) {
+            const type = match[i];
+            if (type && !isBuiltInType(type) && type !== 'null') {
+                addUsedType(type);
+            }
+        }
+    }
+    
+    // Generate property strings
+    const properties = fields.map(field => {
+        const { phpType, docType } = convertType(field.type);
 
         let propertyString = ``;
         if (field.comment || docType) {
@@ -187,15 +295,17 @@ function generatePhpClass(name: string, content: string, namespace: string): str
         return propertyString + ';';
     }).join('\n\n');
 
-    const useStatements = [...usedTypes].map(type => `use ${type};`).join('\n');
+    // Generate use statements for all collected types
+    let useStatements = '';
+    if (usedTypes.size > 0) {
+        useStatements = [...usedTypes].map(type => `use ${type};`).join('\n') + '\n\n';
+    }
 
     return `<?php declare(strict_types=1);
 
 namespace ${namespace};
 
-${useStatements}
-
-class ${name} 
+${useStatements}class ${name} 
 {
 ${properties}
 }
@@ -316,6 +426,25 @@ async function processFile(filePath: string, outputBaseDir: string, isEnum: bool
             phpCode = generatePhpEnum(name, content, namespace);
         } else {
             phpCode = generatePhpClass(name, content, namespace);
+            
+            // Special handling for specific DTOs that need manual imports
+            if (name === 'RequestDto') {
+                // Add the required use statements for RequestDto
+                const useStatements = [
+                    `use ${ROOT_NAMESPACE}\\Dtos\\Sender\\EmailSenderDto;`,
+                    `use ${ROOT_NAMESPACE}\\Dtos\\Sender\\SmsSenderDto;`,
+                    `use ${ROOT_NAMESPACE}\\Dtos\\Sender\\PushSenderDto;`,
+                    `use ${ROOT_NAMESPACE}\\Dtos\\Receiver\\EmailReceiverDto;`,
+                    `use ${ROOT_NAMESPACE}\\Dtos\\Receiver\\SmsReceiverDto;`,
+                    `use ${ROOT_NAMESPACE}\\Dtos\\Receiver\\PushReceiverDto;`
+                ].join('\n');
+                
+                // Insert use statements after namespace declaration
+                phpCode = phpCode.replace(
+                    `namespace ${namespace};\n\n`, 
+                    `namespace ${namespace};\n\n${useStatements}\n\n`
+                );
+            }
         }
 
         await fs.writeFile(outputPath, phpCode);

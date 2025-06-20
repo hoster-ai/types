@@ -2,8 +2,6 @@
 
 namespace Hoster\Contracts\Dtos;
 
-
-
 class ResponseDataDto 
 {
     public string]: any $key;

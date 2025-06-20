@@ -33,13 +33,13 @@ namespace Hoster.Contracts.Enums
         [JsonPropertyName("AFFILIATE_READ")]
         AFFILIATE_READ,
 
-        [JsonPropertyName("AFFILIATE WRITE")]
+        [JsonPropertyName("AFFILIATE_WRITE")]
         AFFILIATE_WRITE,
 
-        [JsonPropertyName("COMANY_READ")]
+        [JsonPropertyName("COMPANY_READ")]
         COMPANY_READ,
 
-        [JsonPropertyName("COMANY WRITE")]
+        [JsonPropertyName("COMPANY_WRITE")]
         COMPANY_WRITE,
 
         [JsonPropertyName("TEMPLATE_READ")]
