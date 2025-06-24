@@ -7,7 +7,7 @@ import { LanguageEnum } from '../../enums/language.enum';
 import { RolesEnum } from '../../enums/roles.enum';
 import { ActionDto } from '../action.dto';
 import { TabDto } from '../tab.dto';
-import { MenuDto } from '../menu.dto';
+import { MenuDtoWithSubmenu, MenuDtoWithUrl } from '../menu.dto';
 
 /**
  * DTO for integration information
@@ -93,11 +93,9 @@ export class InfoDto {
     };
 
     /** Main menu for the admin panel. Extends TabDto and adds icon information */
-    menu?: MenuDto;
-    /** Settings menu for the admin panel. Extends TabDto and adds icon information */
-    // settings?: MenuDto;
+    menu?: MenuDtoWithSubmenu | MenuDtoWithUrl;
 
-    settings: {
+    settings?: {
       label: string,
       icon: string,
       descrition: string,
@@ -130,7 +128,7 @@ export class InfoDto {
      * If there are submenus, the label of the MenuDto and the TabDtos of the MenuDto will be displayed in the panel.
      * The TabDtos of the MenuDto will be the submenus of the MenuDto.
      */
-    menu?: MenuDto;
+    menu?: MenuDtoWithSubmenu | MenuDtoWithUrl;
   };
 
 

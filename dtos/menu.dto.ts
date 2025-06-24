@@ -41,8 +41,3 @@ export interface MenuDtoWithSubmenu extends BaseMenuDto {
    */
   submenu: SubmenuDto[];
 }
-
-/**
- * Union type that ensures a menu item has either a URL or a submenu, but never both
- */
-export type MenuDto = MenuDtoWithUrl | MenuDtoWithSubmenu;
