@@ -113,3 +113,44 @@ To implement a generator for a new language:
 - `quicktype`: For generating code from JSON Schema
 - `fs-extra`: For file system operations
 - `glob`: For file pattern matching
+- `class-validator`: For DTO validation
+- `class-transformer`: For transforming plain objects to class instances
+
+## Validators
+
+This project includes programmatic validators for DTOs that can be used when class decorators don't work properly with imported DTOs from remote packages.
+
+### Notification Request Validator
+
+The `validateNotificationRequestDto` function provides an alternative to class-validator decorators for validating `NotificationRequestDto` objects:
+
+```typescript
+import { validateNotificationRequestDto, validateNotificationRequestDtoOrThrow } from '../validators/notification-request-validator';
+
+// Option 1: Get validation errors as array
+const errors = validateNotificationRequestDto(dtoObject);
+if (errors.length > 0) {
+  console.log('Validation failed:', errors);
+}
+
+// Option 2: Use the throw version for simpler handling
+try {
+  validateNotificationRequestDtoOrThrow(dtoObject);
+  // Continue with valid object
+} catch (error) {
+  console.error(error.message);
+}
+```
+
+The validator checks:
+- `notificationId` is present and is a string
+- `sender` is present and is an object
+- `receiver` is present and is an object
+
+### Running Tests
+
+To run the validator tests:
+
+```bash
+npm test
+```

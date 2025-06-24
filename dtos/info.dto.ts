@@ -1,13 +1,13 @@
-import { ActionsEnum } from '../../enums/actions.enum';
-import { EventsEnum } from '../../enums/events.enum';
-import { FieldDto } from '../field.dto';
-import { ResponseDataDto } from '../response-data.dto';
-import { UnitDto } from '../unit.dto';
-import { LanguageEnum } from '../../enums/language.enum';
-import { RolesEnum } from '../../enums/roles.enum';
-import { ActionDto } from '../action.dto';
-import { TabDto } from '../tab.dto';
-import { MenuDtoWithSubmenu, MenuDtoWithUrl } from '../menu.dto';
+import { ActionsEnum } from '../enums/actions.enum';
+import { EventsEnum } from '../enums/events.enum';
+import { FieldDto } from './field.dto';
+import { ResponseDataDto } from './response-data.dto';
+import { UnitDto } from './unit.dto';
+import { LanguageEnum } from '../enums/language.enum';
+import { RolesEnum } from '../enums/roles.enum';
+import { ActionDto } from './action.dto';
+import { TabDto } from './tab.dto';
+import { MenuDtoWithSubmenu, MenuDtoWithUrl } from './menu.dto';
 
 /**
  * DTO for integration information
