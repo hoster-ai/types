@@ -1,6 +1,9 @@
-import { SubmenuDto, TabDto } from "./tab.dto";
+import { SubmenuDto } from "./tab.dto";
 
-export class MenuDto {
+/**
+ * Base properties shared by all menu items
+ */
+interface BaseMenuDto {
   /**
    * The icon to be displayed for the menu item
    */
@@ -10,17 +13,36 @@ export class MenuDto {
    * The name to be displayed for the menu item
    */
   label: string;
+}
 
+/**
+ * Menu item with URL (no submenu)
+ */
+export interface MenuDtoWithUrl extends BaseMenuDto {
+  type: 'url';
   /**
    * The URL associated with the tab.
    * The requests coming from the hoster will be signed
    * with jwt, which will contain information about the company
    */
   url: string;
+  submenu?: never; // Explicitly prevents submenu
+}
 
+/**
+ * Menu item with submenu (no URL)
+ */
+export interface MenuDtoWithSubmenu extends BaseMenuDto {
+  type: 'submenu';
+  url?: never; // Explicitly prevents url
   /**
    * The list of tabs that will appear in the submenu and as a navigation bar above the main content
    * In case of only one tab, there will be neither a submenu nor a navigation bar.
    */
-  submenu?: SubmenuDto[];
+  submenu: SubmenuDto[];
 }
+
+/**
+ * Union type that ensures a menu item has either a URL or a submenu, but never both
+ */
+export type MenuDto = MenuDtoWithUrl | MenuDtoWithSubmenu;

@@ -77,6 +77,7 @@ export class InfoDto {
       /** Tabs related to orders. */
       order: TabDto[];
     };
+
     /** Additional actions available in the admin panel. */
     moreActions?: {
       /** Actions related to clients. */
@@ -90,10 +91,20 @@ export class InfoDto {
       /** Actions related to orders. */
       order?: ActionDto[];
     };
+
     /** Main menu for the admin panel. Extends TabDto and adds icon information */
     menu?: MenuDto;
     /** Settings menu for the admin panel. Extends TabDto and adds icon information */
-    settings?: MenuDto;
+    // settings?: MenuDto;
+
+    settings: {
+      label: string,
+      icon: string,
+      descrition: string,
+    } & (
+      { url: string; tabs?: never } | // If url is provided, tabs should not be present
+      { url?: never; tabs: [TabDto, ...TabDto[]] } // If tabs is provided (at least one tab), url should not be present
+    )
   };
 
   /**
@@ -106,11 +117,13 @@ export class InfoDto {
       /** Tabs related to items. */
       item: TabDto[];
     };
+    
     /** Additional actions available in the client panel. */
     moreActions?: {
       /** Actions related to items. */
       item?: ActionDto[];
     };
+
     /** Main menu for the client panel. 
      * Each menu must have at least one TabDto.
      * If there are no submenus, the label of the TabDto will be displayed in the panel.
@@ -123,17 +136,23 @@ export class InfoDto {
 
   /**
    * The url for the onboarding process after installation of the integration
+   * Will be displayed either as a popup or as a side sheet containing an iframe 
+   * with this url and the jwt in the url
    */
   onboardingUrl?: string;
 
   /**
    * Units for pay-per-use billing.
+   * e.g. id: ram, unitDescription: MB, intervalDescription: month
+   * With the above in the admin the administrator will be able to set a price for
+   * MB per month (the id is the unit's unique identifier)
    */
   payPerUseUnits?: UnitDto[];
 
   /**
-   * Mapping of response data field names.
+   * Here we need to specify the fields (keys) that a successful create will return
+   * In other words, we want to know the information that a successful create will 
+   * return, before the create is executed
    */
   responseDataFieldNames?: Record<keyof ResponseDataDto, string>;
 }
-
