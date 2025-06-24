@@ -58,4 +58,9 @@ export class FieldDto {
      */
     remoteValidationErrorMessage?: MultilangTextDto[];
 
+    /**
+     * The item attribute is upgradeable
+     */
+    upgradeable: boolean = false;
+
 }
