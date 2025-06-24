@@ -1,8 +1,0 @@
-package com.hoster.contracts.enums
-
-enum class OpenMethodEnum(val value: String) {
-    AJAX_CALL("ajax_call"),
-    SMALL_IFRAME("small_iframe"),
-    MEDIUM_IFRAME("medium_iframe"),
-    LARGE_IFRAME("large_iframe");
-}

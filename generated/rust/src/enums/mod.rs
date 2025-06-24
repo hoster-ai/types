@@ -1,9 +1,0 @@
-pub mod setup_status;
-pub mod roles;
-pub mod open_method;
-pub mod message_type;
-pub mod language;
-pub mod field_type;
-pub mod events;
-pub mod country;
-pub mod actions;
