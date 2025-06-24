@@ -4,7 +4,7 @@ export * from './dtos/base-response.dto';
 export * from './dtos/company-data.dto';
 export * from './dtos/error-response.dto';
 export * from './dtos/jwt.dto';
-export * from './dtos/request.dto';
+export * from './dtos/notification/request.dto';
 export * from './dtos/setup-status-response.dto';
 export * from './dtos/success-response.dto';
 export * from './dtos/task-response.dto';

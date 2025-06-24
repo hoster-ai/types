@@ -8,7 +8,6 @@ import { RolesEnum } from '../../enums/roles.enum';
 import { ActionDto } from '../action.dto';
 import { TabDto } from '../tab.dto';
 import { MenuDtoWithSubmenu, MenuDtoWithUrl } from '../menu.dto';
-import { MessageTypeEnum } from '../../enums/message-type.enum';
 
 /**
  * DTO for integration information
