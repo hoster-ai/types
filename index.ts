@@ -10,21 +10,20 @@ export * from './dtos/success-response.dto';
 export * from './dtos/task-response.dto';
 export * from './dtos/action.dto';
 export * from './dtos/field.dto';
-export * from './dtos/notification/info-notification.dto';
-export * from './dtos/info.dto';
+export * from './dtos/notification/notification-info.dto';
 export * from './dtos/multilang-text.dto';
 export * from './dtos/response-data.dto';
 export * from './dtos/unit.dto';
 
 // Export receiver DTOs
-export * from './dtos/receiver/receiver-email.dto';
-export * from './dtos/receiver/receiver-push.dto';
-export * from './dtos/receiver/receiver-sms.dto';
+export * from './dtos/notification/receiver/receiver-email.dto';
+export * from './dtos/notification/receiver/receiver-push.dto';
+export * from './dtos/notification/receiver/receiver-sms.dto';
 
 // Export sender DTOs
-export * from './dtos/sender/sender-email.dto';
-export * from './dtos/sender/sender-push.dto';
-export * from './dtos/sender/sender-sms.dto';
+export * from './dtos/notification/sender/sender-email.dto';
+export * from './dtos/notification/sender/sender-push.dto';
+export * from './dtos/notification/sender/sender-sms.dto';
 
 // Export all ENUMs
 export * from './enums/country.enum';

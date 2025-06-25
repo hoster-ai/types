@@ -1,10 +1,10 @@
 import { IsNotEmpty, IsObject, IsString } from 'class-validator';
-import { EmailReceiverDto } from '../receiver/receiver-email.dto';
-import { EmailSenderDto } from '../sender/sender-email.dto';
-import { PushSenderDto } from '../sender/sender-push.dto';
-import { SmsSenderDto } from '../sender/sender-sms.dto';
-import { PushReceiverDto } from '../receiver/receiver-push.dto';
-import { SmsReceiverDto } from '../receiver/receiver-sms.dto';
+import { EmailReceiverDto } from './receiver/receiver-email.dto';
+import { PushReceiverDto } from './receiver/receiver-push.dto';
+import { SmsReceiverDto } from './receiver/receiver-sms.dto';
+import { EmailSenderDto } from './sender/sender-email.dto';
+import { PushSenderDto } from './sender/sender-push.dto';
+import { SmsSenderDto } from './sender/sender-sms.dto';
 
 export class NotificationRequestDto {
   /**

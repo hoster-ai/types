@@ -7,7 +7,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { AttachmentDto } from '../attachment.dto';
+import { AttachmentDto } from '../../attachment.dto';
 
 /**
  * DTO for email sender
