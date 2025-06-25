@@ -28,7 +28,7 @@ export * from './dtos/notification/sender/sender-sms.dto';
 // Export all ENUMs
 export * from './enums/country.enum';
 export * from './enums/language.enum';
-export * from './enums/message-type.enum';
+export * from './enums/notification/notification-message-type.enum';
 export * from './enums/roles.enum';
 export * from './enums/setup-status.enum';
 export * from './enums/actions.enum';
