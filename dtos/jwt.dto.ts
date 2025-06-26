@@ -1,4 +1,36 @@
+import { IsString, IsNotEmpty, IsArray, IsEnum, ValidateNested, IsOptional, IsDefined } from 'class-validator';
+import { Type } from 'class-transformer';
 import { RolesEnum } from "../enums/roles.enum";
+
+class JwtPayloadDto {
+    /**
+     * Integration identifier
+     */
+    @IsString()
+    @IsNotEmpty()
+    integrationId: string;
+    
+    /**
+     * Unique user identifier that triggers the API call (only the /send method will not contain userId).
+     */
+    @IsString()
+    @IsOptional()
+    userId?: string;
+
+    /**
+     * Unique company identifier
+     */
+    @IsString()
+    @IsNotEmpty()
+    companyId: string;
+
+    /**
+     * The roles accepted by the company for this integration
+     */
+    @IsArray()
+    @IsEnum(RolesEnum, { each: true })
+    acceptedRoles: RolesEnum[];
+}
 
 /**
  * DTO for JWT payload
@@ -10,26 +42,9 @@ export class JwtDto {
    * Includes user and company identifiers, admin rights
    * and optional sender details
    */
-  jwt: {
-
-    /**
-     * Integration identifier
-     */
-    integrationId: string;
-    
-    /**
-     * Unique user identifier that triggers the API call (only the /send method will not contain userId).
-     */
-    userId?: string;
-
-    /**
-     * Unique company identifier
-     */
-    companyId: string;
-
-    /**
-     * The roles accepted by the company for this integration
-     */
-    acceptedRoles: RolesEnum[];
-  };
+  @ValidateNested()
+  @Type(() => JwtPayloadDto)
+  @IsDefined()
+  jwt: JwtPayloadDto;
 }
+
