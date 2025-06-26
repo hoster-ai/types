@@ -10,30 +10,35 @@ import {
 import { Type } from 'class-transformer';
 import { RolesEnum } from '../enums/roles.enum';
 
+/**
+ * DTO for the JWT payload.
+ * This defines the structure of the data contained within the JWT.
+ */
 class JwtPayloadDto {
   /**
-   * Integration identifier
+   * The unique identifier for the integration.
    */
   @IsString()
   @IsNotEmpty()
   integrationId!: string;
 
   /**
-   * Unique user identifier that triggers the API call (only the /send method will not contain userId).
+   * The unique identifier for the user who triggered the API call.
+   * This is optional and may not be present in all requests (e.g., /send).
    */
   @IsString()
   @IsOptional()
   userId?: string;
 
   /**
-   * Unique company identifier
+   * The unique identifier for the company.
    */
   @IsString()
   @IsNotEmpty()
   companyId!: string;
 
   /**
-   * The roles accepted by the company for this integration
+   * The roles that have been accepted by the company for this integration.
    */
   @IsArray()
   @IsEnum(RolesEnum, { each: true })
@@ -41,14 +46,12 @@ class JwtPayloadDto {
 }
 
 /**
- * DTO for JWT payload
- * Used for user authentication and authorization
+ * DTO for the JWT itself.
+ * This is the main DTO used for user authentication and authorization.
  */
 export class JwtDto {
   /**
-   * User information contained in the JWT token
-   * Includes user and company identifiers, admin rights
-   * and optional sender details
+   * The JWT payload containing user and company information.
    */
   @ValidateNested()
   @Type(() => JwtPayloadDto)

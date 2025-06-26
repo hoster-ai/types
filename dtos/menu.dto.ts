@@ -1,45 +1,60 @@
 import { SubmenuDto } from './tab.dto';
 
 /**
- * Base properties shared by all menu items
+ * Base properties shared by all menu items.
  */
 interface BaseMenuDto {
   /**
-   * The icon to be displayed for the menu item
+   * The icon to be displayed for the menu item.
+   * @example "home"
    */
   icon: string;
 
   /**
-   * The name to be displayed for the menu item
+   * The name to be displayed for the menu item.
+   * @example "Dashboard"
    */
   label: string;
 }
 
 /**
- * Menu item with URL (no submenu)
+ * Represents a menu item that links directly to a URL.
+ * This type of menu item does not have a submenu.
  */
 export interface MenuDtoWithUrl extends BaseMenuDto {
+  /**
+   * The type of the menu item. This is a discriminator property.
+   */
   type: 'only-url';
   /**
-   * The URL associated with the tab.
-   * The requests coming from the hoster will be signed
-   * with jwt, which will contain information about the company
+   * The URL associated with the menu item.
+   * Requests from the hoster will be signed with a JWT containing company information.
    */
   url: string;
 
-  submenu?: never; // Explicitly prevents submenu
+  /**
+   * Explicitly prevents a submenu from being added to this type of menu item.
+   */
+  submenu?: never;
 }
 
 /**
- * Menu item with submenu (no URL)
+ * Represents a menu item that contains a submenu.
+ * This type of menu item does not have a direct URL.
  */
 export interface MenuDtoWithSubmenu extends BaseMenuDto {
+  /**
+   * The type of the menu item. This is a discriminator property.
+   */
   type: 'with-submenu';
-  url?: never; // Explicitly prevents url
+  /**
+   * Explicitly prevents a URL from being added to this type of menu item.
+   */
+  url?: never;
 
   /**
-   * The list of tabs that will appear in the submenu and as a navigation bar above the main content
-   * In case of only one tab, there will be neither a submenu nor a navigation bar.
+   * The list of tabs that will appear in the submenu.
+   * If there is only one tab, no submenu or navigation bar will be displayed.
    */
   submenu: SubmenuDto[];
 }

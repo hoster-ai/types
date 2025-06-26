@@ -150,6 +150,7 @@ npm test
 This package is automatically published to npm upon the creation of a new release in GitHub.
 
 The process is as follows:
+
 1.  Ensure the `version` in `package.json` is updated.
 2.  Commit and push all changes to the `main` branch.
 3.  Create a new release on GitHub. The tag for the release must match the version in `package.json` (e.g., `v1.2.3`).

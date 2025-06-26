@@ -63,8 +63,12 @@ describe('FieldDto Validator', () => {
       disabled: false,
       hidden: false,
       upgradeable: false,
-      regexValidationErrorMessage: [{ language: LanguageEnum.EN, text: 'Invalid format' }],
-      remoteValidationErrorMessage: [{ language: LanguageEnum.EN, text: 'Invalid value' }],
+      regexValidationErrorMessage: [
+        { language: LanguageEnum.EN, text: 'Invalid format' },
+      ],
+      remoteValidationErrorMessage: [
+        { language: LanguageEnum.EN, text: 'Invalid value' },
+      ],
     };
 
     const errors = validateFieldDto(validDto);
@@ -86,7 +90,9 @@ describe('FieldDto Validator', () => {
 
     const errors = validateFieldDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some((e) => e.property === 'regexValidationErrorMessage')).toBe(true);
+    expect(
+      errors.some((e) => e.property === 'regexValidationErrorMessage'),
+    ).toBe(true);
   });
 
   it('should return error for invalid remoteValidationErrorMessage', () => {
@@ -104,6 +110,8 @@ describe('FieldDto Validator', () => {
 
     const errors = validateFieldDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some((e) => e.property === 'remoteValidationErrorMessage')).toBe(true);
+    expect(
+      errors.some((e) => e.property === 'remoteValidationErrorMessage'),
+    ).toBe(true);
   });
 });

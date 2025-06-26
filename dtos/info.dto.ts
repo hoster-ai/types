@@ -10,94 +10,116 @@ import { TabDto } from './tab.dto';
 import { MenuDtoWithSubmenu, MenuDtoWithUrl } from './menu.dto';
 
 /**
- * DTO for integration information
- * Contains all information related to a service integration
+ * DTO for integration information.
+ * This is a central DTO that contains all the necessary information
+ * for a service integration, including UI configuration, supported features,
+ * and billing details.
  */
 export class InfoDto {
   /**
-   * The title of the integration
+   * The display title of the integration.
+   * @example "My Awesome Integration"
    */
   title!: string;
 
   /**
-   * The logo of the integration (optional)
+   * The URL of the integration's logo.
+   * @example "https://example.com/logo.png"
    */
   logo?: string;
 
   /**
-   * Description of the integration and its services (optional)
+   * A brief description of the integration and its services.
+   * @example "This integration provides a set of tools for managing your products."
    */
   description?: string;
 
   /**
-   * List of supported languages for the integration.
+   * A list of languages supported by the integration.
    */
   supported_languages!: LanguageEnum[];
 
   /**
-   * Custom attributes for products.
+   * Custom attributes that can be defined for products.
+   * These attributes will be displayed in the product configuration section.
    */
   product_attributes?: FieldDto[];
 
   /**
-   * Custom attributes for items.
+   * Custom attributes that can be defined for items.
+   * These attributes will be displayed in the item details section.
    */
   item_attributes?: FieldDto[];
 
   /**
-   * Events that the integration listens to.
+   * A list of events that the integration listens to.
+   * This allows the integration to react to specific events in the system.
    */
   listen_events?: EventsEnum[];
 
   /**
-   * The roles that need to be accepted by the company
+   * A list of roles that the company needs to accept for this integration to function correctly.
    */
   requiredRoles?: RolesEnum[];
 
   /**
-   * Actions that are not supported by the integration.
+   * A list of actions that are not supported by this integration.
    */
   unsupportedActions?: ActionsEnum[] = [];
 
   /**
    * Configuration for the admin panel.
-   * Contains all UI and action configuration for the admin interface.
+   * This section defines the entire user interface for the integration's admin panel.
    */
   adminPanel?: {
-    /** Tab groups for different admin panel sections in the admin panel. */
+    /**
+     * Defines the tab structure for different sections of the admin panel.
+     * Each property represents a section (e.g., product, item) and contains an array of TabDto objects.
+     */
     tabs?: {
-      /** Tabs related to products. */
+      /** Tabs for the product management section. */
       product: TabDto[];
-      /** Tabs related to items. */
+      /** Tabs for the item management section. */
       item: TabDto[];
-      /** Tabs related to clients. */
+      /** Tabs for the client management section. */
       client: TabDto[];
-      /** Tabs related to users. */
+      /** Tabs for the user management section. */
       user: TabDto[];
-      /** Tabs related to orders. */
+      /** Tabs for the order management section. */
       order: TabDto[];
     };
 
-    /** Additional actions available in the admin panel. */
+    /**
+     * Defines additional actions that can be performed in different sections of the admin panel.
+     */
     moreActions?: {
-      /** Actions related to clients. */
+      /** Actions available in the client management section. */
       client?: ActionDto[];
-      /** Actions related to items. */
+      /** Actions available in the item management section. */
       item?: ActionDto[];
-      /** Actions related to invoices. */
+      /** Actions available in the invoice management section. */
       invoice?: ActionDto[];
-      /** Actions related to users. */
+      /** Actions available in the user management section. */
       user?: ActionDto[];
-      /** Actions related to orders. */
+      /** Actions available in the order management section. */
       order?: ActionDto[];
     };
 
-    /** Main menu for the admin panel. Extends TabDto and adds icon information */
+    /**
+     * The main menu for the admin panel.
+     * This can be a simple menu with a URL or a menu with submenus.
+     */
     menu?: MenuDtoWithSubmenu | MenuDtoWithUrl;
 
+    /**
+     * Configuration for the integration's settings page.
+     */
     settings?: {
+      /** The label for the settings page. */
       label: string;
+      /** The icon for the settings page. */
       icon: string;
+      /** A description of the settings page. */
       descrition: string;
     } & (
       | { url: string; tabs?: never } // If url is provided, tabs should not be present
@@ -107,49 +129,48 @@ export class InfoDto {
 
   /**
    * Configuration for the client panel.
-   * Contains all UI and action configuration for the client interface.
+   * This section defines the user interface for the integration's client-facing panel.
    */
   clientPanel?: {
-    /** Tab groups for the client panel. */
+    /**
+     * Defines the tab structure for the client panel.
+     */
     tabs?: {
-      /** Tabs related to items. */
+      /** Tabs for the item management section. */
       item: TabDto[];
     };
 
-    /** Additional actions available in the client panel. */
+    /**
+     * Defines additional actions that can be performed in the client panel.
+     */
     moreActions?: {
-      /** Actions related to items. */
+      /** Actions available in the item management section. */
       item?: ActionDto[];
     };
 
-    /** Main menu for the client panel.
-     * Each menu must have at least one TabDto.
-     * If there are no submenus, the label of the TabDto will be displayed in the panel.
-     * If there are submenus, the label of the MenuDto and the TabDtos of the MenuDto will be displayed in the panel.
-     * The TabDtos of the MenuDto will be the submenus of the MenuDto.
+    /**
+     * The main menu for the client panel.
+     * This can be a simple menu with a URL or a menu with submenus.
      */
     menu?: MenuDtoWithSubmenu | MenuDtoWithUrl;
   };
 
   /**
-   * The url for the onboarding process after installation of the integration
-   * Will be displayed either as a popup or as a side sheet containing an iframe
-   * with this url and the jwt in the url
+   * The URL for the onboarding process after the integration is installed.
+   * This URL will be displayed in a popup or side sheet with a JWT for authentication.
    */
   onboardingUrl?: string;
 
   /**
-   * Units for pay-per-use billing.
-   * e.g. id: ram, unitDescription: MB, intervalDescription: month
-   * With the above in the admin the administrator will be able to set a price for
-   * MB per month (the id is the unit's unique identifier)
+   * Defines the units for pay-per-use billing.
+   * This allows the administrator to set a price for each unit per interval.
+   * @example [{ id: "ram", unitDescription: "MB", intervalDescription: "month" }]
    */
   payPerUseUnits?: UnitDto[];
 
   /**
-   * Here we need to specify the fields (keys) that a successful create will return
-   * In other words, we want to know the information that a successful create will
-   * return, before the create is executed
+   * Specifies the field names that will be returned in the response data after a successful creation.
+   * This allows the system to know what to expect in the response before the creation is executed.
    */
   responseDataFieldNames?: Record<keyof ResponseDataDto, string>;
 }
