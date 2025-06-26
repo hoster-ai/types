@@ -11,7 +11,7 @@ describe('JwtDto Validator', () => {
         acceptedRoles: [RolesEnum.FULL_ACCESS],
       },
     };
-    
+
     const errors = validateJwtDto(validDto);
     expect(errors).toHaveLength(0);
   });
@@ -20,10 +20,10 @@ describe('JwtDto Validator', () => {
     const invalidDto = {
       // Missing jwt object
     };
-    
+
     const errors = validateJwtDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'jwt')).toBe(true);
+    expect(errors.some((e) => e.property === 'jwt')).toBe(true);
   });
 
   it('should return error when required fields in jwt are missing', () => {
@@ -33,13 +33,13 @@ describe('JwtDto Validator', () => {
         acceptedRoles: [RolesEnum.FULL_ACCESS],
       },
     };
-    
+
     const errors = validateJwtDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
     // As the validation is on the nested object, the error will be in the children
     const jwtErrors = errors[0]?.children;
     expect(jwtErrors).toBeDefined();
-    expect(jwtErrors!.some(e => e.property === 'integrationId')).toBe(true);
-    expect(jwtErrors!.some(e => e.property === 'companyId')).toBe(true);
+    expect(jwtErrors!.some((e) => e.property === 'integrationId')).toBe(true);
+    expect(jwtErrors!.some((e) => e.property === 'companyId')).toBe(true);
   });
 });

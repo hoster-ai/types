@@ -1,3 +1,3 @@
 export class ResponseDataDto {
-    [key: string]: any;
+  data!: Record<string, unknown>;
 }

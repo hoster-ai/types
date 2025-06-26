@@ -12,5 +12,5 @@ export class SmsReceiverDto {
   @IsArray()
   @ArrayUnique()
   @IsPhoneNumber(undefined, { each: true })
-  receiverPhones: string[];
+  receiverPhones!: string[];
 }

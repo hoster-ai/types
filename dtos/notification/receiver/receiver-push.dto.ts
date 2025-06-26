@@ -16,7 +16,7 @@ export class PushReceiverDto {
    */
   @IsNotEmpty()
   @IsString()
-  userId: string;
+  userId!: string;
 
   /**
    * List of user device tokens
@@ -25,5 +25,5 @@ export class PushReceiverDto {
   @IsArray()
   @ArrayNotEmpty()
   @ArrayMinSize(1)
-  deviceTokens: string[];
+  deviceTokens!: string[];
 }

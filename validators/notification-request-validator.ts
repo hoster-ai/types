@@ -8,10 +8,11 @@ import { NotificationRequestDto } from '../dtos/notification/notification-reques
  * @param data The object to validate as a NotificationRequestDto.
  * @returns An array of validation errors, empty if validation succeeds.
  */
-export function validateNotificationRequestDto(data: object): ValidationError[] {
+export function validateNotificationRequestDto(
+  data: object,
+): ValidationError[] {
   const dto = plainToInstance(NotificationRequestDto, data);
   const errors = validateSync(dto);
-  
+
   return errors;
 }
-

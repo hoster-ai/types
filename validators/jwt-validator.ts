@@ -11,6 +11,6 @@ import { JwtDto } from '../dtos/jwt.dto';
 export function validateJwtDto(data: object): ValidationError[] {
   const dto = plainToInstance(JwtDto, data);
   const errors = validateSync(dto);
-  
+
   return errors;
 }

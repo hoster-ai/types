@@ -11,6 +11,6 @@ import { MultilangTextDto } from '../dtos/multilang-text.dto';
 export function validateMultilangTextDto(data: object): ValidationError[] {
   const dto = plainToInstance(MultilangTextDto, data);
   const errors = validateSync(dto);
-  
+
   return errors;
 }

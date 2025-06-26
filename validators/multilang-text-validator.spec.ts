@@ -7,7 +7,7 @@ describe('MultilangTextDto Validator', () => {
       language: LanguageEnum.EN,
       text: 'Hello World',
     };
-    
+
     const errors = validateMultilangTextDto(validDto);
     expect(errors).toHaveLength(0);
   });
@@ -17,10 +17,10 @@ describe('MultilangTextDto Validator', () => {
       language: 'not-a-language',
       text: 'Hello World',
     };
-    
+
     const errors = validateMultilangTextDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'language')).toBe(true);
+    expect(errors.some((e) => e.property === 'language')).toBe(true);
   });
 
   it('should return error for missing text', () => {
@@ -28,9 +28,9 @@ describe('MultilangTextDto Validator', () => {
       language: LanguageEnum.EN,
       // Missing text
     };
-    
+
     const errors = validateMultilangTextDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'text')).toBe(true);
+    expect(errors.some((e) => e.property === 'text')).toBe(true);
   });
 });

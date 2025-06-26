@@ -6,21 +6,20 @@
     "outDir": "./dist",
     "rootDir": "./",
     "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": [
-    "./dtos/**/*",
-    "./enums/**/*",
-    "index.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.test.ts",
-    "generated/**/*"
-  ]
+  "include": ["./dtos/**/*", "./enums/**/*", "index.ts"],
+  "exclude": ["node_modules", "**/*.test.ts", "generated/**/*"]
 }

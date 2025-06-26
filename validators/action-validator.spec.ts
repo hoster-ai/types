@@ -8,7 +8,7 @@ describe('ActionDto Validator', () => {
       openMethod: OpenMethodEnum.AJAX_CALL,
       url: 'http://example.com',
     };
-    
+
     const errors = validateActionDto(validDto);
     expect(errors).toHaveLength(0);
   });
@@ -19,10 +19,10 @@ describe('ActionDto Validator', () => {
       openMethod: OpenMethodEnum.AJAX_CALL,
       url: 'not-a-url',
     };
-    
+
     const errors = validateActionDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'url')).toBe(true);
+    expect(errors.some((e) => e.property === 'url')).toBe(true);
   });
 
   it('should return error for invalid openMethod', () => {
@@ -31,9 +31,9 @@ describe('ActionDto Validator', () => {
       openMethod: 'not-an-enum',
       url: 'http://example.com',
     };
-    
+
     const errors = validateActionDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'openMethod')).toBe(true);
+    expect(errors.some((e) => e.property === 'openMethod')).toBe(true);
   });
 });

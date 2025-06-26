@@ -10,12 +10,12 @@ export class BaseResponse {
    */
   @IsNumber()
   @IsNotEmpty()
-  code: number;
+  code!: number;
 
   /**
    * Response message
    */
   @IsString()
   @IsNotEmpty()
-  message: string;
+  message!: string;
 }

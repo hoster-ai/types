@@ -11,6 +11,6 @@ import { ActionDto } from '../dtos/action.dto';
 export function validateActionDto(data: object): ValidationError[] {
   const dto = plainToInstance(ActionDto, data);
   const errors = validateSync(dto);
-  
+
   return errors;
 }

@@ -11,12 +11,12 @@ export class SmsSenderDto {
    */
   @IsNotEmpty()
   @IsPhoneNumber()
-  senderPhone: string;
+  senderPhone!: string;
 
   /**
    * The content of the SMS message
    */
   @IsNotEmpty()
   @IsString()
-  message: string;
+  message!: string;
 }

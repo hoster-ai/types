@@ -1,4 +1,4 @@
-import { SubmenuDto } from "./tab.dto";
+import { SubmenuDto } from './tab.dto';
 
 /**
  * Base properties shared by all menu items
@@ -26,7 +26,7 @@ export interface MenuDtoWithUrl extends BaseMenuDto {
    * with jwt, which will contain information about the company
    */
   url: string;
-  
+
   submenu?: never; // Explicitly prevents submenu
 }
 
@@ -36,7 +36,7 @@ export interface MenuDtoWithUrl extends BaseMenuDto {
 export interface MenuDtoWithSubmenu extends BaseMenuDto {
   type: 'with-submenu';
   url?: never; // Explicitly prevents url
-  
+
   /**
    * The list of tabs that will appear in the submenu and as a navigation bar above the main content
    * In case of only one tab, there will be neither a submenu nor a navigation bar.

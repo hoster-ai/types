@@ -11,6 +11,6 @@ import { FieldDto } from '../dtos/field.dto';
 export function validateFieldDto(data: object): ValidationError[] {
   const dto = plainToInstance(FieldDto, data);
   const errors = validateSync(dto);
-  
+
   return errors;
 }

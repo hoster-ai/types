@@ -12,7 +12,7 @@ export class PushSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 255)
-  messageId: string;
+  messageId!: string;
 
   /**
    * The user ID that will receive the push notification
@@ -21,7 +21,7 @@ export class PushSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 255)
-  userId: string;
+  userId!: string;
 
   /**
    * The title of the push notification
@@ -30,7 +30,7 @@ export class PushSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 255)
-  title: string;
+  title!: string;
 
   /**
    * The content of the push notification
@@ -39,7 +39,7 @@ export class PushSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 1000)
-  message: string;
+  message!: string;
 
   /**
    * The subtitle of the push notification (optional)

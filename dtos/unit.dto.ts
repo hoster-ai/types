@@ -1,7 +1,7 @@
 export class UnitDto {
-    id: string;
-  
-    unitDescription: string
-  
-    intervalDescription: string;
-  }
+  id!: string;
+
+  unitDescription!: string;
+
+  intervalDescription!: string;
+}

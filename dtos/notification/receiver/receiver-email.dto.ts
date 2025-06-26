@@ -16,7 +16,7 @@ export class EmailReceiverDto {
    */
   @IsNotEmpty()
   @IsEmail()
-  to: string;
+  to!: string;
 
   /**
    * List of email addresses for carbon copy (optional)

@@ -11,6 +11,6 @@ import { PushReceiverDto } from '../dtos/notification/receiver/receiver-push.dto
 export function validatePushReceiverDto(data: object): ValidationError[] {
   const dto = plainToInstance(PushReceiverDto, data);
   const errors = validateSync(dto);
-  
+
   return errors;
 }

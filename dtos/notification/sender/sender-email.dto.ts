@@ -19,7 +19,7 @@ export class EmailSenderDto {
    */
   @IsNotEmpty()
   @IsString()
-  fullName: string;
+  fullName!: string;
 
   /**
    * The email subject
@@ -28,7 +28,7 @@ export class EmailSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 500)
-  subject: string;
+  subject!: string;
 
   /**
    * The message content
@@ -37,7 +37,7 @@ export class EmailSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 50000)
-  message: string;
+  message!: string;
 
   /**
    * File attachments (optional)

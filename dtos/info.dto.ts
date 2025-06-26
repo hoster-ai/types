@@ -17,7 +17,7 @@ export class InfoDto {
   /**
    * The title of the integration
    */
-  title: string;
+  title!: string;
 
   /**
    * The logo of the integration (optional)
@@ -32,7 +32,7 @@ export class InfoDto {
   /**
    * List of supported languages for the integration.
    */
-  supported_languages: LanguageEnum[];
+  supported_languages!: LanguageEnum[];
 
   /**
    * Custom attributes for products.
@@ -96,13 +96,13 @@ export class InfoDto {
     menu?: MenuDtoWithSubmenu | MenuDtoWithUrl;
 
     settings?: {
-      label: string,
-      icon: string,
-      descrition: string,
+      label: string;
+      icon: string;
+      descrition: string;
     } & (
-      { url: string; tabs?: never } | // If url is provided, tabs should not be present
-      { url?: never; tabs: [TabDto, ...TabDto[]] } // If tabs is provided (at least one tab), url should not be present
-    )
+      | { url: string; tabs?: never } // If url is provided, tabs should not be present
+      | { url?: never; tabs: [TabDto, ...TabDto[]] } // If tabs is provided (at least one tab), url should not be present
+    );
   };
 
   /**
@@ -115,14 +115,14 @@ export class InfoDto {
       /** Tabs related to items. */
       item: TabDto[];
     };
-    
+
     /** Additional actions available in the client panel. */
     moreActions?: {
       /** Actions related to items. */
       item?: ActionDto[];
     };
 
-    /** Main menu for the client panel. 
+    /** Main menu for the client panel.
      * Each menu must have at least one TabDto.
      * If there are no submenus, the label of the TabDto will be displayed in the panel.
      * If there are submenus, the label of the MenuDto and the TabDtos of the MenuDto will be displayed in the panel.
@@ -131,10 +131,9 @@ export class InfoDto {
     menu?: MenuDtoWithSubmenu | MenuDtoWithUrl;
   };
 
-
   /**
    * The url for the onboarding process after installation of the integration
-   * Will be displayed either as a popup or as a side sheet containing an iframe 
+   * Will be displayed either as a popup or as a side sheet containing an iframe
    * with this url and the jwt in the url
    */
   onboardingUrl?: string;
@@ -149,7 +148,7 @@ export class InfoDto {
 
   /**
    * Here we need to specify the fields (keys) that a successful create will return
-   * In other words, we want to know the information that a successful create will 
+   * In other words, we want to know the information that a successful create will
    * return, before the create is executed
    */
   responseDataFieldNames?: Record<keyof ResponseDataDto, string>;

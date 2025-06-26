@@ -11,6 +11,6 @@ import { CompanyDataDto } from '../dtos/company-data.dto';
 export function validateCompanyDataDto(data: object): ValidationError[] {
   const dto = plainToInstance(CompanyDataDto, data);
   const errors = validateSync(dto);
-  
+
   return errors;
 }

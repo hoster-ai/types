@@ -15,7 +15,7 @@ describe('FieldDto Validator', () => {
       hidden: false,
       upgradeable: false,
     };
-    
+
     const errors = validateFieldDto(validDto);
     expect(errors).toHaveLength(0);
   });
@@ -31,25 +31,25 @@ describe('FieldDto Validator', () => {
       hidden: false,
       upgradeable: false,
     };
-    
+
     const errors = validateFieldDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'type')).toBe(true);
+    expect(errors.some((e) => e.property === 'type')).toBe(true);
   });
 
   it('should return error for missing required fields', () => {
     const invalidDto = {
       // Missing required fields
     };
-    
+
     const errors = validateFieldDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'id')).toBe(true);
-    expect(errors.some(e => e.property === 'label')).toBe(true);
-    expect(errors.some(e => e.property === 'value')).toBe(true);
-    expect(errors.some(e => e.property === 'type')).toBe(true);
-    expect(errors.some(e => e.property === 'required')).toBe(true);
-    expect(errors.some(e => e.property === 'disabled')).toBe(true);
-    expect(errors.some(e => e.property === 'hidden')).toBe(true);
+    expect(errors.some((e) => e.property === 'id')).toBe(true);
+    expect(errors.some((e) => e.property === 'label')).toBe(true);
+    expect(errors.some((e) => e.property === 'value')).toBe(true);
+    expect(errors.some((e) => e.property === 'type')).toBe(true);
+    expect(errors.some((e) => e.property === 'required')).toBe(true);
+    expect(errors.some((e) => e.property === 'disabled')).toBe(true);
+    expect(errors.some((e) => e.property === 'hidden')).toBe(true);
   });
 });

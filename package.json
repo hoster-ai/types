@@ -5,7 +5,10 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -14,16 +17,24 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^30.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.35.0",
+    "@typescript-eslint/parser": "^8.35.0",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.1",
     "fs-extra": "^11.3.0",
     "jest": "^30.0.3",
+    "prettier": "^3.6.1",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "libphonenumber-js": "^1.12.9"
+  },
+  "peerDependencies": {
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
-    "libphonenumber-js": "^1.12.9",
     "reflect-metadata": "^0.2.2"
   },
   "files": [

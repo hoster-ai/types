@@ -11,6 +11,6 @@ import { EmailReceiverDto } from '../dtos/notification/receiver/receiver-email.d
 export function validateEmailReceiverDto(data: object): ValidationError[] {
   const dto = plainToInstance(EmailReceiverDto, data);
   const errors = validateSync(dto);
-  
+
   return errors;
 }

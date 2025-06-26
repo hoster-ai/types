@@ -1,35 +1,43 @@
-import { IsString, IsNotEmpty, IsArray, IsEnum, ValidateNested, IsOptional, IsDefined } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsArray,
+  IsEnum,
+  ValidateNested,
+  IsOptional,
+  IsDefined,
+} from 'class-validator';
 import { Type } from 'class-transformer';
-import { RolesEnum } from "../enums/roles.enum";
+import { RolesEnum } from '../enums/roles.enum';
 
 class JwtPayloadDto {
-    /**
-     * Integration identifier
-     */
-    @IsString()
-    @IsNotEmpty()
-    integrationId: string;
-    
-    /**
-     * Unique user identifier that triggers the API call (only the /send method will not contain userId).
-     */
-    @IsString()
-    @IsOptional()
-    userId?: string;
+  /**
+   * Integration identifier
+   */
+  @IsString()
+  @IsNotEmpty()
+  integrationId!: string;
 
-    /**
-     * Unique company identifier
-     */
-    @IsString()
-    @IsNotEmpty()
-    companyId: string;
+  /**
+   * Unique user identifier that triggers the API call (only the /send method will not contain userId).
+   */
+  @IsString()
+  @IsOptional()
+  userId?: string;
 
-    /**
-     * The roles accepted by the company for this integration
-     */
-    @IsArray()
-    @IsEnum(RolesEnum, { each: true })
-    acceptedRoles: RolesEnum[];
+  /**
+   * Unique company identifier
+   */
+  @IsString()
+  @IsNotEmpty()
+  companyId!: string;
+
+  /**
+   * The roles accepted by the company for this integration
+   */
+  @IsArray()
+  @IsEnum(RolesEnum, { each: true })
+  acceptedRoles!: RolesEnum[];
 }
 
 /**
@@ -45,6 +53,5 @@ export class JwtDto {
   @ValidateNested()
   @Type(() => JwtPayloadDto)
   @IsDefined()
-  jwt: JwtPayloadDto;
+  jwt!: JwtPayloadDto;
 }
-

@@ -11,7 +11,7 @@ export class ErrorResponseDto {
    */
   @IsString()
   @IsNotEmpty()
-  code: string;
+  code!: number;
 
   /**
    * Array or text with error messages

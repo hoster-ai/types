@@ -6,7 +6,7 @@ describe('PushReceiverDto Validator', () => {
       userId: 'test-user',
       deviceTokens: ['token1', 'token2'],
     };
-    
+
     const errors = validatePushReceiverDto(validDto);
     expect(errors).toHaveLength(0);
   });
@@ -15,10 +15,10 @@ describe('PushReceiverDto Validator', () => {
     const invalidDto = {
       deviceTokens: ['token1', 'token2'],
     };
-    
+
     const errors = validatePushReceiverDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'userId')).toBe(true);
+    expect(errors.some((e) => e.property === 'userId')).toBe(true);
   });
 
   it('should return error for empty deviceTokens array', () => {
@@ -26,9 +26,9 @@ describe('PushReceiverDto Validator', () => {
       userId: 'test-user',
       deviceTokens: [],
     };
-    
+
     const errors = validatePushReceiverDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'deviceTokens')).toBe(true);
+    expect(errors.some((e) => e.property === 'deviceTokens')).toBe(true);
   });
 });

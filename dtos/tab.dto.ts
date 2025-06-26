@@ -6,14 +6,14 @@ export class TabDto {
   /**
    * The label displayed on the tab
    */
-  label: string;
+  label!: string;
 
   /**
    * The URL associated with the tab.
    * The requests coming from the hoster will be signed
    * with jwt, which will contain information about the company
    */
-  url: string;
+  url!: string;
 }
 
 export class SubmenuDto extends TabDto {}

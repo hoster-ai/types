@@ -12,19 +12,19 @@ export class NotificationRequestDto {
    */
   @IsNotEmpty()
   @IsString()
-  notificationId: string;
+  notificationId!: string;
 
   /**
    * Sender details according to the integration's notification type
    */
   @IsNotEmpty()
   @IsObject()
-  sender: EmailSenderDto | SmsSenderDto | PushSenderDto;
+  sender!: EmailSenderDto | PushSenderDto | SmsSenderDto;
 
   /**
    * Recipient details according to the integration's notification type
    */
   @IsNotEmpty()
   @IsObject()
-  receiver: EmailReceiverDto | SmsReceiverDto | PushReceiverDto;
+  receiver!: EmailReceiverDto | PushReceiverDto | SmsReceiverDto;
 }

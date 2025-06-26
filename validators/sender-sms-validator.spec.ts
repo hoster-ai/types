@@ -6,7 +6,7 @@ describe('SmsSenderDto Validator', () => {
       senderPhone: '+12015550123',
       message: 'Test Message',
     };
-    
+
     const errors = validateSmsSenderDto(validDto);
     expect(errors).toHaveLength(0);
   });
@@ -16,10 +16,10 @@ describe('SmsSenderDto Validator', () => {
       senderPhone: 'not-a-phone-number',
       message: 'Test Message',
     };
-    
+
     const errors = validateSmsSenderDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'senderPhone')).toBe(true);
+    expect(errors.some((e) => e.property === 'senderPhone')).toBe(true);
   });
 
   it('should return error for missing message', () => {
@@ -27,9 +27,9 @@ describe('SmsSenderDto Validator', () => {
       senderPhone: '+11234567890',
       // Missing message
     };
-    
+
     const errors = validateSmsSenderDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'message')).toBe(true);
+    expect(errors.some((e) => e.property === 'message')).toBe(true);
   });
 });

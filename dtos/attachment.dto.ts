@@ -10,7 +10,7 @@ export class AttachmentDto {
    */
   @IsNotEmpty()
   @IsString()
-  filename: string;
+  filename!: string;
 
   /**
    * The content of the file in Base64 encoding
@@ -18,7 +18,7 @@ export class AttachmentDto {
   @IsNotEmpty()
   @IsString()
   @IsBase64()
-  content: string;
+  content!: Buffer;
 
   /**
    * The content type of the file (MIME type)

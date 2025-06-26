@@ -1,42 +1,50 @@
-import { IsString, IsEmail, IsUrl, IsEnum, IsArray, IsOptional, IsNotEmpty } from 'class-validator';
-import { CountryEnum } from "../enums/country.enum";
-import { LanguageEnum } from "../enums/language.enum";
+import {
+  IsString,
+  IsEmail,
+  IsUrl,
+  IsEnum,
+  IsArray,
+  IsOptional,
+  IsNotEmpty,
+} from 'class-validator';
+import { CountryEnum } from '../enums/country.enum';
+import { LanguageEnum } from '../enums/language.enum';
 
 export class CompanyDataDto {
   @IsString()
   @IsNotEmpty()
-  id: string;
+  id!: string;
 
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsEmail({}, { each: true })
   @IsArray()
-  emails: string[];
+  emails!: string[];
 
   @IsEmail()
-  invoiceEmail: string;
+  invoiceEmail!: string;
 
   @IsUrl()
-  privacyPolicyUrl: string;
+  privacyPolicyUrl!: string;
 
   @IsEnum(LanguageEnum)
-  defaultLanguage: LanguageEnum;
+  defaultLanguage!: LanguageEnum;
 
   @IsEnum(LanguageEnum, { each: true })
   @IsArray()
-  languages: LanguageEnum[];
+  languages!: LanguageEnum[];
 
   @IsString()
-  telephone: string;
+  telephone!: string;
 
   @IsString()
   @IsOptional()
   mobile?: string;
 
   @IsString()
-  address1: string;
+  address1!: string;
 
   @IsString()
   @IsOptional()
@@ -47,13 +55,13 @@ export class CompanyDataDto {
   address3?: string;
 
   @IsString()
-  postcode: string;
+  postcode!: string;
 
   @IsString()
-  city: string;
+  city!: string;
 
   @IsEnum(CountryEnum)
-  country: CountryEnum;
+  country!: CountryEnum;
 
   @IsString()
   @IsOptional()
@@ -67,4 +75,3 @@ export class CompanyDataDto {
   @IsOptional()
   taxOffice?: string;
 }
-

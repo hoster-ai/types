@@ -7,7 +7,7 @@ describe('EmailReceiverDto Validator', () => {
       cc: ['cc1@example.com', 'cc2@example.com'],
       bcc: ['bcc1@example.com', 'bcc2@example.com'],
     };
-    
+
     const errors = validateEmailReceiverDto(validDto);
     expect(errors).toHaveLength(0);
   });
@@ -16,10 +16,10 @@ describe('EmailReceiverDto Validator', () => {
     const invalidDto = {
       to: 'not-an-email',
     };
-    
+
     const errors = validateEmailReceiverDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'to')).toBe(true);
+    expect(errors.some((e) => e.property === 'to')).toBe(true);
   });
 
   it('should return error for duplicate emails in cc', () => {
@@ -27,9 +27,9 @@ describe('EmailReceiverDto Validator', () => {
       to: 'test@example.com',
       cc: ['cc1@example.com', 'cc1@example.com'],
     };
-    
+
     const errors = validateEmailReceiverDto(invalidDto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === 'cc')).toBe(true);
+    expect(errors.some((e) => e.property === 'cc')).toBe(true);
   });
 });

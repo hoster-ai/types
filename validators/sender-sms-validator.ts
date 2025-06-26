@@ -11,6 +11,6 @@ import { SmsSenderDto } from '../dtos/notification/sender/sender-sms.dto';
 export function validateSmsSenderDto(data: object): ValidationError[] {
   const dto = plainToInstance(SmsSenderDto, data);
   const errors = validateSync(dto);
-  
+
   return errors;
 }
