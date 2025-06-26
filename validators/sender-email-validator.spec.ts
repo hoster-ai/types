@@ -36,4 +36,34 @@ describe('EmailSenderDto Validator', () => {
     expect(errors.length).toBeGreaterThan(0);
     expect(errors.some((e) => e.property === 'message')).toBe(true);
   });
+
+  it('should return no errors for valid DTO with attachments', () => {
+    const validDto = {
+      fullName: 'Test Sender',
+      subject: 'Test Subject',
+      message: 'Test Message',
+      attachments: [
+        {
+          filename: 'test.txt',
+          content: 'dGVzdA==', // "test" in base64
+        },
+      ],
+    };
+
+    const errors = validateEmailSenderDto(validDto);
+    expect(errors).toHaveLength(0);
+  });
+
+  it('should return error for invalid attachments', () => {
+    const invalidDto = {
+      fullName: 'Test Sender',
+      subject: 'Test Subject',
+      message: 'Test Message',
+      attachments: 'not-an-array',
+    };
+
+    const errors = validateEmailSenderDto(invalidDto);
+    expect(errors.length).toBeGreaterThan(0);
+    expect(errors.some((e) => e.property === 'attachments')).toBe(true);
+  });
 });

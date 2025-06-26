@@ -18,7 +18,7 @@ export class AttachmentDto {
   @IsNotEmpty()
   @IsString()
   @IsBase64()
-  content!: Buffer;
+  content!: string;
 
   /**
    * The content type of the file (MIME type)

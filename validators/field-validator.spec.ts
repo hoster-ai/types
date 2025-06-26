@@ -52,4 +52,58 @@ describe('FieldDto Validator', () => {
     expect(errors.some((e) => e.property === 'disabled')).toBe(true);
     expect(errors.some((e) => e.property === 'hidden')).toBe(true);
   });
+
+  it('should return no errors for valid DTO with optional error messages', () => {
+    const validDto = {
+      id: 'test-id',
+      label: [{ language: LanguageEnum.EN, text: 'Test Label' }],
+      value: 'test-value',
+      type: FieldTypeEnum.TEXT_BOX,
+      required: true,
+      disabled: false,
+      hidden: false,
+      upgradeable: false,
+      regexValidationErrorMessage: [{ language: LanguageEnum.EN, text: 'Invalid format' }],
+      remoteValidationErrorMessage: [{ language: LanguageEnum.EN, text: 'Invalid value' }],
+    };
+
+    const errors = validateFieldDto(validDto);
+    expect(errors).toHaveLength(0);
+  });
+
+  it('should return error for invalid regexValidationErrorMessage', () => {
+    const invalidDto = {
+      id: 'test-id',
+      label: [{ language: LanguageEnum.EN, text: 'Test Label' }],
+      value: 'test-value',
+      type: FieldTypeEnum.TEXT_BOX,
+      required: true,
+      disabled: false,
+      hidden: false,
+      upgradeable: false,
+      regexValidationErrorMessage: 'not-an-array',
+    };
+
+    const errors = validateFieldDto(invalidDto);
+    expect(errors.length).toBeGreaterThan(0);
+    expect(errors.some((e) => e.property === 'regexValidationErrorMessage')).toBe(true);
+  });
+
+  it('should return error for invalid remoteValidationErrorMessage', () => {
+    const invalidDto = {
+      id: 'test-id',
+      label: [{ language: LanguageEnum.EN, text: 'Test Label' }],
+      value: 'test-value',
+      type: FieldTypeEnum.TEXT_BOX,
+      required: true,
+      disabled: false,
+      hidden: false,
+      upgradeable: false,
+      remoteValidationErrorMessage: 'not-an-array',
+    };
+
+    const errors = validateFieldDto(invalidDto);
+    expect(errors.length).toBeGreaterThan(0);
+    expect(errors.some((e) => e.property === 'remoteValidationErrorMessage')).toBe(true);
+  });
 });
