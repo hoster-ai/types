@@ -35,7 +35,7 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `company-data.dto.ts`: Holds all the relevant data for a company.
 - `error-response.dto.ts`: Defines the structure for error responses from the API.
 - `field.dto.ts`: Represents a generic field, likely for forms or dynamic data display.
-- `info.dto.ts`: Contains informational data.
+- `info.dto.ts`: Contains all the necessary information for a service integration.
 - `jwt.dto.ts`: DTOs related to JSON Web Tokens (authentication).
 - `menu.dto.ts`: Defines the structure for menu items.
 - `multilang-text.dto.ts`: A DTO for handling text in multiple languages.
@@ -43,8 +43,9 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `setup-status-response.dto.ts`: DTO for returning the setup status.
 - `success-response.dto.ts`: Defines the structure for successful API responses.
 - `tab.dto.ts`: Represents a tab in a user interface.
+- `submenu.dto.ts`: Represents a submenu item, extending the `TabDto`.
 - `task-response.dto.ts`: DTO for responses related to background tasks.
-- `unit.dto.ts`: Represents a unit.
+- `unit.dto.ts`: Represents a unit for pay-per-use billing.
 
 **Notification DTOs:**
 
@@ -63,10 +64,15 @@ Enums provide a set of named constants for common types, such as roles, language
 
 **Key Enums:**
 
-- `NotificationMessageType`: Defines the type of notification (e.g., `EMAIL`, `SMS`, `PUSH`).
-- `Roles`: Defines user roles within the system.
-- `Language`: A list of supported languages.
-- `Country`: A list of all countries.
+- `ActionsEnum`: Defines the possible actions that can be performed.
+- `CountryEnum`: A list of all countries.
+- `EventsEnum`: Defines the events that can be triggered.
+- `FieldTypeEnum`: Defines the types of fields that can be used.
+- `LanguageEnum`: A list of supported languages.
+- `NotificationMessageTypeEnum`: Defines the type of notification (e.g., `EMAIL`, `SMS`, `PUSH`).
+- `OpenMethodEnum`: Defines how an action's URL should be opened.
+- `RolesEnum`: Defines user roles within the system.
+- `SetupStatusEnum`: Defines the status of a setup process.
 
 ### Validators
 
@@ -74,12 +80,12 @@ This package includes validation functions that leverage `class-validator` and `
 
 **Available Validators:**
 
-- `validateNotificationRequestDto`: Validates the main notification request.
-- `validateCompanyDataDto`: Validates company data.
-- `validateJwtDto`: Validates JWT data.
 - `validateActionDto`: Validates UI actions.
+- `validateCompanyDataDto`: Validates company data.
 - `validateFieldDto`: Validates dynamic fields.
+- `validateJwtDto`: Validates JWT data.
 - `validateMultilangTextDto`: Validates multilingual text objects.
+- `validateNotificationRequestDto`: Validates the main notification request.
 - `validateEmailReceiverDto`, `validateSmsReceiverDto`, `validatePushReceiverDto`: Validators for notification receivers.
 - `validateEmailSenderDto`, `validateSmsSenderDto`, `validatePushSenderDto`: Validators for notification senders.
 
@@ -92,14 +98,14 @@ First, import the necessary DTO, Enum, and validator function:
 ```typescript
 import {
   NotificationRequestDto,
-  NotificationMessageType,
+  NotificationMessageTypeEnum,
   validateNotificationRequestDto,
 } from '@hosterai/types';
 
 // 1. Create a notification request object
 const notification: NotificationRequestDto = {
   notificationId: 'user-welcome-email-01',
-  messageType: NotificationMessageType.EMAIL,
+  messageType: NotificationMessageTypeEnum.EMAIL,
   sender: {
     email: 'no-reply@hoster.ai',
     name: 'HosterAI Team',

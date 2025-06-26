@@ -15,9 +15,3 @@ export class TabDto {
    */
   url!: string;
 }
-
-/**
- * DTO for submenus.
- * Extends the TabDto to represent a submenu item.
- */
-export class SubmenuDto extends TabDto {}

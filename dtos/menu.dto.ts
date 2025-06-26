@@ -1,4 +1,4 @@
-import { SubmenuDto } from './tab.dto';
+import { SubmenuDto } from './submenu.dto';
 
 /**
  * Base properties shared by all menu items.
