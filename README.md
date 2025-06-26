@@ -65,9 +65,18 @@ Enums provide a set of named constants for common types, such as roles, language
 
 ### Validators
 
-This package includes validation functions that leverage `class-validator` and `class-transformer` to ensure that incoming data conforms to the DTO definitions.
+This package includes validation functions that leverage `class-validator` and `class-transformer` to ensure that incoming data conforms to the DTO definitions. To use the validators, you must have `reflect-metadata` imported in your project's entry file.
 
--   `validateNotificationRequestDto`: A function to validate the `NotificationRequestDto`.
+**Available Validators:**
+
+-   `validateNotificationRequestDto`: Validates the main notification request.
+-   `validateCompanyDataDto`: Validates company data.
+-   `validateJwtDto`: Validates JWT data.
+-   `validateActionDto`: Validates UI actions.
+-   `validateFieldDto`: Validates dynamic fields.
+-   `validateMultilangTextDto`: Validates multilingual text objects.
+-   `validateEmailReceiverDto`, `validateSmsReceiverDto`, `validatePushReceiverDto`: Validators for notification receivers.
+-   `validateEmailSenderDto`, `validateSmsSenderDto`, `validatePushSenderDto`: Validators for notification senders.
 
 ## Usage Example
 
