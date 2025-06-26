@@ -150,3 +150,7 @@ The process is as follows:
 3.  Create a new release on GitHub. The tag for the release must match the version in `package.json` (e.g., `v1.2.3`).
 
 This will trigger the `publish` workflow, which builds, tests, and publishes the package to the npm registry.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
