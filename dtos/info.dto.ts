@@ -1,8 +1,5 @@
 import { ActionsEnum } from '../enums/actions.enum';
 import { EventsEnum } from '../enums/events.enum';
-import { FieldDto } from './field.dto';
-import { ResponseDataDto } from './response-data.dto';
-import { UnitDto } from './unit.dto';
 import { LanguageEnum } from '../enums/language.enum';
 import { RolesEnum } from '../enums/roles.enum';
 import { ActionDto } from './action.dto';
@@ -37,35 +34,23 @@ export class InfoDto {
   /**
    * A list of languages supported by the integration.
    */
-  supported_languages!: LanguageEnum[];
+  supportedLanguages!: LanguageEnum[];
 
   /**
-   * Custom attributes that can be defined for products.
-   * These attributes will be displayed in the product configuration section.
+   * A list of actions that are supported by this integration.
    */
-  product_attributes?: FieldDto[];
-
-  /**
-   * Custom attributes that can be defined for items.
-   * These attributes will be displayed in the item details section.
-   */
-  item_attributes?: FieldDto[];
+  supportedActions?: ActionsEnum[] = [];
 
   /**
    * A list of events that the integration listens to.
    * This allows the integration to react to specific events in the system.
    */
-  listen_events?: EventsEnum[];
+  listenEvents?: EventsEnum[];
 
   /**
    * A list of roles that the company needs to accept for this integration to function correctly.
    */
   requiredRoles?: RolesEnum[];
-
-  /**
-   * A list of actions that are not supported by this integration.
-   */
-  unsupportedActions?: ActionsEnum[] = [];
 
   /**
    * Configuration for the admin panel.
@@ -160,17 +145,4 @@ export class InfoDto {
    * This URL will be displayed in a popup or side sheet with a JWT for authentication.
    */
   onboardingUrl?: string;
-
-  /**
-   * Defines the units for pay-per-use billing.
-   * This allows the administrator to set a price for each unit per interval.
-   * @example [{ id: "ram", unitDescription: "MB", intervalDescription: "month" }]
-   */
-  payPerUseUnits?: UnitDto[];
-
-  /**
-   * Specifies the field names that will be returned in the response data after a successful creation.
-   * This allows the system to know what to expect in the response before the creation is executed.
-   */
-  responseDataFieldNames?: Record<keyof ResponseDataDto, string>;
 }

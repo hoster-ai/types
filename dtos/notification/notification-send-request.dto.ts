@@ -6,7 +6,7 @@ import { EmailSenderDto } from './sender/sender-email.dto';
 import { PushSenderDto } from './sender/sender-push.dto';
 import { SmsSenderDto } from './sender/sender-sms.dto';
 
-export class NotificationRequestDto {
+export class NotificationSendRequestDto {
   /**
    * Unique identifier of the hoster message
    */

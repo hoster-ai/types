@@ -12,7 +12,7 @@ export * from './dtos/jwt.dto';
 export * from './dtos/menu.dto';
 export * from './dtos/multilang-text.dto';
 export * from './dtos/notification/notification-info.dto';
-export * from './dtos/notification/notification-request.dto';
+export * from './dtos/notification/notification-send-request.dto';
 export * from './dtos/response-data.dto';
 export * from './dtos/setup-status-response.dto';
 export * from './dtos/submenu.dto';
@@ -55,3 +55,6 @@ export * from './validators/receiver-sms-validator';
 export * from './validators/sender-email-validator';
 export * from './validators/sender-push-validator';
 export * from './validators/sender-sms-validator';
+
+// Interfaces
+export * from './dtos/product/product.interface';
