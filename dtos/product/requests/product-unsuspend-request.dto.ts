@@ -1,4 +1,5 @@
-import { IsDefined, IsObject } from 'class-validator';
+import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { ProductItemDataDto } from '../product-item-data.dto';
 import { ClientDataDto } from '../../client-data.dto';
 
@@ -13,6 +14,8 @@ export class ProductUnsuspendRequestDto {
    */
   @IsDefined()
   @IsObject()
+  @ValidateNested()
+  @Type(() => ClientDataDto)
   clientData!: ClientDataDto;
 
   /**
@@ -21,5 +24,7 @@ export class ProductUnsuspendRequestDto {
    */
   @IsDefined()
   @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
   itemData!: ProductItemDataDto;
 }

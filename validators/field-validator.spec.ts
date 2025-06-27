@@ -1,4 +1,4 @@
-import 'reflect-metadata';
+import 'reflect-metadata';import 'reflect-metadata';
 import { validateFieldDto } from './field-validator';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { LanguageEnum } from '../enums/language.enum';

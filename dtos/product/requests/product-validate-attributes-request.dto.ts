@@ -1,3 +1,5 @@
+import { IsDefined, IsObject, IsString } from 'class-validator';
+
 /**
  * Represents a request to validate product attributes.
  * This DTO is used when a client needs to check the validity of a set of attribute values
@@ -9,11 +11,15 @@ export class ProductValidateAttributesRequestDto {
    * This helps the server understand the context of the validation request,
    * especially in cases where validation rules are interdependent.
    */
+  @IsDefined()
+  @IsString()
   triggeredByKey!: string;
 
   /**
    * A record of attribute values to be validated.
    * The keys are the attribute identifiers, and the values are the data to be checked.
    */
+  @IsDefined()
+  @IsObject()
   values!: Record<string, unknown>;
 }

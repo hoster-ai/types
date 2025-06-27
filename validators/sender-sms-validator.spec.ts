@@ -1,4 +1,4 @@
-import { validateSmsSenderDto } from './sender-sms-validator';
+import 'reflect-metadata';import { validateSmsSenderDto } from './sender-sms-validator';
 
 describe('SmsSenderDto Validator', () => {
   it('should return no errors for valid DTO', () => {

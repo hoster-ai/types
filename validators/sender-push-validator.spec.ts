@@ -1,4 +1,4 @@
-import { validatePushSenderDto } from './sender-push-validator';
+import 'reflect-metadata';import { validatePushSenderDto } from './sender-push-validator';
 
 describe('PushSenderDto Validator', () => {
   it('should return no errors for valid DTO', () => {

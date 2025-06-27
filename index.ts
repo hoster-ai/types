@@ -83,6 +83,18 @@ export * from './validators/receiver-sms-validator';
 export * from './validators/sender-email-validator';
 export * from './validators/sender-push-validator';
 export * from './validators/sender-sms-validator';
+export * from './validators/client-data-validator';
+export * from './validators/product-create-request-validator';
+export * from './validators/product-delete-request-validator';
+export * from './validators/product-downgrade-request-validator';
+export * from './validators/product-downgradeable-request-validator';
+export * from './validators/product-renew-request-validator';
+export * from './validators/product-suspend-request-validator';
+export * from './validators/product-unsuspend-request-validator';
+export * from './validators/product-upgrade-request-validator';
+export * from './validators/product-upgradeable-request-validator';
+export * from './validators/product-validate-attributes-request-validator';
+
 
 // Interfaces
 export * from './dtos/product/product.interface';

@@ -1,4 +1,4 @@
-import { validateEmailReceiverDto } from './receiver-email-validator';
+import 'reflect-metadata';import { validateEmailReceiverDto } from './receiver-email-validator';
 
 describe('EmailReceiverDto Validator', () => {
   it('should return no errors for valid DTO', () => {

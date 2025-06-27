@@ -1,4 +1,4 @@
-import { validateMultilangTextDto } from './multilang-text-validator';
+import 'reflect-metadata';import { validateMultilangTextDto } from './multilang-text-validator';
 import { LanguageEnum } from '../enums/language.enum';
 
 describe('MultilangTextDto Validator', () => {

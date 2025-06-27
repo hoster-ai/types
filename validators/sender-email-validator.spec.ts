@@ -1,4 +1,4 @@
-import 'reflect-metadata';
+import 'reflect-metadata';import 'reflect-metadata';
 import { validateEmailSenderDto } from './sender-email-validator';
 
 describe('EmailSenderDto Validator', () => {

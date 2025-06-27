@@ -1,4 +1,4 @@
-import { IsDefined, IsEnum } from 'class-validator';
+import { IsDefined, IsEnum, IsOptional, IsString } from 'class-validator';
 import { DurationEnum } from '../../enums/duration.enum';
 
 /**
@@ -9,7 +9,9 @@ export class ProductItemDataDto {
   /**
    * The unique identifier for the product item.
    */
-  itemId!: string;
+  @IsOptional()
+  @IsString()
+  itemId?: string;
 
   /**
    * A record of product-level attributes.
@@ -30,7 +32,7 @@ export class ProductItemDataDto {
    * This field should not be present in the create request.
    * @optional
    */
-  @IsDefined()
+  @IsOptional()
   creationResponseData?: Record<string, unknown>;
 
   /**
