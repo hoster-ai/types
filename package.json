@@ -1,6 +1,6 @@
 {
   "name": "@hosterai/types",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -8,7 +8,8 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "lint": "eslint . --ext .ts",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "release": "npm run build && npm publish --access public"
   },
   "keywords": [],
   "author": "",
