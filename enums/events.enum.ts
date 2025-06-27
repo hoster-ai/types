@@ -79,6 +79,8 @@ export enum EventsEnum {
   INTEGRATION_DELETED = 'integration/deleted',
   INTEGRATION_INSTALLED = 'integration/installed',
   INTEGRATION_UNINSTALLED = 'integration/uninstalled',
+  INTEGRATION_ACTIVATED = "integration/activated",
+  INTEGRATION_DEACTIVATED = "integration/deactivated",
 
   DOMAIN_CONTACT_CREATED = 'domain-contact/created',
   DOMAIN_CONTACT_UPDATED = 'domain-contact/updated',
