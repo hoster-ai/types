@@ -11,6 +11,11 @@ import {
 } from 'class-validator';
 import { CountryEnum } from '../enums/country.enum';
 
+
+/**
+ * Defines the data structure for a client.
+ * This object is used to transfer client data between different parts of the application.
+ */
 export class ClientDataDto {
   /**
    * Email of the user
@@ -111,7 +116,19 @@ export class ClientDataDto {
   @MaxLength(250)
   state?: string;
 
+  /**
+   * VAT number of the user
+   * @optional
+   */
+  @IsOptional()
+  @IsString()
   vat?: string;
 
+  /**
+   * Tax office of the user
+   * @optional
+   */
+  @IsOptional()
+  @IsString()
   taxOffice?: string;
 }

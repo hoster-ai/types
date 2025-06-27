@@ -12,6 +12,11 @@ import { Type } from 'class-transformer';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { MultilangTextDto } from './multilang-text.dto';
 
+/**
+ * Data Transfer Object for a form field.
+ * This class defines the structure and properties of a single field
+ * that can be used in a user interface form.
+ */
 export class FieldDto {
   /**
    * ID of action field

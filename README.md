@@ -29,28 +29,29 @@ DTOs define the shape of data that is exchanged between different parts of the s
 
 **Available DTOs:**
 
-- `action.dto.ts`: Defines the structure for an action, including icon, label, URL, and how it opens.
+- `action.dto.ts`: Defines the structure for a UI action.
 - `attachment.dto.ts`: Represents a file attachment.
 - `base-response.dto.ts`: A base structure for API responses.
+- `client-data.dto.ts`: Defines the data structure for a client.
 - `company-data.dto.ts`: Holds all the relevant data for a company.
-- `error-response.dto.ts`: Defines the structure for error responses from the API.
-- `field.dto.ts`: Represents a generic field, likely for forms or dynamic data display.
-- `info.dto.ts`: Contains all the necessary information for a service integration.
-- `jwt.dto.ts`: DTOs related to JSON Web Tokens (authentication).
+- `error-response.dto.ts`: Defines the structure for error responses.
+- `field.dto.ts`: Represents a generic field for forms or dynamic data.
+- `info.dto.ts`: Contains all necessary information for a service integration.
+- `jwt.dto.ts`: DTOs related to JSON Web Tokens.
 - `menu.dto.ts`: Defines the structure for menu items.
 - `multilang-text.dto.ts`: A DTO for handling text in multiple languages.
 - `response-data.dto.ts`: A generic wrapper for response data.
 - `setup-status-response.dto.ts`: DTO for returning the setup status.
 - `success-response.dto.ts`: Defines the structure for successful API responses.
 - `tab.dto.ts`: Represents a tab in a user interface.
-- `submenu.dto.ts`: Represents a submenu item, extending the `TabDto`.
+- `submenu.dto.ts`: Represents a submenu item.
 - `task-response.dto.ts`: DTO for responses related to background tasks.
 - `unit.dto.ts`: Represents a unit for pay-per-use billing.
 
 **Notification DTOs:**
 
 - `notification/notification-info.dto.ts`: Contains detailed information about a notification.
-- `notification/notification-request.dto.ts`: The primary DTO for requesting a new notification.
+- `notification/notification-send-request.dto.ts`: The primary DTO for requesting a new notification.
 - `notification/receiver/receiver-email.dto.ts`: Defines the receiver for an email notification.
 - `notification/receiver/receiver-push.dto.ts`: Defines the receiver for a push notification.
 - `notification/receiver/receiver-sms.dto.ts`: Defines the receiver for an SMS notification.
@@ -58,25 +59,38 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `notification/sender/sender-push.dto.ts`: Defines the sender for a push notification.
 - `notification/sender/sender-sms.dto.ts`: Defines the sender for an SMS notification.
 
+**Product DTOs:**
+
+- `product/product-info.dto.ts`: Contains detailed information about a product.
+- `product/product-item-data.dto.ts`: Represents the data of a specific product item.
+- `product/requests/*`: DTOs for product-related requests (create, delete, upgrade, etc.).
+- `product/responses/*`: DTOs for product-related responses.
+
 ### Enums
 
-Enums provide a set of named constants for common types, such as roles, languages, or notification types, preventing common errors with magic strings.
+Enums provide a set of named constants for common types, preventing errors with magic strings.
 
 **Key Enums:**
 
-- `ActionsEnum`: Defines the possible actions that can be performed.
+- `ActionsEnum`: Defines possible actions.
 - `CountryEnum`: A list of all countries.
-- `EventsEnum`: Defines the events that can be triggered.
-- `FieldTypeEnum`: Defines the types of fields that can be used.
+- `DurationEnum`: Defines billing durations (e.g., `MONTHLY`, `YEARLY`).
+- `EventsEnum`: Defines triggerable events.
+- `FieldTypeEnum`: Defines types of fields.
 - `LanguageEnum`: A list of supported languages.
-- `NotificationMessageTypeEnum`: Defines the type of notification (e.g., `EMAIL`, `SMS`, `PUSH`).
+- `NotificationMessageTypeEnum`: Defines the type of notification (e.g., `EMAIL`, `SMS`).
 - `OpenMethodEnum`: Defines how an action's URL should be opened.
-- `RolesEnum`: Defines user roles within the system.
+- `ResponseStatusEnum`: Defines the status of a response (e.g., `COMPLETED`, `FAILED`).
+- `RolesEnum`: Defines user roles.
 - `SetupStatusEnum`: Defines the status of a setup process.
+
+### Interfaces
+
+- `product/product.interface.ts`: Defines the contract for a product module.
 
 ### Validators
 
-This package includes validation functions that leverage `class-validator` and `class-transformer` to ensure that incoming data conforms to the DTO definitions. To use the validators, you must have `reflect-metadata` imported in your project's entry file.
+This package includes validation functions that leverage `class-validator` to ensure that incoming data conforms to the DTO definitions.
 
 **Available Validators:**
 
@@ -91,45 +105,45 @@ This package includes validation functions that leverage `class-validator` and `
 
 ## Usage Example
 
-Here is an example of how to use the `NotificationRequestDto` and its validator.
+Here is an example of how to use a DTO and its validator.
 
 First, import the necessary DTO, Enum, and validator function:
 
 ```typescript
 import {
-  NotificationRequestDto,
-  NotificationMessageTypeEnum,
-  validateNotificationRequestDto,
+  ProductCreateRequestDto,
+  ClientDataDto,
+  ProductItemDataDto,
+  DurationEnum,
+  validateProductCreateRequestDto, // Assuming a validator exists
 } from '@hosterai/types';
 
-// 1. Create a notification request object
-const notification: NotificationRequestDto = {
-  notificationId: 'user-welcome-email-01',
-  messageType: NotificationMessageTypeEnum.EMAIL,
-  sender: {
-    email: 'no-reply@hoster.ai',
-    name: 'HosterAI Team',
+// 1. Create a request object
+const request: ProductCreateRequestDto = {
+  clientData: {
+    // ... client data
   },
-  receiver: {
-    email: 'new-user@example.com',
-  },
-  // Optional template data
-  templateData: {
-    username: 'JohnDoe',
-    welcome_url: 'https://app.hoster.ai/welcome',
+  itemData: {
+    itemId: 'item-123',
+    productAttributes: {
+      // ... product attributes
+    },
+    itemAttributes: {
+      // ... item attributes
+    },
+    duration: DurationEnum.MONTHLY,
   },
 };
 
 // 2. Validate the object
-const errors = validateNotificationRequestDto(notification);
+// const errors = validateProductCreateRequestDto(request);
 
 // 3. Check for errors
-if (errors.length > 0) {
-  console.error('Validation failed:', errors);
-} else {
-  console.log('Validation successful! Ready to send.');
-  // Proceed to send the notification...
-}
+// if (errors.length > 0) {
+//   console.error('Validation failed:', errors);
+// } else {
+//   console.log('Validation successful!');
+// }
 ```
 
 ## Building from Source
