@@ -1,5 +1,11 @@
 # @hosterai/types
 
+This package contains the core types for the Hoster AI platform.
+
+## Files
+
+- `llm.txt`: Contains a list of large language models.
+
 [![NPM Version](https://img.shields.io/npm/v/@hosterai/types.svg)](https://www.npmjs.com/package/@hosterai/types)
 [![NPM Downloads](https://img.shields.io/npm/dm/@hosterai/types.svg)](https://www.npmjs.com/package/@hosterai/types)
 [![Build Status](https://github.com/HosterAI/types/actions/workflows/ci.yml/badge.svg)](https://github.com/HosterAI/types/actions/workflows/ci.yml)
