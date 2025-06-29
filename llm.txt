@@ -1,0 +1,4144 @@
+TITLE: ActionDto
+DESCRIPTION: Defines the structure for a UI action.
+SOURCE: dtos/action.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsString, IsUrl, IsEnum, IsOptional } from 'class-validator';
+import { OpenMethodEnum } from '../enums/open-method.enum';
+
+/**
+ * Defines the structure for a UI action.
+ * @example
+ * {
+ *  "icon": "add",
+ *  "label": "Create New",
+ *  "openMethod": "ajax_call",
+ *  "url": "/api/create"
+ * }
+ */
+export class ActionDto {
+  /**
+   * The name of the icon to display for the action.
+   * @example "add"
+   */
+  @IsString()
+  icon!: string;
+
+  /**
+   * The text label for the action.
+   * @optional
+   * @example "Create New"
+   */
+  @IsString()
+  @IsOptional()
+  label?: string;
+
+  /**
+   * The method by which the action's URL should be opened.
+   * @see OpenMethodEnum
+   */
+  @IsEnum(OpenMethodEnum)
+  openMethod!: OpenMethodEnum;
+
+  /**
+   * The URL to navigate to when the action is triggered.
+   * @example "/api/create"
+   */
+  @IsUrl()
+  url!: string;
+}
+```
+
+----------------------------------------
+
+TITLE: AttachmentDto
+DESCRIPTION: DTO for file attachments Used for sending attached files with emails
+SOURCE: dtos/attachment.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsString, IsOptional, IsBase64, IsNotEmpty } from 'class-validator';
+
+/**
+ * DTO for file attachments
+ * Used for sending attached files with emails
+ */
+export class AttachmentDto {
+  /**
+   * The name of the attached file
+   */
+  @IsNotEmpty()
+  @IsString()
+  filename!: string;
+
+  /**
+   * The content of the file in Base64 encoding
+   */
+  @IsNotEmpty()
+  @IsString()
+  @IsBase64()
+  content!: string;
+
+  /**
+   * The content type of the file (MIME type)
+   */
+  @IsOptional()
+  @IsString()
+  contentType?: string;
+}
+```
+
+----------------------------------------
+
+TITLE: BaseResponse
+DESCRIPTION: Base response class Used as a foundation for all API responses
+SOURCE: dtos/base-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsNumber, IsString, IsNotEmpty } from 'class-validator';
+
+/**
+ * Base response class
+ * Used as a foundation for all API responses
+ */
+export class BaseResponse {
+  /**
+   * Response code
+   */
+  @IsNumber()
+  @IsNotEmpty()
+  code!: number;
+
+  /**
+   * Response message
+   */
+  @IsString()
+  @IsNotEmpty()
+  message!: string;
+}
+```
+
+----------------------------------------
+
+TITLE: ClientDataDto
+DESCRIPTION: Defines the data structure for a client. This object is used to transfer client data between different parts of the application.
+SOURCE: dtos/client-data.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+  IsDefined,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
+import { CountryEnum } from '../enums/country.enum';
+
+
+/**
+ * Defines the data structure for a client.
+ * This object is used to transfer client data between different parts of the application.
+ */
+export class ClientDataDto {
+  /**
+   * Email of the user
+   */
+  @IsDefined()
+  @IsEmail()
+  email!: string;
+
+  /**
+   * First name of the user
+   */
+  @IsDefined()
+  @IsString()
+  firstName!: string;
+
+  /**
+   * Last name of the user
+   */
+  @IsDefined()
+  @IsString()
+  lastName!: string;
+
+  /**
+   * Telephone number of the user
+   */
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  @IsPhoneNumber()
+  telephone!: string;
+
+  /**
+   * Mobile number of the user
+   */
+  @IsOptional()
+  @IsPhoneNumber()
+  mobile?: string;
+
+  /**
+   * Address line 1 of the user
+   */
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(250)
+  address1!: string;
+
+  /**
+   * Address line 2 of the user
+   */
+  @IsOptional()
+  @MinLength(0)
+  @MaxLength(250)
+  address2?: string;
+
+  /**
+   * Address line 3 of the user
+   */
+  @IsOptional()
+  @MinLength(0)
+  @MaxLength(250)
+  address3?: string;
+
+  /**
+   * Postal code of the user
+   */
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(16)
+  postcode!: string;
+
+  /**
+   * City of the user
+   */
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(250)
+  city!: string;
+
+  /**
+   * Country code of the user
+   */
+  @IsDefined()
+  @IsNotEmpty()
+  @IsEnum(CountryEnum)
+  country!: CountryEnum;
+
+  /**
+   * State of the user
+   */
+  @IsOptional()
+  @MinLength(0)
+  @MaxLength(250)
+  state?: string;
+
+  /**
+   * VAT number of the user
+   * @optional
+   */
+  @IsOptional()
+  @IsString()
+  vat?: string;
+
+  /**
+   * Tax office of the user
+   * @optional
+   */
+  @IsOptional()
+  @IsString()
+  taxOffice?: string;
+}
+```
+
+----------------------------------------
+
+TITLE: CompanyDataDto
+DESCRIPTION: Data Transfer Object for company data.
+SOURCE: dtos/company-data.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+  IsString,
+  IsEmail,
+  IsUrl,
+  IsEnum,
+  IsArray,
+  IsOptional,
+  IsNotEmpty,
+  IsPhoneNumber,
+} from 'class-validator';
+import { CountryEnum } from '../enums/country.enum';
+import { LanguageEnum } from '../enums/language.enum';
+
+/**
+ * Data Transfer Object for company data.
+ */
+export class CompanyDataDto {
+  /**
+   * The unique identifier for the company.
+   */
+  @IsString()
+  @IsNotEmpty()
+  id!: string;
+
+  /**
+   * The name of the company.
+   */
+  @IsString()
+  @IsNotEmpty()
+  name!: string;
+
+  /**
+   * An array of email addresses associated with the company.
+   */
+  @IsEmail({}, { each: true })
+  @IsArray()
+  emails!: string[];
+
+  /**
+   * The email address used for invoicing.
+   */
+  @IsEmail()
+  invoiceEmail!: string;
+
+  /**
+   * The URL for the company's privacy policy.
+   */
+  @IsUrl()
+  privacyPolicyUrl!: string;
+
+  /**
+   * The default language for the company.
+   */
+  @IsEnum(LanguageEnum)
+  defaultLanguage!: LanguageEnum;
+
+  /**
+   * An array of supported languages for the company.
+   */
+  @IsEnum(LanguageEnum, { each: true })
+  @IsArray()
+  languages!: LanguageEnum[];
+
+  /**
+   * The primary telephone number for the company.
+   */
+  @IsPhoneNumber()
+  telephone!: string;
+
+  /**
+   * The mobile phone number for the company (optional).
+   */
+  @IsPhoneNumber()
+  @IsOptional()
+  mobile?: string;
+
+  /**
+   * The first line of the company's address.
+   */
+  @IsString()
+  address1!: string;
+
+  /**
+   * The second line of the company's address (optional).
+   */
+  @IsString()
+  @IsOptional()
+  address2?: string;
+
+  /**
+   * The third line of the company's address (optional).
+   */
+  @IsString()
+  @IsOptional()
+  address3?: string;
+
+  /**
+   * The postal code for the company's address.
+   */
+  @IsString()
+  postcode!: string;
+
+  /**
+   * The city for the company's address.
+   */
+  @IsString()
+  city!: string;
+
+  /**
+   * The country for the company's address.
+   */
+  @IsEnum(CountryEnum)
+  country!: CountryEnum;
+
+  /**
+   * The state or province for the company's address (optional).
+   */
+  @IsString()
+  @IsOptional()
+  state?: string;
+
+  /**
+   * The VAT number for the company (optional).
+   */
+  @IsString()
+  @IsOptional()
+  vat?: string;
+
+  /**
+   * The tax office for the company (optional).
+   */
+  @IsString()
+  @IsOptional()
+  taxOffice?: string;
+}
+```
+
+----------------------------------------
+
+TITLE: ErrorResponseDto
+DESCRIPTION: DTO for error response. Used to return detailed error information to the client.
+SOURCE: dtos/error-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsArray, IsOptional, IsString, IsNotEmpty } from 'class-validator';
+
+/**
+ * DTO for error response.
+ * Used to return detailed error information to the client.
+ */
+export class ErrorResponseDto {
+  /**
+   * A unique and specific error code for programmatic error handling.
+   * @example 400
+   */
+  @IsString()
+  @IsNotEmpty()
+  code!: number;
+
+  /**
+   * A developer-friendly error message or an array of messages.
+   * This can be a single string for a general error, or an array for multiple validation errors.
+   * @example "Validation failed"
+   * @example ["email must be an email", "password must be at least 8 characters"]
+   */
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  errors?: string[] | string;
+}
+```
+
+----------------------------------------
+
+TITLE: FieldDto
+DESCRIPTION: Data Transfer Object for a form field. This class defines the structure and properties of a single field that can be used in a user interface form.
+SOURCE: dtos/field.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+  IsString,
+  IsEnum,
+  IsBoolean,
+  IsOptional,
+  ValidateNested,
+  IsDefined,
+  IsArray,
+  ArrayMinSize,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { FieldTypeEnum } from '../enums/field-type.enum';
+import { MultilangTextDto } from './multilang-text.dto';
+
+/**
+ * Data Transfer Object for a form field.
+ * This class defines the structure and properties of a single field
+ * that can be used in a user interface form.
+ */
+export class FieldDto {
+  /**
+   * ID of action field
+   */
+  @IsString()
+  id!: string;
+
+  /**
+   * Label of action field
+   */
+  @ValidateNested({ each: true })
+  @Type(() => MultilangTextDto)
+  @IsArray()
+  @ArrayMinSize(1)
+  label!: MultilangTextDto[];
+
+  /**
+   * Value of action field
+   */
+  @IsDefined()
+  value!: string | number | Record<string, unknown>;
+
+  /**
+   * Type of label
+   */
+  @IsEnum(FieldTypeEnum)
+  type!: FieldTypeEnum;
+
+  /**
+   * Indicates if the field is required
+   */
+  @IsBoolean()
+  required!: boolean;
+
+  /**
+   * Indicates if the field is disabled
+   */
+  @IsBoolean()
+  disabled!: boolean;
+
+  /**
+   * Indicates if the field is hidden
+   */
+  @IsBoolean()
+  hidden!: boolean;
+
+  /**
+   * Regex validation pattern for the field
+   */
+  @IsString()
+  @IsOptional()
+  regexValidation?: string;
+
+  /**
+   * Error message for the field for supported languages
+   */
+  @ValidateNested({ each: true })
+  @Type(() => MultilangTextDto)
+  @IsOptional()
+  regexValidationErrorMessage?: MultilangTextDto[];
+
+  /**
+   * Indicates if the field has remote validation
+   */
+  @IsBoolean()
+  @IsOptional()
+  remoteValidation?: boolean;
+
+  /**
+   * Error message for the field
+   */
+  @ValidateNested({ each: true })
+  @Type(() => MultilangTextDto)
+  @IsOptional()
+  remoteValidationErrorMessage?: MultilangTextDto[];
+
+  /**
+   * The item attribute is upgradeable
+   */
+  @IsBoolean()
+  upgradeable: boolean = false;
+}
+```
+
+----------------------------------------
+
+TITLE: InfoDto
+DESCRIPTION: DTO for integration information. This is a central DTO that contains all the necessary information for a service integration, including UI configuration, supported features, and billing details.
+SOURCE: dtos/info.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ActionsEnum } from '../enums/actions.enum';
+import { EventsEnum } from '../enums/events.enum';
+import { LanguageEnum } from '../enums/language.enum';
+import { RolesEnum } from '../enums/roles.enum';
+import { ActionDto } from './action.dto';
+import { TabDto } from './tab.dto';
+import { MenuDtoWithSubmenu, MenuDtoWithUrl } from './menu.dto';
+
+/**
+ * DTO for integration information.
+ * This is a central DTO that contains all the necessary information
+ * for a service integration, including UI configuration, supported features,
+ * and billing details.
+ */
+export class InfoDto {
+  /**
+   * The display title of the integration.
+   * @example "My Awesome Integration"
+   */
+  title!: string;
+
+  /**
+   * The URL of the integration's logo.
+   * @example "https://example.com/logo.png"
+   */
+  logo?: string;
+
+  /**
+   * A brief description of the integration and its services.
+   * @example "This integration provides a set of tools for managing your products."
+   */
+  description?: string;
+
+  /**
+   * A list of languages supported by the integration.
+   */
+  supportedLanguages!: LanguageEnum[];
+
+  /**
+   * A list of actions that are supported by this integration.
+   */
+  supportedActions?: ActionsEnum[] = [];
+
+  /**
+   * A list of events that the integration listens to.
+   * This allows the integration to react to specific events in the system.
+   */
+  listenEvents?: EventsEnum[];
+
+  /**
+   * A list of roles that the company needs to accept for this integration to function correctly.
+   */
+  requiredRoles?: RolesEnum[];
+
+  /**
+   * Configuration for the admin panel.
+   * This section defines the entire user interface for the integration's admin panel.
+   */
+  adminPanel?: {
+    /**
+     * Defines the tab structure for different sections of the admin panel.
+     * Each property represents a section (e.g., product, item) and contains an array of TabDto objects.
+     */
+    tabs?: {
+      /** Tabs for the product management section. */
+      product: TabDto[];
+      /** Tabs for the item management section. */
+      item: TabDto[];
+      /** Tabs for the client management section. */
+      client: TabDto[];
+      /** Tabs for the user management section. */
+      user: TabDto[];
+      /** Tabs for the order management section. */
+      order: TabDto[];
+    };
+
+    /**
+     * Defines additional actions that can be performed in different sections of the admin panel.
+     */
+    moreActions?: {
+      /** Actions available in the client management section. */
+      client?: ActionDto[];
+      /** Actions available in the item management section. */
+      item?: ActionDto[];
+      /** Actions available in the invoice management section. */
+      invoice?: ActionDto[];
+      /** Actions available in the user management section. */
+      user?: ActionDto[];
+      /** Actions available in the order management section. */
+      order?: ActionDto[];
+    };
+
+    /**
+     * The main menu for the admin panel.
+     * This can be a simple menu with a URL or a menu with submenus.
+     */
+    menu?: MenuDtoWithSubmenu | MenuDtoWithUrl;
+
+    /**
+     * Configuration for the integration's settings page.
+     */
+    settings?: {
+      /** The label for the settings page. */
+      label: string;
+      /** The icon for the settings page. */
+      icon: string;
+      /** A description of the settings page. */
+      descrition: string;
+    } & (
+      | { url: string; tabs?: never } // If url is provided, tabs should not be present
+      | { url?: never; tabs: [TabDto, ...TabDto[]] } // If tabs is provided (at least one tab), url should not be present
+    );
+  };
+
+  /**
+   * Configuration for the client panel.
+   * This section defines the user interface for the integration's client-facing panel.
+   */
+  clientPanel?: {
+    /**
+     * Defines the tab structure for the client panel.
+     */
+    tabs?: {
+      /** Tabs for the item management section. */
+      item: TabDto[];
+    };
+
+    /**
+     * Defines additional actions that can be performed in the client panel.
+     */
+    moreActions?: {
+      /** Actions available in the item management section. */
+      item?: ActionDto[];
+    };
+
+    /**
+     * The main menu for the client panel.
+     * This can be a simple menu with a URL or a menu with submenus.
+     */
+    menu?: MenuDtoWithSubmenu | MenuDtoWithUrl;
+  };
+
+  /**
+   * The URL for the onboarding process after the integration is installed.
+   * This URL will be displayed in a popup or side sheet with a JWT for authentication.
+   */
+  onboardingUrl?: string;
+}
+```
+
+----------------------------------------
+
+TITLE: JwtDto
+DESCRIPTION: DTO for the JWT itself. This is the main DTO used for user authentication and authorization.
+SOURCE: dtos/jwt.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+  IsString,
+  IsNotEmpty,
+  IsArray,
+  IsEnum,
+  ValidateNested,
+  IsOptional,
+  IsDefined,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { RolesEnum } from '../enums/roles.enum';
+
+/**
+ * DTO for the JWT payload.
+ * This defines the structure of the data contained within the JWT.
+ */
+class JwtPayloadDto {
+  /**
+   * The unique identifier for the integration.
+   */
+  @IsString()
+  @IsNotEmpty()
+  integrationId!: string;
+
+  /**
+   * The unique identifier for the user who triggered the API call.
+   * This is optional and may not be present in all requests (e.g., /send).
+   */
+  @IsString()
+  @IsOptional()
+  userId?: string;
+
+  /**
+   * The unique identifier for the company.
+   */
+  @IsString()
+  @IsNotEmpty()
+  companyId!: string;
+
+  /**
+   * The roles that have been accepted by the company for this integration.
+   */
+  @IsArray()
+  @IsEnum(RolesEnum, { each: true })
+  acceptedRoles!: RolesEnum[];
+}
+
+/**
+ * DTO for the JWT itself.
+ * This is the main DTO used for user authentication and authorization.
+ */
+export class JwtDto {
+  /**
+   * The JWT payload containing user and company information.
+   */
+  @ValidateNested()
+  @Type(() => JwtPayloadDto)
+  @IsDefined()
+  jwt!: JwtPayloadDto;
+}
+```
+
+----------------------------------------
+
+TITLE: MenuDtoWithUrl
+DESCRIPTION: Represents a menu item that links directly to a URL. This type of menu item does not have a submenu.
+SOURCE: dtos/menu.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { SubmenuDto } from './submenu.dto';
+
+/**
+ * Base properties shared by all menu items.
+ */
+interface BaseMenuDto {
+  /**
+   * The icon to be displayed for the menu item.
+   * @example "home"
+   */
+  icon: string;
+
+  /**
+   * The name to be displayed for the menu item.
+   * @example "Dashboard"
+   */
+  label: string;
+}
+
+/**
+ * Represents a menu item that links directly to a URL.
+ * This type of menu item does not have a submenu.
+ */
+export interface MenuDtoWithUrl extends BaseMenuDto {
+  /**
+   * The type of the menu item. This is a discriminator property.
+   */
+  type: 'only-url';
+  /**
+   * The URL associated with the menu item.
+   * Requests from the hoster will be signed with a JWT containing company information.
+   */
+  url: string;
+
+  /**
+   * Explicitly prevents a submenu from being added to this type of menu item.
+   */
+  submenu?: never;
+}
+
+/**
+ * Represents a menu item that contains a submenu.
+ * This type of menu item does not have a direct URL.
+ */
+export interface MenuDtoWithSubmenu extends BaseMenuDto {
+  /**
+   * The type of the menu item. This is a discriminator property.
+   */
+  type: 'with-submenu';
+  /**
+   * Explicitly prevents a URL from being added to this type of menu item.
+   */
+  url?: never;
+
+  /**
+   * The list of tabs that will appear in the submenu.
+   * If there is only one tab, no submenu or navigation bar will be displayed.
+   */
+  submenu: SubmenuDto[];
+}
+```
+
+----------------------------------------
+
+TITLE: MultilangTextDto
+DESCRIPTION: DTO for multilingual text. Used for providing text in multiple languages.
+SOURCE: dtos/multilang-text.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsEnum, IsString } from 'class-validator';
+import { LanguageEnum } from '../enums/language.enum';
+
+/**
+ * DTO for multilingual text.
+ * Used for providing text in multiple languages.
+ */
+export class MultilangTextDto {
+  /**
+   * The language of the text.
+   * @see LanguageEnum
+   */
+  @IsEnum(LanguageEnum)
+  @IsDefined()
+  language!: LanguageEnum;
+
+  /**
+   * The text content in the specified language.
+   */
+  @IsString()
+  @IsDefined()
+  text!: string;
+}
+```
+
+----------------------------------------
+
+TITLE: NotificationInfoDto
+DESCRIPTION: DTO for notification information. Extends the base InfoDto to include the notification message type.
+SOURCE: dtos/notification/notification-info.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { NotificationMessageTypeEnum } from '../../enums/notification/notification-message-type.enum';
+import { InfoDto } from '../info.dto';
+import { UnitDto } from '../unit.dto';
+
+/**
+ * DTO for notification information.
+ * Extends the base InfoDto to include the notification message type.
+ */
+export class NotificationInfoDto extends InfoDto {
+  /**
+   * The type of the notification message.
+   * @see NotificationMessageTypeEnum
+   */
+  type!: NotificationMessageTypeEnum;
+
+  /**
+   * Defines the units for pay-per-use billing.
+   * This allows the administrator to set a price for each unit per interval.
+   * @example [{ id: "ram", unitDescription: "MB", intervalDescription: "month" }]
+   */
+  payPerUseUnits?: UnitDto[];
+}
+```
+
+----------------------------------------
+
+TITLE: NotificationSendRequestDto
+DESCRIPTION: Represents a request to send a notification. This DTO encapsulates all the necessary information for sending a notification, including the notification ID, sender details, and receiver details.
+SOURCE: dtos/notification/notification-send-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsNotEmpty, IsObject, IsString } from 'class-validator';
+import { EmailReceiverDto } from './receiver/receiver-email.dto';
+import { PushReceiverDto } from './receiver/receiver-push.dto';
+import { SmsReceiverDto } from './receiver/receiver-sms.dto';
+import { EmailSenderDto } from './sender/sender-email.dto';
+import { PushSenderDto } from './sender/sender-push.dto';
+import { SmsSenderDto } from './sender/sender-sms.dto';
+
+/**
+ * Represents a request to send a notification.
+ * This DTO encapsulates all the necessary information for sending a notification,
+ * including the notification ID, sender details, and receiver details.
+ */
+export class NotificationSendRequestDto {
+  /**
+   * Unique identifier of the hoster message
+   */
+  @IsNotEmpty()
+  @IsString()
+  notificationId!: string;
+
+  /**
+   * Sender details according to the integration's notification type
+   */
+  @IsNotEmpty()
+  @IsObject()
+  sender!: EmailSenderDto | PushSenderDto | SmsSenderDto;
+
+  /**
+   * Recipient details according to the integration's notification type
+   */
+  @IsNotEmpty()
+  @IsObject()
+  receiver!: EmailReceiverDto | PushReceiverDto | SmsReceiverDto;
+}
+```
+
+----------------------------------------
+
+TITLE: EmailReceiverDto
+DESCRIPTION: DTO for email recipients Used to define the recipients of an email
+SOURCE: dtos/notification/receiver/receiver-email.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+  ArrayUnique,
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+} from 'class-validator';
+
+/**
+ * DTO for email recipients
+ * Used to define the recipients of an email
+ */
+export class EmailReceiverDto {
+  /**
+   * The main email address
+   */
+  @IsNotEmpty()
+  @IsEmail()
+  to!: string;
+
+  /**
+   * List of email addresses for carbon copy (optional)
+   * Must be valid and unique email addresses
+   */
+  @IsOptional()
+  @IsArray()
+  @IsEmail({}, { each: true })
+  @ArrayUnique()
+  cc?: string[];
+
+  /**
+   * List of email addresses for blind carbon copy (optional)
+   * Must be valid and unique email addresses
+   */
+  @IsOptional()
+  @IsArray()
+  @IsEmail({}, { each: true })
+  @ArrayUnique()
+  bcc?: string[];
+}
+```
+
+----------------------------------------
+
+TITLE: PushReceiverDto
+DESCRIPTION: DTO for push notification recipients Used to define the recipients of a push notification
+SOURCE: dtos/notification/receiver/receiver-push.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+  ArrayMinSize,
+  ArrayNotEmpty,
+  IsArray,
+  IsNotEmpty,
+  IsString,
+} from 'class-validator';
+
+/**
+ * DTO for push notification recipients
+ * Used to define the recipients of a push notification
+ */
+export class PushReceiverDto {
+  /**
+   * The user ID that will receive the push notification
+   */
+  @IsNotEmpty()
+  @IsString()
+  userId!: string;
+
+  /**
+   * List of user device tokens
+   * Must contain at least one token
+   */
+  @IsArray()
+  @ArrayNotEmpty()
+  @ArrayMinSize(1)
+  deviceTokens!: string[];
+}
+```
+
+----------------------------------------
+
+TITLE: SmsReceiverDto
+DESCRIPTION: DTO for SMS recipients Used to define the recipients of an SMS message
+SOURCE: dtos/notification/receiver/receiver-sms.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ArrayUnique, IsArray, IsPhoneNumber } from 'class-validator';
+
+/**
+ * DTO for SMS recipients
+ * Used to define the recipients of an SMS message
+ */
+export class SmsReceiverDto {
+  /**
+   * List of recipient phone numbers
+   * Must be valid phone numbers
+   */
+  @IsArray()
+  @ArrayUnique()
+  @IsPhoneNumber(undefined, { each: true })
+  receiverPhones!: string[];
+}
+```
+
+----------------------------------------
+
+TITLE: EmailSenderDto
+DESCRIPTION: DTO for email sender Used to define the details for sending an email
+SOURCE: dtos/notification/sender/sender-email.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+  IsString,
+  IsNotEmpty,
+  Length,
+  IsOptional,
+  IsArray,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { AttachmentDto } from '../../attachment.dto';
+
+/**
+ * DTO for email sender
+ * Used to define the details for sending an email
+ */
+export class EmailSenderDto {
+  /**
+   * The full name of the sender
+   */
+  @IsNotEmpty()
+  @IsString()
+  fullName!: string;
+
+  /**
+   * The email subject
+   * Length restriction from 1 to 500 characters
+   */
+  @IsNotEmpty()
+  @IsString()
+  @Length(1, 500)
+  subject!: string;
+
+  /**
+   * The message content
+   * Length restriction from 1 to 50000 characters
+   */
+  @IsNotEmpty()
+  @IsString()
+  @Length(1, 50000)
+  message!: string;
+
+  /**
+   * File attachments (optional)
+   */
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => AttachmentDto)
+  attachments?: AttachmentDto[];
+}
+```
+
+----------------------------------------
+
+TITLE: PushSenderDto
+DESCRIPTION: DTO for push notification sender Used to define the details for sending a push notification
+SOURCE: dtos/notification/sender/sender-push.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsString, IsNotEmpty, IsOptional, Length } from 'class-validator';
+
+/**
+ * DTO for push notification sender
+ * Used to define the details for sending a push notification
+ */
+export class PushSenderDto {
+  /**
+   * Unique identifier of the message
+   * Length restriction from 1 to 255 characters
+   */
+  @IsNotEmpty()
+  @IsString()
+  @Length(1, 255)
+  messageId!: string;
+
+  /**
+   * The user ID that will receive the push notification
+   * Length restriction from 1 to 255 characters
+   */
+  @IsNotEmpty()
+  @IsString()
+  @Length(1, 255)
+  userId!: string;
+
+  /**
+   * The title of the push notification
+   * Length restriction from 1 to 255 characters
+   */
+  @IsNotEmpty()
+  @IsString()
+  @Length(1, 255)
+  title!: string;
+
+  /**
+   * The content of the push notification
+   * Length restriction from 1 to 1000 characters
+   */
+  @IsNotEmpty()
+  @IsString()
+  @Length(1, 1000)
+  message!: string;
+
+  /**
+   * The subtitle of the push notification (optional)
+   * Length restriction from 1 to 255 characters
+   */
+  @IsOptional()
+  @IsString()
+  @Length(1, 255)
+  subtitle?: string;
+}
+```
+
+----------------------------------------
+
+TITLE: SmsSenderDto
+DESCRIPTION: DTO for SMS sender Used to define the details for sending an SMS message
+SOURCE: dtos/notification/sender/sender-sms.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsString, IsPhoneNumber, IsNotEmpty } from 'class-validator';
+
+/**
+ * DTO for SMS sender
+ * Used to define the details for sending an SMS message
+ */
+export class SmsSenderDto {
+  /**
+   * Sender's phone number
+   * Must be a valid phone number
+   */
+  @IsNotEmpty()
+  @IsPhoneNumber()
+  senderPhone!: string;
+
+  /**
+   * The content of the SMS message
+   */
+  @IsNotEmpty()
+  @IsString()
+  message!: string;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductInfoDto
+DESCRIPTION: DTO for notification information. Extends the base InfoDto to include the notification message type.
+SOURCE: dtos/product/product-info.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { FieldDto } from '../field.dto';
+import { InfoDto } from '../info.dto';
+import { UnitDto } from '../unit.dto';
+
+/**
+ * DTO for notification information.
+ * Extends the base InfoDto to include the notification message type.
+ */
+export class ProductInfoDto extends InfoDto {
+  /**
+   * Custom attributes that can be defined for products.
+   * These attributes will be displayed in the product configuration section.
+   */
+  productAttributes?: FieldDto[];
+
+  /**
+   * Custom attributes that can be defined for items.
+   * These attributes will be displayed in the item details section.
+   */
+  itemAttributes?: FieldDto[];
+
+  /**
+   * Defines the units for pay-per-use billing.
+   * This allows the administrator to set a price for each unit per interval.
+   * @example [{ id: "ram", unitDescription: "MB", intervalDescription: "month" }]
+   */
+  payPerUseUnits?: UnitDto[];
+
+  /**
+   * Specifies the field names that will be returned in the response data after a successful creation.
+   * This allows the system to know what to expect in the response before the creation is executed.
+   */
+  responseDataFieldNames?: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductItemDataDto
+DESCRIPTION: Represents the data of a specific product item. This DTO is used to transfer detailed information about a product instance.
+SOURCE: dtos/product/product-item-data.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsEnum, IsOptional, IsString } from 'class-validator';
+import { DurationEnum } from '../../enums/duration.enum';
+
+/**
+ * Represents the data of a specific product item.
+ * This DTO is used to transfer detailed information about a product instance.
+ */
+export class ProductItemDataDto {
+  /**
+   * The unique identifier for the product item.
+   */
+  @IsOptional()
+  @IsString()
+  itemId?: string;
+
+  /**
+   * A record of product-level attributes.
+   * These are general attributes defined for the product type.
+   */
+  @IsDefined()
+  productAttributes!: Record<string, unknown>;
+
+  /**
+   * A record of item-specific attributes.
+   * These are attributes that are unique to this particular instance of the product.
+   */
+  @IsDefined()
+  itemAttributes!: Record<string, unknown>;
+
+  /**
+   * Data returned from the creation response.
+   * This field should not be present in the create request.
+   * @optional
+   */
+  @IsOptional()
+  creationResponseData?: Record<string, unknown>;
+
+  /**
+   * The duration of the product subscription or license.
+   */
+  @IsDefined()
+  @IsEnum(DurationEnum)
+  duration!: DurationEnum;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductControllerInterface
+DESCRIPTION: This file defines the ProductControllerInterface.
+SOURCE: dtos/product/product.interface.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { Request } from 'express';
+import { JwtDto } from '../jwt.dto';
+import { ProductInfoResponseDto } from './responses/product-info-response.dto';
+import { ErrorResponseDto } from '../error-response.dto';
+import { ProductCreateRequestDto } from './requests/product-create-request.dto';
+import { ProductCreateResponseDto } from './responses/product-create-response.dto';
+import { ProductRenewRequestDto } from './requests/product-renew-request.dto';
+import { ProductRenewResponseDto } from './responses/product-renew-response.dto';
+import { ProductUpgradeResponseDto } from './responses/product-upgrade-response.dto';
+import { ProductUpgradeRequestDto } from './requests/product-upgrade-request.dto';
+import { ProductDowngradeRequestDto } from './requests/product-downgrade-request.dto';
+import { ProductSuspendRequestDto } from './requests/product-suspend-request.dto';
+import { ProductUnsuspendRequestDto } from './requests/product-unsuspend-request.dto';
+import { ProductUpgradeableRequestDto } from './requests/product-upgradeable-request.dto';
+import { ProductDowngradableRequestDto } from './requests/product-downgradeable-request.dto';
+import { ProductDowngradeResponseDto } from './responses/product-downgrade-response.dto';
+import { ProductUpgradeableResponseDto } from './responses/product-upgradeable-response.dto';
+import { ProductSuspendResponseDto } from './responses/product-suspend-response.dto';
+import { ProductUnsuspendResponseDto } from './responses/product-unsuspend-response.dto';
+import { ProductDowngradeableResponseDto } from './responses/product-downgradeable-response.dto';
+import { ProductDeleteResponseDto } from './responses/product-delete-response.dto';
+import { ProductDeleteRequestDto } from './requests/product-delete-request.dto';
+import { ProductValidateAttributesRequestDto } from './requests/product-validate-attributes-request.dto';
+import { ProductValidateAttributesResponseDto } from './responses/product-validate-attributes-response.dto';
+import { SetupStatusResponseDto } from '../setup-status-response.dto';
+
+export interface ProductControllerInterface {
+  info(request: Request & JwtDto): ProductInfoResponseDto | ErrorResponseDto;
+
+  create(
+    requestBody: ProductCreateRequestDto & JwtDto,
+  ): Promise<ProductCreateResponseDto>;
+
+  renew(
+    requestBody: ProductRenewRequestDto & JwtDto,
+  ): Promise<ProductRenewResponseDto>;
+
+  upgrade(
+    requestBody: ProductUpgradeRequestDto & JwtDto,
+  ): Promise<ProductUpgradeResponseDto>;
+
+  downgrade(
+    requestBody: ProductDowngradeRequestDto & JwtDto,
+  ): Promise<ProductDowngradeResponseDto>;
+
+  suspend(
+    requestBody: ProductSuspendRequestDto & JwtDto,
+  ): Promise<ProductSuspendResponseDto>;
+
+  unsuspend(
+    requestBody: ProductUnsuspendRequestDto & JwtDto,
+  ): Promise<ProductUnsuspendResponseDto>;
+
+  upgradeable(
+    requestBody: ProductUpgradeableRequestDto & JwtDto,
+  ): Promise<ProductUpgradeableResponseDto>;
+
+  downgradeable(
+    requestBody: ProductDowngradableRequestDto & JwtDto,
+  ): Promise<ProductDowngradeableResponseDto>;
+
+  delete(
+    requestBody: ProductDeleteRequestDto & JwtDto,
+  ): Promise<ProductDeleteResponseDto>;
+
+  validateProductAttributes(
+    requestBody: ProductValidateAttributesRequestDto,
+  ): Promise<ProductValidateAttributesResponseDto | ErrorResponseDto>;
+
+  validateItemAttributes(
+    requestBody: ProductValidateAttributesRequestDto,
+  ): Promise<ProductValidateAttributesResponseDto | ErrorResponseDto>;
+
+  setupStatus(): Promise<SetupStatusResponseDto>;
+
+  install(request: Request & JwtDto): Promise<null | ErrorResponseDto>;
+
+  uninstall(
+    request: Request & JwtDto,
+    requestBody: { companyId: string },
+  ): Promise<null | ErrorResponseDto>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductCreateRequestDto
+DESCRIPTION: Represents a request to create a new product item. This DTO contains all the necessary information for the creation process.
+SOURCE: dtos/product/requests/product-create-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ProductItemDataDto } from '../product-item-data.dto';
+import { ClientDataDto } from '../../client-data.dto';
+
+/**
+ * Represents a request to create a new product item.
+ * This DTO contains all the necessary information for the creation process.
+ */
+export class ProductCreateRequestDto {
+  /**
+   * The client's data.
+   * This object holds all the relevant information about the client initiating the request.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ClientDataDto)
+  clientData!: ClientDataDto;
+
+  /**
+   * The data for the new product item to be created.
+   * This object contains the specific details of the product instance being provisioned.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
+  itemData!: ProductItemDataDto;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductDeleteRequestDto
+DESCRIPTION: Represents a request to delete a product item. This DTO contains all the necessary information for the deletion process.
+SOURCE: dtos/product/requests/product-delete-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ProductItemDataDto } from '../product-item-data.dto';
+import { ClientDataDto } from '../../client-data.dto';
+
+/**
+ * Represents a request to delete a product item.
+ * This DTO contains all the necessary information for the deletion process.
+ */
+export class ProductDeleteRequestDto {
+  /**
+   * The client's data.
+   * This object holds all the relevant information about the client initiating the request.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ClientDataDto)
+  clientData!: ClientDataDto;
+
+  /**
+   * The data of the product item to be deleted.
+   * This object contains the specific details of the product instance being removed.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
+  itemData!: ProductItemDataDto;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductDowngradeRequestDto
+DESCRIPTION: Represents a request to downgrade a product item. This DTO contains all the necessary information for the downgrade process.
+SOURCE: dtos/product/requests/product-downgrade-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ProductItemDataDto } from '../product-item-data.dto';
+import { ClientDataDto } from '../../client-data.dto';
+
+/**
+ * Represents a request to downgrade a product item.
+ * This DTO contains all the necessary information for the downgrade process.
+ */
+export class ProductDowngradeRequestDto {
+  /**
+   * The client's data.
+   * This object holds all the relevant information about the client initiating the request.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ClientDataDto)
+  clientData!: ClientDataDto;
+
+  /**
+   * The data of the product item to be downgraded.
+   * This object contains the specific details of the product instance being modified.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
+  itemData!: ProductItemDataDto;
+
+  /**
+   * The data of the product item before the downgrade.
+   * This object contains the state of the product instance prior to the downgrade.
+   * @optional
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
+  previousItemData?: ProductItemDataDto;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductDowngradableRequestDto
+DESCRIPTION: Represents a request to check if a product item is downgradable. This DTO contains all the necessary information for the check.
+SOURCE: dtos/product/requests/product-downgradeable-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ProductItemDataDto } from '../product-item-data.dto';
+import { ClientDataDto } from '../../client-data.dto';
+
+/**
+ * Represents a request to check if a product item is downgradable.
+ * This DTO contains all the necessary information for the check.
+ */
+export class ProductDowngradableRequestDto {
+  /**
+   * The client's data.
+   * This object holds all the relevant information about the client initiating the request.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ClientDataDto)
+  clientData!: ClientDataDto;
+
+  /**
+   * The data of the product item to be checked.
+   * This object contains the specific details of the product instance being evaluated.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
+  itemData!: ProductItemDataDto;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductRenewRequestDto
+DESCRIPTION: Represents a request to renew a product item. This DTO contains all the necessary information for the renewal process.
+SOURCE: dtos/product/requests/product-renew-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ProductItemDataDto } from '../product-item-data.dto';
+import { ClientDataDto } from '../../client-data.dto';
+
+/**
+ * Represents a request to renew a product item.
+ * This DTO contains all the necessary information for the renewal process.
+ */
+export class ProductRenewRequestDto {
+  /**
+   * The client's data.
+   * This object holds all the relevant information about the client initiating the request.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ClientDataDto)
+  clientData!: ClientDataDto;
+
+  /**
+   * The data of the product item to be renewed.
+   * This object contains the specific details of the product instance being extended.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
+  itemData!: ProductItemDataDto;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductSuspendRequestDto
+DESCRIPTION: Represents a request to suspend a product item. This DTO contains all the necessary information for the suspension process.
+SOURCE: dtos/product/requests/product-suspend-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ProductItemDataDto } from '../product-item-data.dto';
+import { ClientDataDto } from '../../client-data.dto';
+
+/**
+ * Represents a request to suspend a product item.
+ * This DTO contains all the necessary information for the suspension process.
+ */
+export class ProductSuspendRequestDto {
+  /**
+   * The client's data.
+   * This object holds all the relevant information about the client initiating the request.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ClientDataDto)
+  clientData!: ClientDataDto;
+
+  /**
+   * The data of the product item to be suspended.
+   * This object contains the specific details of the product instance being deactivated.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
+  itemData!: ProductItemDataDto;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductUnsuspendRequestDto
+DESCRIPTION: Represents a request to unsuspend a product item. This DTO contains all the necessary information for the unsuspend process.
+SOURCE: dtos/product/requests/product-unsuspend-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ProductItemDataDto } from '../product-item-data.dto';
+import { ClientDataDto } from '../../client-data.dto';
+
+/**
+ * Represents a request to unsuspend a product item.
+ * This DTO contains all the necessary information for the unsuspend process.
+ */
+export class ProductUnsuspendRequestDto {
+  /**
+   * The client's data.
+   * This object holds all the relevant information about the client initiating the request.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ClientDataDto)
+  clientData!: ClientDataDto;
+
+  /**
+   * The data of the product item to be unsuspended.
+   * This object contains the specific details of the product instance being reactivated.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
+  itemData!: ProductItemDataDto;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductUpgradeRequestDto
+DESCRIPTION: Represents a request to upgrade a product item. This DTO contains all the necessary information for the upgrade process.
+SOURCE: dtos/product/requests/product-upgrade-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ProductItemDataDto } from '../product-item-data.dto';
+import { ClientDataDto } from '../../client-data.dto';
+
+/**
+ * Represents a request to upgrade a product item.
+ * This DTO contains all the necessary information for the upgrade process.
+ */
+export class ProductUpgradeRequestDto {
+  /**
+   * The client's data.
+   * This object holds all the relevant information about the client initiating the request.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ClientDataDto)
+  clientData!: ClientDataDto;
+
+  /**
+   * The data of the product item to be upgraded.
+   * This object contains the specific details of the product instance being modified.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
+  itemData!: ProductItemDataDto;
+
+  /**
+   * The data of the product item before the upgrade.
+   * This object contains the state of the product instance prior to the upgrade.
+   * @optional
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
+  previousItemData?: ProductItemDataDto;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductUpgradeableRequestDto
+DESCRIPTION: Represents a request to check if a product item is upgradeable. This DTO contains all the necessary information for the check.
+SOURCE: dtos/product/requests/product-upgradeable-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ProductItemDataDto } from '../product-item-data.dto';
+import { ClientDataDto } from '../../client-data.dto';
+
+/**
+ * Represents a request to check if a product item is upgradeable.
+ * This DTO contains all the necessary information for the check.
+ */
+export class ProductUpgradeableRequestDto {
+  /**
+   * The client's data.
+   * This object holds all the relevant information about the client initiating the request.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ClientDataDto)
+  clientData!: ClientDataDto;
+
+  /**
+   * The data of the product item to be checked.
+   * This object contains the specific details of the product instance being evaluated.
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ProductItemDataDto)
+  itemData!: ProductItemDataDto;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductValidateAttributesRequestDto
+DESCRIPTION: Represents a request to validate product attributes. This DTO is used when a client needs to check the validity of a set of attribute values before proceeding with an action, such as creating or updating a product.
+SOURCE: dtos/product/requests/product-validate-attributes-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, IsString } from 'class-validator';
+
+/**
+ * Represents a request to validate product attributes.
+ * This DTO is used when a client needs to check the validity of a set of attribute values
+ * before proceeding with an action, such as creating or updating a product.
+ */
+export class ProductValidateAttributesRequestDto {
+  /**
+   * The key of the attribute that triggered the validation.
+   * This helps the server understand the context of the validation request,
+   * especially in cases where validation rules are interdependent.
+   */
+  @IsDefined()
+  @IsString()
+  triggeredByKey!: string;
+
+  /**
+   * A record of attribute values to be validated.
+   * The keys are the attribute identifiers, and the values are the data to be checked.
+   */
+  @IsDefined()
+  @IsObject()
+  values!: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductCreateResponseDto
+DESCRIPTION: Represents the response after attempting to create a product. It confirms the status of the creation operation.
+SOURCE: dtos/product/responses/product-create-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ResponseStatusEnum } from '../../../enums/response-status.enum';
+import { BaseResponse } from '../../base-response.dto';
+
+/**
+ * Represents the response after attempting to create a product.
+ * It confirms the status of the creation operation.
+ */
+export class ProductCreateResponseDto extends BaseResponse {
+  /**
+   * The status of the response, indicating the outcome of the creation.
+   */
+  status!: ResponseStatusEnum;
+
+  /**
+   * The unique identifier of the product item that was created.
+   */
+  itemId!: string;
+
+  /**
+   * Optional data associated with the creation response.
+   * @optional
+   */
+  data?: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductDeleteResponseDto
+DESCRIPTION: Represents the response after attempting to delete a product. It confirms the status of the deletion operation.
+SOURCE: dtos/product/responses/product-delete-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ResponseStatusEnum } from '../../../enums/response-status.enum';
+import { BaseResponse } from '../../base-response.dto';
+
+/**
+ * Represents the response after attempting to delete a product.
+ * It confirms the status of the deletion operation.
+ */
+export class ProductDeleteResponseDto extends BaseResponse {
+  /**
+   * The status of the response, indicating the outcome of the deletion.
+   */
+  status!: ResponseStatusEnum;
+
+  /**
+   * The unique identifier of the product item that was deleted.
+   */
+  itemId!: string;
+
+  /**
+   * Optional data associated with the deletion response.
+   * @optional
+   */
+  data?: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductDowngradeResponseDto
+DESCRIPTION: Represents the response after attempting to downgrade a product. It confirms the status of the downgrade operation.
+SOURCE: dtos/product/responses/product-downgrade-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ResponseStatusEnum } from '../../../enums/response-status.enum';
+import { BaseResponse } from '../../base-response.dto';
+
+/**
+ * Represents the response after attempting to downgrade a product.
+ * It confirms the status of the downgrade operation.
+ */
+export class ProductDowngradeResponseDto extends BaseResponse {
+  /**
+   * The status of the response, indicating the outcome of the downgrade.
+   */
+  status!: ResponseStatusEnum;
+
+  /**
+   * The unique identifier of the product item that was downgraded.
+   */
+  itemId!: string;
+
+  /**
+   * Optional data associated with the downgrade response.
+   * @optional
+   */
+  data?: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductDowngradeableResponseDto
+DESCRIPTION: Represents the response for a product downgradeable check. It indicates whether a product item is downgradeable and may contain additional data.
+SOURCE: dtos/product/responses/product-downgradeable-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ResponseStatusEnum } from '../../../enums/response-status.enum';
+import { BaseResponse } from '../../base-response.dto';
+
+/**
+ * Represents the response for a product downgradeable check.
+ * It indicates whether a product item is downgradeable and may contain additional data.
+ */
+export class ProductDowngradeableResponseDto extends BaseResponse {
+  /**
+   * The status of the response, indicating success or failure.
+   */
+  status!: ResponseStatusEnum;
+
+  /**
+   * The unique identifier of the product item being checked.
+   */
+  itemId!: string;
+
+  /**
+   * Optional data associated with the downgradeable check.
+   * Can contain details about available downgrades or reasons for failure.
+   * @optional
+   */
+  data?: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductInfoResponseDto
+DESCRIPTION: Represents the response containing product information. This DTO extends the `BaseResponse` and includes the detailed product information.
+SOURCE: dtos/product/responses/product-info-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { BaseResponse } from '../../base-response.dto';
+import { ProductInfoDto } from '../product-info.dto';
+
+/**
+ * Represents the response containing product information.
+ * This DTO extends the `BaseResponse` and includes the detailed product information.
+ */
+export class ProductInfoResponseDto extends BaseResponse {
+  /**
+   * The detailed information of the product.
+   * This object contains all the attributes and settings of the product.
+   */
+  info!: ProductInfoDto;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductRenewResponseDto
+DESCRIPTION: Represents the response after attempting to renew a product. It confirms the status of the renewal operation.
+SOURCE: dtos/product/responses/product-renew-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ResponseStatusEnum } from '../../../enums/response-status.enum';
+import { BaseResponse } from '../../base-response.dto';
+
+/**
+ * Represents the response after attempting to renew a product.
+ * It confirms the status of the renewal operation.
+ */
+export class ProductRenewResponseDto extends BaseResponse {
+  /**
+   * The status of the response, indicating the outcome of the renewal.
+   */
+  status!: ResponseStatusEnum;
+
+  /**
+   * The unique identifier of the product item that was renewed.
+   */
+  itemId!: string;
+
+  /**
+   * Optional data associated with the renewal response.
+   * @optional
+   */
+  data?: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductSuspendResponseDto
+DESCRIPTION: Represents the response after attempting to suspend a product. It confirms the status of the suspend operation.
+SOURCE: dtos/product/responses/product-suspend-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ResponseStatusEnum } from '../../../enums/response-status.enum';
+import { BaseResponse } from '../../base-response.dto';
+
+/**
+ * Represents the response after attempting to suspend a product.
+ * It confirms the status of the suspend operation.
+ */
+export class ProductSuspendResponseDto extends BaseResponse {
+  /**
+   * The status of the response, indicating the outcome of the suspend operation.
+   */
+  status!: ResponseStatusEnum;
+
+  /**
+   * The unique identifier of the product item that was suspended.
+   */
+  itemId!: string;
+
+  /**
+   * Optional data associated with the suspend response.
+   * @optional
+   */
+  data?: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductUnsuspendResponseDto
+DESCRIPTION: Represents the response after attempting to unsuspend a product. It confirms the status of the unsuspend operation.
+SOURCE: dtos/product/responses/product-unsuspend-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ResponseStatusEnum } from '../../../enums/response-status.enum';
+import { BaseResponse } from '../../base-response.dto';
+
+/**
+ * Represents the response after attempting to unsuspend a product.
+ * It confirms the status of the unsuspend operation.
+ */
+export class ProductUnsuspendResponseDto extends BaseResponse {
+  /**
+   * The status of the response, indicating the outcome of the unsuspend operation.
+   */
+  status!: ResponseStatusEnum;
+
+  /**
+   * The unique identifier of the product item that was unsuspended.
+   */
+  itemId!: string;
+
+  /**
+   * Optional data associated with the unsuspend response.
+   * @optional
+   */
+  data?: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductUpgradeResponseDto
+DESCRIPTION: Represents the response after attempting to upgrade a product. It confirms the status of the upgrade operation.
+SOURCE: dtos/product/responses/product-upgrade-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ResponseStatusEnum } from '../../../enums/response-status.enum';
+import { BaseResponse } from '../../base-response.dto';
+
+/**
+ * Represents the response after attempting to upgrade a product.
+ * It confirms the status of the upgrade operation.
+ */
+export class ProductUpgradeResponseDto extends BaseResponse {
+  /**
+   * The status of the response, indicating the outcome of the upgrade.
+   */
+  status!: ResponseStatusEnum;
+
+  /**
+   * The unique identifier of the product item that was upgraded.
+   */
+  itemId!: string;
+
+  /**
+   * Optional data associated with the upgrade response.
+   * This could include details about the new subscription or other relevant information.
+   * @optional
+   */
+  data?: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductUpgradeableResponseDto
+DESCRIPTION: Represents the response for a product upgradeable check. It indicates whether a product item is upgradeable and may contain additional data.
+SOURCE: dtos/product/responses/product-upgradeable-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ResponseStatusEnum } from '../../../enums/response-status.enum';
+import { BaseResponse } from '../../base-response.dto';
+
+/**
+ * Represents the response for a product upgradeable check.
+ * It indicates whether a product item is upgradeable and may contain additional data.
+ */
+export class ProductUpgradeableResponseDto extends BaseResponse {
+  /**
+   * The status of the response, indicating success or failure.
+   */
+  status!: ResponseStatusEnum;
+
+  /**
+   * The unique identifier of the product item being checked.
+   */
+  itemId!: string;
+
+  /**
+   * Optional data associated with the upgradeable check.
+   * Can contain details about available upgrades or reasons for failure.
+   * @optional
+   */
+  data?: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ProductValidateAttributesResponseDto
+DESCRIPTION: Represents the response from validating product attributes. Contains the list of attributes that have been validated.
+SOURCE: dtos/product/responses/product-validate-attributes-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { BaseResponse } from '../../base-response.dto';
+import { FieldDto } from '../../field.dto';
+
+/**
+ * Represents the response from validating product attributes.
+ * Contains the list of attributes that have been validated.
+ */
+export class ProductValidateAttributesResponseDto extends BaseResponse {
+  /**
+   * An array of field DTOs representing the validated attributes.
+   * Each `FieldDto` contains details about a single attribute.
+   */
+  validatedAttributes!: FieldDto[];
+}
+```
+
+----------------------------------------
+
+TITLE: ResponseDataDto
+DESCRIPTION: DTO for response data. Used to return a generic data object in API responses.
+SOURCE: dtos/response-data.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+/**
+ * DTO for response data.
+ * Used to return a generic data object in API responses.
+ */
+export class ResponseDataDto {
+  /**
+   * A record of key-value pairs representing the response data.
+   */
+  data!: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: SetupStatusResponseDto
+DESCRIPTION: DTO for setup status response. Extends the base response to include the setup status.
+SOURCE: dtos/setup-status-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { SetupStatusEnum } from '../enums/setup-status.enum';
+import { BaseResponse } from './base-response.dto';
+
+/**
+ * DTO for setup status response.
+ * Extends the base response to include the setup status.
+ */
+export class SetupStatusResponseDto extends BaseResponse {
+  /**
+   * The status of the setup process.
+   * @see SetupStatusEnum
+   */
+  status!: SetupStatusEnum;
+}
+```
+
+----------------------------------------
+
+TITLE: SubmenuDto
+DESCRIPTION: DTO for submenus. Extends the TabDto to represent a submenu item.
+SOURCE: dtos/submenu.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { TabDto } from './tab.dto';
+
+/**
+ * DTO for submenus.
+ * Extends the TabDto to represent a submenu item.
+ */
+export class SubmenuDto extends TabDto {}
+```
+
+----------------------------------------
+
+TITLE: SuccessResponseDto
+DESCRIPTION: DTO for a successful response. Used to return the ID of a created resource.
+SOURCE: dtos/success-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsString } from 'class-validator';
+
+/**
+ * DTO for a successful response.
+ * Used to return the ID of a created resource.
+ */
+export class SuccessResponseDto {
+  /**
+   * The ID of the notification that was sent
+   */
+  @IsString()
+  notificationId!: string;
+}
+```
+
+----------------------------------------
+
+TITLE: TabDto
+DESCRIPTION: DTO for tabs Used for defining tabs in the user interface
+SOURCE: dtos/tab.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+/**
+ * DTO for tabs
+ * Used for defining tabs in the user interface
+ */
+export class TabDto {
+  /**
+   * The label displayed on the tab
+   */
+  label!: string;
+
+  /**
+   * The URL associated with the tab.
+   * The requests coming from the hoster will be signed
+   * with jwt, which will contain information about the company
+   */
+  url!: string;
+}
+```
+
+----------------------------------------
+
+TITLE: TaskResponseDto
+DESCRIPTION: DTO for task response. Used to return the ID of a created task.
+SOURCE: dtos/task-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsString } from 'class-validator';
+
+/**
+ * DTO for task response.
+ * Used to return the ID of a created task.
+ */
+export class TaskResponseDto {
+  /**
+   * The ID of the task that was created
+   */
+  @IsString()
+  taskId!: string;
+}
+```
+
+----------------------------------------
+
+TITLE: UnitDto
+DESCRIPTION: DTO for billing units. Used for defining units for pay-per-use billing.
+SOURCE: dtos/unit.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+/**
+ * DTO for billing units.
+ * Used for defining units for pay-per-use billing.
+ */
+export class UnitDto {
+  /**
+   * The unique identifier for the unit.
+   * @example "ram"
+   */
+  id!: string;
+
+  /**
+   * The description of the unit.
+   * @example "MB"
+   */
+  unitDescription!: string;
+
+  /**
+   * The description of the billing interval.
+   * @example "month"
+   */
+  intervalDescription!: string;
+}
+```
+
+----------------------------------------
+
+TITLE: ActionsEnum
+DESCRIPTION: This file defines the ActionsEnum.
+SOURCE: enums/actions.enum.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+export enum ActionsEnum {
+  // Product Integration
+  CREATE = 'CREATE',
+  RENEW = 'RENEW',
+  UPGRADE = 'UPGRADE',
+  DOWNGRADE = 'DOWNGRADE',
+  SUSPEND = 'SUSPEND',
+  UNSUSPEND = 'UNSUSPEND',
+  DELETE = 'DELETE',
+}
+```
+
+----------------------------------------
+
+TITLE: CountryEnum
+DESCRIPTION: This file defines the CountryEnum.
+SOURCE: enums/country.enum.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+export enum CountryEnum {
+  AFGHANISTAN = 'AF',
+  ALBANIA = 'AL',
+  ALGERIA = 'DZ',
+  AMERICAN_SAMOA = 'AS',
+  ANDORRA = 'AD',
+  ANGOLA = 'AO',
+  ANGUILLA = 'AI',
+  ANTARCTICA = 'AQ',
+  ANTIGUA_AND_BARBUDA = 'AG',
+  ARGENTINA = 'AR',
+  ARMENIA = 'AM',
+  ARUBA = 'AW',
+  AUSTRALIA = 'AU',
+  AUSTRIA = 'AT',
+  AZERBAIJAN = 'AZ',
+  BAHAMAS = 'BS',
+  BAHRAIN = 'BH',
+  BANGLADESH = 'BD',
+  BARBADOS = 'BB',
+  BELARUS = 'BY',
+  BELGIUM = 'BE',
+  BELIZE = 'BZ',
+  BENIN = 'BJ',
+  BERMUDA = 'BM',
+  BHUTAN = 'BT',
+  BOLIVIA_PLURINATIONAL_STATE_OF = 'BO',
+  BONAIRE_SINT_EUSTATIUS_AND_SABA = 'BQ',
+  BOSNIA_AND_HERZEGOVINA = 'BA',
+  BOTSWANA = 'BW',
+  BOUVET_ISLAND = 'BV',
+  BRAZIL = 'BR',
+  BRITISH_INDIAN_OCEAN_TERRITORY = 'IO',
+  BRUNEI_DARUSSALAM = 'BN',
+  BULGARIA = 'BG',
+  BURKINA_FASO = 'BF',
+  BURUNDI = 'BI',
+  CAMBODIA = 'KH',
+  CAMEROON = 'CM',
+  CANADA = 'CA',
+  CAPE_VERDE = 'CV',
+  CAYMAN_ISLANDS = 'KY',
+  CENTRAL_AFRICAN_REPUBLIC = 'CF',
+  CHAD = 'TD',
+  CHILE = 'CL',
+  CHINA = 'CN',
+  CHRISTMAS_ISLAND = 'CX',
+  COCOS_KEELING_ISLANDS = 'CC',
+  COLOMBIA = 'CO',
+  COMOROS = 'KM',
+  CONGO = 'CG',
+  CONGO_THE_DEMOCRATIC_REPUBLIC_OF_THE = 'CD',
+  COOK_ISLANDS = 'CK',
+  COSTA_RICA = 'CR',
+  CN_TE_D_IVOIR = 'CI',
+  CROATIA = 'HR',
+  CUBA = 'CU',
+  CURACAO = 'CW',
+  CYPRUS = 'CY',
+  CZECH_REPUBLIC = 'CZ',
+  DENMARK = 'DK',
+  DJIBOUTI = 'DJ',
+  DOMINICA = 'DM',
+  DOMINICAN_REPUBLIC = 'DO',
+  ECUADOR = 'EC',
+  EGYPT = 'EG',
+  EL_SALVADOR = 'SV',
+  EQUATORIAL_GUINEA = 'GQ',
+  ERITREA = 'ER',
+  ESTONIA = 'EE',
+  ETHIOPIA = 'ET',
+  FALKLAND_ISLANDS_MALVINAS = 'FK',
+  FARO_ISLANDS = 'FO',
+  FIJI = 'FJ',
+  FINLAND = 'FI',
+  FRANCE = 'FR',
+  FRENCH_GUIANA = 'GF',
+  FRENCH_POLYNESIA = 'PF',
+  FRENCH_SOUTHERN_TERRITORIES = 'TF',
+  GABON = 'GA',
+  GAMBIA = 'GM',
+  GEORGIA = 'GE',
+  GERMANY = 'DE',
+  GHANA = 'GH',
+  GIBRALTAR = 'GI',
+  GREECE = 'GR',
+  GREENLAND = 'GL',
+  GRENADA = 'GD',
+  GUADELOUPE = 'GP',
+  GUAM = 'GU',
+  GUATEMALA = 'GT',
+  GUERNSEY = 'GG',
+  GUINEA = 'GN',
+  GUINEA_BISSAU = 'GW',
+  GUYANA = 'GY',
+  HAITI = 'HT',
+  HEARD_ISLAND_AND_MCDONALD_ISLANDS = 'HM',
+  HOLY_SEE_VATICAN_CITY_STATE = 'VA',
+  HONDURAS = 'HN',
+  HONG_KONG = 'HK',
+  HUNGARY = 'HU',
+  ICELAND = 'IS',
+  INDIA = 'IN',
+  INDONESIA = 'ID',
+  IRAN_ISLAMIC_REPUBLIC_OF = 'IR',
+  IRAQ = 'IQ',
+  IRELAND = 'IE',
+  ISLE_OF_MAN = 'IM',
+  ISRAEL = 'IL',
+  ITALY = 'IT',
+  JAMAICA = 'JM',
+  JAPAN = 'JP',
+  JERSEY = 'JE',
+  JORDAN = 'JO',
+  KAZAKHSTAN = 'KZ',
+  KENYA = 'KE',
+  KIRIBATI = 'KI',
+  KOREA_DEMOCRATIC_PEOPLES_REPUBLIC_OF = 'KP',
+  KOREA_REPUBLIC_OF = 'KR',
+  KUWAIT = 'KW',
+  KYRGYZSTAN = 'KG',
+  LAO_PEOPLES_DEMOCRATIC_REPUBLIC = 'LA',
+  LATVIA = 'LV',
+  LEBANON = 'LB',
+  LESOTHO = 'LS',
+  LIBERIA = 'LR',
+  LIBYA = 'LY',
+  LIECHTENSTEIN = 'LI',
+  LITHUANIA = 'LT',
+  LUXEMBOURG = 'LU',
+  MACAO = 'MO',
+  SKOPJE = 'MK',
+  MADAGASCAR = 'MG',
+  MALAWI = 'MW',
+  MALAYSIA = 'MY',
+  MALDIVES = 'MV',
+  MALI = 'ML',
+  MALTA = 'MT',
+  MARSHALL_ISLANDS = 'MH',
+  MARTINIQUE = 'MQ',
+  MAURITANIA = 'MR',
+  MAURITIUS = 'MU',
+  TUNISIA = 'TN',
+  TURKEY = 'TR',
+  TURKMENISTAN = 'TM',
+  TURKS_AND_CAICOS_ISLANDS = 'TC',
+  TUVALU = 'TV',
+  UGANDA = 'UG',
+  UKRAINE = 'UA',
+  UNITED_ARAB_EMIRATES = 'AE',
+  UNITED_KINGDOM = 'GB',
+  UNITED_STATES = 'US',
+  UNITED_STATES_MINOR_OUTLYING_ISLANDS = 'UM',
+  URUGUAY = 'UY',
+  UZBEKISTAN = 'UZ',
+  VANUATU = 'VU',
+  VENEZUELA_BOLIVARIAN_REPUBLIC_OF = 'VE',
+  VIET_NAM = 'VN',
+  VIRGIN_ISLANDS_BRITISH = 'VG',
+  VIRGIN_ISLANDS_US = 'VI',
+  WALLIS_AND_FUTUNA = 'WF',
+  WESTERN_SAHARA = 'EH',
+  YEMEN = 'YE',
+  ZAMBIA = 'ZM',
+  ZIMBABWE = 'ZW',
+  MAYOTTE = 'YT',
+  MEXICO = 'MX',
+  MICRONESIA_FEDERATED_STATES_OF = 'FM',
+  MOLDOVA_REPUBLIC_OF = 'MD',
+  MONACO = 'MC',
+  MONGOLIA = 'MN',
+  MONTENEGRO = 'ME',
+  MONTSERRAT = 'MS',
+  MOROCCO = 'MA',
+  MOZAMBIQUE = 'MZ',
+  MYANMAR = 'MM',
+  NAMIBIA = 'NA',
+  NAURU = 'NR',
+  NEPAL = 'NP',
+  NETHERLANDS = 'NL',
+  NEW_CALEDONIA = 'NC',
+  NEW_ZEALAND = 'NZ',
+  NICARAGUA = 'NI',
+  NIGER = 'NE',
+  NIGERIA = 'NG',
+  NIUE = 'NU',
+  NORFOLK_ISLAND = 'NF',
+  NORTHERN_MARIANA_ISLANDS = 'MP',
+  NORWAY = 'NO',
+  OMAN = 'OM',
+  PAKISTAN = 'PK',
+  PALAU = 'PW',
+  PALESTINE_STATE_OF = 'PS',
+  PANAMA = 'PA',
+  PAPUA_NEW_GUINEA = 'PG',
+  PARAGUAY = 'PY',
+  PERU = 'PE',
+  PHILIPPINES = 'PH',
+  PITCAIRN = 'PN',
+  POLAND = 'PL',
+  PORTUGAL = 'PT',
+  PUERTO_RICO = 'PR',
+  QATAR = 'QA',
+  RN_UNIO = 'RE',
+  ROMANIA = 'RO',
+  RUSSIAN_FEDERATION = 'RU',
+  RWANDA = 'RW',
+  SAINT_BARTHN_LEM = 'BL',
+  SAINT_HELENA_ASCENSION_AND_TRISTAN_DA_CUNHA = 'SH',
+  SAINT_KITTS_AND_NEVIS = 'KN',
+  SAINT_LUCIA = 'LC',
+  SAINT_MARTIN = 'MF',
+  SAINT_PIERRE_AND_MIQUELON = 'PM',
+  SAINT_VINCENT_AND_THE_GRENADINES = 'VC',
+  SAMOA = 'WS',
+  SAN_MARINO = 'SM',
+  SAO_TOME_AND_PRINCIPE = 'ST',
+  SAUDI_ARABIA = 'SA',
+  SENEGAL = 'SN',
+  SERBIA = 'RS',
+  SEYCHELLES = 'SC',
+  SIERRA_LEONE = 'SL',
+  SINGAPORE = 'SG',
+  SINT_MAARTEN = 'SX',
+  SLOVAKIA = 'SK',
+  SLOVENIA = 'SI',
+  SOLOMON_ISLANDS = 'SB',
+  SOMALIA = 'SO',
+  SOUTH_AFRICA = 'ZA',
+  SOUTH_GEORGIA_AND_THE_SOUTH_SANDWICH_ISLANDS = 'GS',
+  SOUTH_SUDAN = 'SS',
+  SPAIN = 'ES',
+  SRI_LANKA = 'LK',
+  SUDAN = 'SD',
+  SURINAME = 'SR',
+  SVALBARD_AND_JAN_MAYEN = 'SJ',
+  SWAZILAND = 'SZ',
+  SWEDEN = 'SE',
+  SWITZERLAND = 'CH',
+  SYRIAN_ARAB_REPUBLIC = 'SY',
+  TAIWAN_PROVINCE_OF_CHINA = 'TW',
+  TAJIKISTAN = 'TJ',
+  TANZANIA_UNITED_REPUBLIC_OF = 'TZ',
+  THAILAND = 'TH',
+  TIMOR_LESTE = 'TL',
+  TOGO = 'TG',
+  TOKELAU = 'TK',
+  TONGA = 'TO',
+  TRINIDAD_AND_TOBAGO = 'TT',
+}
+export const country_name = {
+  AF: 'Afghanistan',
+  AX: 'Aland Islands',
+  AL: 'Albania',
+  DZ: 'Algeria',
+  AS: 'American Samoa',
+  AD: 'Andorra',
+  AO: 'Angola',
+  AI: 'Anguilla',
+  AQ: 'Antarctica',
+  AG: 'Antigua And Barbuda',
+  AR: 'Argentina',
+  AM: 'Armenia',
+  AW: 'Aruba',
+  AU: 'Australia',
+  AT: 'Austria',
+  AZ: 'Azerbaijan',
+  BS: 'Bahamas',
+  BH: 'Bahrain',
+  BD: 'Bangladesh',
+  BB: 'Barbados',
+  BY: 'Belarus',
+  BE: 'Belgium',
+  BZ: 'Belize',
+  BJ: 'Benin',
+  BM: 'Bermuda',
+  BT: 'Bhutan',
+  BO: 'Bolivia',
+  BQ: 'Bonaire, Sint Eustatius and Saba',
+  BA: 'Bosnia And Herzegovina',
+  BW: 'Botswana',
+  BV: 'Bouvet Island',
+  BR: 'Brazil',
+  IO: 'British Indian Ocean Territory',
+  BN: 'Brunei Darussalam',
+  BG: 'Bulgaria',
+  BF: 'Burkina Faso',
+  BI: 'Burundi',
+  KH: 'Cambodia',
+  CM: 'Cameroon',
+  CA: 'Canada',
+  CV: 'Cape Verde',
+  KY: 'Cayman Islands',
+  CF: 'Central African Republic',
+  TD: 'Chad',
+  CL: 'Chile',
+  CN: 'China',
+  CX: 'Christmas Island',
+  CC: 'Cocos (Keeling) Islands',
+  CO: 'Colombia',
+  KM: 'Comoros',
+  CG: 'Congo',
+  CD: 'Congo, Democratic Republic',
+  CK: 'Cook Islands',
+  CR: 'Costa Rica',
+  CI: "Cote D'Ivoire",
+  HR: 'Croatia',
+  CU: 'Cuba',
+  CW: 'Curaçao',
+  CY: 'Cyprus',
+  CZ: 'Czech Republic',
+  DK: 'Denmark',
+  DJ: 'Djibouti',
+  DM: 'Dominica',
+  DO: 'Dominican Republic',
+  EC: 'Ecuador',
+  EG: 'Egypt',
+  SV: 'El Salvador',
+  GQ: 'Equatorial Guinea',
+  ER: 'Eritrea',
+  EE: 'Estonia',
+  ET: 'Ethiopia',
+  FK: 'Falkland Islands (Malvinas)',
+  FO: 'Faroe Islands',
+  FJ: 'Fiji',
+  FI: 'Finland',
+  FR: 'France',
+  GF: 'French Guiana',
+  PF: 'French Polynesia',
+  TF: 'French Southern Territories',
+  GA: 'Gabon',
+  GM: 'Gambia',
+  GE: 'Georgia',
+  DE: 'Germany',
+  GH: 'Ghana',
+  GI: 'Gibraltar',
+  GR: 'Greece',
+  GL: 'Greenland',
+  GD: 'Grenada',
+  GP: 'Guadeloupe',
+  GU: 'Guam',
+  GT: 'Guatemala',
+  GG: 'Guernsey',
+  GN: 'Guinea',
+  GW: 'Guinea-Bissau',
+  GY: 'Guyana',
+  HT: 'Haiti',
+  HM: 'Heard Island & Mcdonald Islands',
+  VA: 'Holy See (Vatican City State)',
+  HN: 'Honduras',
+  HK: 'Hong Kong',
+  HU: 'Hungary',
+  IS: 'Iceland',
+  IN: 'India',
+  ID: 'Indonesia',
+  IR: 'Iran, Islamic Republic Of',
+  IQ: 'Iraq',
+  IE: 'Ireland',
+  IM: 'Isle Of Man',
+  IL: 'Israel',
+  IT: 'Italy',
+  JM: 'Jamaica',
+  JP: 'Japan',
+  JE: 'Jersey',
+  JO: 'Jordan',
+  KZ: 'Kazakhstan',
+  KE: 'Kenya',
+  KI: 'Kiribati',
+  KP: "Korea (Democratic People's Republic of)",
+  KR: 'Korea',
+  KW: 'Kuwait',
+  KG: 'Kyrgyzstan',
+  LA: "Lao People's Democratic Republic",
+  LV: 'Latvia',
+  LB: 'Lebanon',
+  LS: 'Lesotho',
+  LR: 'Liberia',
+  LY: 'Libyan Arab Jamahiriya',
+  LI: 'Liechtenstein',
+  LT: 'Lithuania',
+  LU: 'Luxembourg',
+  MO: 'Macao',
+  MK: 'Skopje',
+  MG: 'Madagascar',
+  MW: 'Malawi',
+  MY: 'Malaysia',
+  MV: 'Maldives',
+  ML: 'Mali',
+  MT: 'Malta',
+  MH: 'Marshall Islands',
+  MQ: 'Martinique',
+  MR: 'Mauritania',
+  MU: 'Mauritius',
+  YT: 'Mayotte',
+  MX: 'Mexico',
+  FM: 'Micronesia, Federated States Of',
+  MD: 'Moldova',
+  MC: 'Monaco',
+  MN: 'Mongolia',
+  ME: 'Montenegro',
+  MS: 'Montserrat',
+  MA: 'Morocco',
+  MZ: 'Mozambique',
+  MM: 'Myanmar',
+  NA: 'Namibia',
+  NR: 'Nauru',
+  NP: 'Nepal',
+  NL: 'Netherlands',
+  AN: 'Netherlands Antilles',
+  NC: 'New Caledonia',
+  NZ: 'New Zealand',
+  NI: 'Nicaragua',
+  NE: 'Niger',
+  NG: 'Nigeria',
+  NU: 'Niue',
+  NF: 'Norfolk Island',
+  MP: 'Northern Mariana Islands',
+  NO: 'Norway',
+  OM: 'Oman',
+  PK: 'Pakistan',
+  PW: 'Palau',
+  PS: 'Palestinian Territory, Occupied',
+  PA: 'Panama',
+  PG: 'Papua New Guinea',
+  PY: 'Paraguay',
+  PE: 'Peru',
+  PH: 'Philippines',
+  PN: 'Pitcairn',
+  PL: 'Poland',
+  PT: 'Portugal',
+  PR: 'Puerto Rico',
+  QA: 'Qatar',
+  RE: 'Reunion',
+  RO: 'Romania',
+  RU: 'Russian Federation',
+  RW: 'Rwanda',
+  BL: 'Saint Barthelemy',
+  SH: 'Saint Helena',
+  KN: 'Saint Kitts And Nevis',
+  LC: 'Saint Lucia',
+  MF: 'Saint Martin',
+  PM: 'Saint Pierre And Miquelon',
+  VC: 'Saint Vincent And Grenadines',
+  WS: 'Samoa',
+  SM: 'San Marino',
+  ST: 'Sao Tome And Principe',
+  SA: 'Saudi Arabia',
+  SN: 'Senegal',
+  RS: 'Serbia',
+  SC: 'Seychelles',
+  SL: 'Sierra Leone',
+  SG: 'Singapore',
+  SX: 'Sint Maarten (Dutch part)',
+  SK: 'Slovakia',
+  SI: 'Slovenia',
+  SB: 'Solomon Islands',
+  SO: 'Somalia',
+  ZA: 'South Africa',
+  GS: 'South Georgia And Sandwich Isl.',
+  SS: 'South Sudan',
+  ES: 'Spain',
+  LK: 'Sri Lanka',
+  SD: 'Sudan',
+  SR: 'Suriname',
+  SJ: 'Svalbard And Jan Mayen',
+  SZ: 'Swaziland',
+  SE: 'Sweden',
+  CH: 'Switzerland',
+  SY: 'Syrian Arab Republic',
+  TW: 'Taiwan',
+  TJ: 'Tajikistan',
+  TZ: 'Tanzania',
+  TH: 'Thailand',
+  TL: 'Timor-Leste',
+  TG: 'Togo',
+  TK: 'Tokelau',
+  TO: 'Tonga',
+  TT: 'Trinidad And Tobago',
+  TN: 'Tunisia',
+  TR: 'Turkey',
+  TM: 'Turkmenistan',
+  TC: 'Turks And Caicos Islands',
+  TV: 'Tuvalu',
+  UG: 'Uganda',
+  UA: 'Ukraine',
+  AE: 'United Arab Emirates',
+  GB: 'United Kingdom',
+  US: 'United States',
+  UM: 'United States Outlying Islands',
+  UY: 'Uruguay',
+  UZ: 'Uzbekistan',
+  VU: 'Vanuatu',
+  VE: 'Venezuela',
+  VN: 'Viet Nam',
+  VG: 'Virgin Islands, British',
+  VI: 'Virgin Islands, U.S.',
+  WF: 'Wallis And Futuna',
+  EH: 'Western Sahara',
+  YE: 'Yemen',
+  ZM: 'Zambia',
+  ZW: 'Zimbabwe',
+};
+
+export const europe = {
+  AT: 'Austria',
+  BE: 'Belgium',
+  BG: 'Bulgaria',
+  HR: 'Croatia',
+  CY: 'Cyprus',
+  CZ: 'Czech Republic',
+  DK: 'Denmark',
+  EE: 'Estonia',
+  FI: 'Finland',
+  FR: 'France',
+  DE: 'Germany',
+  GR: 'Greece',
+  HU: 'Hungary',
+  IE: 'Ireland',
+  IT: 'Italy',
+  LV: 'Latvia',
+  LT: 'Lithuania',
+  LU: 'Luxembourg',
+  MT: 'Malta',
+  NL: 'Netherlands',
+  PL: 'Poland',
+  PT: 'Portugal',
+  RO: 'Romania',
+  SK: 'Slovakia',
+  SI: 'Slovenia',
+  ES: 'Spain',
+  SE: 'Sweden',
+};
+```
+
+----------------------------------------
+
+TITLE: DurationEnum
+DESCRIPTION: This file defines the DurationEnum.
+SOURCE: enums/duration.enum.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+export enum DurationEnum {
+  ONE_MONTH = '1',
+  TWO_MONTHS = '2',
+  THREE_MONTHS = '3',
+  FOUR_MONTHS = '4',
+  FIVE_MONTHS = '5',
+  SIX_MONTHS = '6',
+  SEVEN_MONTHS = '7',
+  EIGHT_MONTHS = '8',
+  NINE_MONTHS = '9',
+  TEN_MONTHS = '10',
+  ELEVEN_MONTHS = '11',
+  ONE_YEAR = '12',
+  TWO_YEARS = '24',
+  THREE_YEARS = '36',
+  FOUR_YEARS = '48',
+  FIVE_YEARS = '60',
+  SIX_YEARS = '72',
+  SEVEN_YEARS = '84',
+  EIGHT_YEARS = '96',
+  NINE_YEARS = '108',
+  TEN_YEARS = '120',
+}
+```
+
+----------------------------------------
+
+TITLE: EventsEnum
+DESCRIPTION: This file defines the EventsEnum.
+SOURCE: enums/events.enum.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+export enum EventsEnum {
+  USER_CREATED = 'user/created',
+  USER_UPDATED = 'user/updated',
+  USER_DELETED = 'user/deleted',
+  USER_BANNED = 'user/banned',
+  USER_UNBANNED = 'user/unbanned',
+  USER_COMPANY_ACCESS_ADDED = 'user/company/access/added',
+  USER_COMPANY_ACCESS_REMOVED = 'user/company/access/removed',
+  USER_LOCKED = 'user/locked',
+  USER_CREDIT_BALANCE_UPDATED = 'user/credit-balance/updated',
+  USER_UNLOCKED = 'user/unlocked',
+  USER_PASSWORD_UPDATED = 'user/password/updated',
+  USER_EMAIL_UPDATED = 'user/email/updated',
+  USER_CURRENCY_UPDATED = 'user/currency/updated',
+  USER_INVOICE_CONTACT_UPDATED = 'user/invoice-contact/updated',
+  USER_POLICY_UPDATED = 'user/policy/updated',
+  USER_LANGUAGES_UPDATED = 'user/languages/updated',
+  USER_CUSTOM_PRICE_POLICIES_UPDATED = 'user/custom-price-policies/updated',
+  USER_CUSTOM_ADDON_PRICE_POLICIES_UPDATED = 'user/custom-addon-price-policies/updated',
+  USER_CUSTOM_AFFILIATE_ADDED = 'user/custom-affiliate/added',
+  USER_CUSTOM_AFFILIATE_REMOVED = 'user/custom-affiliate/removed',
+  USER_INVOICE_INTERVAL_UPDATED = 'user/invoice-interval/updated',
+  USER_ADDITIONAL_NOTIFICATION_EMAIL_REMOVED = 'user/additional-notification-email/removed',
+  USER_ADDITIONAL_NOTIFICATION_EMAIL_ADDED = 'user/additional-notification-email/added',
+  USER_COMMENT_ADDED = 'user/comment/added',
+  USER_COMMENT_REMOVED = 'user/comment/removed',
+  USER_COMMENT_UPDATED = 'user/comment/updated',
+  USER_TAGS_UPDATED = 'user/tags/updated',
+  USER_SETTING_ADDED = 'user/setting/added',
+  USER_SETTING_REMOVED = 'user/setting/removed',
+  USER_SETTING_UPDATED = 'user/setting/updated',
+  USER_START_SELLING = 'user/start-selling',
+  USER_ROLES_UPDATED = 'user/roles/updated',
+  USER_ROLES_ADDED = 'user/roles/added',
+  USER_ROLES_REMOVED = 'user/roles/deleted',
+
+  MESSAGE_CREATED = 'message/created',
+  MESSAGE_UPDATED = 'message/updated',
+  MESSAGE_DELETED = 'message/deleted',
+
+  NOTIFICATION_SENT = 'notification/sent',
+
+  POLICY_CREATED = 'policy/created',
+  POLICY_UPDATED = 'policy/updated',
+  POLICY_DELETED = 'policy/deleted',
+
+  PRODUCT_CATEGORY_CREATED = 'product-category/created',
+  PRODUCT_CATEGORY_UPDATED = 'product-category/updated',
+  PRODUCT_CATEGORY_DELETED = 'product-category/deleted',
+
+  INVOICE_CONTACT_CREATED = 'invoice-contact/created',
+  INVOICE_CONTACT_UPDATED = 'invoice-contact/updated',
+  INVOICE_CONTACT_DELETED = 'invoice-contact/deleted',
+
+  INVOICE_CREATED = 'invoice/created',
+  INVOICE_UPDATED = 'invoice/updated',
+  INVOICE_DELETED = 'invoice/deleted',
+
+  CURRENCY_CREATED = 'currency/created',
+  CURRENCY_UPDATED = 'currency/updated',
+  CURRENCY_DELETED = 'currency/deleted',
+
+  AFFILIATE_CREATED = 'affiliate/created',
+  AFFILIATE_UPDATED = 'affiliate/updated',
+  AFFILIATE_DELETED = 'affiliate/deleted',
+
+  COMPANY_CREATED = 'company/created',
+  COMPANY_UPDATED = 'company/updated',
+  COMPANY_DELETED = 'company/deleted',
+  COMPANY_INTEGRATION_INSTALLED = 'organization/integration/attached',
+  COMPANY_INTEGRATION_UNINSTALLED = 'organization/integration/detached',
+
+  TLD_CREATED = 'tld/created',
+  TLD_UPDATED = 'tld/updated',
+  TLD_DELETED = 'tld/deleted',
+
+  INTEGRATION_CREATED = 'integration/created',
+  INTEGRATION_UPDATED = 'integration/updated',
+  INTEGRATION_DELETED = 'integration/deleted',
+  INTEGRATION_INSTALLED = 'integration/installed',
+  INTEGRATION_UNINSTALLED = 'integration/uninstalled',
+  INTEGRATION_ACTIVATED = 'integration/activated',
+  INTEGRATION_DEACTIVATED = 'integration/deactivated',
+
+  DOMAIN_CONTACT_CREATED = 'domain-contact/created',
+  DOMAIN_CONTACT_UPDATED = 'domain-contact/updated',
+  DOMAIN_CONTACT_DELETED = 'domain-contact/deleted',
+
+  DOMAIN_CATEGORY_CREATED = 'domain-category/created',
+  DOMAIN_CATEGORY_UPDATED = 'domain-category/updated',
+  DOMAIN_CATEGORY_DELETED = 'domain-category/deleted',
+
+  ADDON_CREATED = 'addon/created',
+  ADDON_UPDATED = 'addon/updated',
+  ADDON_DELETED = 'addon/deleted',
+
+  PAYMENT_CREATED = 'payment/created',
+  PAYMENT_CANCELED = 'payment/canceled',
+  PAYMENT_FAILED = 'payment/failed',
+  PAYMENT_SUBSCRIBED = 'payment/subscribed',
+  PAYMENT_UNSUBSCRIBED = 'payment/unsubscribed',
+  PAYMENT_UPDATED = 'payment/updated',
+  PAYMENT_DELETED = 'payment/deleted',
+  PAYMENT_COMPLETED = 'payment/completed',
+
+  TEMPLATE_CREATED = 'template/created',
+  TEMPLATE_UPDATED = 'template/updated',
+  TEMPLATE_DELETED = 'template/deleted',
+
+  COUPON_CREATED = 'coupon/created',
+  COUPON_UPDATED = 'coupon/updated',
+  COUPON_DELETED = 'coupon/deleted',
+
+  TEMPLATE_INTEGRATION_CREATED = 'template-integration/created',
+  TEMPLATE_INTEGRATION_UPDATED = 'template-integration/updated',
+  TEMPLATE_INTEGRATION_DELETED = 'template-integration/deleted',
+
+  ORDER_CREATED = 'order/created',
+  ORDER_STATUS_INPROGRESS = 'order/status/in-progress',
+  ORDER_STATUS_COMPLETED = 'order/status/completed',
+  ORDER_STATUS_CANCELED = 'order/status/canceled',
+  ORDER_STATUS_REFUNDED = 'order/status/refunded',
+  ORDER_INSUFFICIENT_BALANCE = 'order/insufficient-balance',
+  ORDER_UPDATED = 'order/updated',
+  ORDER_DELETED = 'order/deleted',
+
+  SETTING_CREATED = 'setting/created',
+  SETTING_UPDATED = 'setting/updated',
+  SETTING_DELETED = 'setting/deleted',
+
+  ISSUE_CREATED = 'issue/created',
+  ISSUE_UPDATED = 'issue/updated',
+  ISSUE_DELETED = 'issue/deleted',
+
+  TASK_CREATED = 'task/created',
+  TASK_UPDATED = 'task/updated',
+  TASK_DELETED = 'task/deleted',
+  TASK_CANCELED = 'task/canceled',
+  TASK_INPROGRESS = 'task/in-progress',
+  TASK_COMPLETED = 'task/completed',
+  TASK_UPDATE_PERCENTAGE = 'task/percentage/updated',
+
+  PRODUCT_CREATED = 'product/created',
+  PRODUCT_UPDATED = 'product/updated',
+  PRODUCT_DELETED = 'product/deleted',
+  PRODUCT_AUTO_RENEW_UPDATED = 'product/auto-renew/updated',
+  PRODUCT_ENABLED = 'product/enabled',
+  PRODUCT_DISABLED = 'product/disabled',
+  PRODUCT_VERSION_CREATED = 'product/version-created',
+
+  IP_GROUP_CREATED = 'ip-group/created',
+  IP_GROUP_UPDATED = 'ip-group/updated',
+  IP_GROUP_DELETED = 'ip-group/deleted',
+
+  IP_CREATED = 'ip/created',
+  IP_UPDATED = 'ip/updated',
+  IP_DELETED = 'ip/deleted',
+
+  DOMAIN_NAME_CREATED = 'domain-name/created',
+  DOMAIN_NAME_UPDATED = 'domain-name/updated',
+  DOMAIN_NAME_DELETED = 'domain-name/deleted',
+  DOMAIN_NAME_LOCKED = 'domain-name/locked',
+  DOMAIN_NAME_UNLOCKED = 'domain-name/unlocked',
+  DOMAIN_NAME_SHIELD_ACTIVATED = 'domain-name/idshield-activated',
+  DOMAIN_NAME_SHIELD_DEACTIVATED = 'domain-name/idshield-deactivated',
+  DOMAIN_NAME_BUNDLE_ADDED = 'domain-name/bundle-added',
+  DOMAIN_NAME_BUNDLE_REMOVED = 'domain-name/bundle-removed',
+  DOMAIN_NAME_REGISTRANT_UPDATED = 'domain-name/registrant-updated',
+  DOMAIN_NAME_ADMIN_UPDATED = 'domain-name/admin-updated',
+  DOMAIN_NAME_TECH_UPDATED = 'domain-name/tech-updated',
+  DOMAIN_NAME_BILLING_UPDATED = 'domain-name/billing-updated',
+  DOMAIN_NAME_ADDITIONAL_UPDATED = 'domain-name/additional-updated',
+
+  ITEM_CREATED = 'item/created',
+  ITEM_UPDATED = 'item/updated',
+  ITEM_DELETED = 'item/deleted',
+  ITEM_RENEWED = 'item/renewed',
+  ITEM_UPGRADED = 'item/upgraded',
+  ITEM_DOWNGRADED = 'item/downgraded',
+  ITEM_IP_ATTACHED = 'item/ip-attached',
+  ITEM_IP_DETACHED = 'item/ip-detached',
+  ITEM_DETACHED_FROM_ORDER = 'item/detached-from-order',
+  ITEM_POSTPONED = 'item/postponed',
+  ITEM_TRANSFERRED_IN = 'item/transferred-in',
+  ITEM_CANCELED = 'item/canceled',
+  ITEM_SUSPENDED = 'item/suspended',
+  ITEM_UNSUSPENDED = 'item/unsuspended',
+  ITEM_AFFILIATE_ADDED = 'item/affiliate/added',
+  ITEM_BUNDLE_ATTACHED = 'item/bundle/attached',
+  ITEM_BUNDLE_DETACHED = 'item/bundle/detached',
+  ITEM_ACTIVATED = 'item/activated',
+  ITEM_DEACTIVATED = 'item/set-inactive',
+  ITEM_PROCESSED = 'item/processed',
+
+  ORDER_PAID = 'order/paid',
+
+  TEST = 'test',
+
+  DEAD_LETTER = 'dead-lettering',
+  CORE_QUEUE = 'core-queue',
+}
+```
+
+----------------------------------------
+
+TITLE: FieldTypeEnum
+DESCRIPTION: This file defines the FieldTypeEnum.
+SOURCE: enums/field-type.enum.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+export enum FieldTypeEnum {
+  //These are the enums for all possible types of action fields as they will be rendered on the hoster
+  TEXT_BOX = 'TEXT_BOX',
+  TEXT_AREA = 'TEXT_AREA',
+  SELECT = 'SELECT',
+  MULTI_SELECT = 'MULTI_SELECT',
+  DESCRIPTION = 'DESCRIPTION',
+  RADIO_BOX = 'RADIO_BOX',
+  CHECKBOX = 'CHECKBOX',
+  SLIDER = 'SLIDER',
+}
+```
+
+----------------------------------------
+
+TITLE: LanguageEnum
+DESCRIPTION: This file defines the LanguageEnum.
+SOURCE: enums/language.enum.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+// TODO: Να δούμε μήπως κρατήσουμε μόνο το full name
+export enum LanguageEnum {
+  AA = 'aa',
+  AF = 'af',
+  AK = 'ak',
+  SQ = 'sq',
+  AM = 'am',
+  AR = 'ar',
+  AN = 'an',
+  HY = 'hy',
+  AS = 'as',
+  AV = 'av',
+  AE = 'ae',
+  AY = 'ay',
+  AZ = 'az',
+  BM = 'bm',
+  BA = 'ba',
+  EU = 'eu',
+  BE = 'be',
+  BN = 'bn',
+  BH = 'bh',
+  BI = 'bi',
+  BS = 'bs',
+  BR = 'br',
+  BG = 'bg',
+  MY = 'my',
+  CA = 'ca',
+  CH = 'ch',
+  CE = 'ce',
+  NY = 'ny',
+  ZH = 'zh',
+  CV = 'cv',
+  KW = 'kw',
+  CO = 'co',
+  CR = 'cr',
+  HR = 'hr',
+  CS = 'cs',
+  DA = 'da',
+  DV = 'dv',
+  NL = 'nl',
+  DZ = 'dz',
+  EN = 'en',
+  EO = 'eo',
+  ET = 'et',
+  EE = 'ee',
+  FO = 'fo',
+  FJ = 'fj',
+  FI = 'fi',
+  FR = 'fr',
+  FF = 'ff',
+  GL = 'gl',
+  KA = 'ka',
+  DE = 'de',
+  EL = 'el',
+  GN = 'gn',
+  GU = 'gu',
+  HT = 'ht',
+  HA = 'ha',
+  HE = 'he',
+  HZ = 'hz',
+  HI = 'hi',
+  HO = 'ho',
+  HU = 'hu',
+  IA = 'ia',
+  ID = 'id',
+  IE = 'ie',
+  GA = 'ga',
+  IG = 'ig',
+  IK = 'ik',
+  IO = 'io',
+  IS = 'is',
+  IT = 'it',
+  IU = 'iu',
+  JA = 'ja',
+  JV = 'jv',
+  KL = 'kl',
+  KN = 'kn',
+  KR = 'kr',
+  KS = 'ks',
+  KK = 'kk',
+  KM = 'km',
+  KI = 'ki',
+  RW = 'rw',
+  KY = 'ky',
+  KV = 'kv',
+  KG = 'kg',
+  KO = 'ko',
+  KU = 'ku',
+  KJ = 'kj',
+  LA = 'la',
+  LB = 'lb',
+  LG = 'lg',
+  LI = 'li',
+  LN = 'ln',
+  LO = 'lo',
+  LT = 'lt',
+  LU = 'lu',
+  LV = 'lv',
+  GV = 'gv',
+  MK = 'mk',
+  MG = 'mg',
+  MS = 'ms',
+  ML = 'ml',
+  MT = 'mt',
+  MI = 'mi',
+  MR = 'mr',
+  MH = 'mh',
+  MN = 'mn',
+  NA = 'na',
+  NV = 'nv',
+  ND = 'nd',
+  NE = 'ne',
+  NG = 'ng',
+  NB = 'nb',
+  NN = 'nn',
+  NO = 'no',
+  II = 'ii',
+  NR = 'nr',
+  OC = 'oc',
+  OJ = 'oj',
+  CU = 'cu',
+  OM = 'om',
+  OR = 'or',
+  OS = 'os',
+  PA = 'pa',
+  PI = 'pi',
+  FA = 'fa',
+  PL = 'pl',
+  PS = 'ps',
+  PT = 'pt',
+  QU = 'qu',
+  RM = 'rm',
+  RN = 'rn',
+  RO = 'ro',
+  RH = 'rh',
+  RU = 'ru',
+  SA = 'sa',
+  SC = 'sc',
+  SD = 'sd',
+  SE = 'se',
+  SM = 'sm',
+  SG = 'sg',
+  SR = 'sr',
+  GD = 'gd',
+  SN = 'sn',
+  SI = 'si',
+  SK = 'sk',
+  SL = 'sl',
+  SO = 'so',
+  ST = 'st',
+  ES = 'es',
+  SU = 'su',
+  SW = 'sw',
+  SS = 'ss',
+  SV = 'sv',
+  TA = 'ta',
+  TE = 'te',
+  TG = 'tg',
+  TH = 'th',
+  TI = 'ti',
+  BO = 'bo',
+  TK = 'tk',
+  TL = 'tl',
+  TN = 'tn',
+  TO = 'to',
+  TR = 'tr',
+  TS = 'ts',
+  TT = 'tt',
+  TW = 'tw',
+  TY = 'ty',
+  UG = 'ug',
+  UK = 'uk',
+  UR = 'ur',
+  UZ = 'uz',
+  VE = 've',
+  VI = 'vi',
+  VO = 'vo',
+  WA = 'wa',
+  CY = 'cy',
+  WO = 'wo',
+  FY = 'fy',
+  XH = 'xh',
+  YI = 'yi',
+  YO = 'yo',
+  ZA = 'za',
+  ZU = 'zu',
+}
+```
+
+----------------------------------------
+
+TITLE: NotificationMessageTypeEnum
+DESCRIPTION: This file defines the NotificationMessageTypeEnum.
+SOURCE: enums/notification/notification-message-type.enum.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+export enum NotificationMessageTypeEnum {
+  EMAIL = 'email',
+  SMS = 'sms',
+  PUSH = 'push',
+}
+```
+
+----------------------------------------
+
+TITLE: OpenMethodEnum
+DESCRIPTION: This file defines the OpenMethodEnum.
+SOURCE: enums/open-method.enum.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+export enum OpenMethodEnum {
+  AJAX_CALL = 'ajax_call',
+  SMALL_IFRAME = 'small_iframe',
+  MEDIUM_IFRAME = 'medium_iframe',
+  LARGE_IFRAME = 'large_iframe',
+}
+```
+
+----------------------------------------
+
+TITLE: ResponseStatusEnum
+DESCRIPTION: This file defines the ResponseStatusEnum.
+SOURCE: enums/response-status.enum.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+export enum ResponseStatusEnum {
+  SUCCESS = 'success',
+  FAILURE = 'failure',
+  PENDING = 'pending',
+}
+```
+
+----------------------------------------
+
+TITLE: RolesEnum
+DESCRIPTION: This file defines the RolesEnum.
+SOURCE: enums/roles.enum.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+export enum RolesEnum {
+  SIMPLE_USER = 'SIMPLE_USER',
+  FULL_ACCESS = 'FULL_ACCESS',
+  SUPER_ADMIN = 'SUPER_ADMIN',
+
+  ORDER_READ = 'ORDER_READ',
+  ORDER_WRITE = 'ORDER_WRITE',
+
+  ADDON_READ = 'ADDON_READ',
+  ADDON_WRITE = 'ADDON_WRITE',
+
+  AFFILIATE_READ = 'AFFILIATE_READ',
+  AFFILIATE_WRITE = 'AFFILIATE_WRITE',
+
+  COMPANY_READ = 'COMPANY_READ',
+  COMPANY_WRITE = 'COMPANY_WRITE',
+
+  TEMPLATE_READ = 'TEMPLATE_READ',
+  TEMPLATE_WRITE = 'TEMPLATE_WRITE',
+
+  COUPON_READ = 'COUPON_READ',
+  COUPON_WRITE = 'COUPON_WRITE',
+
+  DOMAIN_CATEGORY_READ = 'DOMAIN_CATEGORY_READ',
+  DOMAIN_CATEGORY_WRITE = 'DOMAIN_CATEGORY_WRITE',
+
+  DOMAIN_CONTACT_READ = 'DOMAIN_CONTACT_READ',
+  DOMAIN_CONTACT_WRITE = 'DOMAIN_CONTACT_WRITE',
+
+  DOMAIN_NAME_READ = 'DOMAIN_NAME_READ',
+  DOMAIN_NAME_WRITE = 'DOMAIN_NAME_WRITE',
+
+  INVOICE_CONTACT_READ = 'INVOICE_CONTACT_READ',
+  INVOICE_CONTACT_WRITE = 'INVOICE_CONTACT_WRITE',
+
+  INVOICE_READ = 'INVOICE_READ',
+  INVOICE_WRITE = 'INVOICE_WRITE',
+
+  IP_GROUPS_READ = 'IP_GROUPS_READ',
+  IP_GROUPS_WRITE = 'IP_GROUPS_WRITE',
+
+  IPS_READ = 'IPS_READ',
+  IPS_WRITE = 'IPS_WRITE',
+
+  ITEMS_READ = 'ITEMS_READ',
+  ITEMS_WRITE = 'ITEMS_WRITE',
+
+  ORDERS_READ = 'ORDERS_READ',
+  ORDERS_WRITE = 'ORDERS_WRITE',
+
+  PAYMENTS_READ = 'PAYMENTS_READ',
+  PAYMENTS_WRITE = 'PAYMENTS_WRITE',
+
+  POLICIES_READ = 'POLICIES_READ',
+  POLICIES_WRITE = 'POLICIES_WRITE',
+
+  PRODUCT_CATEGORIES_READ = 'PRODUCT_CATEGORIES_READ',
+  PRODUCT_CATEGORIES_WRITE = 'PRODUCT_CATEGORIES_WRITE',
+
+  PRODUCTS_READ = 'PRODUCTS_READ',
+  PRODUCTS_WRITE = 'PRODUCTS_WRITE',
+
+  SETTINGS_READ = 'SETTINGS_READ',
+  SETTINGS_WRITE = 'SETTINGS_WRITE',
+
+  INTEGRATIONS_READ = 'INTEGRATIONS_READ',
+  INTEGRATIONS_WRITE = 'INTEGRATIONS_WRITE',
+
+  TLDS_READ = 'TLDS_READ',
+  TLDS_WRITE = 'TLDS_WRITE',
+
+  USERS_READ = 'USERS_READ',
+  USERS_WRITE = 'USERS_WRITE',
+
+  ISSUES_WRITE = 'ISSUES_WRITE',
+  ISSUES_READ = 'ISSUES_READ',
+
+  ACTION_LOGS_READ = 'ACTION_LOGS_READ',
+}
+```
+
+----------------------------------------
+
+TITLE: SetupStatusEnum
+DESCRIPTION: This file defines the SetupStatusEnum.
+SOURCE: enums/setup-status.enum.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+export enum SetupStatusEnum {
+  SUCCESS = 'success',
+  FAILURE = 'failure',
+  PENDING = 'pending',
+}
+```
+
+----------------------------------------
+
+TITLE: validateActionDto
+DESCRIPTION: Validates a ActionDto object using class-validator decorators.
+SOURCE: validators/action-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ActionDto } from '../dtos/action.dto';
+
+/**
+ * Validates a ActionDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a ActionDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validateActionDto(data: object): ValidationError[] {
+  const dto = plainToInstance(ActionDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateClientDataDto
+DESCRIPTION: Validates a client data object.
+SOURCE: validators/client-data-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ClientDataDto } from '../dtos/client-data.dto';
+
+/**
+ * Validates a client data object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateClientDataDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const clientData = plainToInstance(ClientDataDto, plainObject);
+  return await validate(clientData);
+};
+```
+
+----------------------------------------
+
+TITLE: validateCompanyDataDto
+DESCRIPTION: Validates a CompanyDataDto object using class-validator decorators.
+SOURCE: validators/company-data-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { CompanyDataDto } from '../dtos/company-data.dto';
+
+/**
+ * Validates a CompanyDataDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a CompanyDataDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validateCompanyDataDto(data: object): ValidationError[] {
+  const dto = plainToInstance(CompanyDataDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateFieldDto
+DESCRIPTION: Validates a FieldDto object using class-validator decorators.
+SOURCE: validators/field-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { FieldDto } from '../dtos/field.dto';
+
+/**
+ * Validates a FieldDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a FieldDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validateFieldDto(data: object): ValidationError[] {
+  const dto = plainToInstance(FieldDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateJwtDto
+DESCRIPTION: Validates a JwtDto object using class-validator decorators.
+SOURCE: validators/jwt-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { JwtDto } from '../dtos/jwt.dto';
+
+/**
+ * Validates a JwtDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a JwtDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validateJwtDto(data: object): ValidationError[] {
+  const dto = plainToInstance(JwtDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateMultilangTextDto
+DESCRIPTION: Validates a MultilangTextDto object using class-validator decorators.
+SOURCE: validators/multilang-text-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { MultilangTextDto } from '../dtos/multilang-text.dto';
+
+/**
+ * Validates a MultilangTextDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a MultilangTextDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validateMultilangTextDto(data: object): ValidationError[] {
+  const dto = plainToInstance(MultilangTextDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateNotificationRequestDto
+DESCRIPTION: Validates a NotificationRequestDto object using class-validator decorators.
+SOURCE: validators/notification-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { NotificationSendRequestDto } from '../dtos/notification/notification-send-request.dto';
+
+/**
+ * Validates a NotificationRequestDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a NotificationRequestDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validateNotificationRequestDto(
+  data: object,
+): ValidationError[] {
+  const dto = plainToInstance(NotificationSendRequestDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateProductCreateRequestDto
+DESCRIPTION: Validates a product create request object.
+SOURCE: validators/product-create-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ProductCreateRequestDto } from '../dtos/product/requests/product-create-request.dto';
+
+/**
+ * Validates a product create request object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateProductCreateRequestDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const request = plainToInstance(ProductCreateRequestDto, plainObject);
+  return await validate(request);
+};
+```
+
+----------------------------------------
+
+TITLE: validateProductDeleteRequestDto
+DESCRIPTION: Validates a product delete request object.
+SOURCE: validators/product-delete-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ProductDeleteRequestDto } from '../dtos/product/requests/product-delete-request.dto';
+
+/**
+ * Validates a product delete request object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateProductDeleteRequestDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const request = plainToInstance(ProductDeleteRequestDto, plainObject);
+  return await validate(request);
+};
+```
+
+----------------------------------------
+
+TITLE: validateProductDowngradeRequestDto
+DESCRIPTION: Validates a product downgrade request object.
+SOURCE: validators/product-downgrade-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ProductDowngradeRequestDto } from '../dtos/product/requests/product-downgrade-request.dto';
+
+/**
+ * Validates a product downgrade request object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateProductDowngradeRequestDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const request = plainToInstance(ProductDowngradeRequestDto, plainObject);
+  return await validate(request);
+};
+```
+
+----------------------------------------
+
+TITLE: validateProductDowngradableRequestDto
+DESCRIPTION: Validates a product downgradable request object.
+SOURCE: validators/product-downgradeable-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ProductDowngradableRequestDto } from '../dtos/product/requests/product-downgradeable-request.dto';
+
+/**
+ * Validates a product downgradable request object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateProductDowngradableRequestDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const request = plainToInstance(ProductDowngradableRequestDto, plainObject);
+  return await validate(request);
+};
+```
+
+----------------------------------------
+
+TITLE: validateProductRenewRequestDto
+DESCRIPTION: Validates a product renew request object.
+SOURCE: validators/product-renew-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ProductRenewRequestDto } from '../dtos/product/requests/product-renew-request.dto';
+
+/**
+ * Validates a product renew request object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateProductRenewRequestDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const request = plainToInstance(ProductRenewRequestDto, plainObject);
+  return await validate(request);
+};
+```
+
+----------------------------------------
+
+TITLE: validateProductSuspendRequestDto
+DESCRIPTION: Validates a product suspend request object.
+SOURCE: validators/product-suspend-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ProductSuspendRequestDto } from '../dtos/product/requests/product-suspend-request.dto';
+
+/**
+ * Validates a product suspend request object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateProductSuspendRequestDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const request = plainToInstance(ProductSuspendRequestDto, plainObject);
+  return await validate(request);
+};
+```
+
+----------------------------------------
+
+TITLE: validateProductUnsuspendRequestDto
+DESCRIPTION: Validates a product unsuspend request object.
+SOURCE: validators/product-unsuspend-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ProductUnsuspendRequestDto } from '../dtos/product/requests/product-unsuspend-request.dto';
+
+/**
+ * Validates a product unsuspend request object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateProductUnsuspendRequestDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const request = plainToInstance(ProductUnsuspendRequestDto, plainObject);
+  return await validate(request);
+};
+```
+
+----------------------------------------
+
+TITLE: validateProductUpgradeRequestDto
+DESCRIPTION: Validates a product upgrade request object.
+SOURCE: validators/product-upgrade-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ProductUpgradeRequestDto } from '../dtos/product/requests/product-upgrade-request.dto';
+
+/**
+ * Validates a product upgrade request object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateProductUpgradeRequestDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const request = plainToInstance(ProductUpgradeRequestDto, plainObject);
+  return await validate(request);
+};
+```
+
+----------------------------------------
+
+TITLE: validateProductUpgradeableRequestDto
+DESCRIPTION: Validates a product upgradeable request object.
+SOURCE: validators/product-upgradeable-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ProductUpgradeableRequestDto } from '../dtos/product/requests/product-upgradeable-request.dto';
+
+/**
+ * Validates a product upgradeable request object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateProductUpgradeableRequestDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const request = plainToInstance(ProductUpgradeableRequestDto, plainObject);
+  return await validate(request);
+};
+```
+
+----------------------------------------
+
+TITLE: validateProductValidateAttributesRequestDto
+DESCRIPTION: Validates a product validate attributes request object.
+SOURCE: validators/product-validate-attributes-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ProductValidateAttributesRequestDto } from '../dtos/product/requests/product-validate-attributes-request.dto';
+
+/**
+ * Validates a product validate attributes request object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateProductValidateAttributesRequestDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const request = plainToInstance(
+    ProductValidateAttributesRequestDto,
+    plainObject,
+  );
+  return await validate(request);
+};
+```
+
+----------------------------------------
+
+TITLE: validateEmailReceiverDto
+DESCRIPTION: Validates a EmailReceiverDto object using class-validator decorators.
+SOURCE: validators/receiver-email-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { EmailReceiverDto } from '../dtos/notification/receiver/receiver-email.dto';
+
+/**
+ * Validates a EmailReceiverDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a EmailReceiverDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validateEmailReceiverDto(data: object): ValidationError[] {
+  const dto = plainToInstance(EmailReceiverDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validatePushReceiverDto
+DESCRIPTION: Validates a PushReceiverDto object using class-validator decorators.
+SOURCE: validators/receiver-push-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { PushReceiverDto } from '../dtos/notification/receiver/receiver-push.dto';
+
+/**
+ * Validates a PushReceiverDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a PushReceiverDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validatePushReceiverDto(data: object): ValidationError[] {
+  const dto = plainToInstance(PushReceiverDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateSmsReceiverDto
+DESCRIPTION: Validates a SmsReceiverDto object using class-validator decorators.
+SOURCE: validators/receiver-sms-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { SmsReceiverDto } from '../dtos/notification/receiver/receiver-sms.dto';
+
+/**
+ * Validates a SmsReceiverDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a SmsReceiverDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validateSmsReceiverDto(data: object): ValidationError[] {
+  const dto = plainToInstance(SmsReceiverDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateEmailSenderDto
+DESCRIPTION: Validates a EmailSenderDto object using class-validator decorators.
+SOURCE: validators/sender-email-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { EmailSenderDto } from '../dtos/notification/sender/sender-email.dto';
+
+/**
+ * Validates a EmailSenderDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a EmailSenderDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validateEmailSenderDto(data: object): ValidationError[] {
+  const dto = plainToInstance(EmailSenderDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validatePushSenderDto
+DESCRIPTION: Validates a PushSenderDto object using class-validator decorators.
+SOURCE: validators/sender-push-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { PushSenderDto } from '../dtos/notification/sender/sender-push.dto';
+
+/**
+ * Validates a PushSenderDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a PushSenderDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validatePushSenderDto(data: object): ValidationError[] {
+  const dto = plainToInstance(PushSenderDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateSmsSenderDto
+DESCRIPTION: Validates a SmsSenderDto object using class-validator decorators.
+SOURCE: validators/sender-sms-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { SmsSenderDto } from '../dtos/notification/sender/sender-sms.dto';
+
+/**
+ * Validates a SmsSenderDto object using class-validator decorators.
+ *
+ * @param data The object to validate as a SmsSenderDto.
+ * @returns An array of validation errors, empty if validation succeeds.
+ */
+export function validateSmsSenderDto(data: object): ValidationError[] {
+  const dto = plainToInstance(SmsSenderDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
