@@ -1,3 +1,5 @@
+# @hosterai/types
+
 TITLE: ActionDto
 DESCRIPTION: Defines the structure for a UI action.
 SOURCE: dtos/action.dto.ts
