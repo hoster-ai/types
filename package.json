@@ -15,6 +15,10 @@
   "author": "",
   "license": "MIT",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoster-ai/types.git"
+  },
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/fs-extra": "^11.0.4",
