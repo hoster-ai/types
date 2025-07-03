@@ -38,25 +38,25 @@ export * from './dtos/product/product-item-data.dto';
 export * from './dtos/product/requests/product-create-request.dto';
 export * from './dtos/product/requests/product-delete-request.dto';
 export * from './dtos/product/requests/product-downgrade-request.dto';
-export * from './dtos/product/requests/product-downgradeable-request.dto';
+export * from './dtos/product/requests/product-downgradable-request.dto';
 export * from './dtos/product/requests/product-renew-request.dto';
 export * from './dtos/product/requests/product-suspend-request.dto';
 export * from './dtos/product/requests/product-unsuspend-request.dto';
 export * from './dtos/product/requests/product-upgrade-request.dto';
-export * from './dtos/product/requests/product-upgradeable-request.dto';
+export * from './dtos/product/requests/product-upgradable-request.dto';
 export * from './dtos/product/requests/product-validate-attributes-request.dto';
 
 // Product Responses
 export * from './dtos/product/responses/product-create-response.dto';
 export * from './dtos/product/responses/product-delete-response.dto';
 export * from './dtos/product/responses/product-downgrade-response.dto';
-export * from './dtos/product/responses/product-downgradeable-response.dto';
+export * from './dtos/product/responses/product-downgradable-response.dto';
 export * from './dtos/product/responses/product-info-response.dto';
 export * from './dtos/product/responses/product-renew-response.dto';
 export * from './dtos/product/responses/product-suspend-response.dto';
 export * from './dtos/product/responses/product-unsuspend-response.dto';
 export * from './dtos/product/responses/product-upgrade-response.dto';
-export * from './dtos/product/responses/product-upgradeable-response.dto';
+export * from './dtos/product/responses/product-upgradable-response.dto';
 export * from './dtos/product/responses/product-validate-attributes-response.dto';
 
 // Enums
@@ -89,14 +89,13 @@ export * from './validators/client-data-validator';
 export * from './validators/product-create-request-validator';
 export * from './validators/product-delete-request-validator';
 export * from './validators/product-downgrade-request-validator';
-export * from './validators/product-downgradeable-request-validator';
+export * from './validators/product-downgradable-request-validator';
 export * from './validators/product-renew-request-validator';
 export * from './validators/product-suspend-request-validator';
 export * from './validators/product-unsuspend-request-validator';
 export * from './validators/product-upgrade-request-validator';
-export * from './validators/product-upgradeable-request-validator';
+export * from './validators/product-upgradable-request-validator';
 export * from './validators/product-validate-attributes-request-validator';
-
 
 // Interfaces
 export * from './dtos/product/product.interface';

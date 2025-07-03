@@ -1,16 +1,16 @@
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { ProductUpgradeableRequestDto } from '../dtos/product/requests/product-upgradeable-request.dto';
+import { ProductDowngradableRequestDto } from '../dtos/product/requests/product-downgradable-request.dto';
 
 /**
- * Validates a product upgradeable request object.
+ * Validates a product downgradable request object.
  *
  * @param {Record<string, unknown>} plainObject - The plain object to validate.
  * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
  */
-export const validateProductUpgradeableRequestDto = async (
+export const validateProductDowngradableRequestDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
-  const request = plainToInstance(ProductUpgradeableRequestDto, plainObject);
+  const request = plainToInstance(ProductDowngradableRequestDto, plainObject);
   return await validate(request);
 };
