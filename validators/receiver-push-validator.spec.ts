@@ -1,4 +1,5 @@
-import 'reflect-metadata';import { validatePushReceiverDto } from './receiver-push-validator';
+import 'reflect-metadata';
+import { validatePushReceiverDto } from './receiver-push-validator';
 
 describe('PushReceiverDto Validator', () => {
   it('should return no errors for valid DTO', () => {

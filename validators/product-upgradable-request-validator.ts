@@ -3,7 +3,7 @@ import { plainToInstance } from 'class-transformer';
 import { ProductUpgradableRequestDto } from '../dtos/product/requests/product-upgradable-request.dto';
 
 /**
- * Validates a product upgradeable request object.
+ * Validates a product upgradable request object.
  *
  * @param {Record<string, unknown>} plainObject - The plain object to validate.
  * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.

@@ -1,4 +1,5 @@
-import 'reflect-metadata';import { validateNotificationRequestDto } from './notification-request-validator';
+import 'reflect-metadata';
+import { validateNotificationRequestDto } from './notification-request-validator';
 
 describe('NotificationRequestDto Validator', () => {
   // Valid test case

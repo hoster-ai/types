@@ -2,8 +2,8 @@ import { ResponseStatusEnum } from '../../../enums/response-status.enum';
 import { BaseResponse } from '../../base-response.dto';
 
 /**
- * Represents the response for a product upgradeable check.
- * It indicates whether a product item is upgradeable and may contain additional data.
+ * Represents the response for a product upgradable check.
+ * It indicates whether a product item is upgradable and may contain additional data.
  */
 export class ProductUpgradableResponseDto extends BaseResponse {
   /**
@@ -17,7 +17,7 @@ export class ProductUpgradableResponseDto extends BaseResponse {
   itemId!: string;
 
   /**
-   * Optional data associated with the upgradeable check.
+   * Optional data associated with the upgradable check.
    * Can contain details about available upgrades or reasons for failure.
    * @optional
    */

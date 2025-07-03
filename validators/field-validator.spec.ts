@@ -1,4 +1,5 @@
-import 'reflect-metadata';import 'reflect-metadata';
+import 'reflect-metadata';
+import 'reflect-metadata';
 import { validateFieldDto } from './field-validator';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { LanguageEnum } from '../enums/language.enum';
@@ -13,7 +14,7 @@ describe('FieldDto Validator', () => {
       required: true,
       disabled: false,
       hidden: false,
-      upgradeable: false,
+      upgradable: false,
     };
 
     const errors = validateFieldDto(validDto);
@@ -29,7 +30,7 @@ describe('FieldDto Validator', () => {
       required: true,
       disabled: false,
       hidden: false,
-      upgradeable: false,
+      upgradable: false,
     };
 
     const errors = validateFieldDto(invalidDto);
@@ -62,7 +63,7 @@ describe('FieldDto Validator', () => {
       required: true,
       disabled: false,
       hidden: false,
-      upgradeable: false,
+      upgradable: false,
       regexValidationErrorMessage: [
         { language: LanguageEnum.EN, text: 'Invalid format' },
       ],
@@ -84,7 +85,7 @@ describe('FieldDto Validator', () => {
       required: true,
       disabled: false,
       hidden: false,
-      upgradeable: false,
+      upgradable: false,
       regexValidationErrorMessage: 'not-an-array',
     };
 
@@ -104,7 +105,7 @@ describe('FieldDto Validator', () => {
       required: true,
       disabled: false,
       hidden: false,
-      upgradeable: false,
+      upgradable: false,
       remoteValidationErrorMessage: 'not-an-array',
     };
 

@@ -1,4 +1,5 @@
-import 'reflect-metadata';import { validateProductDeleteRequestDto } from './product-delete-request-validator';
+import 'reflect-metadata';
+import { validateProductDeleteRequestDto } from './product-delete-request-validator';
 import { CountryEnum } from '../enums/country.enum';
 import { DurationEnum } from '../enums/duration.enum';
 

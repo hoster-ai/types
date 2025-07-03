@@ -7,7 +7,7 @@
     "build": "tsc",
     "test": "jest",
     "coverage": "jest --coverage",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint . --ext .ts --fix",
     "format": "prettier --write .",
     "release": "npm run build && npm publish --access public"
   },

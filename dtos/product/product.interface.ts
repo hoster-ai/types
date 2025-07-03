@@ -51,7 +51,7 @@ export interface ProductControllerInterface {
     requestBody: ProductUnsuspendRequestDto & JwtDto,
   ): Promise<ProductUnsuspendResponseDto>;
 
-  upgradeable(
+  upgradable(
     requestBody: ProductUpgradableRequestDto & JwtDto,
   ): Promise<ProductUpgradableResponseDto>;
 

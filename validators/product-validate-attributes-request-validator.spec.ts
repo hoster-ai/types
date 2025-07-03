@@ -1,4 +1,5 @@
-import 'reflect-metadata';import { validateProductValidateAttributesRequestDto } from './product-validate-attributes-request-validator';
+import 'reflect-metadata';
+import { validateProductValidateAttributesRequestDto } from './product-validate-attributes-request-validator';
 
 describe('validateProductValidateAttributesRequestDto', () => {
   it('should return no errors for a valid request', async () => {

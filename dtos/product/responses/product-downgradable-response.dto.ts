@@ -2,8 +2,8 @@ import { ResponseStatusEnum } from '../../../enums/response-status.enum';
 import { BaseResponse } from '../../base-response.dto';
 
 /**
- * Represents the response for a product downgradeable check.
- * It indicates whether a product item is downgradeable and may contain additional data.
+ * Represents the response for a product Downgradable check.
+ * It indicates whether a product item is Downgradable and may contain additional data.
  */
 export class ProductDowngradableResponseDto extends BaseResponse {
   /**
@@ -17,7 +17,7 @@ export class ProductDowngradableResponseDto extends BaseResponse {
   itemId!: string;
 
   /**
-   * Optional data associated with the downgradeable check.
+   * Optional data associated with the Downgradable check.
    * Can contain details about available downgrades or reasons for failure.
    * @optional
    */

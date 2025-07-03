@@ -1,4 +1,5 @@
-import 'reflect-metadata';import { validateActionDto } from './action-validator';
+import 'reflect-metadata';
+import { validateActionDto } from './action-validator';
 import { OpenMethodEnum } from '../enums/open-method.enum';
 
 describe('ActionDto Validator', () => {

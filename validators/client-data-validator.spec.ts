@@ -1,4 +1,5 @@
-import 'reflect-metadata';import { validateClientDataDto } from './client-data-validator';
+import 'reflect-metadata';
+import { validateClientDataDto } from './client-data-validator';
 import { CountryEnum } from '../enums/country.enum';
 
 describe('validateClientDataDto', () => {

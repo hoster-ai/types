@@ -11,7 +11,6 @@ import {
 } from 'class-validator';
 import { CountryEnum } from '../enums/country.enum';
 
-
 /**
  * Defines the data structure for a client.
  * This object is used to transfer client data between different parts of the application.
