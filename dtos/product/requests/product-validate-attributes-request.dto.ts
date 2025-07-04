@@ -21,5 +21,5 @@ export class ProductValidateAttributesRequestDto {
    */
   @IsDefined()
   @IsObject()
-  values!: Record<string, unknown>;
+  attributeValues!: Record<string, unknown>;
 }

@@ -79,14 +79,14 @@ export class FieldDto {
   regexValidationErrorMessage?: MultilangTextDto[];
 
   /**
-   * Indicates if the field has remote validation
+   * Indicates if the field triggers remote validation
    */
   @IsBoolean()
   @IsOptional()
-  remoteValidation?: boolean;
+  triggersRemoteValidation?: boolean;
 
   /**
-   * Error message for the field
+   * Error message for the field for supported languages
    */
   @ValidateNested({ each: true })
   @Type(() => MultilangTextDto)
@@ -95,6 +95,8 @@ export class FieldDto {
 
   /**
    * The item attribute is upgradable
+   * If the user has the permission to upgrade the item from his panel
+   * TODO: Let's see if this approach is the best way for the user to upgrade their item
    */
   @IsBoolean()
   upgradable: boolean = false;
