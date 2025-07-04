@@ -531,10 +531,10 @@ export class FieldDto {
    * Value of action field
    */
   @IsDefined()
-  value!: string | number | FieldDto | FieldDto[];
+  value!: string | number | FieldOptionDto | FieldOptionDto[];
 
   /**
-   * Type of label
+   * Type of the field
    */
   @IsEnum(FieldTypeEnum)
   type!: FieldTypeEnum;
@@ -573,11 +573,11 @@ export class FieldDto {
   regexValidationErrorMessage?: MultilangTextDto[];
 
   /**
-   * Indicates if the field has remote validation
+   * Indicates if the field has triggers remote validation
    */
   @IsBoolean()
   @IsOptional()
-  remoteValidation?: boolean;
+  triggersRemoteValidation?: boolean = false;
 
   /**
    * Error message for the field

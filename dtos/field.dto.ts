@@ -89,7 +89,7 @@ export class FieldDto {
    */
   @IsBoolean()
   @IsOptional()
-  triggersRemoteValidation?: boolean;
+  triggersRemoteValidation?: boolean = false;
 
   /**
    * Error message for the field for supported languages
