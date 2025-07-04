@@ -1373,12 +1373,11 @@ export class ProductItemDataDto {
 ----------------------------------------
 
 TITLE: ProductControllerInterface
-DESCRIPTION: This file defines the ProductControllerInterface.
+DESCRIPTION: This file defines the ProductControllerInterface for product integration operations.
 SOURCE: dtos/product/product.interface.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
-import { Request } from 'express';
 import { JwtDto } from '../jwt.dto';
 import { ProductInfoResponseDto } from './responses/product-info-response.dto';
 import { ErrorResponseDto } from '../error-response.dto';
@@ -1392,17 +1391,18 @@ import { ProductDowngradeRequestDto } from './requests/product-downgrade-request
 import { ProductSuspendRequestDto } from './requests/product-suspend-request.dto';
 import { ProductUnsuspendRequestDto } from './requests/product-unsuspend-request.dto';
 import { ProductUpgradableRequestDto } from './requests/product-upgradable-request.dto';
-import { ProductDowngradableRequestDto } from './requests/product-Downgradable-request.dto';
+import { ProductDowngradableRequestDto } from './requests/product-downgradable-request.dto';
 import { ProductDowngradeResponseDto } from './responses/product-downgrade-response.dto';
 import { ProductUpgradableResponseDto } from './responses/product-upgradable-response.dto';
 import { ProductSuspendResponseDto } from './responses/product-suspend-response.dto';
 import { ProductUnsuspendResponseDto } from './responses/product-unsuspend-response.dto';
-import { ProductDowngradableResponseDto } from './responses/product-Downgradable-response.dto';
+import { ProductDowngradableResponseDto } from './responses/product-downgradable-response.dto';
 import { ProductDeleteResponseDto } from './responses/product-delete-response.dto';
 import { ProductDeleteRequestDto } from './requests/product-delete-request.dto';
 import { ProductValidateAttributesRequestDto } from './requests/product-validate-attributes-request.dto';
 import { ProductValidateAttributesResponseDto } from './responses/product-validate-attributes-response.dto';
 import { SetupStatusResponseDto } from '../setup-status-response.dto';
+import { CompanyDataDto } from '../company-data.dto';
 
 export interface ProductControllerInterface {
   info(request: Request & JwtDto): ProductInfoResponseDto | ErrorResponseDto;
@@ -1435,7 +1435,7 @@ export interface ProductControllerInterface {
     requestBody: ProductUpgradableRequestDto & JwtDto,
   ): Promise<ProductUpgradableResponseDto>;
 
-  Downgradable(
+  downgradeable(
     requestBody: ProductDowngradableRequestDto & JwtDto,
   ): Promise<ProductDowngradableResponseDto>;
 
@@ -1453,12 +1453,11 @@ export interface ProductControllerInterface {
 
   setupStatus(): Promise<SetupStatusResponseDto>;
 
-  install(request: Request & JwtDto): Promise<null | ErrorResponseDto>;
-
-  uninstall(
-    request: Request & JwtDto,
-    requestBody: { companyId: string },
+  install(
+    requestBody: CompanyDataDto & JwtDto,
   ): Promise<null | ErrorResponseDto>;
+
+  uninstall(requestBody: JwtDto): Promise<null | ErrorResponseDto>;
 }
 ```
 

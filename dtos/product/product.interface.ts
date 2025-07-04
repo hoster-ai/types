@@ -1,4 +1,3 @@
-import { Request } from 'express';
 import { JwtDto } from '../jwt.dto';
 import { ProductInfoResponseDto } from './responses/product-info-response.dto';
 import { ErrorResponseDto } from '../error-response.dto';
@@ -23,6 +22,7 @@ import { ProductDeleteRequestDto } from './requests/product-delete-request.dto';
 import { ProductValidateAttributesRequestDto } from './requests/product-validate-attributes-request.dto';
 import { ProductValidateAttributesResponseDto } from './responses/product-validate-attributes-response.dto';
 import { SetupStatusResponseDto } from '../setup-status-response.dto';
+import { CompanyDataDto } from '../company-data.dto';
 
 export interface ProductControllerInterface {
   info(request: Request & JwtDto): ProductInfoResponseDto | ErrorResponseDto;
@@ -73,10 +73,9 @@ export interface ProductControllerInterface {
 
   setupStatus(): Promise<SetupStatusResponseDto>;
 
-  install(request: Request & JwtDto): Promise<null | ErrorResponseDto>;
-
-  uninstall(
-    request: Request & JwtDto,
-    requestBody: { companyId: string },
+  install(
+    requestBody: CompanyDataDto & JwtDto,
   ): Promise<null | ErrorResponseDto>;
+
+  uninstall(requestBody: JwtDto): Promise<null | ErrorResponseDto>;
 }
