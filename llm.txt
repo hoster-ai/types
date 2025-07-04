@@ -603,7 +603,7 @@ SOURCE: dtos/info.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
-import { ActionsEnum } from '../enums/actions.enum';
+import { ProductActionsEnum } from '../enums/actions.enum';
 import { EventsEnum } from '../enums/events.enum';
 import { LanguageEnum } from '../enums/language.enum';
 import { RolesEnum } from '../enums/roles.enum';
@@ -644,7 +644,7 @@ export class InfoDto {
   /**
    * A list of actions that are supported by this integration.
    */
-  supportedActions?: ActionsEnum[] = [];
+  supportedActions?: ProductActionsEnum[] = [];
 
   /**
    * A list of events that the integration listens to.
@@ -2473,13 +2473,13 @@ export class UnitDto {
 
 ----------------------------------------
 
-TITLE: ProductActionsEnum
-DESCRIPTION: This file defines the ProductActionsEnum for product integration actions.
+TITLE: ProductProductActionsEnum
+DESCRIPTION: This file defines the ProductProductActionsEnum for product integration actions.
 SOURCE: enums/actions.enum.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
-export enum ProductActionsEnum {
+export enum ProductProductActionsEnum {
   // Product Integration
   CREATE = 'create',
   RENEW = 'renew',
