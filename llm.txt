@@ -266,6 +266,45 @@ export class ClientDataDto {
 
 ----------------------------------------
 
+TITLE: FieldOptionDto
+DESCRIPTION: Data Transfer Object for field options. This class defines the structure and properties of a field option that can be used in form fields.
+SOURCE: dtos/field-option.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsBoolean, IsDefined, IsOptional, IsString } from 'class-validator';
+
+/**
+ * Data Transfer Object for field options.
+ * This class defines the structure and properties of a field option
+ * that can be used in form fields.
+ */
+export class FieldOptionDto {
+  /**
+   * Key of the field option
+   */
+  @IsString()
+  @IsDefined()
+  key!: string;
+
+  /**
+   * Value of the field option
+   */
+  @IsString()
+  @IsDefined()
+  value!: string;
+
+  /**
+   * Indicates if the field option is disabled
+   */
+  @IsBoolean()
+  @IsOptional()
+  disabled?: boolean = false;
+}
+```
+
+----------------------------------------
+
 TITLE: CompanyDataDto
 DESCRIPTION: Data Transfer Object for company data.
 SOURCE: dtos/company-data.dto.ts
@@ -492,7 +531,7 @@ export class FieldDto {
    * Value of action field
    */
   @IsDefined()
-  value!: string | number | Record<string, unknown>;
+  value!: string | number | FieldDto | FieldDto[];
 
   /**
    * Type of label

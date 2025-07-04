@@ -8,6 +8,7 @@ export * from './dtos/client-data.dto';
 export * from './dtos/company-data.dto';
 export * from './dtos/error-response.dto';
 export * from './dtos/field.dto';
+export * from './dtos/field-option.dto';
 export * from './dtos/info.dto';
 export * from './dtos/jwt.dto';
 export * from './dtos/menu.dto';

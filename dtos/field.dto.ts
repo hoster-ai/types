@@ -11,6 +11,7 @@ import {
 import { Type } from 'class-transformer';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { MultilangTextDto } from './multilang-text.dto';
+import { FieldOptionDto } from './field-option.dto';
 
 /**
  * Data Transfer Object for a form field.
@@ -34,13 +35,18 @@ export class FieldDto {
   label!: MultilangTextDto[];
 
   /**
-   * Value of action field
+   * Value of the field.
+   *
+   * String is when it is input, text area
+   * Number is when it is number
+   * FieldOptionDto is when it is checkbox
+   * FieldOptionDto[] is when it is radioboxes or select
    */
   @IsDefined()
-  value!: string | number | Record<string, unknown>;
+  value!: string | number | FieldOptionDto | FieldOptionDto[];
 
   /**
-   * Type of label
+   * Type of the field
    */
   @IsEnum(FieldTypeEnum)
   type!: FieldTypeEnum;

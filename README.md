@@ -42,6 +42,7 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `company-data.dto.ts`: Holds all the relevant data for a company.
 - `error-response.dto.ts`: Defines the structure for error responses.
 - `field.dto.ts`: Represents a generic field for forms or dynamic data.
+- `field-option.dto.ts`: Represents options for form fields (used for checkboxes, radioboxes, and selects).
 - `info.dto.ts`: Contains all necessary information for a service integration.
 - `jwt.dto.ts`: DTOs related to JSON Web Tokens.
 - `menu.dto.ts`: Defines the structure for menu items.
