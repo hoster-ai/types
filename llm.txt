@@ -2238,6 +2238,75 @@ export class ProductValidateAttributesResponseDto extends BaseResponse {
 
 ----------------------------------------
 
+TITLE: ItemValidateAttributesRequestDto
+DESCRIPTION: Represents a request to validate item attributes.
+SOURCE: dtos/product/requests/item-validate-attributes-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, IsString, ValidateNested } from 'class-validator';
+import { ProductItemDataDto } from '../product-item-data.dto';
+import { Type } from 'class-transformer';
+
+/**
+ * Represents a request to validate item attributes.
+ * This DTO is used when a client needs to check the validity of a set of attribute values
+ * before proceeding with an action, such as creating or updating an item.
+ */
+export class ItemValidateAttributesRequestDto {
+  /**
+   * The product data of the item.
+   */
+  @IsDefined()
+  @Type(() => ProductItemDataDto)
+  @ValidateNested()
+  productData!: ProductItemDataDto;
+
+  /**
+   * The key of the attribute that triggered the validation.
+   * This helps the server understand the context of the validation request,
+   * especially in cases where validation rules are interdependent.
+   */
+  @IsDefined()
+  @IsString()
+  triggeredByKey!: string;
+
+  /**
+   * A record of attribute values to be validated.
+   * The keys are the attribute identifiers, and the values are the data to be checked.
+   */
+  @IsDefined()
+  @IsObject()
+  attributeValues!: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: ItemValidateAttributesResponseDto
+DESCRIPTION: Represents the response from validating item attributes.
+SOURCE: dtos/product/responses/item-validate-attributes-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { BaseResponse } from '../../base-response.dto';
+import { FieldDto } from '../../field.dto';
+
+/**
+ * Represents the response from validating item attributes.
+ * Contains the list of attributes that have been validated.
+ */
+export class ItemValidateAttributesResponseDto extends BaseResponse {
+  /**
+   * An array of field DTOs representing the validated attributes.
+   * Each `FieldDto` contains details about a single attribute.
+   */
+  validatedAttributes!: FieldDto[];
+}
+```
+
+----------------------------------------
+
 TITLE: ResponseDataDto
 DESCRIPTION: DTO for response data. Used to return a generic data object in API responses.
 SOURCE: dtos/response-data.dto.ts
@@ -2405,21 +2474,21 @@ export class UnitDto {
 
 ----------------------------------------
 
-TITLE: ActionsEnum
-DESCRIPTION: This file defines the ActionsEnum.
+TITLE: ProductActionsEnum
+DESCRIPTION: This file defines the ProductActionsEnum for product integration actions.
 SOURCE: enums/actions.enum.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
-export enum ActionsEnum {
+export enum ProductActionsEnum {
   // Product Integration
-  CREATE = 'CREATE',
-  RENEW = 'RENEW',
-  UPGRADE = 'UPGRADE',
-  DOWNGRADE = 'DOWNGRADE',
-  SUSPEND = 'SUSPEND',
-  UNSUSPEND = 'UNSUSPEND',
-  DELETE = 'DELETE',
+  CREATE = 'create',
+  RENEW = 'renew',
+  UPGRADE = 'upgrade',
+  DOWNGRADE = 'downgrade',
+  SUSPEND = 'suspend',
+  UNSUSPEND = 'unsuspend',
+  DELETE = 'delete',
 }
 ```
 

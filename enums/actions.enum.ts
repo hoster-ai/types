@@ -1,10 +1,10 @@
-export enum ActionsEnum {
+export enum ProductActionsEnum {
   // Product Integration
-  CREATE = 'CREATE',
-  RENEW = 'RENEW',
-  UPGRADE = 'UPGRADE',
-  DOWNGRADE = 'DOWNGRADE',
-  SUSPEND = 'SUSPEND',
-  UNSUSPEND = 'UNSUSPEND',
-  DELETE = 'DELETE',
+  CREATE = 'create',
+  RENEW = 'renew',
+  UPGRADE = 'upgrade',
+  DOWNGRADE = 'downgrade',
+  SUSPEND = 'suspend',
+  UNSUSPEND = 'unsuspend',
+  DELETE = 'delete',
 }
