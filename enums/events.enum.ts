@@ -81,6 +81,9 @@ export enum EventsEnum {
   INTEGRATION_UNINSTALLED = 'integration/uninstalled',
   INTEGRATION_ACTIVATED = "integration/activated",
   INTEGRATION_DEACTIVATED = "integration/deactivated",
+  INTEGRATION_MAINTENANCE_STARTED = 'integration/maintenance-started',
+  INTEGRATION_MAINTENANCE_FINISHED = 'integration/maintenance-finished',
+
 
   DOMAIN_CONTACT_CREATED = 'domain-contact/created',
   DOMAIN_CONTACT_UPDATED = 'domain-contact/updated',
@@ -93,6 +96,15 @@ export enum EventsEnum {
   ADDON_CREATED = 'addon/created',
   ADDON_UPDATED = 'addon/updated',
   ADDON_DELETED = 'addon/deleted',
+
+  TRANSACTION_CREATED = 'transaction/created',
+  TRANSACTION_CANCELED = 'transaction/canceled',
+  TRANSACTION_FAILED = 'transaction/failed',
+  TRANSACTION_SUBSCRIBED = 'transaction/subscribed',
+  TRANSACTION_UNSUBSCRIBED = 'transaction/unsubscribed',
+  TRANSACTION_UPDATED = 'transaction/updated',
+  TRANSACTION_DELETED = 'transaction/deleted',
+  TRANSACTION_COMPLETED = 'transaction/completed',
 
   PAYMENT_CREATED = 'payment/created',
   PAYMENT_CANCELED = 'payment/canceled',
