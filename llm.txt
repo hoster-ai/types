@@ -2289,6 +2289,79 @@ LANGUAGE: typescript
 CODE:
 ```typescript
 import { BaseResponse } from '../../base-response.dto';
+```
+
+----------------------------------------
+
+TITLE: ProductValidateAttributesRequestDto
+DESCRIPTION: Represents a request to validate product attributes. This DTO is used when a client needs to check the validity of a set of attribute values before proceeding with an action, such as creating or updating a product.
+SOURCE: dtos/product/requests/product-validate-attributes-request.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsDefined, IsObject, IsString } from 'class-validator';
+
+/**
+ * Represents a request to validate product attributes.
+ * This DTO is used when a client needs to check the validity of a set of attribute values
+ * before proceeding with an action, such as creating or updating a product.
+ */
+export class ProductValidateAttributesRequestDto {
+  /**
+   * The key of the attribute that triggered the validation.
+   * This helps the server understand the context of the validation request,
+   * especially in cases where validation rules are interdependent.
+   */
+  @IsDefined()
+  @IsString()
+  triggeredByKey!: string;
+
+  /**
+   * A record of attribute values to be validated.
+   * The keys are the attribute identifiers, and the values are the data to be checked.
+   */
+  @IsDefined()
+  @IsObject()
+  attributeValues!: Record<string, unknown>;
+}
+```
+
+----------------------------------------
+
+TITLE: validateProductValidateAttributesRequestDto
+DESCRIPTION: Validates a product validate attributes request object.
+SOURCE: validators/product-validate-attributes-request-validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ProductValidateAttributesRequestDto } from '../dtos/product/requests/product-validate-attributes-request.dto';
+
+/**
+ * Validates a product validate attributes request object.
+ *
+ * @param {Record<string, unknown>} plainObject - The plain object to validate.
+ * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
+ */
+export const validateProductValidateAttributesRequestDto = async (
+  plainObject: Record<string, unknown>,
+): Promise<ValidationError[]> => {
+  const request = plainToInstance(
+    ProductValidateAttributesRequestDto,
+    plainObject,
+  );
+  return await validate(request);
+};
+```
+
+----------------------------------------
+
+SOURCE: dtos/product/responses/item-validate-attributes-response.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { BaseResponse } from '../../base-response.dto';
 import { FieldDto } from '../../field.dto';
 
 /**
