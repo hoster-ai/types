@@ -1,8 +1,9 @@
-import 'reflect-metadata';import { validateProductUpgradeableRequestDto } from './product-upgradeable-request-validator';
+import 'reflect-metadata';
+import { validateProductUpgradableRequestDto } from './product-upgradable-request-validator';
 import { CountryEnum } from '../enums/country.enum';
 import { DurationEnum } from '../enums/duration.enum';
 
-describe('validateProductUpgradeableRequestDto', () => {
+describe('validateProductUpgradableRequestDto', () => {
   it('should return no errors for a valid request', async () => {
     const validRequest = {
       clientData: {
@@ -23,7 +24,7 @@ describe('validateProductUpgradeableRequestDto', () => {
       },
     };
 
-    const errors = await validateProductUpgradeableRequestDto(validRequest);
+    const errors = await validateProductUpgradableRequestDto(validRequest);
     expect(errors.length).toBe(0);
   });
 
@@ -35,7 +36,7 @@ describe('validateProductUpgradeableRequestDto', () => {
       itemData: {},
     };
 
-    const errors = await validateProductUpgradeableRequestDto(invalidRequest);
+    const errors = await validateProductUpgradableRequestDto(invalidRequest);
     expect(errors.length).toBeGreaterThan(0);
   });
 });

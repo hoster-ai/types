@@ -11,6 +11,7 @@ import {
 import { Type } from 'class-transformer';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { MultilangTextDto } from './multilang-text.dto';
+import { FieldOptionDto } from './field-option.dto';
 
 /**
  * Data Transfer Object for a form field.
@@ -34,13 +35,18 @@ export class FieldDto {
   label!: MultilangTextDto[];
 
   /**
-   * Value of action field
+   * Value of the field.
+   *
+   * String is when it is input, text area
+   * Number is when it is number
+   * FieldOptionDto is when it is checkbox
+   * FieldOptionDto[] is when it is radioboxes or select
    */
   @IsDefined()
-  value!: string | number | Record<string, unknown>;
+  value!: string | number | FieldOptionDto | FieldOptionDto[];
 
   /**
-   * Type of label
+   * Type of the field
    */
   @IsEnum(FieldTypeEnum)
   type!: FieldTypeEnum;
@@ -79,14 +85,14 @@ export class FieldDto {
   regexValidationErrorMessage?: MultilangTextDto[];
 
   /**
-   * Indicates if the field has remote validation
+   * Indicates if the field triggers remote validation
    */
   @IsBoolean()
   @IsOptional()
-  remoteValidation?: boolean;
+  triggersRemoteValidation?: boolean = false;
 
   /**
-   * Error message for the field
+   * Error message for the field for supported languages
    */
   @ValidateNested({ each: true })
   @Type(() => MultilangTextDto)
@@ -94,8 +100,10 @@ export class FieldDto {
   remoteValidationErrorMessage?: MultilangTextDto[];
 
   /**
-   * The item attribute is upgradeable
+   * The item attribute is upgradable
+   * If the user has the permission to upgrade the item from his panel
+   * TODO: Let's see if this approach is the best way for the user to upgrade their item
    */
   @IsBoolean()
-  upgradeable: boolean = false;
+  upgradable: boolean = false;
 }

@@ -1,6 +1,6 @@
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { ProductDowngradableRequestDto } from '../dtos/product/requests/product-downgradeable-request.dto';
+import { ProductDowngradableRequestDto } from '../dtos/product/requests/product-downgradable-request.dto';
 
 /**
  * Validates a product downgradable request object.

@@ -4,10 +4,10 @@ import { ProductItemDataDto } from '../product-item-data.dto';
 import { ClientDataDto } from '../../client-data.dto';
 
 /**
- * Represents a request to check if a product item is downgradable.
+ * Represents a request to check if a product item is upgradable.
  * This DTO contains all the necessary information for the check.
  */
-export class ProductDowngradableRequestDto {
+export class ProductUpgradableRequestDto {
   /**
    * The client's data.
    * This object holds all the relevant information about the client initiating the request.

@@ -83,8 +83,6 @@ export enum EventsEnum {
   INTEGRATION_DEACTIVATED = "integration/deactivated",
   INTEGRATION_MAINTENANCE_STARTED = 'integration/maintenance-started',
   INTEGRATION_MAINTENANCE_FINISHED = 'integration/maintenance-finished',
-
-
   DOMAIN_CONTACT_CREATED = 'domain-contact/created',
   DOMAIN_CONTACT_UPDATED = 'domain-contact/updated',
   DOMAIN_CONTACT_DELETED = 'domain-contact/deleted',
@@ -105,6 +103,7 @@ export enum EventsEnum {
   TRANSACTION_UPDATED = 'transaction/updated',
   TRANSACTION_DELETED = 'transaction/deleted',
   TRANSACTION_COMPLETED = 'transaction/completed',
+  TRANSACTION_REFUNDED = 'transaction/refunded',
 
   TEMPLATE_CREATED = 'template/created',
   TEMPLATE_UPDATED = 'template/updated',

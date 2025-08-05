@@ -1,4 +1,3 @@
-import { Request } from 'express';
 import { JwtDto } from '../jwt.dto';
 import { ProductInfoResponseDto } from './responses/product-info-response.dto';
 import { ErrorResponseDto } from '../error-response.dto';
@@ -11,18 +10,19 @@ import { ProductUpgradeRequestDto } from './requests/product-upgrade-request.dto
 import { ProductDowngradeRequestDto } from './requests/product-downgrade-request.dto';
 import { ProductSuspendRequestDto } from './requests/product-suspend-request.dto';
 import { ProductUnsuspendRequestDto } from './requests/product-unsuspend-request.dto';
-import { ProductUpgradeableRequestDto } from './requests/product-upgradeable-request.dto';
-import { ProductDowngradableRequestDto } from './requests/product-downgradeable-request.dto';
+import { ProductUpgradableRequestDto } from './requests/product-upgradable-request.dto';
+import { ProductDowngradableRequestDto } from './requests/product-downgradable-request.dto';
 import { ProductDowngradeResponseDto } from './responses/product-downgrade-response.dto';
-import { ProductUpgradeableResponseDto } from './responses/product-upgradeable-response.dto';
+import { ProductUpgradableResponseDto } from './responses/product-upgradable-response.dto';
 import { ProductSuspendResponseDto } from './responses/product-suspend-response.dto';
 import { ProductUnsuspendResponseDto } from './responses/product-unsuspend-response.dto';
-import { ProductDowngradeableResponseDto } from './responses/product-downgradeable-response.dto';
+import { ProductDowngradableResponseDto } from './responses/product-downgradable-response.dto';
 import { ProductDeleteResponseDto } from './responses/product-delete-response.dto';
 import { ProductDeleteRequestDto } from './requests/product-delete-request.dto';
 import { ProductValidateAttributesRequestDto } from './requests/product-validate-attributes-request.dto';
 import { ProductValidateAttributesResponseDto } from './responses/product-validate-attributes-response.dto';
 import { SetupStatusResponseDto } from '../setup-status-response.dto';
+import { CompanyDataDto } from '../company-data.dto';
 
 export interface ProductControllerInterface {
   info(request: Request & JwtDto): ProductInfoResponseDto | ErrorResponseDto;
@@ -51,13 +51,13 @@ export interface ProductControllerInterface {
     requestBody: ProductUnsuspendRequestDto & JwtDto,
   ): Promise<ProductUnsuspendResponseDto>;
 
-  upgradeable(
-    requestBody: ProductUpgradeableRequestDto & JwtDto,
-  ): Promise<ProductUpgradeableResponseDto>;
+  upgradable(
+    requestBody: ProductUpgradableRequestDto & JwtDto,
+  ): Promise<ProductUpgradableResponseDto>;
 
   downgradeable(
     requestBody: ProductDowngradableRequestDto & JwtDto,
-  ): Promise<ProductDowngradeableResponseDto>;
+  ): Promise<ProductDowngradableResponseDto>;
 
   delete(
     requestBody: ProductDeleteRequestDto & JwtDto,
@@ -73,10 +73,9 @@ export interface ProductControllerInterface {
 
   setupStatus(): Promise<SetupStatusResponseDto>;
 
-  install(request: Request & JwtDto): Promise<null | ErrorResponseDto>;
-
-  uninstall(
-    request: Request & JwtDto,
-    requestBody: { companyId: string },
+  install(
+    requestBody: CompanyDataDto & JwtDto,
   ): Promise<null | ErrorResponseDto>;
+
+  uninstall(requestBody: JwtDto): Promise<null | ErrorResponseDto>;
 }

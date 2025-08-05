@@ -1,4 +1,5 @@
-import 'reflect-metadata';import { validateProductDowngradeRequestDto } from './product-downgrade-request-validator';
+import 'reflect-metadata';
+import { validateProductDowngradeRequestDto } from './product-downgrade-request-validator';
 import { CountryEnum } from '../enums/country.enum';
 import { DurationEnum } from '../enums/duration.enum';
 

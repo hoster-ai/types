@@ -1,4 +1,4 @@
-export enum ActionsEnum {
+export enum ProductActionsEnum {
   // Product Integration
   CREATE = 'create',
   RENEW = 'renew',

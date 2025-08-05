@@ -1,5 +1,11 @@
 # @hosterai/types
 
+This package contains the core types for the Hoster AI platform.
+
+## Files
+
+- `llm.txt`: Contains a list of large language models.
+
 [![NPM Version](https://img.shields.io/npm/v/@hosterai/types.svg)](https://www.npmjs.com/package/@hosterai/types)
 [![NPM Downloads](https://img.shields.io/npm/dm/@hosterai/types.svg)](https://www.npmjs.com/package/@hosterai/types)
 [![Build Status](https://github.com/HosterAI/types/actions/workflows/ci.yml/badge.svg)](https://github.com/HosterAI/types/actions/workflows/ci.yml)
@@ -36,6 +42,7 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `company-data.dto.ts`: Holds all the relevant data for a company.
 - `error-response.dto.ts`: Defines the structure for error responses.
 - `field.dto.ts`: Represents a generic field for forms or dynamic data.
+- `field-option.dto.ts`: Represents options for form fields (used for checkboxes, radioboxes, and selects).
 - `info.dto.ts`: Contains all necessary information for a service integration.
 - `jwt.dto.ts`: DTOs related to JSON Web Tokens.
 - `menu.dto.ts`: Defines the structure for menu items.
@@ -72,7 +79,7 @@ Enums provide a set of named constants for common types, preventing errors with 
 
 **Key Enums:**
 
-- `ActionsEnum`: Defines possible actions.
+- `ProductActionsEnum`: Defines possible actions.
 - `CountryEnum`: A list of all countries.
 - `DurationEnum`: Defines billing durations (e.g., `MONTHLY`, `YEARLY`).
 - `EventsEnum`: Defines triggerable events.
