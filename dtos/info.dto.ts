@@ -1,4 +1,4 @@
-import { ProductActionsEnum } from '../enums/actions.enum';
+import { ActionsEnum } from '../enums/actions.enum';
 import { EventsEnum } from '../enums/events.enum';
 import { LanguageEnum } from '../enums/language.enum';
 import { RolesEnum } from '../enums/roles.enum';
@@ -39,7 +39,7 @@ export class InfoDto {
   /**
    * A list of actions that are supported by this integration.
    */
-  supportedActions?: ProductActionsEnum[] = [];
+  supportedActions?: ActionsEnum[] = [];
 
   /**
    * A list of events that the integration listens to.
