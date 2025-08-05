@@ -70,6 +70,7 @@ DTOs define the shape of data that is exchanged between different parts of the s
 
 - `product/product-info.dto.ts`: Contains detailed information about a product.
 - `product/product-item-data.dto.ts`: Represents the data of a specific product item.
+- `product/requests/product-validate-attributes-request.dto.ts`: Defines the structure for validating product attributes.
 - `product/requests/*`: DTOs for product-related requests (create, delete, upgrade, etc.).
 - `product/responses/*`: DTOs for product-related responses.
 
@@ -109,6 +110,7 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateNotificationRequestDto`: Validates the main notification request.
 - `validateEmailReceiverDto`, `validateSmsReceiverDto`, `validatePushReceiverDto`: Validators for notification receivers.
 - `validateEmailSenderDto`, `validateSmsSenderDto`, `validatePushSenderDto`: Validators for notification senders.
+- `validateProductValidateAttributesRequestDto`: Validates requests for product attribute validation.
 
 ## Usage Example
 
