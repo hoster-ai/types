@@ -105,7 +105,7 @@ export class InfoDto {
       /** The icon for the settings page. */
       icon: string;
       /** A description of the settings page. */
-      descrition: string;
+      description: string;
     } & (
       | { url: string; tabs?: never } // If url is provided, tabs should not be present
       | { url?: never; tabs: [TabDto, ...TabDto[]] } // If tabs is provided (at least one tab), url should not be present

@@ -106,15 +106,6 @@ export enum EventsEnum {
   TRANSACTION_DELETED = 'transaction/deleted',
   TRANSACTION_COMPLETED = 'transaction/completed',
 
-  PAYMENT_CREATED = 'payment/created',
-  PAYMENT_CANCELED = 'payment/canceled',
-  PAYMENT_FAILED = 'payment/failed',
-  PAYMENT_SUBSCRIBED = 'payment/subscribed',
-  PAYMENT_UNSUBSCRIBED = 'payment/unsubscribed',
-  PAYMENT_UPDATED = 'payment/updated',
-  PAYMENT_DELETED = 'payment/deleted',
-  PAYMENT_COMPLETED = 'payment/completed',
-
   TEMPLATE_CREATED = 'template/created',
   TEMPLATE_UPDATED = 'template/updated',
   TEMPLATE_DELETED = 'template/deleted',
