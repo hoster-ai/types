@@ -1,4 +1,4 @@
-import { ProductActionsEnum } from '../enums/actions.enum';
+import { ActionsEnum } from '../enums/actions.enum';
 import { EventsEnum } from '../enums/events.enum';
 import { LanguageEnum } from '../enums/language.enum';
 import { RolesEnum } from '../enums/roles.enum';
@@ -39,7 +39,7 @@ export class InfoDto {
   /**
    * A list of actions that are supported by this integration.
    */
-  supportedActions?: ProductActionsEnum[] = [];
+  supportedActions?: ActionsEnum[] = [];
 
   /**
    * A list of events that the integration listens to.
@@ -105,7 +105,7 @@ export class InfoDto {
       /** The icon for the settings page. */
       icon: string;
       /** A description of the settings page. */
-      descrition: string;
+      description: string;
     } & (
       | { url: string; tabs?: never } // If url is provided, tabs should not be present
       | { url?: never; tabs: [TabDto, ...TabDto[]] } // If tabs is provided (at least one tab), url should not be present
