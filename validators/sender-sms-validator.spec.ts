@@ -2,35 +2,22 @@ import 'reflect-metadata';
 import { validateSmsSenderDto } from './sender-sms-validator';
 
 describe('SmsSenderDto Validator', () => {
+  const validDto = {
+    senderPhone: '+12015550123',
+    message: 'Test Message',
+  };
+
   it('should return no errors for valid DTO', () => {
-    const validDto = {
-      senderPhone: '+12015550123',
-      message: 'Test Message',
-    };
-
-    const errors = validateSmsSenderDto(validDto);
-    expect(errors).toHaveLength(0);
+    expect(validateSmsSenderDto(validDto)).toHaveLength(0);
   });
 
-  it('should return error for invalid phone number', () => {
-    const invalidDto = {
-      senderPhone: 'not-a-phone-number',
-      message: 'Test Message',
-    };
-
-    const errors = validateSmsSenderDto(invalidDto);
+  it.each([
+    [{ senderPhone: 'not-a-phone-number', message: 'Test Message' }, 'senderPhone'],
+    [{ senderPhone: '+11234567890' }, 'message'],
+    [{ message: 'Test Message' }, 'senderPhone'],
+  ])('should return error for invalid %s', (dto, expectedProp) => {
+    const errors = validateSmsSenderDto(dto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some((e) => e.property === 'senderPhone')).toBe(true);
-  });
-
-  it('should return error for missing message', () => {
-    const invalidDto = {
-      senderPhone: '+11234567890',
-      // Missing message
-    };
-
-    const errors = validateSmsSenderDto(invalidDto);
-    expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some((e) => e.property === 'message')).toBe(true);
+    expect(errors.some(e => e.property === expectedProp)).toBe(true);
   });
 });

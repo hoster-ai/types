@@ -5,7 +5,7 @@ describe('validateProductValidateAttributesRequestDto', () => {
   it('should return no errors for a valid request', async () => {
     const validRequest = {
       triggeredByKey: 'some-key',
-      values: {
+      attributeValues: {
         attribute1: 'value1',
         attribute2: 123,
       },
@@ -18,7 +18,7 @@ describe('validateProductValidateAttributesRequestDto', () => {
 
   it('should return errors for an invalid request', async () => {
     const invalidRequest = {
-      values: {
+      attributeValues: {
         attribute1: 'value1',
         attribute2: 123,
       },

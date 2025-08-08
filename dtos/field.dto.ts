@@ -1,3 +1,4 @@
+import { IsOfAllowedTypes } from '../decorators/is-of-allowed-types.validator';
 import {
   IsString,
   IsEnum,
@@ -7,6 +8,8 @@ import {
   IsDefined,
   IsArray,
   ArrayMinSize,
+  ValidateIf,
+  // IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FieldTypeEnum } from '../enums/field-type.enum';
@@ -23,6 +26,7 @@ export class FieldDto {
    * ID of action field
    */
   @IsString()
+  @IsDefined()
   id!: string;
 
   /**
@@ -43,30 +47,53 @@ export class FieldDto {
    * FieldOptionDto[] is when it is radioboxes or select
    */
   @IsDefined()
+  @IsOfAllowedTypes(['string', 'number', 'object', 'array'], {
+    objectClass: FieldOptionDto,
+    arrayElementClass: FieldOptionDto,
+    require: true,
+    objectNotEmpty: true,
+    arrayNotEmpty: true,
+  })
+  // @IsDefined()
+  // @ValidateIf(o => typeof o.value === 'string')
+  // @IsString({ message: 'Value must be a valid string' })
+  // @ValidateIf(o => typeof o.value === 'number')
+  // @IsNumber({}, { message: 'Value must be a valid number' })
+  // @ValidateIf(o => Array.isArray(o.value))
+  // @IsArray({ message: 'Value must be an array' })
+  // @ValidateNested({ each: true })
+  // @Type(() => FieldOptionDto)
+  // @ValidateIf(o => typeof o.value === 'object' && !Array.isArray(o.value))
+  // @ValidateNested()
+  // @Type(() => FieldOptionDto)
   value!: string | number | FieldOptionDto | FieldOptionDto[];
 
   /**
    * Type of the field
    */
   @IsEnum(FieldTypeEnum)
+  @IsDefined()
   type!: FieldTypeEnum;
 
   /**
    * Indicates if the field is required
    */
   @IsBoolean()
+  @IsDefined()
   required!: boolean;
 
   /**
    * Indicates if the field is disabled
    */
   @IsBoolean()
+  @IsDefined()
   disabled!: boolean;
 
   /**
    * Indicates if the field is hidden
    */
   @IsBoolean()
+  @IsDefined()
   hidden!: boolean;
 
   /**
@@ -79,6 +106,7 @@ export class FieldDto {
   /**
    * Error message for the field for supported languages
    */
+  @ValidateIf((o) => !!o.regexValidation)
   @ValidateNested({ each: true })
   @Type(() => MultilangTextDto)
   @IsOptional()
@@ -94,6 +122,7 @@ export class FieldDto {
   /**
    * Error message for the field for supported languages
    */
+  @ValidateIf((o) => o.triggersRemoteValidation === true)
   @ValidateNested({ each: true })
   @Type(() => MultilangTextDto)
   @IsOptional()
@@ -105,5 +134,6 @@ export class FieldDto {
    * TODO: Let's see if this approach is the best way for the user to upgrade their item
    */
   @IsBoolean()
+  @IsDefined()
   upgradable: boolean = false;
 }

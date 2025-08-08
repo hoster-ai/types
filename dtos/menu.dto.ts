@@ -1,40 +1,53 @@
+import { IsDefined, IsIn, IsString, IsUrl, ValidateNested } from 'class-validator';
 import { SubmenuDto } from './submenu.dto';
+import { Type } from 'class-transformer';
+import { IsPropertyForbidden } from '../decorators/is-property-forbidden.validator';
 
 /**
  * Base properties shared by all menu items.
  */
-interface BaseMenuDto {
+export class BaseMenuDto {
   /**
    * The icon to be displayed for the menu item.
    * @example "home"
    */
-  icon: string;
+  @IsUrl({ protocols: ['https'], require_protocol: true })
+  @IsDefined()
+  icon!: string;
 
   /**
    * The name to be displayed for the menu item.
    * @example "Dashboard"
    */
-  label: string;
+  @IsString()
+  @IsDefined()
+  label!: string;
 }
 
 /**
  * Represents a menu item that links directly to a URL.
  * This type of menu item does not have a submenu.
  */
-export interface MenuDtoWithUrl extends BaseMenuDto {
+export class MenuDtoWithUrl extends BaseMenuDto {
   /**
    * The type of the menu item. This is a discriminator property.
    */
-  type: 'only-url';
+  @IsString()
+  @IsIn(['only-url'])
+  type!: 'only-url';
+  
   /**
    * The URL associated with the menu item.
    * Requests from the hoster will be signed with a JWT containing company information.
    */
-  url: string;
+  @IsUrl({ protocols: ['https'], require_protocol: true })
+  @IsDefined()
+  url!: string;
 
   /**
    * Explicitly prevents a submenu from being added to this type of menu item.
    */
+  @IsPropertyForbidden('submenu', { message: 'submenu is forbidden in MenuDtoWithUrl' })
   submenu?: never;
 }
 
@@ -42,19 +55,25 @@ export interface MenuDtoWithUrl extends BaseMenuDto {
  * Represents a menu item that contains a submenu.
  * This type of menu item does not have a direct URL.
  */
-export interface MenuDtoWithSubmenu extends BaseMenuDto {
+export class MenuDtoWithSubmenu extends BaseMenuDto {
   /**
    * The type of the menu item. This is a discriminator property.
    */
-  type: 'with-submenu';
+  @IsString()
+  @IsIn(['with-submenu'])
+  type!: 'with-submenu';
   /**
    * Explicitly prevents a URL from being added to this type of menu item.
    */
+  @IsPropertyForbidden('url', { message: 'url is forbidden in MenuDtoWithSubmenu' })
   url?: never;
 
   /**
    * The list of tabs that will appear in the submenu.
    * If there is only one tab, no submenu or navigation bar will be displayed.
    */
-  submenu: SubmenuDto[];
+  @IsDefined()
+  @ValidateNested({ each: true })
+  @Type(() => SubmenuDto)
+  submenu!: SubmenuDto[];
 }

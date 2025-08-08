@@ -7,7 +7,7 @@ describe('ActionDto Validator', () => {
     const validDto = {
       icon: 'test-icon',
       openMethod: OpenMethodEnum.AJAX_CALL,
-      url: 'http://example.com',
+      url: 'https://example.com',
     };
 
     const errors = validateActionDto(validDto);

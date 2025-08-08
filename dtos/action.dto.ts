@@ -1,4 +1,4 @@
-import { IsString, IsUrl, IsEnum, IsOptional } from 'class-validator';
+import { IsString, IsUrl, IsEnum, IsOptional, IsDefined } from 'class-validator';
 import { OpenMethodEnum } from '../enums/open-method.enum';
 
 /**
@@ -17,6 +17,7 @@ export class ActionDto {
    * @example "add"
    */
   @IsString()
+  @IsDefined()
   icon!: string;
 
   /**
@@ -33,12 +34,14 @@ export class ActionDto {
    * @see OpenMethodEnum
    */
   @IsEnum(OpenMethodEnum)
+  @IsDefined()
   openMethod!: OpenMethodEnum;
 
   /**
    * The URL to navigate to when the action is triggered.
    * @example "/api/create"
    */
-  @IsUrl()
+  @IsUrl({ protocols: ['https'], require_protocol: true })
+  @IsDefined()
   url!: string;
 }

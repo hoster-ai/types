@@ -10,7 +10,7 @@ describe('CompanyDataDto Validator', () => {
       name: 'Test Company',
       emails: ['test@example.com'],
       invoiceEmail: 'invoice@example.com',
-      privacyPolicyUrl: 'http://example.com/privacy',
+      privacyPolicyUrl: 'https://example.com/privacy',
       defaultLanguage: LanguageEnum.EN,
       languages: [LanguageEnum.EN, LanguageEnum.FR],
       telephone: '+12133734253',
