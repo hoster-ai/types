@@ -29,7 +29,7 @@ import {
 
   
   
-  export function AtLeastOneNonEmptyClass(
+  export function AtLeastOneNonEmptyProperty(
     keys: string[],
     validationOptions?: ValidationOptions,
   ) {

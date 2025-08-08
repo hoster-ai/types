@@ -1,4 +1,4 @@
-import { IsString, IsDefined, IsUrl } from "class-validator";
+import { IsString, IsUrl, IsNotEmpty } from "class-validator";
 
 /**
  * DTO for tabs
@@ -9,7 +9,7 @@ export class TabDto {
    * The label displayed on the tab
    */
   @IsString()
-  @IsDefined()
+  @IsNotEmpty()
   label!: string;
 
   /**
@@ -18,6 +18,6 @@ export class TabDto {
    * with jwt, which will contain information about the company
    */
   @IsUrl({ protocols: ['https'], require_protocol: true })
-  @IsDefined()
+  @IsNotEmpty()
   url!: string;
 }

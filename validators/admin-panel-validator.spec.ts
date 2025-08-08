@@ -43,8 +43,8 @@ const minimalValidSettingsWithTabsDto: SettingsWithTabsDto = {
 
 describe('AdminPanelDto full validation', () => {
   test.each([
-    // Empty object is valid (all optional)
-    ['valid minimal empty object', {}, true],
+    // Empty object is invalid
+    ['valid minimal empty object', {}, false],
 
     // Tabs tests
     ['invalid all empty tabs and empty moreActions', {
@@ -53,16 +53,25 @@ describe('AdminPanelDto full validation', () => {
     }, false],
 
     ['valid with one non-empty tab', {
-      tabs: { product: [{ label: 'Product', url: 'https://example.com/product' }], item: [], client: [], user: [], order: [] },
+      tabs: { product: [{ label: 'Product', url: 'https://example.com/product' }] },
     }, true],
+    ['invalid with one non-empty tab', {
+      tabs: { product: [{ label: 'Product', url: 'https://example.com/product' }], item: [], client: [], user: [], order: [] },
+    }, false],
 
-    ['valid with multiple non-empty tabs', {
+    ['invalid with multiple non-empty tabs', {
       tabs: {
         product: [{ label: 'Product', url: 'https://example.com/product' }],
         item: [{ label: 'Item', url: 'https://example.com/item' }],
         client: [],
         user: [],
         order: [],
+      },
+    }, false],
+    ['valid with multiple non-empty tabs', {
+      tabs: {
+        product: [{ label: 'Product', url: 'https://example.com/product' }],
+        item: [{ label: 'Item', url: 'https://example.com/item' }],
       },
     }, true],
 

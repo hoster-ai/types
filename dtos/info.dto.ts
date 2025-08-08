@@ -5,7 +5,7 @@ import { RolesEnum } from '../enums/roles.enum';
 // import { ActionDto } from './action.dto';
 // import { TabDto } from './tab.dto';
 // import { MenuDtoWithSubmenu, MenuDtoWithUrl } from './menu.dto';
-import { IsString, IsDefined, IsUrl, IsOptional, ValidateNested, IsArray, ArrayMinSize, IsEnum, IsNotEmpty } from 'class-validator';
+import { IsString, IsUrl, IsOptional, ValidateNested, IsArray, ArrayMinSize, IsEnum, IsNotEmpty, IsDefined } from 'class-validator';
 import { Type } from 'class-transformer';
 import { AdminPanelDto } from './admin-panel.dto';
 import { ClientPanelDto } from './client-panel.dto';
@@ -22,7 +22,6 @@ export class InfoDto {
    * @example "My Awesome Integration"
    */
   @IsString()
-  @IsDefined()
   @IsNotEmpty()
   title!: string;
 
@@ -45,6 +44,7 @@ export class InfoDto {
   /**
    * A list of languages supported by the integration.
    */
+  @IsDefined()
   @IsArray()
   @IsEnum(LanguageEnum, { each: true })
   @ArrayMinSize(1)
@@ -64,7 +64,6 @@ export class InfoDto {
    * This allows the integration to react to specific events in the system.
    */
   @IsOptional()
-  @ValidateNested({ each: true })
   @IsArray()
   @IsEnum(EventsEnum, { each: true })
   @ArrayMinSize(1)
@@ -74,7 +73,6 @@ export class InfoDto {
    * A list of roles that the company needs to accept for this integration to function correctly.
    */
   @IsOptional()
-  @ValidateNested({ each: true })
   @IsArray()
   @IsEnum(RolesEnum, { each: true })
   @ArrayMinSize(1)

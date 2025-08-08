@@ -37,4 +37,41 @@ describe('ActionDto Validator', () => {
     expect(errors.length).toBeGreaterThan(0);
     expect(errors.some((e) => e.property === 'openMethod')).toBe(true);
   });
+
+  it('should return error for missing required fields', () => {
+    const invalidDto = {
+      // missing 'icon' and 'url'
+      openMethod: OpenMethodEnum.AJAX_CALL
+    };
+
+    const errors = validateActionDto(invalidDto);
+    expect(errors.length).toBeGreaterThan(0);
+    expect(errors.some((e) => e.property === 'icon')).toBe(true);
+    expect(errors.some((e) => e.property === 'url')).toBe(true);
+  });
+
+  it('should return error for invalid data types', () => {
+    const invalidDto = {
+      icon: 123, // should be a string
+      openMethod: OpenMethodEnum.AJAX_CALL,
+      url: 456 // should be a string
+    };
+
+    const errors = validateActionDto(invalidDto);
+    expect(errors.length).toBeGreaterThan(0);
+    expect(errors.some((e) => e.property === 'icon')).toBe(true);
+    expect(errors.some((e) => e.property === 'url')).toBe(true);
+  });
+
+  it('should handle unexpected fields gracefully', () => {
+    const validDto = {
+      icon: 'test-icon',
+      openMethod: OpenMethodEnum.AJAX_CALL,
+      url: 'https://example.com',
+      unexpectedField: 'unexpected' // additional field
+    };
+
+    const errors = validateActionDto(validDto);
+    expect(errors).toHaveLength(0);
+  });
 });

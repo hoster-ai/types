@@ -1,7 +1,7 @@
 import { validate } from 'class-validator';
-import { AtLeastOneNonEmptyClass } from '../decorators/at-least-one-non-empty.validator';
+import { AtLeastOneNonEmptyProperty } from '../decorators/at-least-one-non-empty.validator';
 
-@AtLeastOneNonEmptyClass(['a', 'b', 'c'], {
+@AtLeastOneNonEmptyProperty(['a', 'b', 'c'], {
   message: 'At least one of a, b, or c must be non-empty.',
 })
 class TestDto {
@@ -13,7 +13,7 @@ class TestDto {
     Object.assign(this, data);
   }
 }
-@AtLeastOneNonEmptyClass(['a', 'b', 'c'])
+@AtLeastOneNonEmptyProperty(['a', 'b', 'c'])
 class TestDto2 {
   a?: any;
   b?: any;

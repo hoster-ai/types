@@ -1,4 +1,4 @@
-import { IsDefined, IsIn, IsString, IsUrl, ValidateNested } from 'class-validator';
+import { IsDefined, IsIn, IsString, IsNotEmpty, IsUrl, ValidateNested } from 'class-validator';
 import { SubmenuDto } from './submenu.dto';
 import { Type } from 'class-transformer';
 import { IsPropertyForbidden } from '../decorators/is-property-forbidden.validator';
@@ -11,8 +11,8 @@ export class BaseMenuDto {
    * The icon to be displayed for the menu item.
    * @example "home"
    */
-  @IsUrl({ protocols: ['https'], require_protocol: true })
-  @IsDefined()
+  @IsString()
+  @IsNotEmpty()
   icon!: string;
 
   /**
@@ -20,7 +20,7 @@ export class BaseMenuDto {
    * @example "Dashboard"
    */
   @IsString()
-  @IsDefined()
+  @IsNotEmpty()
   label!: string;
 }
 
@@ -33,6 +33,7 @@ export class MenuDtoWithUrl extends BaseMenuDto {
    * The type of the menu item. This is a discriminator property.
    */
   @IsString()
+  @IsNotEmpty()
   @IsIn(['only-url'])
   type!: 'only-url';
   
@@ -41,7 +42,7 @@ export class MenuDtoWithUrl extends BaseMenuDto {
    * Requests from the hoster will be signed with a JWT containing company information.
    */
   @IsUrl({ protocols: ['https'], require_protocol: true })
-  @IsDefined()
+  @IsNotEmpty()
   url!: string;
 
   /**
@@ -60,6 +61,7 @@ export class MenuDtoWithSubmenu extends BaseMenuDto {
    * The type of the menu item. This is a discriminator property.
    */
   @IsString()
+  @IsNotEmpty()
   @IsIn(['with-submenu'])
   type!: 'with-submenu';
   /**

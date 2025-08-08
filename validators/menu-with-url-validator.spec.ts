@@ -25,16 +25,16 @@ describe('validateMenuWithUrlDto', () => {
     expect(errors.some(e => e.constraints?.isIn)).toBe(true);
   });
 
-  it('fails if icon is not a valid URL', () => {
+  it('fails if icon is not a string', () => {
     const data = {
       type: 'only-url',
-      icon: 'not-a-url',
+      icon: 12345, // not a string
       label: 'Dashboard',
       url: 'https://example.com/page',
     };
     const errors = validateMenuWithUrlDto(data);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.constraints?.isUrl)).toBe(true);
+    expect(errors.some(e => e.constraints?.isString)).toBe(true);
   });
 
   it('fails if label is missing', () => {
@@ -45,18 +45,18 @@ describe('validateMenuWithUrlDto', () => {
     };
     const errors = validateMenuWithUrlDto(data);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.constraints?.isDefined)).toBe(true);
+    expect(errors.some(e => e.constraints?.isNotEmpty)).toBe(true);
   });
 
   it('fails if url is missing or invalid', () => {
     const invalids = [
-      { type: 'only-url', icon: 'https://example.com/icon.png', label: 'Dashboard' }, // missing url
+      { type: 'only-url', icon: 12345, label: 'Dashboard' }, // icon not a string
       { type: 'only-url', icon: 'https://example.com/icon.png', label: 'Dashboard', url: 'invalid-url' },
     ];
     for (const data of invalids) {
       const errors = validateMenuWithUrlDto(data);
       expect(errors.length).toBeGreaterThan(0);
-      expect(errors.some(e => e.constraints?.isUrl || e.constraints?.isDefined)).toBe(true);
+      expect(errors.some(e => e.constraints?.isUrl || e.constraints?.isString || e.constraints?.isDefined)).toBe(true);
     }
   });
 

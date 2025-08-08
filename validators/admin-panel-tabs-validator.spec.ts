@@ -5,6 +5,8 @@ import { AdminPanelTabsDto } from '../dtos/admin-panel.dto';
 
 describe('validateAdminPanelTabsDto', () => {
   const validTab = { label: 'Tab', url: 'https://example.com' };
+  const boundaryTab = { label: 'T', url: 'https://e.com' }; // Shortest valid values
+  const longTab = { label: 'L'.repeat(256), url: 'https://example.com/long-url' }; // Longest valid values
 
   const cases: [any, boolean][] = [
     [{ product: [], item: [], client: [], user: [], order: [] }, false], // all empty => invalid
@@ -15,7 +17,13 @@ describe('validateAdminPanelTabsDto', () => {
     [{ product: [{ label: 123, url: 'invalid-url' }], item: [], client: [], user: [], order: [] }, false],
   ];
 
-  test.each(cases)('validates %# as %s', (input, valid) => {
+  const additionalCases: [any, boolean][] = [
+    [{ product: [boundaryTab], item: [boundaryTab], client: [boundaryTab], user: [boundaryTab], order: [boundaryTab] }, true], // boundary values
+    [{ product: [longTab], item: [longTab], client: [longTab], user: [longTab], order: [longTab] }, true], // long values
+    [{ product: [validTab], item: [validTab], client: [validTab], user: [validTab], order: [validTab], unexpected: 'extra' }, false], // unexpected property
+  ];
+
+  test.each([...cases, ...additionalCases])('validates %# as %s', (input, valid) => {
     const dto = plainToInstance(AdminPanelTabsDto, input);
     const errors = validateSync(dto, { whitelist: true, forbidNonWhitelisted: true });
     

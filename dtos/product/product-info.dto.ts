@@ -1,4 +1,4 @@
-import { IsArray, IsObject, IsOptional, ValidateNested } from 'class-validator';
+import { IsArray, IsObject, IsOptional, ValidateNested, ArrayMinSize } from 'class-validator';
 import { FieldDto } from '../field.dto';
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
@@ -15,6 +15,7 @@ export class ProductInfoDto extends InfoDto {
    */
   @IsOptional()
   @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => FieldDto)
   productAttributes?: FieldDto[];
@@ -25,6 +26,7 @@ export class ProductInfoDto extends InfoDto {
    */
   @IsOptional()
   @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => FieldDto)
   itemAttributes?: FieldDto[];
@@ -36,6 +38,7 @@ export class ProductInfoDto extends InfoDto {
    */
   @IsOptional()
   @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => UnitDto)
   payPerUseUnits?: UnitDto[];

@@ -91,8 +91,8 @@ describe('ProductInfoDto Validator', () => {
         supportedLanguages: [LanguageEnum.EN],
         productAttributes: [field],
         itemAttributes: [field],
-        adminPanel: { /* valid admin panel data */ },
-        clientPanel: { /* valid client panel data */ }
+        adminPanel: { tabs: { product: [{ label: 'Product', url: 'https://example.com/product' }] } },
+        clientPanel: { tabs: { item: [{ label: 'Item', url: 'https://example.com/item' }] } }
       },
       expectedErrorsLength: 0
     },
@@ -107,7 +107,7 @@ describe('ProductInfoDto Validator', () => {
         adminPanel: { /* invalid admin panel data */ },
         clientPanel: { /* invalid client panel data */ }
       },
-      expectedErrorsLength: 1
+      expectedErrorsLength: 3
     },
     {
       description: 'should return no errors for valid DTO with payPerUseUnits',

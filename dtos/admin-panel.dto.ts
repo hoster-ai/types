@@ -1,6 +1,8 @@
 import {
   ValidateNested,
   IsOptional,
+  IsArray,
+  ArrayMinSize,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import { TabDto } from './tab.dto';
@@ -10,65 +12,86 @@ import { SettingsWithTabsDto, SettingsWithUrlDto } from './settings.dto';
 import { transformSettings } from '../transformers/settings.transformer';
 import { transformMenu } from '../transformers/menu.transformer';
 import { IsOneOf } from '../decorators/is-one-of.validator';
-import { AtLeastOneNonEmptyClass } from '../decorators/at-least-one-non-empty.validator';
+import { AtLeastOneNonEmptyProperty } from '../decorators/at-least-one-non-empty.validator';
 
 
-@AtLeastOneNonEmptyClass(['product', 'item', 'client', 'user', 'order'])
+@AtLeastOneNonEmptyProperty(['product', 'item', 'client', 'user', 'order'])
 export class AdminPanelTabsDto {
   @ValidateNested({ each: true })
   @Type(() => TabDto)
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
   product?: TabDto[];
 
   @ValidateNested({ each: true })
   @Type(() => TabDto)
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
   item?: TabDto[];
 
   @ValidateNested({ each: true })
   @Type(() => TabDto)
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
   client?: TabDto[];
 
   @ValidateNested({ each: true })
   @Type(() => TabDto)
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
   user?: TabDto[];
 
   @ValidateNested({ each: true })
   @Type(() => TabDto)
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
   order?: TabDto[];
 }
 
-@AtLeastOneNonEmptyClass(['client', 'item', 'invoice', 'user', 'order'])
+@AtLeastOneNonEmptyProperty(['client', 'item', 'invoice', 'user', 'order'])
 export class AdminPanelMoreActionsDto {
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => ActionDto)
   client?: ActionDto[];
 
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => ActionDto)
   item?: ActionDto[];
 
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => ActionDto)
   invoice?: ActionDto[];
 
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => ActionDto)
   user?: ActionDto[];
 
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => ActionDto)
   order?: ActionDto[];
 }
 
+@AtLeastOneNonEmptyProperty(['tabs', 'moreActions', 'menu', 'settings'])
 export class AdminPanelDto {
   /**
    * Defines the tab structure for different sections of the admin panel.

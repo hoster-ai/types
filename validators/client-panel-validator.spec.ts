@@ -23,8 +23,8 @@ const minimalValidMenuDtoWithSubmenu: MenuDtoWithSubmenu = {
 
 describe('ClientPanelDto full validation', () => {
   test.each([
-    // Empty object is valid (all optional)
-    ['valid minimal empty object', {}, true],
+    // Empty object is invalid (all optional)
+    ['invalid minimal empty object', {}, false],
 
     // Tabs tests
     ['invalid empty tabs object', { tabs: {} }, false],

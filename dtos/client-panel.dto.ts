@@ -1,28 +1,33 @@
 import { Transform, Type } from "class-transformer";
-import { IsOptional, ValidateNested } from "class-validator";
+import { IsArray, IsOptional, ValidateNested, ArrayMinSize } from "class-validator";
 import { ActionDto } from "./action.dto";
 import { MenuDtoWithSubmenu, MenuDtoWithUrl } from "./menu.dto";
 import { TabDto } from "./tab.dto";
 import { transformMenu } from "../transformers/menu.transformer";
 import { IsOneOf } from "../decorators/is-one-of.validator";
-import { AtLeastOneNonEmptyClass } from "../decorators/at-least-one-non-empty.validator";
+import { AtLeastOneNonEmptyProperty } from "../decorators/at-least-one-non-empty.validator";
 
-@AtLeastOneNonEmptyClass(["item"])
+@AtLeastOneNonEmptyProperty(["item"])
 export class ClientPanelTabsDto {
     @IsOptional()
+    @IsArray()
+    @ArrayMinSize(1)
     @ValidateNested({ each: true })
     @Type(() => TabDto)
     item?: TabDto[];
 }
 
-@AtLeastOneNonEmptyClass(["item"])
+@AtLeastOneNonEmptyProperty(["item"])
 export class ClientPanelMoreActionsDto {
     @IsOptional()
+    @IsArray()
+    @ArrayMinSize(1)
     @ValidateNested({ each: true })
     @Type(() => ActionDto)
     item?: ActionDto[];
 }
 
+@AtLeastOneNonEmptyProperty(["tabs", "moreActions", "menu"])
 export class ClientPanelDto {
     /**
      * Defines the tab structure for the client panel.
