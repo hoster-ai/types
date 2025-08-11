@@ -1,23 +1,28 @@
-import { IsArray, IsObject, IsOptional, ValidateNested, ArrayMinSize } from 'class-validator';
+import { IsArray, IsOptional, ValidateNested, ArrayMinSize } from 'class-validator';
 import { FieldDto } from '../field.dto';
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
 import { Type } from 'class-transformer';
+import { IsPlainObject } from '../../decorators/is-plain-object.validator';
+import { UniqueFieldInArray } from '../../decorators/unique-field-in-array.validator';
 
 /**
  * DTO for notification information.
  * Extends the base InfoDto to include the notification message type.
  */
 export class ProductInfoDto extends InfoDto {
+
   /**
    * Custom attributes that can be defined for products.
    * These attributes will be displayed in the product configuration section.
    */
+  // in array of fieldDtos validate unique ids
   @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => FieldDto)
+  @UniqueFieldInArray('id')
   productAttributes?: FieldDto[];
 
   /**
@@ -29,6 +34,7 @@ export class ProductInfoDto extends InfoDto {
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => FieldDto)
+  @UniqueFieldInArray('id')
   itemAttributes?: FieldDto[];
 
   /**
@@ -48,6 +54,6 @@ export class ProductInfoDto extends InfoDto {
    * This allows the system to know what to expect in the response before the creation is executed.
    */
   @IsOptional()
-  @IsObject()
+  @IsPlainObject()
   responseDataFieldNames?: Record<string, unknown>;
 }

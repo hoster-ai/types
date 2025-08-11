@@ -15,6 +15,7 @@ import { Type } from 'class-transformer';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { MultilangTextDto } from './multilang-text.dto';
 import { FieldOptionDto } from './field-option.dto';
+import { IsRegex } from '../decorators/is-regex.validator';
 
 /**
  * Data Transfer Object for a form field.
@@ -100,6 +101,7 @@ export class FieldDto {
    * Regex validation pattern for the field
    */
   @IsString()
+  @IsRegex()
   @IsOptional()
   regexValidation?: string;
 

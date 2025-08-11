@@ -65,7 +65,7 @@ describe('ProductInfoDto Validator', () => {
       description: 'should return error for unsupported action',
       dto: {
         title: 'Test',
-        supportedActions: [],
+        supportedActions: ['update'] as any,
         supportedLanguages: [LanguageEnum.EN],
         productAttributes: [field],
         itemAttributes: [field]
@@ -157,7 +157,7 @@ describe('ProductInfoDto Validator', () => {
       description: 'should return ValidationError for unsupported action',
       dto: {
         title: 'Test',
-        supportedActions: [],
+        supportedActions: ['update'] as any,
         supportedLanguages: [LanguageEnum.EN],
         productAttributes: [field],
         itemAttributes: [field]

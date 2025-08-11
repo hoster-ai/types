@@ -56,7 +56,6 @@ export class InfoDto {
   @IsOptional()
   @IsArray()
   @IsEnum(ActionsEnum, { each: true })
-  @ArrayMinSize(1)
   supportedActions?: ActionsEnum[] = [];
 
   /**

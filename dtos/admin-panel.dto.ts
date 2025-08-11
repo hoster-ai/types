@@ -92,7 +92,7 @@ export class AdminPanelMoreActionsDto {
 }
 
 @AtLeastOneNonEmptyProperty(['tabs', 'moreActions', 'menu', 'settings'])
-export class AdminPanelDto {
+export class  AdminPanelDto {
   /**
    * Defines the tab structure for different sections of the admin panel.
    * Each property represents a section (e.g., product, item) and contains an array of TabDto objects.
