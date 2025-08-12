@@ -1,6 +1,8 @@
+import { IsEnum, IsDefined, IsOptional, IsArray, ValidateNested } from 'class-validator';
 import { NotificationMessageTypeEnum } from '../../enums/notification/notification-message-type.enum';
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
+import { Type } from 'class-transformer';
 
 /**
  * DTO for notification information.
@@ -11,6 +13,8 @@ export class NotificationInfoDto extends InfoDto {
    * The type of the notification message.
    * @see NotificationMessageTypeEnum
    */
+  @IsEnum(NotificationMessageTypeEnum)
+  @IsDefined()
   type!: NotificationMessageTypeEnum;
 
   /**
@@ -18,5 +22,9 @@ export class NotificationInfoDto extends InfoDto {
    * This allows the administrator to set a price for each unit per interval.
    * @example [{ id: "ram", unitDescription: "MB", intervalDescription: "month" }]
    */
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => UnitDto)
   payPerUseUnits?: UnitDto[];
 }

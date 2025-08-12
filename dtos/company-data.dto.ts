@@ -45,7 +45,7 @@ export class CompanyDataDto {
   /**
    * The URL for the company's privacy policy.
    */
-  @IsUrl()
+  @IsUrl({ protocols: ['https'], require_protocol: true })
   privacyPolicyUrl!: string;
 
   /**

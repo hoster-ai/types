@@ -46,6 +46,9 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `info.dto.ts`: Contains all necessary information for a service integration.
 - `jwt.dto.ts`: DTOs related to JSON Web Tokens.
 - `menu.dto.ts`: Defines the structure for menu items.
+- `settings.dto.ts`: Settings base DTO and variants (`SettingsWithUrlDto`, `SettingsWithTabsDto`).
+- `admin-panel.dto.ts`: Admin panel UI configuration (tabs, moreActions, menu, settings).
+- `client-panel.dto.ts`: Client panel UI configuration (tabs, moreActions, menu).
 - `multilang-text.dto.ts`: A DTO for handling text in multiple languages.
 - `response-data.dto.ts`: A generic wrapper for response data.
 - `setup-status-response.dto.ts`: DTO for returning the setup status.
@@ -80,7 +83,7 @@ Enums provide a set of named constants for common types, preventing errors with 
 
 **Key Enums:**
 
-- `ProductActionsEnum`: Defines possible actions.
+- `ActionsEnum`: Defines possible actions.
 - `CountryEnum`: A list of all countries.
 - `DurationEnum`: Defines billing durations (e.g., `MONTHLY`, `YEARLY`).
 - `EventsEnum`: Defines triggerable events.

@@ -1,4 +1,4 @@
-import { IsDefined, IsEnum, IsString } from 'class-validator';
+import { IsDefined, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { LanguageEnum } from '../enums/language.enum';
 
 /**
@@ -18,6 +18,6 @@ export class MultilangTextDto {
    * The text content in the specified language.
    */
   @IsString()
-  @IsDefined()
+  @IsNotEmpty()
   text!: string;
 }

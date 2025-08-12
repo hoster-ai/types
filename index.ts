@@ -20,6 +20,9 @@ export * from './dtos/success-response.dto';
 export * from './dtos/tab.dto';
 export * from './dtos/task-response.dto';
 export * from './dtos/unit.dto';
+export * from './dtos/admin-panel.dto';
+export * from './dtos/client-panel.dto';
+export * from './dtos/settings.dto';
 
 // Notification DTOs
 export * from './dtos/notification/notification-info.dto';
@@ -77,28 +80,40 @@ export * from './enums/setup-status.enum';
 
 // Validators
 export * from './validators/action-validator';
+export * from './validators/admin-panel-more-actions.validator';
+export * from './validators/admin-panel-tabs.validator';
+export * from './validators/admin-panel.validator';
+export * from './validators/client-data-validator';
+export * from './validators/client-panel.validator';
 export * from './validators/company-data-validator';
+export * from './validators/field-option.validator';
 export * from './validators/field-validator';
 export * from './validators/jwt-validator';
+export * from './validators/menu-with-submenu.validator';
+export * from './validators/menu-with-url.validator';
 export * from './validators/multilang-text-validator';
+export * from './validators/notification-info.validator';
 export * from './validators/notification-request-validator';
-export * from './validators/receiver-email-validator';
-export * from './validators/receiver-push-validator';
-export * from './validators/receiver-sms-validator';
-export * from './validators/sender-email-validator';
-export * from './validators/sender-push-validator';
-export * from './validators/sender-sms-validator';
-export * from './validators/client-data-validator';
 export * from './validators/product-create-request-validator';
 export * from './validators/product-delete-request-validator';
 export * from './validators/product-downgrade-request-validator';
 export * from './validators/product-downgradable-request-validator';
+export * from './validators/product-info.validator';
 export * from './validators/product-renew-request-validator';
 export * from './validators/product-suspend-request-validator';
 export * from './validators/product-unsuspend-request-validator';
 export * from './validators/product-upgrade-request-validator';
 export * from './validators/product-upgradable-request-validator';
 export * from './validators/product-validate-attributes-request-validator';
+export * from './validators/receiver-email-validator';
+export * from './validators/receiver-push-validator';
+export * from './validators/receiver-sms-validator';
+export * from './validators/settings-with-tabs.validator';
+export * from './validators/settings-with-url.validator';
+export * from './validators/sender-email-validator';
+export * from './validators/sender-push-validator';
+export * from './validators/sender-sms-validator';
+export * from './validators/unit.validator';
 
 // Interfaces
 export * from './dtos/product/product.interface';
