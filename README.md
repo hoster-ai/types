@@ -46,6 +46,9 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `info.dto.ts`: Contains all necessary information for a service integration.
 - `jwt.dto.ts`: DTOs related to JSON Web Tokens.
 - `menu.dto.ts`: Defines the structure for menu items.
+- `settings.dto.ts`: Settings base DTO and variants (`SettingsWithUrlDto`, `SettingsWithTabsDto`).
+- `admin-panel.dto.ts`: Admin panel UI configuration (tabs, moreActions, menu, settings).
+- `client-panel.dto.ts`: Client panel UI configuration (tabs, moreActions, menu).
 - `multilang-text.dto.ts`: A DTO for handling text in multiple languages.
 - `response-data.dto.ts`: A generic wrapper for response data.
 - `setup-status-response.dto.ts`: DTO for returning the setup status.
@@ -79,7 +82,7 @@ Enums provide a set of named constants for common types, preventing errors with 
 
 **Key Enums:**
 
-- `ProductActionsEnum`: Defines possible actions.
+- `ActionsEnum`: Defines possible actions.
 - `CountryEnum`: A list of all countries.
 - `DurationEnum`: Defines billing durations (e.g., `MONTHLY`, `YEARLY`).
 - `EventsEnum`: Defines triggerable events.
@@ -109,6 +112,20 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateNotificationRequestDto`: Validates the main notification request.
 - `validateEmailReceiverDto`, `validateSmsReceiverDto`, `validatePushReceiverDto`: Validators for notification receivers.
 - `validateEmailSenderDto`, `validateSmsSenderDto`, `validatePushSenderDto`: Validators for notification senders.
+
+### Transformers
+
+- `transformers/menu.transformer.ts`: Normalizes menu input into a `MenuDtoWithUrl` or `MenuDtoWithSubmenu` shape.
+- `transformers/settings.transformer.ts`: Normalizes settings input into `SettingsWithUrlDto` or `SettingsWithTabsDto` shapes.
+
+### Custom Decorators
+
+- `IsPropertyForbidden`: Forbids mutually exclusive properties on a DTO.
+- `UniqueFieldInArray`: Ensures a field is unique across an array of objects.
+- `IsPlainObject`: Validates that a value is a plain object.
+- `IsOfAllowedTypes`: Validates that a value is one of the allowed primitive/types.
+- `AtLeastOneNonEmptyProperty`: Requires at least one of the specified properties to be present/non-empty.
+- `IsOneOf`: Validates that a value matches one of the provided DTO classes (runtime union validation).
 
 ## Usage Example
 
