@@ -113,20 +113,6 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateEmailReceiverDto`, `validateSmsReceiverDto`, `validatePushReceiverDto`: Validators for notification receivers.
 - `validateEmailSenderDto`, `validateSmsSenderDto`, `validatePushSenderDto`: Validators for notification senders.
 
-### Transformers
-
-- `transformers/menu.transformer.ts`: Normalizes menu input into a `MenuDtoWithUrl` or `MenuDtoWithSubmenu` shape.
-- `transformers/settings.transformer.ts`: Normalizes settings input into `SettingsWithUrlDto` or `SettingsWithTabsDto` shapes.
-
-### Custom Decorators
-
-- `IsPropertyForbidden`: Forbids mutually exclusive properties on a DTO.
-- `UniqueFieldInArray`: Ensures a field is unique across an array of objects.
-- `IsPlainObject`: Validates that a value is a plain object.
-- `IsOfAllowedTypes`: Validates that a value is one of the allowed primitive/types.
-- `AtLeastOneNonEmptyProperty`: Requires at least one of the specified properties to be present/non-empty.
-- `IsOneOf`: Validates that a value matches one of the provided DTO classes (runtime union validation).
-
 ## Usage Example
 
 Here is an example of how to use a DTO and its validator.
