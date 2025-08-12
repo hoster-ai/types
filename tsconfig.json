@@ -20,6 +20,6 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["./dtos/**/*", "./enums/**/*", "index.ts"],
+  "include": ["./dtos/**/*", "./enums/**/*", "./decorators/**/*", "./validators/**/*","./transformers/**/*", "index.ts"],
   "exclude": ["node_modules", "**/*.test.ts", "generated/**/*"]
 }
