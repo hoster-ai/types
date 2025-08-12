@@ -124,7 +124,7 @@ import {
   ClientDataDto,
   ProductItemDataDto,
   DurationEnum,
-  validateProductCreateRequestDto, // Assuming a validator exists
+  validateProductCreateRequestDto,
 } from '@hosterai/types';
 
 // 1. Create a request object
@@ -144,15 +144,15 @@ const request: ProductCreateRequestDto = {
   },
 };
 
-// 2. Validate the object
-// const errors = validateProductCreateRequestDto(request);
+// 2. Validate the object (async)
+const errors = await validateProductCreateRequestDto(request);
 
 // 3. Check for errors
-// if (errors.length > 0) {
-//   console.error('Validation failed:', errors);
-// } else {
-//   console.log('Validation successful!');
-// }
+if (errors.length > 0) {
+  console.error('Validation failed:', errors);
+} else {
+  console.log('Validation successful!');
+}
 ```
 
 ## Building from Source
