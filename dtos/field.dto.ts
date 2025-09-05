@@ -9,19 +9,23 @@ import {
   IsArray,
   ArrayMinSize,
   ValidateIf,
-  // IsNumber,
+  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { MultilangTextDto } from './multilang-text.dto';
 import { FieldOptionDto } from './field-option.dto';
 import { IsRegex } from '../decorators/is-regex.validator';
+import { AllOrNoneProperty } from '../decorators/all-or-none.validator';
+import { MinLessOrEqualMaxProperty } from '../decorators/min-less-or-equal.validator';
 
 /**
  * Data Transfer Object for a form field.
  * This class defines the structure and properties of a single field
  * that can be used in a user interface form.
  */
+@AllOrNoneProperty(['reapetableMin', 'reapetableMax'])
+@MinLessOrEqualMaxProperty(['reapetableMin', 'reapetableMax'])
 export class FieldDto {
   /**
    * ID of action field
@@ -75,6 +79,14 @@ export class FieldDto {
   @IsEnum(FieldTypeEnum)
   @IsDefined()
   type!: FieldTypeEnum;
+
+  @IsOptional()
+  @IsNumber()
+  reapetableMin?: number;
+
+  @IsOptional()
+  @IsNumber()
+  reapetableMax?: number;
 
   /**
    * Indicates if the field is required
