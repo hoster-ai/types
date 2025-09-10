@@ -5,6 +5,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "build:schemas": "ts-node scripts/generate-schemas.ts",
+    "prepack": "npm run build:schemas && npm run build",
     "test": "jest",
     "coverage": "jest --coverage",
     "lint": "eslint . --ext .ts --fix",
@@ -31,6 +33,7 @@
     "fs-extra": "^11.3.0",
     "jest": "^30.0.3",
     "prettier": "^3.6.1",
+    "class-validator-jsonschema": "^5.0.0",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"

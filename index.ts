@@ -117,3 +117,6 @@ export * from './validators/unit.validator';
 
 // Interfaces
 export * from './dtos/product/product.interface';
+
+// OpenApi schemas
+export { ComponentsSchemas } from './openapi/schemas/components.schemas';
