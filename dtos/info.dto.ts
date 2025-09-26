@@ -9,6 +9,7 @@ import { IsString, IsUrl, IsOptional, ValidateNested, IsArray, ArrayMinSize, IsE
 import { Type } from 'class-transformer';
 import { AdminPanelDto } from './admin-panel.dto';
 import { ClientPanelDto } from './client-panel.dto';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for integration information.
@@ -23,6 +24,12 @@ export class InfoDto {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({ 
+    title: 'Title', 
+    description: 'Integration display title.', 
+    type: 'string', 
+    example: 'Example Product' 
+  })
   title!: string;
 
   /**
@@ -31,6 +38,13 @@ export class InfoDto {
    */
   @IsUrl({ protocols: ['https'], require_protocol: true })
   @IsOptional()
+  @JSONSchema({ 
+    title: 'Logo URL', 
+    description: 'Public HTTPS URL for the integration logo.', 
+    type: 'string', 
+    format: 'uri', 
+    example: 'https://cdn.example.com/logo.png' 
+  })
   logo?: string;
 
   /**
@@ -39,6 +53,12 @@ export class InfoDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({ 
+    title: 'Description', 
+    description: 'Short description of the integration.', 
+    type: 'string', 
+    example: 'An example product integration.' 
+  })
   description?: string;
 
   /**
@@ -48,6 +68,13 @@ export class InfoDto {
   @IsArray()
   @IsEnum(LanguageEnum, { each: true })
   @ArrayMinSize(1)
+  @JSONSchema({ 
+    title: 'Supported Languages', 
+    description: 'Locales supported by the integration.', 
+    type: 'array', 
+    items: { type: 'string', enum: Object.values(LanguageEnum) }, 
+    example: ['en'] 
+  })
   supportedLanguages!: LanguageEnum[];
 
   /**
@@ -56,6 +83,12 @@ export class InfoDto {
   @IsOptional()
   @IsArray()
   @IsEnum(ActionsEnum, { each: true })
+  @JSONSchema({ 
+    title: 'Supported Actions', 
+    description: 'Actions supported by this integration.', 
+    type: 'array', 
+    items: { type: 'string', enum: Object.values(ActionsEnum) } 
+  })
   supportedActions?: ActionsEnum[] = [];
 
   /**
@@ -66,6 +99,12 @@ export class InfoDto {
   @IsArray()
   @IsEnum(EventsEnum, { each: true })
   @ArrayMinSize(1)
+  @JSONSchema({ 
+    title: 'Listen Events', 
+    description: 'Platform events the integration can subscribe to.', 
+    type: 'array', 
+    items: { type: 'string', enum: Object.values(EventsEnum) } 
+  })
   listenEvents?: EventsEnum[];
 
   /**
@@ -75,6 +114,12 @@ export class InfoDto {
   @IsArray()
   @IsEnum(RolesEnum, { each: true })
   @ArrayMinSize(1)
+  @JSONSchema({ 
+    title: 'Required Roles', 
+    description: 'Roles required for this integration to operate.', 
+    type: 'array', 
+    items: { type: 'string', enum: Object.values(RolesEnum) } 
+  })
   requiredRoles?: RolesEnum[];
 
   /**
@@ -84,6 +129,11 @@ export class InfoDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => AdminPanelDto)
+  @JSONSchema({ 
+    title: 'Admin Panel', 
+    description: 'Admin UI links, tabs, and actions provided by the integration.', 
+    type: 'object' 
+  })
   adminPanel?: AdminPanelDto;
 
   /**
@@ -93,6 +143,11 @@ export class InfoDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => ClientPanelDto)
+  @JSONSchema({ 
+    title: 'Client Panel', 
+    description: 'Client UI links, tabs, and actions provided by the integration.', 
+    type: 'object' 
+  })
   clientPanel?: ClientPanelDto;
 
   /**
@@ -101,5 +156,12 @@ export class InfoDto {
    */
   @IsOptional()
   @IsUrl({ protocols: ['https'], require_protocol: true })
+  @JSONSchema({ 
+    title: 'Onboarding URL', 
+    description: 'URL to onboard/configure the integration.', 
+    type: 'string', 
+    format: 'uri', 
+    example: 'https://example.com/onboarding' 
+  })
   onboardingUrl?: string;
 }

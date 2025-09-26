@@ -3,6 +3,7 @@ import { NotificationMessageTypeEnum } from '../../enums/notification/notificati
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
 import { Type } from 'class-transformer';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for notification information.
@@ -15,6 +16,13 @@ export class NotificationInfoDto extends InfoDto {
    */
   @IsEnum(NotificationMessageTypeEnum)
   @IsDefined()
+  @JSONSchema({ 
+    title: 'Notification Type', 
+    description: 'Notification channel type.', 
+    type: 'string', 
+    enum: Object.values(NotificationMessageTypeEnum), 
+    example: Object.values(NotificationMessageTypeEnum)[0] 
+  })
   type!: NotificationMessageTypeEnum;
 
   /**
@@ -26,5 +34,14 @@ export class NotificationInfoDto extends InfoDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => UnitDto)
+  @JSONSchema({
+    title: 'Pay-Per-Use Units',
+    description: 'Optional metering units for pay-per-use billing.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/UnitDto' },
+    example: [
+      { id: 'messages', unitDescription: 'Message sent', intervalDescription: 'Per month' }
+    ]
+  })
   payPerUseUnits?: UnitDto[];
 }
