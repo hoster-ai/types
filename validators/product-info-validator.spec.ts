@@ -175,4 +175,103 @@ describe('ProductInfoDto Validator', () => {
       });
     });
   });
+
+  describe('FieldDto class-level constraints inside ProductInfoDto', () => {
+    it('fails when a FieldDto has only reapetableMin (AllOrNone)', () => {
+      const fieldWithOnlyMin: FieldDto = {
+        id: 'f1',
+        label: [{ language: LanguageEnum.EN, text: 'label' }],
+        value: 'v',
+        type: FieldTypeEnum.TEXT_BOX,
+        required: false,
+        disabled: false,
+        hidden: false,
+        upgradable: false,
+        reapetableMin: 1,
+      };
+
+      const dto = {
+        title: 'Test',
+        supportedActions: [ActionsEnum.CREATE],
+        supportedLanguages: [LanguageEnum.EN],
+        productAttributes: [fieldWithOnlyMin],
+      };
+
+      const errors = validateProductInfoDto(dto);
+      expect(errors.length).toBeGreaterThan(0);
+    });
+
+    it('fails when a FieldDto has only reapetableMax (AllOrNone)', () => {
+      const fieldWithOnlyMax: FieldDto = {
+        id: 'f2',
+        label: [{ language: LanguageEnum.EN, text: 'label' }],
+        value: 'v',
+        type: FieldTypeEnum.TEXT_BOX,
+        required: false,
+        disabled: false,
+        hidden: false,
+        upgradable: false,
+        reapetableMax: 2,
+      } as any;
+
+      const dto = {
+        title: 'Test',
+        supportedActions: [ActionsEnum.CREATE],
+        supportedLanguages: [LanguageEnum.EN],
+        itemAttributes: [fieldWithOnlyMax],
+      };
+
+      const errors = validateProductInfoDto(dto);
+      expect(errors.length).toBeGreaterThan(0);
+    });
+
+    it('passes when a FieldDto has both min and max with min <= max', () => {
+      const fieldOk: FieldDto = {
+        id: 'f3',
+        label: [{ language: LanguageEnum.EN, text: 'label' }],
+        value: 'v',
+        type: FieldTypeEnum.TEXT_BOX,
+        required: false,
+        disabled: false,
+        hidden: false,
+        upgradable: false,
+        reapetableMin: 1,
+        reapetableMax: 2,
+      };
+
+      const dto = {
+        title: 'Test',
+        supportedActions: [ActionsEnum.CREATE],
+        supportedLanguages: [LanguageEnum.EN],
+        productAttributes: [fieldOk],
+      };
+
+      expect(validateProductInfoDto(dto)).toHaveLength(0);
+    });
+
+    it('fails when a FieldDto has both min and max with min > max (Min<=Max)', () => {
+      const fieldBad: FieldDto = {
+        id: 'f4',
+        label: [{ language: LanguageEnum.EN, text: 'label' }],
+        value: 'v',
+        type: FieldTypeEnum.TEXT_BOX,
+        required: false,
+        disabled: false,
+        hidden: false,
+        upgradable: false,
+        reapetableMin: 5,
+        reapetableMax: 2,
+      };
+
+      const dto = {
+        title: 'Test',
+        supportedActions: [ActionsEnum.CREATE],
+        supportedLanguages: [LanguageEnum.EN],
+        itemAttributes: [fieldBad],
+      };
+
+      const errors = validateProductInfoDto(dto);
+      expect(errors.length).toBeGreaterThan(0);
+    });
+  });
 });

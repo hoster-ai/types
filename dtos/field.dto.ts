@@ -9,13 +9,15 @@ import {
   IsArray,
   ArrayMinSize,
   ValidateIf,
-  // IsNumber,
+  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { MultilangTextDto } from './multilang-text.dto';
 import { FieldOptionDto } from './field-option.dto';
 import { IsRegex } from '../decorators/is-regex.validator';
+import { AllOrNoneProperty } from '../decorators/all-or-none.validator';
+import { MinLessOrEqualMaxProperty } from '../decorators/min-less-or-equal.validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
@@ -23,6 +25,8 @@ import { JSONSchema } from 'class-validator-jsonschema';
  * This class defines the structure and properties of a single field
  * that can be used in a user interface form.
  */
+@AllOrNoneProperty(['reapetableMin', 'reapetableMax'])
+@MinLessOrEqualMaxProperty(['reapetableMin', 'reapetableMax'])
 export class FieldDto {
   /**
    * ID of action field
@@ -32,7 +36,7 @@ export class FieldDto {
   @JSONSchema({
     title: 'ID',
     description: 'Unique identifier for the field.',
-    type: 'string'
+    type: 'string',
   })
   id!: string;
 
@@ -47,7 +51,7 @@ export class FieldDto {
     title: 'Label',
     description: 'Multilingual label for the field.',
     type: 'array',
-    items: { $ref: '#/components/schemas/MultilangTextDto' }
+    items: { $ref: '#/components/schemas/MultilangTextDto' },
   })
   label!: MultilangTextDto[];
 
@@ -69,13 +73,18 @@ export class FieldDto {
   })
   @JSONSchema({
     title: 'Value',
-    description: 'Value of the field. String/Number, or FieldOptionDto/FieldOptionDto[] depending on type.',
+    description:
+      'Value of the field. String/Number, or FieldOptionDto/FieldOptionDto[] depending on type.',
     oneOf: [
       { title: 'String', type: 'string' },
       { title: 'Number', type: 'number' },
       { title: 'Option', $ref: '#/components/schemas/FieldOptionDto' },
-      { title: 'Options Array', type: 'array', items: { $ref: '#/components/schemas/FieldOptionDto' } }
-    ]
+      {
+        title: 'Options Array',
+        type: 'array',
+        items: { $ref: '#/components/schemas/FieldOptionDto' },
+      },
+    ],
   })
   value!: string | number | FieldOptionDto | FieldOptionDto[];
 
@@ -88,9 +97,17 @@ export class FieldDto {
     title: 'Field Type',
     description: 'Type of the field.',
     type: 'string',
-    enum: Object.values(FieldTypeEnum)
+    enum: Object.values(FieldTypeEnum),
   })
   type!: FieldTypeEnum;
+
+  @IsOptional()
+  @IsNumber()
+  reapetableMin?: number;
+
+  @IsOptional()
+  @IsNumber()
+  reapetableMax?: number;
 
   /**
    * Indicates if the field is required
@@ -100,7 +117,7 @@ export class FieldDto {
   @JSONSchema({
     title: 'Required',
     description: 'Whether the field is required.',
-    type: 'boolean'
+    type: 'boolean',
   })
   required!: boolean;
 
@@ -112,7 +129,7 @@ export class FieldDto {
   @JSONSchema({
     title: 'Disabled',
     description: 'Whether the field is disabled.',
-    type: 'boolean'
+    type: 'boolean',
   })
   disabled!: boolean;
 
@@ -124,7 +141,7 @@ export class FieldDto {
   @JSONSchema({
     title: 'Hidden',
     description: 'Whether the field is hidden.',
-    type: 'boolean'
+    type: 'boolean',
   })
   hidden!: boolean;
 
@@ -134,11 +151,11 @@ export class FieldDto {
   @IsString()
   @IsRegex()
   @IsOptional()
-  @JSONSchema({ 
-    title: 'Regex Validation', 
-    description: 'Optional regex to validate input.', 
-    type: 'string', 
-    example: '^[A-Za-z0-9_-]+$' 
+  @JSONSchema({
+    title: 'Regex Validation',
+    description: 'Optional regex to validate input.',
+    type: 'string',
+    example: '^[A-Za-z0-9_-]+$',
   })
   regexValidation?: string;
 
@@ -149,11 +166,11 @@ export class FieldDto {
   @ValidateNested({ each: true })
   @Type(() => MultilangTextDto)
   @IsOptional()
-  @JSONSchema({ 
-    title: 'Regex Validation Error Message', 
-    description: 'Localized error message shown when regex validation fails.', 
-    type: 'array', 
-    items: { $ref: '#/components/schemas/MultilangTextDto' } 
+  @JSONSchema({
+    title: 'Regex Validation Error Message',
+    description: 'Localized error message shown when regex validation fails.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/MultilangTextDto' },
   })
   regexValidationErrorMessage?: MultilangTextDto[];
 
@@ -162,10 +179,10 @@ export class FieldDto {
    */
   @IsBoolean()
   @IsOptional()
-  @JSONSchema({ 
-    title: 'Triggers Remote Validation', 
-    description: 'If true, field triggers remote validation.', 
-    type: 'boolean' 
+  @JSONSchema({
+    title: 'Triggers Remote Validation',
+    description: 'If true, field triggers remote validation.',
+    type: 'boolean',
   })
   triggersRemoteValidation?: boolean = false;
 
@@ -176,11 +193,11 @@ export class FieldDto {
   @ValidateNested({ each: true })
   @Type(() => MultilangTextDto)
   @IsOptional()
-  @JSONSchema({ 
-    title: 'Remote Validation Error Message', 
-    description: 'Localized error messages for remote validation.', 
-    type: 'array', 
-    items: { $ref: '#/components/schemas/MultilangTextDto' } 
+  @JSONSchema({
+    title: 'Remote Validation Error Message',
+    description: 'Localized error messages for remote validation.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/MultilangTextDto' },
   })
   remoteValidationErrorMessage?: MultilangTextDto[];
 
@@ -191,10 +208,10 @@ export class FieldDto {
    */
   @IsBoolean()
   @IsDefined()
-  @JSONSchema({ 
-    title: 'Upgradable', 
-    description: 'Whether the item attribute is upgradable by the user.', 
-    type: 'boolean' 
+  @JSONSchema({
+    title: 'Upgradable',
+    description: 'Whether the item attribute is upgradable by the user.',
+    type: 'boolean',
   })
   upgradable: boolean = false;
 }
