@@ -5,6 +5,7 @@ import { UnitDto } from '../unit.dto';
 import { Type } from 'class-transformer';
 import { IsPlainObject } from '../../decorators/is-plain-object.validator';
 import { UniqueFieldInArray } from '../../decorators/unique-field-in-array.validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for notification information.
@@ -23,6 +24,12 @@ export class ProductInfoDto extends InfoDto {
   @ValidateNested({ each: true })
   @Type(() => FieldDto)
   @UniqueFieldInArray('id')
+  @JSONSchema({ 
+    title: 'Product Attributes', 
+    description: 'Configurable attributes that apply at the product level.', 
+    type: 'array', 
+    items: { $ref: '#/components/schemas/FieldDto' } 
+  })
   productAttributes?: FieldDto[];
 
   /**
@@ -35,6 +42,12 @@ export class ProductInfoDto extends InfoDto {
   @ValidateNested({ each: true })
   @Type(() => FieldDto)
   @UniqueFieldInArray('id')
+  @JSONSchema({ 
+    title: 'Item Attributes', 
+    description: 'Configurable attributes that apply at the item level.', 
+    type: 'array', 
+    items: { $ref: '#/components/schemas/FieldDto' } 
+  })
   itemAttributes?: FieldDto[];
 
   /**
@@ -47,6 +60,13 @@ export class ProductInfoDto extends InfoDto {
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => UnitDto)
+  @JSONSchema({ 
+    title: 'Pay-Per-Use Units', 
+    description: 'Optional metering units for pay-per-use billing.', 
+    type: 'array', 
+    items: { $ref: '#/components/schemas/UnitDto' }, 
+    example: [{ id: 'requests', unitDescription: 'API request', intervalDescription: 'Per month' }] 
+  })
   payPerUseUnits?: UnitDto[];
 
   /**
@@ -55,5 +75,12 @@ export class ProductInfoDto extends InfoDto {
    */
   @IsOptional()
   @IsPlainObject()
+  @JSONSchema({ 
+    title: 'Response Data Field Names', 
+    description: 'Mapping of field names used in provider responses.', 
+    type: 'object', 
+    additionalProperties: { type: 'string' },
+    example: { external_id: 'id', status_text: 'status' } 
+  })
   responseDataFieldNames?: Record<string, unknown>;
 }

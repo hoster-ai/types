@@ -1,4 +1,5 @@
 import { IsBoolean, IsDefined, IsOptional, IsString } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * Data Transfer Object for field options.
@@ -11,6 +12,11 @@ export class FieldOptionDto {
    */
   @IsString()
   @IsDefined()
+  @JSONSchema({ 
+    title: 'Key', 
+    description: 'Internal key for the option.', 
+    type: 'string' 
+  })
   key!: string;
 
   /**
@@ -18,6 +24,11 @@ export class FieldOptionDto {
    */
   @IsString()
   @IsDefined()
+  @JSONSchema({ 
+    title: 'Value', 
+    description: 'Display value for the option.', 
+    type: 'string' 
+  })
   value!: string;
 
   /**
@@ -25,5 +36,10 @@ export class FieldOptionDto {
    */
   @IsBoolean()
   @IsOptional()
+  @JSONSchema({ 
+    title: 'Disabled', 
+    description: 'Whether the option is disabled.', 
+    type: 'boolean' 
+  })
   disabled?: boolean = false;
 }
