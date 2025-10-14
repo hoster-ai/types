@@ -4,7 +4,7 @@ This package contains the core types for the Hoster AI platform.
 
 ## Files
 
-- `llm.txt`: Contains a list of large language models.
+- `llm.txt`: Comprehensive documentation of all DTOs, enums, validators, decorators, and transformers in the package. This file serves as an LLM-friendly reference for AI assistants.
 
 [![NPM Version](https://img.shields.io/npm/v/@hosterai/types.svg)](https://www.npmjs.com/package/@hosterai/types)
 [![NPM Downloads](https://img.shields.io/npm/dm/@hosterai/types.svg)](https://www.npmjs.com/package/@hosterai/types)
@@ -105,15 +105,67 @@ This package includes validation functions that leverage `class-validator` to en
 
 **Available Validators:**
 
+**Core Validators:**
 - `validateActionDto`: Validates UI actions.
+- `validateClientDataDto`: Validates client data.
 - `validateCompanyDataDto`: Validates company data.
 - `validateFieldDto`: Validates dynamic fields.
+- `validateFieldOptionDto`: Validates field options.
 - `validateJwtDto`: Validates JWT data.
 - `validateMultilangTextDto`: Validates multilingual text objects.
+- `validateUnitDto`: Validates billing unit data.
+
+**Panel Validators:**
+- `validateAdminPanelDto`: Validates admin panel configuration.
+- `validateAdminPanelTabsDto`: Validates admin panel tabs.
+- `validateAdminPanelMoreActionsDto`: Validates admin panel additional actions.
+- `validateClientPanelDto`: Validates client panel configuration.
+
+**Menu & Settings Validators:**
+- `validateMenuWithUrlDto`: Validates menu items with direct URLs.
+- `validateMenuWithSubmenuDto`: Validates menu items with submenus.
+- `validateSettingsWithUrlDto`: Validates settings with URL configuration.
+- `validateSettingsWithTabsDto`: Validates settings with tabs configuration.
+
+**Notification Validators:**
 - `validateNotificationRequestDto`: Validates the main notification request.
+- `validateNotificationInfoDto`: Validates notification information.
 - `validateEmailReceiverDto`, `validateSmsReceiverDto`, `validatePushReceiverDto`: Validators for notification receivers.
 - `validateEmailSenderDto`, `validateSmsSenderDto`, `validatePushSenderDto`: Validators for notification senders.
+
+**Product Validators:**
+- `validateProductInfoDto`: Validates product information.
+- `validateProductCreateRequestDto`: Validates product creation requests.
+- `validateProductDeleteRequestDto`: Validates product deletion requests.
+- `validateProductRenewRequestDto`: Validates product renewal requests.
+- `validateProductUpgradeRequestDto`: Validates product upgrade requests.
+- `validateProductDowngradeRequestDto`: Validates product downgrade requests.
+- `validateProductSuspendRequestDto`: Validates product suspension requests.
+- `validateProductUnsuspendRequestDto`: Validates product unsuspension requests.
+- `validateProductUpgradableRequestDto`: Validates product upgradability checks.
+- `validateProductDowngradableRequestDto`: Validates product downgradability checks.
 - `validateProductValidateAttributesRequestDto`: Validates requests for product attribute validation.
+
+### Custom Decorators
+
+The package includes custom `class-validator` decorators for advanced validation scenarios:
+
+- `@AllOrNoneProperty`: Ensures specified properties are either all present or all absent together.
+- `@AtLeastOneNonEmptyProperty`: Ensures at least one of the specified properties is non-empty.
+- `@IsOfAllowedTypes`: Validates if a value is one of the allowed types with additional constraints.
+- `@IsOneOf`: Validates if a value is an instance of one of the specified classes.
+- `@IsPlainObject`: Validates if a value is a plain object with key-value pairs.
+- `@IsPropertyForbidden`: Ensures a specific property is not present in the object.
+- `@IsRegex`: Validates if a string is a valid regular expression.
+- `@MinLessOrEqualMaxProperty`: Ensures minimum values are less than or equal to maximum values.
+- `@UniqueFieldInArray`: Ensures all objects in an array have unique values for a specified field.
+
+### Transformers
+
+Transformer functions for converting plain objects to typed DTOs:
+
+- `transformMenu`: Converts plain objects to `MenuDtoWithUrl` or `MenuDtoWithSubmenu` based on the type property.
+- `transformSettings`: Converts plain objects to `SettingsWithUrlDto` or `SettingsWithTabsDto` based on the presence of url or tabs properties.
 
 ## Usage Example
 

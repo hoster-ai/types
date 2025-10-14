@@ -122,8 +122,11 @@ export enum EventsEnum {
   ORDER_STATUS_INPROGRESS = 'order/status/in-progress',
   ORDER_STATUS_COMPLETED = 'order/status/completed',
   ORDER_STATUS_CANCELED = 'order/status/canceled',
-  ORDER_STATUS_REFUNDED = 'order/status/refunded',
+  ORDER_STATUS_PENDING = 'order/status/pending',
+  ORDER_STATUS_ARCHIVED = 'order/status/archived',
   ORDER_INSUFFICIENT_BALANCE = 'order/insufficient-balance',
+  ORDER_ITEM_DETACHED = 'order/item-detached',
+  ORDER_INVOICE_CONTACT_CHANGED = 'order/invoice-contact-changed',
   ORDER_UPDATED = 'order/updated',
   ORDER_DELETED = 'order/deleted',
 
