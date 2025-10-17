@@ -15,7 +15,8 @@ describe('ProductInfoDto Validator', () => {
     type: FieldTypeEnum.TEXT_BOX,
     required: false,
     disabled: false,
-    hidden: false,
+    visibleInOrder: false,
+    visibleInClientPanel: true,
     upgradable: false
   };
 
@@ -185,7 +186,8 @@ describe('ProductInfoDto Validator', () => {
         type: FieldTypeEnum.TEXT_BOX,
         required: false,
         disabled: false,
-        hidden: false,
+        visibleInOrder: false,
+        visibleInClientPanel: true,
         upgradable: false,
         reapetableMin: 1,
       };
@@ -209,7 +211,8 @@ describe('ProductInfoDto Validator', () => {
         type: FieldTypeEnum.TEXT_BOX,
         required: false,
         disabled: false,
-        hidden: false,
+        visibleInOrder: false,
+        visibleInClientPanel: true,
         upgradable: false,
         reapetableMax: 2,
       } as any;
@@ -233,7 +236,8 @@ describe('ProductInfoDto Validator', () => {
         type: FieldTypeEnum.TEXT_BOX,
         required: false,
         disabled: false,
-        hidden: false,
+        visibleInOrder: false,
+        visibleInClientPanel: true,
         upgradable: false,
         reapetableMin: 1,
         reapetableMax: 2,
@@ -257,7 +261,8 @@ describe('ProductInfoDto Validator', () => {
         type: FieldTypeEnum.TEXT_BOX,
         required: false,
         disabled: false,
-        hidden: false,
+        visibleInOrder: false,
+        visibleInClientPanel: true,
         upgradable: false,
         reapetableMin: 5,
         reapetableMax: 2,
