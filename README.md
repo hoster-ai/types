@@ -27,6 +27,24 @@ or
 yarn add @hosterai/types
 ```
 
+## Peer Dependencies
+
+This package relies on the following peer dependencies. Install them in your project:
+
+```bash
+npm install class-validator class-transformer class-validator-jsonschema reflect-metadata
+# If your project already uses Express, ensure a compatible version is installed
+npm install express
+```
+
+Note:
+
+- Import `reflect-metadata` once at the entry point of your application (e.g., `main.ts` or `index.ts`).
+
+```ts
+import 'reflect-metadata';
+```
+
 ## Core Concepts
 
 ### DTOs (Data Transfer Objects)
@@ -166,6 +184,15 @@ Transformer functions for converting plain objects to typed DTOs:
 
 - `transformMenu`: Converts plain objects to `MenuDtoWithUrl` or `MenuDtoWithSubmenu` based on the type property.
 - `transformSettings`: Converts plain objects to `SettingsWithUrlDto` or `SettingsWithTabsDto` based on the presence of url or tabs properties.
+
+## Generating JSON Schemas
+
+This package can generate JSON Schemas for all DTOs using the `class-validator-jsonschema` integration. The generated schemas are used in OpenAPI and other tooling.
+
+- Script: `npm run build:schemas`
+- Output: `openapi/schemas/components.schemas.ts`
+
+During packaging, schemas are built automatically via the `prepack` script. Run the command locally whenever you change DTOs or validators and want to refresh the schemas.
 
 ## Usage Example
 

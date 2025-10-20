@@ -4,7 +4,7 @@ SOURCE: dtos/action.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
-import { IsString, IsUrl, IsEnum, IsOptional } from 'class-validator';
+import { IsString, IsUrl, IsEnum, IsOptional, IsNotEmpty } from 'class-validator';
 import { OpenMethodEnum } from '../enums/open-method.enum';
 
 /**
@@ -506,19 +506,23 @@ import {
   IsArray,
   ArrayMinSize,
   ValidateIf,
-  // IsNumber,
+  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { MultilangTextDto } from './multilang-text.dto';
 import { FieldOptionDto } from './field-option.dto';
 import { IsRegex } from '../decorators/is-regex.validator';
+import { AllOrNoneProperty } from '../decorators/all-or-none.validator';
+import { MinLessOrEqualMaxProperty } from '../decorators/min-less-or-equal.validator';
 
 /**
  * Data Transfer Object for a form field.
  * This class defines the structure and properties of a single field
  * that can be used in a user interface form.
  */
+@AllOrNoneProperty(['reapetableMin', 'reapetableMax'])
+@MinLessOrEqualMaxProperty(['reapetableMin', 'reapetableMax'])
 export class FieldDto {
   /**
    * ID of action field
@@ -552,18 +556,6 @@ export class FieldDto {
     objectNotEmpty: true,
     arrayNotEmpty: true,
   })
-  // @IsDefined()
-  // @ValidateIf(o => typeof o.value === 'string')
-  // @IsString({ message: 'Value must be a valid string' })
-  // @ValidateIf(o => typeof o.value === 'number')
-  // @IsNumber({}, { message: 'Value must be a valid number' })
-  // @ValidateIf(o => Array.isArray(o.value))
-  // @IsArray({ message: 'Value must be an array' })
-  // @ValidateNested({ each: true })
-  // @Type(() => FieldOptionDto)
-  // @ValidateIf(o => typeof o.value === 'object' && !Array.isArray(o.value))
-  // @ValidateNested()
-  // @Type(() => FieldOptionDto)
   value!: string | number | FieldOptionDto | FieldOptionDto[];
 
   /**
@@ -572,6 +564,14 @@ export class FieldDto {
   @IsEnum(FieldTypeEnum)
   @IsDefined()
   type!: FieldTypeEnum;
+
+  @IsOptional()
+  @IsNumber()
+  reapetableMin?: number;
+
+  @IsOptional()
+  @IsNumber()
+  reapetableMax?: number;
 
   /**
    * Indicates if the field is required
@@ -588,11 +588,18 @@ export class FieldDto {
   disabled!: boolean;
 
   /**
-   * Indicates if the field is hidden
+   * Indicates if the field is hidden in order
    */
   @IsBoolean()
   @IsDefined()
-  hidden!: boolean;
+  visibleInOrder!: boolean;
+
+  /**
+   * Indicates if the field is visible in client panel
+   */
+  @IsBoolean()
+  @IsDefined()
+  visibleInClientPanel!: boolean;
 
   /**
    * Regex validation pattern for the field
@@ -702,12 +709,11 @@ import { Transform, Type } from 'class-transformer';
 import { TabDto } from './tab.dto';
 import { ActionDto } from './action.dto';
 import { MenuDtoWithSubmenu, MenuDtoWithUrl } from './menu.dto';
+import { SettingsWithTabsDto, SettingsWithUrlDto } from './settings.dto';
+import { transformSettings } from '../transformers/settings.transformer';
 import { transformMenu } from '../transformers/menu.transformer';
 import { IsOneOf } from '../decorators/is-one-of.validator';
 import { AtLeastOneNonEmptyProperty } from '../decorators/at-least-one-non-empty.validator';
-import { SettingsWithTabsDto, SettingsWithUrlDto } from './settings.dto';
-import { transformSettings } from '../transformers/settings.transformer';
-
 @AtLeastOneNonEmptyProperty(['product', 'item', 'client', 'user', 'order'])
 export class AdminPanelTabsDto {
   @ValidateNested({ each: true })
@@ -826,7 +832,6 @@ export class AdminPanelDto {
   })
   settings?: SettingsWithUrlDto | SettingsWithTabsDto;
 }
-
 ```
 
 ----------------------------------------
@@ -911,9 +916,6 @@ import { ActionsEnum } from '../enums/actions.enum';
 import { EventsEnum } from '../enums/events.enum';
 import { LanguageEnum } from '../enums/language.enum';
 import { RolesEnum } from '../enums/roles.enum';
-// import { ActionDto } from './action.dto';
-// import { TabDto } from './tab.dto';
-// import { MenuDtoWithSubmenu, MenuDtoWithUrl } from './menu.dto';
 import { IsString, IsUrl, IsOptional, ValidateNested, IsArray, ArrayMinSize, IsEnum, IsNotEmpty, IsDefined } from 'class-validator';
 import { Type } from 'class-transformer';
 import { AdminPanelDto } from './admin-panel.dto';
@@ -1093,9 +1095,9 @@ LANGUAGE: typescript
 CODE:
 ```typescript
 import { IsDefined, IsIn, IsString, IsNotEmpty, IsUrl, ValidateNested } from 'class-validator';
-import { SubmenuDto } from './submenu.dto';
 import { Type } from 'class-transformer';
 import { IsPropertyForbidden } from '../decorators/is-property-forbidden.validator';
+import { TabDto } from './tab.dto';
 
 /**
  * Base properties shared by all menu items.
@@ -1171,8 +1173,8 @@ export class MenuDtoWithSubmenu extends BaseMenuDto {
    */
   @IsDefined()
   @ValidateNested({ each: true })
-  @Type(() => SubmenuDto)
-  submenu!: SubmenuDto[];
+  @Type(() => TabDto)
+  submenu!: TabDto[];
 }
 ```
 
@@ -1184,7 +1186,7 @@ SOURCE: dtos/multilang-text.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
-import { IsDefined, IsEnum, IsString } from 'class-validator';
+import { IsDefined, IsEnum, IsString, IsNotEmpty } from 'class-validator';
 import { LanguageEnum } from '../enums/language.enum';
 
 /**
@@ -1204,7 +1206,7 @@ export class MultilangTextDto {
    * The text content in the specified language.
    */
   @IsString()
-  @IsDefined()
+  @IsNotEmpty()
   text!: string;
 }
 ```
@@ -1217,10 +1219,11 @@ SOURCE: dtos/notification/notification-info.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
+import { IsEnum, IsDefined, IsOptional, IsArray, ValidateNested } from 'class-validator';
 import { NotificationMessageTypeEnum } from '../../enums/notification/notification-message-type.enum';
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
-
+import { Type } from 'class-transformer';
 /**
  * DTO for notification information.
  * Extends the base InfoDto to include the notification message type.
@@ -1230,6 +1233,8 @@ export class NotificationInfoDto extends InfoDto {
    * The type of the notification message.
    * @see NotificationMessageTypeEnum
    */
+  @IsEnum(NotificationMessageTypeEnum)
+  @IsDefined()
   type!: NotificationMessageTypeEnum;
 
   /**
@@ -1237,6 +1242,10 @@ export class NotificationInfoDto extends InfoDto {
    * This allows the administrator to set a price for each unit per interval.
    * @example [{ id: "ram", unitDescription: "MB", intervalDescription: "month" }]
    */
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => UnitDto)
   payPerUseUnits?: UnitDto[];
 }
 ```
@@ -1558,18 +1567,22 @@ export class SmsSenderDto {
 ----------------------------------------
 
 TITLE: ProductInfoDto
-DESCRIPTION: DTO for notification information. Extends the base InfoDto to include the notification message type.
+DESCRIPTION: DTO for product information. Extends the base InfoDto to include the product attributes, optional pay-per-use units, and response mapping.
 SOURCE: dtos/product/product-info.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
+import { IsArray, IsOptional, ValidateNested, ArrayMinSize } from 'class-validator';
 import { FieldDto } from '../field.dto';
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
+import { Type } from 'class-transformer';
+import { IsPlainObject } from '../../decorators/is-plain-object.validator';
+import { UniqueFieldInArray } from '../../decorators/unique-field-in-array.validator';
 
 /**
- * DTO for notification information.
- * Extends the base InfoDto to include the notification message type.
+ * DTO for product information.
+ * Extends the base InfoDto with product/item attributes, optional pay-per-use units, and response mapping.
  */
 export class ProductInfoDto extends InfoDto {
   /**
@@ -2624,7 +2637,7 @@ export class ProductValidateAttributesRequestDto {
    */
   @IsDefined()
   @IsObject()
-  attributeValues!: Record<string, unknown>;
+  values!: Record<string, unknown>;
 }
 ```
 
@@ -2771,6 +2784,8 @@ SOURCE: dtos/tab.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
+import { IsString, IsUrl, IsNotEmpty } from "class-validator";
+
 /**
  * DTO for tabs
  * Used for defining tabs in the user interface
@@ -2779,6 +2794,8 @@ export class TabDto {
   /**
    * The label displayed on the tab
    */
+  @IsString()
+  @IsNotEmpty()
   label!: string;
 
   /**
@@ -2786,6 +2803,8 @@ export class TabDto {
    * The requests coming from the hoster will be signed
    * with jwt, which will contain information about the company
    */
+  @IsUrl({ protocols: ['https'], require_protocol: true })
+  @IsNotEmpty()
   url!: string;
 }
 ```
@@ -2821,6 +2840,8 @@ SOURCE: dtos/unit.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
+import { IsString, IsDefined, IsNotEmpty } from "class-validator";
+
 /**
  * DTO for billing units.
  * Used for defining units for pay-per-use billing.
@@ -2830,36 +2851,45 @@ export class UnitDto {
    * The unique identifier for the unit.
    * @example "ram"
    */
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   id!: string;
 
   /**
    * The description of the unit.
    * @example "MB"
    */
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   unitDescription!: string;
 
   /**
    * The description of the billing interval.
    * @example "month"
    */
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   intervalDescription!: string;
 }
 ```
 
 ----------------------------------------
 
-TITLE: ProductProductActionsEnum
-DESCRIPTION: This file defines the ProductProductActionsEnum for product integration actions.
+TITLE: ActionsEnum
+DESCRIPTION: This file defines the ActionsEnum for integration actions.
 SOURCE: enums/actions.enum.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
-export enum ProductProductActionsEnum {
-  // Product Integration
+export enum ActionsEnum {
   CREATE = 'create',
   RENEW = 'renew',
   UPGRADE = 'upgrade',
   DOWNGRADE = 'downgrade',
+  TRANSFER = 'transfer',
   SUSPEND = 'suspend',
   UNSUSPEND = 'unsuspend',
   DELETE = 'delete',
