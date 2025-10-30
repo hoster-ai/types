@@ -81,29 +81,29 @@ describe('FieldDto Validator', () => {
   });
 
   describe('Repeatable constraints (AllOrNone and Min<=Max)', () => {
-    it('should fail when only reapetableMin is present', () => {
-      const dto = { ...baseValidDto, reapetableMin: 1 } as any;
+    it('should fail when only repeatableMin is present', () => {
+      const dto = { ...baseValidDto, repeatableMin: 1 } as any;
       const errors = validateFieldDto(dto);
       expect(errors.length).toBeGreaterThan(0);
       // Class-level error; ensure at least one constraint exists
       expect(errors.some(e => e.constraints && (e.constraints['AllOrNone'] || Object.values(e.constraints!).some(msg => (msg as string).includes('All of'))))).toBe(true);
     });
 
-    it('should fail when only reapetableMax is present', () => {
-      const dto = { ...baseValidDto, reapetableMax: 2 } as any;
+    it('should fail when only repeatableMax is present', () => {
+      const dto = { ...baseValidDto, repeatableMax: 2 } as any;
       const errors = validateFieldDto(dto);
       expect(errors.length).toBeGreaterThan(0);
       expect(errors.some(e => e.constraints && (e.constraints['AllOrNone'] || Object.values(e.constraints!).some(msg => (msg as string).includes('All of'))))).toBe(true);
     });
 
-    it('should pass when both present and reapetableMin <= reapetableMax', () => {
-      const dto = { ...baseValidDto, reapetableMin: 1, reapetableMax: 2 } as any;
+    it('should pass when both present and repeatableMin <= repeatableMax', () => {
+      const dto = { ...baseValidDto, repeatableMin: 1, repeatableMax: 2 } as any;
       const errors = validateFieldDto(dto);
       expect(errors).toHaveLength(0);
     });
 
-    it('should fail when both present and reapetableMin > reapetableMax', () => {
-      const dto = { ...baseValidDto, reapetableMin: 3, reapetableMax: 2 } as any;
+    it('should fail when both present and repeatableMin > repeatableMax', () => {
+      const dto = { ...baseValidDto, repeatableMin: 3, repeatableMax: 2 } as any;
       const errors = validateFieldDto(dto);
       expect(errors.length).toBeGreaterThan(0);
       expect(errors.some(e => e.constraints && (e.constraints['MinLessOrEqualMax'] || Object.values(e.constraints!).some(msg => (msg as string).includes('must be less than or equal'))))).toBe(true);

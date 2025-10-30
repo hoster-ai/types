@@ -25,8 +25,8 @@ import { JSONSchema } from 'class-validator-jsonschema';
  * This class defines the structure and properties of a single field
  * that can be used in a user interface form.
  */
-@AllOrNoneProperty(['reapetableMin', 'reapetableMax'])
-@MinLessOrEqualMaxProperty(['reapetableMin', 'reapetableMax'])
+@AllOrNoneProperty(['repeatableMin', 'repeatableMax'])
+@MinLessOrEqualMaxProperty(['repeatableMin', 'repeatableMax'])
 export class FieldDto {
   /**
    * ID of action field
@@ -103,11 +103,11 @@ export class FieldDto {
 
   @IsOptional()
   @IsNumber()
-  reapetableMin?: number;
+  repeatableMin?: number;
 
   @IsOptional()
   @IsNumber()
-  reapetableMax?: number;
+  repeatableMax?: number;
 
   /**
    * Indicates if the field is required

@@ -177,7 +177,7 @@ describe('ProductInfoDto Validator', () => {
   });
 
   describe('FieldDto class-level constraints inside ProductInfoDto', () => {
-    it('fails when a FieldDto has only reapetableMin (AllOrNone)', () => {
+    it('fails when a FieldDto has only repeatableMin (AllOrNone)', () => {
       const fieldWithOnlyMin: FieldDto = {
         id: 'f1',
         label: [{ language: LanguageEnum.EN, text: 'label' }],
@@ -187,7 +187,7 @@ describe('ProductInfoDto Validator', () => {
         disabled: false,
         hidden: false,
         upgradable: false,
-        reapetableMin: 1,
+        repeatableMin: 1,
       };
 
       const dto = {
@@ -201,7 +201,7 @@ describe('ProductInfoDto Validator', () => {
       expect(errors.length).toBeGreaterThan(0);
     });
 
-    it('fails when a FieldDto has only reapetableMax (AllOrNone)', () => {
+    it('fails when a FieldDto has only repeatableMax (AllOrNone)', () => {
       const fieldWithOnlyMax: FieldDto = {
         id: 'f2',
         label: [{ language: LanguageEnum.EN, text: 'label' }],
@@ -211,7 +211,7 @@ describe('ProductInfoDto Validator', () => {
         disabled: false,
         hidden: false,
         upgradable: false,
-        reapetableMax: 2,
+        repeatableMax: 2,
       } as any;
 
       const dto = {
@@ -235,8 +235,8 @@ describe('ProductInfoDto Validator', () => {
         disabled: false,
         hidden: false,
         upgradable: false,
-        reapetableMin: 1,
-        reapetableMax: 2,
+        repeatableMin: 1,
+        repeatableMax: 2,
       };
 
       const dto = {
@@ -259,8 +259,8 @@ describe('ProductInfoDto Validator', () => {
         disabled: false,
         hidden: false,
         upgradable: false,
-        reapetableMin: 5,
-        reapetableMax: 2,
+        repeatableMin: 5,
+        repeatableMax: 2,
       };
 
       const dto = {
