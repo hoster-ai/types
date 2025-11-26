@@ -744,6 +744,7 @@ export const ComponentsSchemas = {
             "upgrade",
             "downgrade",
             "transfer",
+            "trade",
             "suspend",
             "unsuspend",
             "delete"
@@ -1329,6 +1330,7 @@ export const ComponentsSchemas = {
             "upgrade",
             "downgrade",
             "transfer",
+            "trade",
             "suspend",
             "unsuspend",
             "delete"
@@ -2279,6 +2281,7 @@ export const ComponentsSchemas = {
             "upgrade",
             "downgrade",
             "transfer",
+            "trade",
             "suspend",
             "unsuspend",
             "delete"
