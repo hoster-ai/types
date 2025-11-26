@@ -1915,10 +1915,10 @@ export const ComponentsSchemas = {
         "title": "Field Type",
         "description": "Type of the field."
       },
-      "reapetableMin": {
+      "repeatableMin": {
         "type": "number"
       },
-      "reapetableMax": {
+      "repeatableMax": {
         "type": "number"
       },
       "required": {

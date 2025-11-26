@@ -1,4 +1,10 @@
-import { IsEnum, IsDefined, IsOptional, IsArray, ValidateNested } from 'class-validator';
+import {
+  IsEnum,
+  IsDefined,
+  IsOptional,
+  IsArray,
+  ValidateNested,
+} from 'class-validator';
 import { NotificationMessageTypeEnum } from '../../enums/notification/notification-message-type.enum';
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
@@ -16,12 +22,12 @@ export class NotificationInfoDto extends InfoDto {
    */
   @IsEnum(NotificationMessageTypeEnum)
   @IsDefined()
-  @JSONSchema({ 
-    title: 'Notification Type', 
-    description: 'Notification channel type.', 
-    type: 'string', 
-    enum: Object.values(NotificationMessageTypeEnum), 
-    example: Object.values(NotificationMessageTypeEnum)[0] 
+  @JSONSchema({
+    title: 'Notification Type',
+    description: 'Notification channel type.',
+    type: 'string',
+    enum: Object.values(NotificationMessageTypeEnum),
+    example: Object.values(NotificationMessageTypeEnum)[0],
   })
   type!: NotificationMessageTypeEnum;
 
@@ -40,8 +46,12 @@ export class NotificationInfoDto extends InfoDto {
     type: 'array',
     items: { $ref: '#/components/schemas/UnitDto' },
     example: [
-      { id: 'messages', unitDescription: 'Message sent', intervalDescription: 'Per month' }
-    ]
+      {
+        id: 'messages',
+        unitDescription: 'Message sent',
+        intervalDescription: 'Per month',
+      },
+    ],
   })
   payPerUseUnits?: UnitDto[];
 }
