@@ -138,9 +138,6 @@ export const ComponentsSchemas = {
           "$ref": "#/components/schemas/TabDto"
         },
         "type": "array",
-        "not": {
-          "type": "null"
-        },
         "title": "Submenu",
         "description": "List of tabs that will appear in the submenu."
       },
@@ -171,24 +168,15 @@ export const ComponentsSchemas = {
       "label": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Label",
         "description": "Label of the settings page."
       },
       "icon": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Icon",
         "description": "Icon of the settings page."
       },
       "description": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Description",
         "description": "Description of the settings page."
@@ -210,24 +198,15 @@ export const ComponentsSchemas = {
       "label": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Label",
         "description": "Label of the settings page."
       },
       "icon": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Icon",
         "description": "Icon of the settings page."
       },
       "description": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Description",
         "description": "Description of the settings page."
@@ -255,24 +234,15 @@ export const ComponentsSchemas = {
       "label": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Label",
         "description": "Label of the settings page."
       },
       "icon": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Icon",
         "description": "Icon of the settings page."
       },
       "description": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Description",
         "description": "Description of the settings page."
@@ -335,8 +305,7 @@ export const ComponentsSchemas = {
         "description": "Tabs shown on the order page in Admin panel."
       }
     },
-    "type": "object",
-    "required": []
+    "type": "object"
   },
   "AdminPanelMoreActionsDto": {
     "properties": {
@@ -386,8 +355,7 @@ export const ComponentsSchemas = {
         "description": "Additional actions available on the order page."
       }
     },
-    "type": "object",
-    "required": []
+    "type": "object"
   },
   "AdminPanelDto": {
     "properties": {
@@ -440,8 +408,7 @@ export const ComponentsSchemas = {
         ]
       }
     },
-    "type": "object",
-    "required": []
+    "type": "object"
   },
   "ClientPanelTabsDto": {
     "properties": {
@@ -455,8 +422,7 @@ export const ComponentsSchemas = {
         "description": "Tabs shown on the item page in Client panel."
       }
     },
-    "type": "object",
-    "required": []
+    "type": "object"
   },
   "ClientPanelMoreActionsDto": {
     "properties": {
@@ -470,8 +436,7 @@ export const ComponentsSchemas = {
         "description": "Additional actions available on the item page in Client panel."
       }
     },
-    "type": "object",
-    "required": []
+    "type": "object"
   },
   "ClientPanelDto": {
     "properties": {
@@ -510,8 +475,7 @@ export const ComponentsSchemas = {
         ]
       }
     },
-    "type": "object",
-    "required": []
+    "type": "object"
   },
   "InfoDto": {
     "properties": {
@@ -727,9 +691,6 @@ export const ComponentsSchemas = {
         },
         "minItems": 1,
         "type": "array",
-        "not": {
-          "type": "null"
-        },
         "title": "Supported Languages",
         "description": "Locales supported by the integration.",
         "example": [
@@ -1034,9 +995,6 @@ export const ComponentsSchemas = {
       "id": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Unit ID",
         "description": "Unit identifier.",
         "example": "messages"
@@ -1044,9 +1002,6 @@ export const ComponentsSchemas = {
       "unitDescription": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Unit Description",
         "description": "What is measured.",
         "example": "Message sent"
@@ -1054,9 +1009,6 @@ export const ComponentsSchemas = {
       "intervalDescription": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Interval Description",
         "description": "Billing interval.",
         "example": "Per month"
@@ -1072,9 +1024,6 @@ export const ComponentsSchemas = {
   "NotificationInfoDto": {
     "properties": {
       "type": {
-        "not": {
-          "type": "null"
-        },
         "enum": [
           "email",
           "sms",
@@ -1312,9 +1261,6 @@ export const ComponentsSchemas = {
         },
         "minItems": 1,
         "type": "array",
-        "not": {
-          "type": "null"
-        },
         "title": "Supported Languages",
         "description": "Locales supported by the integration.",
         "example": [
@@ -1618,9 +1564,6 @@ export const ComponentsSchemas = {
   "MultilangTextDto": {
     "properties": {
       "language": {
-        "not": {
-          "type": "null"
-        },
         "enum": [
           "aa",
           "af",
@@ -1823,17 +1766,11 @@ export const ComponentsSchemas = {
   "FieldOptionDto": {
     "properties": {
       "key": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Key",
         "description": "Internal key for the option."
       },
       "value": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Value",
         "description": "Display value for the option."
@@ -1853,9 +1790,6 @@ export const ComponentsSchemas = {
   "FieldDto": {
     "properties": {
       "id": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "ID",
         "description": "Unique identifier for the field."
@@ -1870,9 +1804,6 @@ export const ComponentsSchemas = {
         "description": "Multilingual label for the field."
       },
       "value": {
-        "not": {
-          "type": "null"
-        },
         "title": "Value",
         "description": "Value of the field. String/Number, or FieldOptionDto/FieldOptionDto[] depending on type.",
         "oneOf": [
@@ -1898,9 +1829,6 @@ export const ComponentsSchemas = {
         ]
       },
       "type": {
-        "not": {
-          "type": "null"
-        },
         "enum": [
           "TEXT_BOX",
           "TEXT_AREA",
@@ -1922,28 +1850,24 @@ export const ComponentsSchemas = {
         "type": "number"
       },
       "required": {
-        "not": {
-          "type": "null"
-        },
         "type": "boolean",
         "title": "Required",
         "description": "Whether the field is required."
       },
       "disabled": {
-        "not": {
-          "type": "null"
-        },
         "type": "boolean",
         "title": "Disabled",
         "description": "Whether the field is disabled."
       },
-      "hidden": {
-        "not": {
-          "type": "null"
-        },
+      "visibleInOrder": {
         "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
+        "title": "Visible In Order",
+        "description": "Whether the field is visible in order."
+      },
+      "visibleInClientPanel": {
+        "type": "boolean",
+        "title": "Visible In Client Panel",
+        "description": "Whether the field is visible in client panel."
       },
       "regexValidation": {
         "type": "string",
@@ -1973,9 +1897,6 @@ export const ComponentsSchemas = {
         "description": "Localized error messages for remote validation."
       },
       "upgradable": {
-        "not": {
-          "type": "null"
-        },
         "type": "boolean",
         "title": "Upgradable",
         "description": "Whether the item attribute is upgradable by the user."
@@ -2253,9 +2174,6 @@ export const ComponentsSchemas = {
         },
         "minItems": 1,
         "type": "array",
-        "not": {
-          "type": "null"
-        },
         "title": "Supported Languages",
         "description": "Locales supported by the integration.",
         "example": [
