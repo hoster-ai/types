@@ -1859,15 +1859,10 @@ export const ComponentsSchemas = {
         "title": "Disabled",
         "description": "Whether the field is disabled."
       },
-      "visibleInOrder": {
+      "hidden": {
         "type": "boolean",
-        "title": "Visible In Order",
-        "description": "Whether the field is visible in order."
-      },
-      "visibleInClientPanel": {
-        "type": "boolean",
-        "title": "Visible In Client Panel",
-        "description": "Whether the field is visible in client panel."
+        "title": "Hidden",
+        "description": "Whether the field is hidden."
       },
       "regexValidation": {
         "type": "string",
