@@ -744,6 +744,7 @@ export const ComponentsSchemas = {
             "upgrade",
             "downgrade",
             "transfer",
+            "trade",
             "suspend",
             "unsuspend",
             "delete"
@@ -1329,6 +1330,7 @@ export const ComponentsSchemas = {
             "upgrade",
             "downgrade",
             "transfer",
+            "trade",
             "suspend",
             "unsuspend",
             "delete"
@@ -1937,13 +1939,21 @@ export const ComponentsSchemas = {
         "title": "Disabled",
         "description": "Whether the field is disabled."
       },
-      "hidden": {
+      "visibleInOrder": {
         "not": {
           "type": "null"
         },
         "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
+        "title": "Visible In Order",
+        "description": "Whether the field is visible in order."
+      },
+      "visibleInClientPanel": {
+        "not": {
+          "type": "null"
+        },
+        "type": "boolean",
+        "title": "Visible In Client Panel",
+        "description": "Whether the field is visible in client panel."
       },
       "regexValidation": {
         "type": "string",
@@ -1989,7 +1999,8 @@ export const ComponentsSchemas = {
       "type",
       "required",
       "disabled",
-      "hidden",
+      "visibleInOrder",
+      "visibleInClientPanel",
       "upgradable"
     ]
   },
@@ -2270,6 +2281,7 @@ export const ComponentsSchemas = {
             "upgrade",
             "downgrade",
             "transfer",
+            "trade",
             "suspend",
             "unsuspend",
             "delete"

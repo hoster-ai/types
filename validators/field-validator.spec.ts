@@ -10,7 +10,8 @@ const baseValidDto = {
   type: FieldTypeEnum.TEXT_BOX,
   required: true,
   disabled: false,
-  hidden: false,
+  visibleInOrder: false,
+  visibleInClientPanel: false,
   upgradable: false,
 };
 
@@ -33,7 +34,7 @@ describe('FieldDto Validator', () => {
   describe('Missing required fields', () => {
     it('should return errors for all missing required fields (except upgradable)', () => {
       const errors = validateFieldDto({});
-      const requiredProps = ['id', 'label', 'value', 'type', 'required', 'disabled', 'hidden'];
+      const requiredProps = ['id', 'label', 'value', 'type', 'required', 'disabled', 'visibleInOrder', 'visibleInClientPanel'];
       for (const prop of requiredProps) {
         expect(errors.some(e => e.property === prop)).toBe(true);
       }

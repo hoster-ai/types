@@ -134,16 +134,28 @@ export class FieldDto {
   disabled!: boolean;
 
   /**
-   * Indicates if the field is hidden
+   * Indicates if the field is hidden in order
    */
   @IsBoolean()
   @IsDefined()
   @JSONSchema({
-    title: 'Hidden',
-    description: 'Whether the field is hidden.',
+    title: 'Visible In Order',
+    description: 'Whether the field is visible in order.',
     type: 'boolean',
   })
-  hidden!: boolean;
+  visibleInOrder!: boolean;
+
+  /**
+   * Indicates if the field is visible in client panel
+   */
+  @IsBoolean()
+  @IsDefined()
+  @JSONSchema({
+    title: 'Visible In Client Panel',
+    description: 'Whether the field is visible in client panel.',
+    type: 'boolean',
+  })
+  visibleInClientPanel!: boolean;
 
   /**
    * Regex validation pattern for the field
