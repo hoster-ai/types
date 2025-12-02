@@ -24,6 +24,12 @@ export * from './dtos/admin-panel.dto';
 export * from './dtos/client-panel.dto';
 export * from './dtos/settings.dto';
 
+// Base Requests
+export * from './dtos/requests/validate-attributes-request.dto';
+
+// Base Response
+export * from './dtos/responses/validate-attributes-response.dto';
+
 // Notification DTOs
 export * from './dtos/notification/notification-info.dto';
 export * from './dtos/notification/notification-send-request.dto';
