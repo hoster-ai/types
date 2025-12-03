@@ -132,6 +132,7 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateJwtDto`: Validates JWT data.
 - `validateMultilangTextDto`: Validates multilingual text objects.
 - `validateUnitDto`: Validates billing unit data.
+- `validateAttributesDto`: Validates attributes.
 
 **Panel Validators:**
 - `validateAdminPanelDto`: Validates admin panel configuration.
@@ -161,8 +162,7 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateProductSuspendRequestDto`: Validates product suspension requests.
 - `validateProductUnsuspendRequestDto`: Validates product unsuspension requests.
 - `validateProductUpgradableRequestDto`: Validates product upgradability checks.
-- `validateProductDowngradableRequestDto`: Validates product downgradability checks.
-- `validateProductValidateAttributesRequestDto`: Validates requests for product attribute validation.
+
 
 ### Custom Decorators
 

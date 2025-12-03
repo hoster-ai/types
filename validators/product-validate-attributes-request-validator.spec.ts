@@ -1,7 +1,7 @@
 import 'reflect-metadata';
-import { validateProductValidateAttributesRequestDto } from './product-validate-attributes-request-validator';
+import { validateValidateAttributesRequestDto } from './product-validate-attributes-request-validator';
 
-describe('validateProductValidateAttributesRequestDto', () => {
+describe('validateValidateAttributesRequestDto', () => {
   it('should return no errors for a valid request', async () => {
     const validRequest = {
       triggeredByKey: 'some-key',
@@ -12,7 +12,7 @@ describe('validateProductValidateAttributesRequestDto', () => {
     };
 
     const errors =
-      await validateProductValidateAttributesRequestDto(validRequest);
+      await validateValidateAttributesRequestDto(validRequest);
     expect(errors.length).toBe(0);
   });
 
@@ -25,7 +25,7 @@ describe('validateProductValidateAttributesRequestDto', () => {
     };
 
     const errors =
-      await validateProductValidateAttributesRequestDto(invalidRequest);
+      await validateValidateAttributesRequestDto(invalidRequest);
     expect(errors.length).toBeGreaterThan(0);
   });
 });
