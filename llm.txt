@@ -1013,6 +1013,17 @@ export class InfoDto {
   @IsOptional()
   @IsUrl({ protocols: ['https'], require_protocol: true })
   onboardingUrl?: string;
+
+  /**
+   * Configuration for setup attributes that can be defined during the setup process.
+   * These attributes will be displayed in the setup wizard.
+   */
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => FieldDto)
+  @UniqueFieldInArray('id')
+  setupAttributes?: FieldDto[];
 }
 ```
 
@@ -1714,8 +1725,8 @@ import { ProductUnsuspendResponseDto } from './responses/product-unsuspend-respo
 import { ProductDowngradableResponseDto } from './responses/product-downgradable-response.dto';
 import { ProductDeleteResponseDto } from './responses/product-delete-response.dto';
 import { ProductDeleteRequestDto } from './requests/product-delete-request.dto';
-import { ProductValidateAttributesRequestDto } from './requests/product-validate-attributes-request.dto';
-import { ProductValidateAttributesResponseDto } from './responses/product-validate-attributes-response.dto';
+import { ValidateAttributesRequestDto } from './requests/validate-attributes-request.dto';
+import { ValidateAttributesResponseDto } from './responses/validate-attributes-response.dto';
 import { SetupStatusResponseDto } from '../setup-status-response.dto';
 import { CompanyDataDto } from '../company-data.dto';
 
@@ -1759,12 +1770,12 @@ export interface ProductControllerInterface {
   ): Promise<ProductDeleteResponseDto>;
 
   validateProductAttributes(
-    requestBody: ProductValidateAttributesRequestDto,
-  ): Promise<ProductValidateAttributesResponseDto | ErrorResponseDto>;
+    requestBody: ValidateAttributesRequestDto,
+  ): Promise<ValidateAttributesResponseDto | ErrorResponseDto>;
 
   validateItemAttributes(
-    requestBody: ProductValidateAttributesRequestDto,
-  ): Promise<ProductValidateAttributesResponseDto | ErrorResponseDto>;
+    requestBody: ValidateAttributesRequestDto,
+  ): Promise<ValidateAttributesResponseDto | ErrorResponseDto>;
 
   setupStatus(): Promise<SetupStatusResponseDto>;
 
@@ -2160,7 +2171,7 @@ export class ProductUpgradableRequestDto {
 
 ----------------------------------------
 
-TITLE: ProductValidateAttributesRequestDto
+TITLE: ValidateAttributesRequestDto
 DESCRIPTION: Represents a request to validate product attributes. This DTO is used when a client needs to check the validity of a set of attribute values before proceeding with an action, such as creating or updating a product.
 SOURCE: dtos/product/requests/product-validate-attributes-request.dto.ts
 LANGUAGE: typescript
@@ -2173,7 +2184,7 @@ import { IsDefined, IsObject, IsString } from 'class-validator';
  * This DTO is used when a client needs to check the validity of a set of attribute values
  * before proceeding with an action, such as creating or updating a product.
  */
-export class ProductValidateAttributesRequestDto {
+export class ValidateAttributesRequestDto {
   /**
    * The key of the attribute that triggered the validation.
    * This helps the server understand the context of the validation request,
@@ -2528,7 +2539,7 @@ export class ProductUpgradableResponseDto extends BaseResponse {
 
 ----------------------------------------
 
-TITLE: ProductValidateAttributesResponseDto
+TITLE: ValidateAttributesResponseDto
 DESCRIPTION: Represents the response from validating product attributes. Contains the list of attributes that have been validated.
 SOURCE: dtos/product/responses/product-validate-attributes-response.dto.ts
 LANGUAGE: typescript
@@ -2538,10 +2549,10 @@ import { BaseResponse } from '../../base-response.dto';
 import { FieldDto } from '../../field.dto';
 
 /**
- * Represents the response from validating product attributes.
+ * Represents the response from validating attributes.
  * Contains the list of attributes that have been validated.
  */
-export class ProductValidateAttributesResponseDto extends BaseResponse {
+export class ValidateAttributesResponseDto extends BaseResponse {
   /**
    * An array of field DTOs representing the validated attributes.
    * Each `FieldDto` contains details about a single attribute.
@@ -2552,63 +2563,7 @@ export class ProductValidateAttributesResponseDto extends BaseResponse {
 
 ----------------------------------------
 
-TITLE: ItemValidateAttributesRequestDto
-DESCRIPTION: Represents a request to validate item attributes.
-SOURCE: dtos/product/requests/item-validate-attributes-request.dto.ts
-LANGUAGE: typescript
-CODE:
-```typescript
-import { IsDefined, IsObject, IsString, ValidateNested } from 'class-validator';
-import { ProductItemDataDto } from '../product-item-data.dto';
-import { Type } from 'class-transformer';
-
-/**
- * Represents a request to validate item attributes.
- * This DTO is used when a client needs to check the validity of a set of attribute values
- * before proceeding with an action, such as creating or updating an item.
- */
-export class ItemValidateAttributesRequestDto {
-  /**
-   * The product data of the item.
-   */
-  @IsDefined()
-  @Type(() => ProductItemDataDto)
-  @ValidateNested()
-  productData!: ProductItemDataDto;
-
-  /**
-   * The key of the attribute that triggered the validation.
-   * This helps the server understand the context of the validation request,
-   * especially in cases where validation rules are interdependent.
-   */
-  @IsDefined()
-  @IsString()
-  triggeredByKey!: string;
-
-  /**
-   * A record of attribute values to be validated.
-   * The keys are the attribute identifiers, and the values are the data to be checked.
-   */
-  @IsDefined()
-  @IsObject()
-  attributeValues!: Record<string, unknown>;
-}
-```
-
-----------------------------------------
-
-TITLE: ItemValidateAttributesResponseDto
-DESCRIPTION: Represents the response from validating item attributes.
-SOURCE: dtos/product/responses/item-validate-attributes-response.dto.ts
-LANGUAGE: typescript
-CODE:
-```typescript
-import { BaseResponse } from '../../base-response.dto';
-```
-
-----------------------------------------
-
-TITLE: ProductValidateAttributesRequestDto
+TITLE: ValidateAttributesRequestDto
 DESCRIPTION: Represents a request to validate product attributes. This DTO is used when a client needs to check the validity of a set of attribute values before proceeding with an action, such as creating or updating a product.
 SOURCE: dtos/product/requests/product-validate-attributes-request.dto.ts
 LANGUAGE: typescript
@@ -2617,11 +2572,11 @@ CODE:
 import { IsDefined, IsObject, IsString } from 'class-validator';
 
 /**
- * Represents a request to validate product attributes.
+ * Represents a request to validate attributes.
  * This DTO is used when a client needs to check the validity of a set of attribute values
  * before proceeding with an action, such as creating or updating a product.
  */
-export class ProductValidateAttributesRequestDto {
+export class ValidateAttributesRequestDto {
   /**
    * The key of the attribute that triggered the validation.
    * This helps the server understand the context of the validation request,
@@ -2643,7 +2598,7 @@ export class ProductValidateAttributesRequestDto {
 
 ----------------------------------------
 
-TITLE: validateProductValidateAttributesRequestDto
+TITLE: validateValidateAttributesRequestDto
 DESCRIPTION: Validates a product validate attributes request object.
 SOURCE: validators/product-validate-attributes-request-validator.ts
 LANGUAGE: typescript
@@ -2651,7 +2606,7 @@ CODE:
 ```typescript
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { ProductValidateAttributesRequestDto } from '../dtos/product/requests/product-validate-attributes-request.dto';
+import { ValidateAttributesRequestDto } from '../dtos/product/requests/product-validate-attributes-request.dto';
 
 /**
  * Validates a product validate attributes request object.
@@ -2659,37 +2614,15 @@ import { ProductValidateAttributesRequestDto } from '../dtos/product/requests/pr
  * @param {Record<string, unknown>} plainObject - The plain object to validate.
  * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
  */
-export const validateProductValidateAttributesRequestDto = async (
+export const validateValidateAttributesRequestDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const request = plainToInstance(
-    ProductValidateAttributesRequestDto,
+    ValidateAttributesRequestDto,
     plainObject,
   );
   return await validate(request);
 };
-```
-
-----------------------------------------
-
-SOURCE: dtos/product/responses/item-validate-attributes-response.dto.ts
-LANGUAGE: typescript
-CODE:
-```typescript
-import { BaseResponse } from '../../base-response.dto';
-import { FieldDto } from '../../field.dto';
-
-/**
- * Represents the response from validating item attributes.
- * Contains the list of attributes that have been validated.
- */
-export class ItemValidateAttributesResponseDto extends BaseResponse {
-  /**
-   * An array of field DTOs representing the validated attributes.
-   * Each `FieldDto` contains details about a single attribute.
-   */
-  validatedAttributes!: FieldDto[];
-}
 ```
 
 ----------------------------------------

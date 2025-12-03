@@ -110,6 +110,9 @@ function main() {
           for (const [pk, pv] of Object.entries(v as Record<string, any>)) {
             if (!pk || pk.trim() === '') continue;
             const pvSan = sanitizeSchema(pv);
+            if ('enum' in pvSan && !('type' in pvSan)) {
+              pvSan.type = 'string';
+            }
             // Drop properties with effectively empty schemas (no shape info)
             const hasShape = pvSan && typeof pvSan === 'object' && (
               ('$ref' in pvSan) ||
