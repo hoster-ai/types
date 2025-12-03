@@ -93,12 +93,18 @@ function main() {
    *  - Remove artifacts: properties with empty name ("") and empty `required` entries.
    *  - Drop properties with no meaningful shape (no $ref/type/compose/items/properties/enum/format),
    *    which typically come from forbidden/never fields.
+   *  - Remove invalid "not: { type: 'null' }" constraints (not valid in OpenAPI)
    */
   const sanitizeSchema = (obj: any): any => {
     if (Array.isArray(obj)) return obj.map(sanitizeSchema);
     if (obj && typeof obj === 'object') {
       const out: any = {};
       for (const [k, v] of Object.entries(obj)) {
+        // Skip invalid "not: { type: 'null' }" constraints
+        if (k === 'not' && v && typeof v === 'object' && (v as any).type === 'null') {
+          continue;
+        }
+
         if (k === 'properties' && v && typeof v === 'object') {
           const cleanedProps: any = {};
           for (const [pk, pv] of Object.entries(v as Record<string, any>)) {
@@ -122,7 +128,10 @@ function main() {
           }
           out[k] = cleanedProps;
         } else if (k === 'required' && Array.isArray(v)) {
-          out[k] = (v as any[]).filter((x) => typeof x === 'string' && x.trim() !== '');
+          const cleaned = (v as any[]).filter((x) => typeof x === 'string' && x.trim() !== '');
+          if (cleaned.length > 0) {
+            out[k] = cleaned;
+          }
         } else {
           out[k] = sanitizeSchema(v);
         }
