@@ -54,8 +54,6 @@ export * from './dtos/product/requests/product-suspend-request.dto';
 export * from './dtos/product/requests/product-unsuspend-request.dto';
 export * from './dtos/product/requests/product-upgrade-request.dto';
 export * from './dtos/product/requests/product-upgradable-request.dto';
-export * from './dtos/product/requests/product-validate-attributes-request.dto';
-export * from './dtos/product/requests/item-validate-attributes-request.dto';
 
 // Product Responses
 export * from './dtos/product/responses/product-create-response.dto';
@@ -68,8 +66,6 @@ export * from './dtos/product/responses/product-suspend-response.dto';
 export * from './dtos/product/responses/product-unsuspend-response.dto';
 export * from './dtos/product/responses/product-upgrade-response.dto';
 export * from './dtos/product/responses/product-upgradable-response.dto';
-export * from './dtos/product/responses/product-validate-attributes-response.dto';
-export * from './dtos/product/responses/item-validate-attributes-response.dto';
 
 // Enums
 export * from './enums/actions.enum';
