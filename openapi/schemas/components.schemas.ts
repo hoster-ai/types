@@ -138,9 +138,6 @@ export const ComponentsSchemas = {
           "$ref": "#/components/schemas/TabDto"
         },
         "type": "array",
-        "not": {
-          "type": "null"
-        },
         "title": "Submenu",
         "description": "List of tabs that will appear in the submenu."
       },
@@ -171,24 +168,15 @@ export const ComponentsSchemas = {
       "label": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Label",
         "description": "Label of the settings page."
       },
       "icon": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Icon",
         "description": "Icon of the settings page."
       },
       "description": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Description",
         "description": "Description of the settings page."
@@ -210,24 +198,15 @@ export const ComponentsSchemas = {
       "label": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Label",
         "description": "Label of the settings page."
       },
       "icon": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Icon",
         "description": "Icon of the settings page."
       },
       "description": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Description",
         "description": "Description of the settings page."
@@ -255,24 +234,15 @@ export const ComponentsSchemas = {
       "label": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Label",
         "description": "Label of the settings page."
       },
       "icon": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Icon",
         "description": "Icon of the settings page."
       },
       "description": {
-        "not": {
-          "type": "null"
-        },
         "type": "string",
         "title": "Description",
         "description": "Description of the settings page."
@@ -335,8 +305,7 @@ export const ComponentsSchemas = {
         "description": "Tabs shown on the order page in Admin panel."
       }
     },
-    "type": "object",
-    "required": []
+    "type": "object"
   },
   "AdminPanelMoreActionsDto": {
     "properties": {
@@ -386,8 +355,7 @@ export const ComponentsSchemas = {
         "description": "Additional actions available on the order page."
       }
     },
-    "type": "object",
-    "required": []
+    "type": "object"
   },
   "AdminPanelDto": {
     "properties": {
@@ -440,8 +408,7 @@ export const ComponentsSchemas = {
         ]
       }
     },
-    "type": "object",
-    "required": []
+    "type": "object"
   },
   "ClientPanelTabsDto": {
     "properties": {
@@ -455,8 +422,7 @@ export const ComponentsSchemas = {
         "description": "Tabs shown on the item page in Client panel."
       }
     },
-    "type": "object",
-    "required": []
+    "type": "object"
   },
   "ClientPanelMoreActionsDto": {
     "properties": {
@@ -470,8 +436,7 @@ export const ComponentsSchemas = {
         "description": "Additional actions available on the item page in Client panel."
       }
     },
-    "type": "object",
-    "required": []
+    "type": "object"
   },
   "ClientPanelDto": {
     "properties": {
@@ -510,8 +475,361 @@ export const ComponentsSchemas = {
         ]
       }
     },
+    "type": "object"
+  },
+  "MultilangTextDto": {
+    "properties": {
+      "language": {
+        "enum": [
+          "aa",
+          "af",
+          "ak",
+          "sq",
+          "am",
+          "ar",
+          "an",
+          "hy",
+          "as",
+          "av",
+          "ae",
+          "ay",
+          "az",
+          "bm",
+          "ba",
+          "eu",
+          "be",
+          "bn",
+          "bh",
+          "bi",
+          "bs",
+          "br",
+          "bg",
+          "my",
+          "ca",
+          "ch",
+          "ce",
+          "ny",
+          "zh",
+          "cv",
+          "kw",
+          "co",
+          "cr",
+          "hr",
+          "cs",
+          "da",
+          "dv",
+          "nl",
+          "dz",
+          "en",
+          "eo",
+          "et",
+          "ee",
+          "fo",
+          "fj",
+          "fi",
+          "fr",
+          "ff",
+          "gl",
+          "ka",
+          "de",
+          "el",
+          "gn",
+          "gu",
+          "ht",
+          "ha",
+          "he",
+          "hz",
+          "hi",
+          "ho",
+          "hu",
+          "ia",
+          "id",
+          "ie",
+          "ga",
+          "ig",
+          "ik",
+          "io",
+          "is",
+          "it",
+          "iu",
+          "ja",
+          "jv",
+          "kl",
+          "kn",
+          "kr",
+          "ks",
+          "kk",
+          "km",
+          "ki",
+          "rw",
+          "ky",
+          "kv",
+          "kg",
+          "ko",
+          "ku",
+          "kj",
+          "la",
+          "lb",
+          "lg",
+          "li",
+          "ln",
+          "lo",
+          "lt",
+          "lu",
+          "lv",
+          "gv",
+          "mk",
+          "mg",
+          "ms",
+          "ml",
+          "mt",
+          "mi",
+          "mr",
+          "mh",
+          "mn",
+          "na",
+          "nv",
+          "nd",
+          "ne",
+          "ng",
+          "nb",
+          "nn",
+          "no",
+          "ii",
+          "nr",
+          "oc",
+          "oj",
+          "cu",
+          "om",
+          "or",
+          "os",
+          "pa",
+          "pi",
+          "fa",
+          "pl",
+          "ps",
+          "pt",
+          "qu",
+          "rm",
+          "rn",
+          "ro",
+          "rh",
+          "ru",
+          "sa",
+          "sc",
+          "sd",
+          "se",
+          "sm",
+          "sg",
+          "sr",
+          "gd",
+          "sn",
+          "si",
+          "sk",
+          "sl",
+          "so",
+          "st",
+          "es",
+          "su",
+          "sw",
+          "ss",
+          "sv",
+          "ta",
+          "te",
+          "tg",
+          "th",
+          "ti",
+          "bo",
+          "tk",
+          "tl",
+          "tn",
+          "to",
+          "tr",
+          "ts",
+          "tt",
+          "tw",
+          "ty",
+          "ug",
+          "uk",
+          "ur",
+          "uz",
+          "ve",
+          "vi",
+          "vo",
+          "wa",
+          "cy",
+          "wo",
+          "fy",
+          "xh",
+          "yi",
+          "yo",
+          "za",
+          "zu"
+        ],
+        "type": "string"
+      },
+      "text": {
+        "minLength": 1,
+        "type": "string"
+      }
+    },
     "type": "object",
-    "required": []
+    "required": [
+      "language",
+      "text"
+    ]
+  },
+  "FieldOptionDto": {
+    "properties": {
+      "key": {
+        "type": "string",
+        "title": "Key",
+        "description": "Internal key for the option."
+      },
+      "value": {
+        "type": "string",
+        "title": "Value",
+        "description": "Display value for the option."
+      },
+      "disabled": {
+        "type": "boolean",
+        "title": "Disabled",
+        "description": "Whether the option is disabled."
+      }
+    },
+    "type": "object",
+    "required": [
+      "key",
+      "value"
+    ]
+  },
+  "FieldDto": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "title": "ID",
+        "description": "Unique identifier for the field."
+      },
+      "label": {
+        "items": {
+          "$ref": "#/components/schemas/MultilangTextDto"
+        },
+        "minItems": 1,
+        "type": "array",
+        "title": "Label",
+        "description": "Multilingual label for the field."
+      },
+      "value": {
+        "title": "Value",
+        "description": "Value of the field. String/Number, or FieldOptionDto/FieldOptionDto[] depending on type.",
+        "oneOf": [
+          {
+            "title": "String",
+            "type": "string"
+          },
+          {
+            "title": "Number",
+            "type": "number"
+          },
+          {
+            "title": "Option",
+            "$ref": "#/components/schemas/FieldOptionDto"
+          },
+          {
+            "title": "Options Array",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldOptionDto"
+            }
+          }
+        ]
+      },
+      "type": {
+        "enum": [
+          "TEXT_BOX",
+          "TEXT_AREA",
+          "SELECT",
+          "MULTI_SELECT",
+          "DESCRIPTION",
+          "RADIO_BOX",
+          "CHECKBOX",
+          "SLIDER"
+        ],
+        "type": "string",
+        "title": "Field Type",
+        "description": "Type of the field."
+      },
+      "repeatableMin": {
+        "type": "number"
+      },
+      "repeatableMax": {
+        "type": "number"
+      },
+      "required": {
+        "type": "boolean",
+        "title": "Required",
+        "description": "Whether the field is required."
+      },
+      "disabled": {
+        "type": "boolean",
+        "title": "Disabled",
+        "description": "Whether the field is disabled."
+      },
+      "visibleInOrder": {
+        "type": "boolean",
+        "title": "Visible In Order",
+        "description": "Whether the field is visible in order."
+      },
+      "visibleInClientPanel": {
+        "type": "boolean",
+        "title": "Visible In Client Panel",
+        "description": "Whether the field is visible in client panel."
+      },
+      "regexValidation": {
+        "type": "string",
+        "title": "Regex Validation",
+        "description": "Optional regex to validate input.",
+        "example": "^[A-Za-z0-9_-]+$"
+      },
+      "regexValidationErrorMessage": {
+        "items": {
+          "$ref": "#/components/schemas/MultilangTextDto"
+        },
+        "type": "array",
+        "title": "Regex Validation Error Message",
+        "description": "Localized error message shown when regex validation fails."
+      },
+      "triggersRemoteValidation": {
+        "type": "boolean",
+        "title": "Triggers Remote Validation",
+        "description": "If true, field triggers remote validation."
+      },
+      "remoteValidationErrorMessage": {
+        "items": {
+          "$ref": "#/components/schemas/MultilangTextDto"
+        },
+        "type": "array",
+        "title": "Remote Validation Error Message",
+        "description": "Localized error messages for remote validation."
+      },
+      "upgradable": {
+        "type": "boolean",
+        "title": "Upgradable",
+        "description": "Whether the item attribute is upgradable by the user."
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "label",
+      "value",
+      "type",
+      "required",
+      "disabled",
+      "visibleInOrder",
+      "visibleInClientPanel",
+      "upgradable"
+    ]
   },
   "InfoDto": {
     "properties": {
@@ -727,9 +1045,6 @@ export const ComponentsSchemas = {
         },
         "minItems": 1,
         "type": "array",
-        "not": {
-          "type": "null"
-        },
         "title": "Supported Languages",
         "description": "Locales supported by the integration.",
         "example": [
@@ -1022,6 +1337,15 @@ export const ComponentsSchemas = {
         "title": "Onboarding URL",
         "description": "URL to onboard/configure the integration.",
         "example": "https://example.com/onboarding"
+      },
+      "setupAttributes": {
+        "items": {
+          "$ref": "#/components/schemas/FieldDto"
+        },
+        "type": "array",
+        "minItems": 1,
+        "title": "Setup Attributes",
+        "description": "Configurable attributes that are used in the setup process."
       }
     },
     "type": "object",
@@ -1035,9 +1359,6 @@ export const ComponentsSchemas = {
       "id": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Unit ID",
         "description": "Unit identifier.",
         "example": "messages"
@@ -1045,9 +1366,6 @@ export const ComponentsSchemas = {
       "unitDescription": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Unit Description",
         "description": "What is measured.",
         "example": "Message sent"
@@ -1055,9 +1373,6 @@ export const ComponentsSchemas = {
       "intervalDescription": {
         "minLength": 1,
         "type": "string",
-        "not": {
-          "type": "null"
-        },
         "title": "Interval Description",
         "description": "Billing interval.",
         "example": "Per month"
@@ -1073,9 +1388,6 @@ export const ComponentsSchemas = {
   "NotificationInfoDto": {
     "properties": {
       "type": {
-        "not": {
-          "type": "null"
-        },
         "enum": [
           "email",
           "sms",
@@ -1313,9 +1625,6 @@ export const ComponentsSchemas = {
         },
         "minItems": 1,
         "type": "array",
-        "not": {
-          "type": "null"
-        },
         "title": "Supported Languages",
         "description": "Locales supported by the integration.",
         "example": [
@@ -1608,6 +1917,15 @@ export const ComponentsSchemas = {
         "title": "Onboarding URL",
         "description": "URL to onboard/configure the integration.",
         "example": "https://example.com/onboarding"
+      },
+      "setupAttributes": {
+        "items": {
+          "$ref": "#/components/schemas/FieldDto"
+        },
+        "type": "array",
+        "minItems": 1,
+        "title": "Setup Attributes",
+        "description": "Configurable attributes that are used in the setup process."
       }
     },
     "type": "object",
@@ -1615,393 +1933,6 @@ export const ComponentsSchemas = {
       "type",
       "title",
       "supportedLanguages"
-    ]
-  },
-  "MultilangTextDto": {
-    "properties": {
-      "language": {
-        "not": {
-          "type": "null"
-        },
-        "enum": [
-          "aa",
-          "af",
-          "ak",
-          "sq",
-          "am",
-          "ar",
-          "an",
-          "hy",
-          "as",
-          "av",
-          "ae",
-          "ay",
-          "az",
-          "bm",
-          "ba",
-          "eu",
-          "be",
-          "bn",
-          "bh",
-          "bi",
-          "bs",
-          "br",
-          "bg",
-          "my",
-          "ca",
-          "ch",
-          "ce",
-          "ny",
-          "zh",
-          "cv",
-          "kw",
-          "co",
-          "cr",
-          "hr",
-          "cs",
-          "da",
-          "dv",
-          "nl",
-          "dz",
-          "en",
-          "eo",
-          "et",
-          "ee",
-          "fo",
-          "fj",
-          "fi",
-          "fr",
-          "ff",
-          "gl",
-          "ka",
-          "de",
-          "el",
-          "gn",
-          "gu",
-          "ht",
-          "ha",
-          "he",
-          "hz",
-          "hi",
-          "ho",
-          "hu",
-          "ia",
-          "id",
-          "ie",
-          "ga",
-          "ig",
-          "ik",
-          "io",
-          "is",
-          "it",
-          "iu",
-          "ja",
-          "jv",
-          "kl",
-          "kn",
-          "kr",
-          "ks",
-          "kk",
-          "km",
-          "ki",
-          "rw",
-          "ky",
-          "kv",
-          "kg",
-          "ko",
-          "ku",
-          "kj",
-          "la",
-          "lb",
-          "lg",
-          "li",
-          "ln",
-          "lo",
-          "lt",
-          "lu",
-          "lv",
-          "gv",
-          "mk",
-          "mg",
-          "ms",
-          "ml",
-          "mt",
-          "mi",
-          "mr",
-          "mh",
-          "mn",
-          "na",
-          "nv",
-          "nd",
-          "ne",
-          "ng",
-          "nb",
-          "nn",
-          "no",
-          "ii",
-          "nr",
-          "oc",
-          "oj",
-          "cu",
-          "om",
-          "or",
-          "os",
-          "pa",
-          "pi",
-          "fa",
-          "pl",
-          "ps",
-          "pt",
-          "qu",
-          "rm",
-          "rn",
-          "ro",
-          "rh",
-          "ru",
-          "sa",
-          "sc",
-          "sd",
-          "se",
-          "sm",
-          "sg",
-          "sr",
-          "gd",
-          "sn",
-          "si",
-          "sk",
-          "sl",
-          "so",
-          "st",
-          "es",
-          "su",
-          "sw",
-          "ss",
-          "sv",
-          "ta",
-          "te",
-          "tg",
-          "th",
-          "ti",
-          "bo",
-          "tk",
-          "tl",
-          "tn",
-          "to",
-          "tr",
-          "ts",
-          "tt",
-          "tw",
-          "ty",
-          "ug",
-          "uk",
-          "ur",
-          "uz",
-          "ve",
-          "vi",
-          "vo",
-          "wa",
-          "cy",
-          "wo",
-          "fy",
-          "xh",
-          "yi",
-          "yo",
-          "za",
-          "zu"
-        ],
-        "type": "string"
-      },
-      "text": {
-        "minLength": 1,
-        "type": "string"
-      }
-    },
-    "type": "object",
-    "required": [
-      "language",
-      "text"
-    ]
-  },
-  "FieldOptionDto": {
-    "properties": {
-      "key": {
-        "not": {
-          "type": "null"
-        },
-        "type": "string",
-        "title": "Key",
-        "description": "Internal key for the option."
-      },
-      "value": {
-        "not": {
-          "type": "null"
-        },
-        "type": "string",
-        "title": "Value",
-        "description": "Display value for the option."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the option is disabled."
-      }
-    },
-    "type": "object",
-    "required": [
-      "key",
-      "value"
-    ]
-  },
-  "FieldDto": {
-    "properties": {
-      "id": {
-        "not": {
-          "type": "null"
-        },
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "value": {
-        "not": {
-          "type": "null"
-        },
-        "title": "Value",
-        "description": "Value of the field. String/Number, or FieldOptionDto/FieldOptionDto[] depending on type.",
-        "oneOf": [
-          {
-            "title": "String",
-            "type": "string"
-          },
-          {
-            "title": "Number",
-            "type": "number"
-          },
-          {
-            "title": "Option",
-            "$ref": "#/components/schemas/FieldOptionDto"
-          },
-          {
-            "title": "Options Array",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FieldOptionDto"
-            }
-          }
-        ]
-      },
-      "type": {
-        "not": {
-          "type": "null"
-        },
-        "enum": [
-          "TEXT_BOX",
-          "TEXT_AREA",
-          "SELECT",
-          "MULTI_SELECT",
-          "DESCRIPTION",
-          "RADIO_BOX",
-          "CHECKBOX",
-          "SLIDER"
-        ],
-        "type": "string",
-        "title": "Field Type",
-        "description": "Type of the field."
-      },
-      "repeatableMin": {
-        "type": "number"
-      },
-      "repeatableMax": {
-        "type": "number"
-      },
-      "required": {
-        "not": {
-          "type": "null"
-        },
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "not": {
-          "type": "null"
-        },
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "visibleInOrder": {
-        "not": {
-          "type": "null"
-        },
-        "type": "boolean",
-        "title": "Visible In Order",
-        "description": "Whether the field is visible in order."
-      },
-      "visibleInClientPanel": {
-        "not": {
-          "type": "null"
-        },
-        "type": "boolean",
-        "title": "Visible In Client Panel",
-        "description": "Whether the field is visible in client panel."
-      },
-      "regexValidation": {
-        "type": "string",
-        "title": "Regex Validation",
-        "description": "Optional regex to validate input.",
-        "example": "^[A-Za-z0-9_-]+$"
-      },
-      "regexValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "type": "array",
-        "title": "Regex Validation Error Message",
-        "description": "Localized error message shown when regex validation fails."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "If true, field triggers remote validation."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error messages for remote validation."
-      },
-      "upgradable": {
-        "not": {
-          "type": "null"
-        },
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user."
-      }
-    },
-    "type": "object",
-    "required": [
-      "id",
-      "label",
-      "value",
-      "type",
-      "required",
-      "disabled",
-      "visibleInOrder",
-      "visibleInClientPanel",
-      "upgradable"
     ]
   },
   "ProductInfoDto": {
@@ -2264,9 +2195,6 @@ export const ComponentsSchemas = {
         },
         "minItems": 1,
         "type": "array",
-        "not": {
-          "type": "null"
-        },
         "title": "Supported Languages",
         "description": "Locales supported by the integration.",
         "example": [
@@ -2559,6 +2487,15 @@ export const ComponentsSchemas = {
         "title": "Onboarding URL",
         "description": "URL to onboard/configure the integration.",
         "example": "https://example.com/onboarding"
+      },
+      "setupAttributes": {
+        "items": {
+          "$ref": "#/components/schemas/FieldDto"
+        },
+        "type": "array",
+        "minItems": 1,
+        "title": "Setup Attributes",
+        "description": "Configurable attributes that are used in the setup process."
       }
     },
     "type": "object",
