@@ -19,8 +19,8 @@ import { ProductUnsuspendResponseDto } from './responses/product-unsuspend-respo
 import { ProductDowngradableResponseDto } from './responses/product-downgradable-response.dto';
 import { ProductDeleteResponseDto } from './responses/product-delete-response.dto';
 import { ProductDeleteRequestDto } from './requests/product-delete-request.dto';
-import { ProductValidateAttributesRequestDto } from './requests/product-validate-attributes-request.dto';
-import { ProductValidateAttributesResponseDto } from './responses/product-validate-attributes-response.dto';
+import { ValidateAttributesRequestDto } from '../requests/validate-attributes-request.dto';
+import { ValidateAttributesResponseDto } from '../responses/validate-attributes-response.dto';
 import { SetupStatusResponseDto } from '../setup-status-response.dto';
 import { CompanyDataDto } from '../company-data.dto';
 
@@ -64,12 +64,12 @@ export interface ProductControllerInterface {
   ): Promise<ProductDeleteResponseDto>;
 
   validateProductAttributes(
-    requestBody: ProductValidateAttributesRequestDto,
-  ): Promise<ProductValidateAttributesResponseDto | ErrorResponseDto>;
+    requestBody: ValidateAttributesRequestDto,
+  ): Promise<ValidateAttributesResponseDto | ErrorResponseDto>;
 
   validateItemAttributes(
-    requestBody: ProductValidateAttributesRequestDto,
-  ): Promise<ProductValidateAttributesResponseDto | ErrorResponseDto>;
+    requestBody: ValidateAttributesRequestDto,
+  ): Promise<ValidateAttributesResponseDto | ErrorResponseDto>;
 
   setupStatus(): Promise<SetupStatusResponseDto>;
 

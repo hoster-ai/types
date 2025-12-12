@@ -4,7 +4,7 @@ SOURCE: dtos/action.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
-import { IsString, IsUrl, IsEnum, IsOptional } from 'class-validator';
+import { IsString, IsUrl, IsEnum, IsOptional, IsNotEmpty } from 'class-validator';
 import { OpenMethodEnum } from '../enums/open-method.enum';
 
 /**
@@ -506,19 +506,23 @@ import {
   IsArray,
   ArrayMinSize,
   ValidateIf,
-  // IsNumber,
+  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { MultilangTextDto } from './multilang-text.dto';
 import { FieldOptionDto } from './field-option.dto';
 import { IsRegex } from '../decorators/is-regex.validator';
+import { AllOrNoneProperty } from '../decorators/all-or-none.validator';
+import { MinLessOrEqualMaxProperty } from '../decorators/min-less-or-equal.validator';
 
 /**
  * Data Transfer Object for a form field.
  * This class defines the structure and properties of a single field
  * that can be used in a user interface form.
  */
+@AllOrNoneProperty(['reapetableMin', 'reapetableMax'])
+@MinLessOrEqualMaxProperty(['reapetableMin', 'reapetableMax'])
 export class FieldDto {
   /**
    * ID of action field
@@ -552,18 +556,6 @@ export class FieldDto {
     objectNotEmpty: true,
     arrayNotEmpty: true,
   })
-  // @IsDefined()
-  // @ValidateIf(o => typeof o.value === 'string')
-  // @IsString({ message: 'Value must be a valid string' })
-  // @ValidateIf(o => typeof o.value === 'number')
-  // @IsNumber({}, { message: 'Value must be a valid number' })
-  // @ValidateIf(o => Array.isArray(o.value))
-  // @IsArray({ message: 'Value must be an array' })
-  // @ValidateNested({ each: true })
-  // @Type(() => FieldOptionDto)
-  // @ValidateIf(o => typeof o.value === 'object' && !Array.isArray(o.value))
-  // @ValidateNested()
-  // @Type(() => FieldOptionDto)
   value!: string | number | FieldOptionDto | FieldOptionDto[];
 
   /**
@@ -572,6 +564,14 @@ export class FieldDto {
   @IsEnum(FieldTypeEnum)
   @IsDefined()
   type!: FieldTypeEnum;
+
+  @IsOptional()
+  @IsNumber()
+  reapetableMin?: number;
+
+  @IsOptional()
+  @IsNumber()
+  reapetableMax?: number;
 
   /**
    * Indicates if the field is required
@@ -588,11 +588,18 @@ export class FieldDto {
   disabled!: boolean;
 
   /**
-   * Indicates if the field is hidden
+   * Indicates if the field is hidden in order
    */
   @IsBoolean()
   @IsDefined()
-  hidden!: boolean;
+  visibleInOrder!: boolean;
+
+  /**
+   * Indicates if the field is visible in client panel
+   */
+  @IsBoolean()
+  @IsDefined()
+  visibleInClientPanel!: boolean;
 
   /**
    * Regex validation pattern for the field
@@ -702,12 +709,11 @@ import { Transform, Type } from 'class-transformer';
 import { TabDto } from './tab.dto';
 import { ActionDto } from './action.dto';
 import { MenuDtoWithSubmenu, MenuDtoWithUrl } from './menu.dto';
+import { SettingsWithTabsDto, SettingsWithUrlDto } from './settings.dto';
+import { transformSettings } from '../transformers/settings.transformer';
 import { transformMenu } from '../transformers/menu.transformer';
 import { IsOneOf } from '../decorators/is-one-of.validator';
 import { AtLeastOneNonEmptyProperty } from '../decorators/at-least-one-non-empty.validator';
-import { SettingsWithTabsDto, SettingsWithUrlDto } from './settings.dto';
-import { transformSettings } from '../transformers/settings.transformer';
-
 @AtLeastOneNonEmptyProperty(['product', 'item', 'client', 'user', 'order'])
 export class AdminPanelTabsDto {
   @ValidateNested({ each: true })
@@ -826,7 +832,6 @@ export class AdminPanelDto {
   })
   settings?: SettingsWithUrlDto | SettingsWithTabsDto;
 }
-
 ```
 
 ----------------------------------------
@@ -911,9 +916,6 @@ import { ActionsEnum } from '../enums/actions.enum';
 import { EventsEnum } from '../enums/events.enum';
 import { LanguageEnum } from '../enums/language.enum';
 import { RolesEnum } from '../enums/roles.enum';
-// import { ActionDto } from './action.dto';
-// import { TabDto } from './tab.dto';
-// import { MenuDtoWithSubmenu, MenuDtoWithUrl } from './menu.dto';
 import { IsString, IsUrl, IsOptional, ValidateNested, IsArray, ArrayMinSize, IsEnum, IsNotEmpty, IsDefined } from 'class-validator';
 import { Type } from 'class-transformer';
 import { AdminPanelDto } from './admin-panel.dto';
@@ -1011,6 +1013,17 @@ export class InfoDto {
   @IsOptional()
   @IsUrl({ protocols: ['https'], require_protocol: true })
   onboardingUrl?: string;
+
+  /**
+   * Configuration for setup attributes that can be defined during the setup process.
+   * These attributes will be displayed in the setup wizard.
+   */
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => FieldDto)
+  @UniqueFieldInArray('id')
+  setupAttributes?: FieldDto[];
 }
 ```
 
@@ -1093,9 +1106,9 @@ LANGUAGE: typescript
 CODE:
 ```typescript
 import { IsDefined, IsIn, IsString, IsNotEmpty, IsUrl, ValidateNested } from 'class-validator';
-import { SubmenuDto } from './submenu.dto';
 import { Type } from 'class-transformer';
 import { IsPropertyForbidden } from '../decorators/is-property-forbidden.validator';
+import { TabDto } from './tab.dto';
 
 /**
  * Base properties shared by all menu items.
@@ -1171,8 +1184,8 @@ export class MenuDtoWithSubmenu extends BaseMenuDto {
    */
   @IsDefined()
   @ValidateNested({ each: true })
-  @Type(() => SubmenuDto)
-  submenu!: SubmenuDto[];
+  @Type(() => TabDto)
+  submenu!: TabDto[];
 }
 ```
 
@@ -1184,7 +1197,7 @@ SOURCE: dtos/multilang-text.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
-import { IsDefined, IsEnum, IsString } from 'class-validator';
+import { IsDefined, IsEnum, IsString, IsNotEmpty } from 'class-validator';
 import { LanguageEnum } from '../enums/language.enum';
 
 /**
@@ -1204,7 +1217,7 @@ export class MultilangTextDto {
    * The text content in the specified language.
    */
   @IsString()
-  @IsDefined()
+  @IsNotEmpty()
   text!: string;
 }
 ```
@@ -1217,10 +1230,11 @@ SOURCE: dtos/notification/notification-info.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
+import { IsEnum, IsDefined, IsOptional, IsArray, ValidateNested } from 'class-validator';
 import { NotificationMessageTypeEnum } from '../../enums/notification/notification-message-type.enum';
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
-
+import { Type } from 'class-transformer';
 /**
  * DTO for notification information.
  * Extends the base InfoDto to include the notification message type.
@@ -1230,6 +1244,8 @@ export class NotificationInfoDto extends InfoDto {
    * The type of the notification message.
    * @see NotificationMessageTypeEnum
    */
+  @IsEnum(NotificationMessageTypeEnum)
+  @IsDefined()
   type!: NotificationMessageTypeEnum;
 
   /**
@@ -1237,6 +1253,10 @@ export class NotificationInfoDto extends InfoDto {
    * This allows the administrator to set a price for each unit per interval.
    * @example [{ id: "ram", unitDescription: "MB", intervalDescription: "month" }]
    */
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => UnitDto)
   payPerUseUnits?: UnitDto[];
 }
 ```
@@ -1558,18 +1578,22 @@ export class SmsSenderDto {
 ----------------------------------------
 
 TITLE: ProductInfoDto
-DESCRIPTION: DTO for notification information. Extends the base InfoDto to include the notification message type.
+DESCRIPTION: DTO for product information. Extends the base InfoDto to include the product attributes, optional pay-per-use units, and response mapping.
 SOURCE: dtos/product/product-info.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
+import { IsArray, IsOptional, ValidateNested, ArrayMinSize } from 'class-validator';
 import { FieldDto } from '../field.dto';
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
+import { Type } from 'class-transformer';
+import { IsPlainObject } from '../../decorators/is-plain-object.validator';
+import { UniqueFieldInArray } from '../../decorators/unique-field-in-array.validator';
 
 /**
- * DTO for notification information.
- * Extends the base InfoDto to include the notification message type.
+ * DTO for product information.
+ * Extends the base InfoDto with product/item attributes, optional pay-per-use units, and response mapping.
  */
 export class ProductInfoDto extends InfoDto {
   /**
@@ -1701,8 +1725,8 @@ import { ProductUnsuspendResponseDto } from './responses/product-unsuspend-respo
 import { ProductDowngradableResponseDto } from './responses/product-downgradable-response.dto';
 import { ProductDeleteResponseDto } from './responses/product-delete-response.dto';
 import { ProductDeleteRequestDto } from './requests/product-delete-request.dto';
-import { ProductValidateAttributesRequestDto } from './requests/product-validate-attributes-request.dto';
-import { ProductValidateAttributesResponseDto } from './responses/product-validate-attributes-response.dto';
+import { ValidateAttributesRequestDto } from './requests/validate-attributes-request.dto';
+import { ValidateAttributesResponseDto } from './responses/validate-attributes-response.dto';
 import { SetupStatusResponseDto } from '../setup-status-response.dto';
 import { CompanyDataDto } from '../company-data.dto';
 
@@ -1746,12 +1770,12 @@ export interface ProductControllerInterface {
   ): Promise<ProductDeleteResponseDto>;
 
   validateProductAttributes(
-    requestBody: ProductValidateAttributesRequestDto,
-  ): Promise<ProductValidateAttributesResponseDto | ErrorResponseDto>;
+    requestBody: ValidateAttributesRequestDto,
+  ): Promise<ValidateAttributesResponseDto | ErrorResponseDto>;
 
   validateItemAttributes(
-    requestBody: ProductValidateAttributesRequestDto,
-  ): Promise<ProductValidateAttributesResponseDto | ErrorResponseDto>;
+    requestBody: ValidateAttributesRequestDto,
+  ): Promise<ValidateAttributesResponseDto | ErrorResponseDto>;
 
   setupStatus(): Promise<SetupStatusResponseDto>;
 
@@ -2147,7 +2171,7 @@ export class ProductUpgradableRequestDto {
 
 ----------------------------------------
 
-TITLE: ProductValidateAttributesRequestDto
+TITLE: ValidateAttributesRequestDto
 DESCRIPTION: Represents a request to validate product attributes. This DTO is used when a client needs to check the validity of a set of attribute values before proceeding with an action, such as creating or updating a product.
 SOURCE: dtos/product/requests/product-validate-attributes-request.dto.ts
 LANGUAGE: typescript
@@ -2160,7 +2184,7 @@ import { IsDefined, IsObject, IsString } from 'class-validator';
  * This DTO is used when a client needs to check the validity of a set of attribute values
  * before proceeding with an action, such as creating or updating a product.
  */
-export class ProductValidateAttributesRequestDto {
+export class ValidateAttributesRequestDto {
   /**
    * The key of the attribute that triggered the validation.
    * This helps the server understand the context of the validation request,
@@ -2515,7 +2539,7 @@ export class ProductUpgradableResponseDto extends BaseResponse {
 
 ----------------------------------------
 
-TITLE: ProductValidateAttributesResponseDto
+TITLE: ValidateAttributesResponseDto
 DESCRIPTION: Represents the response from validating product attributes. Contains the list of attributes that have been validated.
 SOURCE: dtos/product/responses/product-validate-attributes-response.dto.ts
 LANGUAGE: typescript
@@ -2525,10 +2549,10 @@ import { BaseResponse } from '../../base-response.dto';
 import { FieldDto } from '../../field.dto';
 
 /**
- * Represents the response from validating product attributes.
+ * Represents the response from validating attributes.
  * Contains the list of attributes that have been validated.
  */
-export class ProductValidateAttributesResponseDto extends BaseResponse {
+export class ValidateAttributesResponseDto extends BaseResponse {
   /**
    * An array of field DTOs representing the validated attributes.
    * Each `FieldDto` contains details about a single attribute.
@@ -2539,63 +2563,7 @@ export class ProductValidateAttributesResponseDto extends BaseResponse {
 
 ----------------------------------------
 
-TITLE: ItemValidateAttributesRequestDto
-DESCRIPTION: Represents a request to validate item attributes.
-SOURCE: dtos/product/requests/item-validate-attributes-request.dto.ts
-LANGUAGE: typescript
-CODE:
-```typescript
-import { IsDefined, IsObject, IsString, ValidateNested } from 'class-validator';
-import { ProductItemDataDto } from '../product-item-data.dto';
-import { Type } from 'class-transformer';
-
-/**
- * Represents a request to validate item attributes.
- * This DTO is used when a client needs to check the validity of a set of attribute values
- * before proceeding with an action, such as creating or updating an item.
- */
-export class ItemValidateAttributesRequestDto {
-  /**
-   * The product data of the item.
-   */
-  @IsDefined()
-  @Type(() => ProductItemDataDto)
-  @ValidateNested()
-  productData!: ProductItemDataDto;
-
-  /**
-   * The key of the attribute that triggered the validation.
-   * This helps the server understand the context of the validation request,
-   * especially in cases where validation rules are interdependent.
-   */
-  @IsDefined()
-  @IsString()
-  triggeredByKey!: string;
-
-  /**
-   * A record of attribute values to be validated.
-   * The keys are the attribute identifiers, and the values are the data to be checked.
-   */
-  @IsDefined()
-  @IsObject()
-  attributeValues!: Record<string, unknown>;
-}
-```
-
-----------------------------------------
-
-TITLE: ItemValidateAttributesResponseDto
-DESCRIPTION: Represents the response from validating item attributes.
-SOURCE: dtos/product/responses/item-validate-attributes-response.dto.ts
-LANGUAGE: typescript
-CODE:
-```typescript
-import { BaseResponse } from '../../base-response.dto';
-```
-
-----------------------------------------
-
-TITLE: ProductValidateAttributesRequestDto
+TITLE: ValidateAttributesRequestDto
 DESCRIPTION: Represents a request to validate product attributes. This DTO is used when a client needs to check the validity of a set of attribute values before proceeding with an action, such as creating or updating a product.
 SOURCE: dtos/product/requests/product-validate-attributes-request.dto.ts
 LANGUAGE: typescript
@@ -2604,11 +2572,11 @@ CODE:
 import { IsDefined, IsObject, IsString } from 'class-validator';
 
 /**
- * Represents a request to validate product attributes.
+ * Represents a request to validate attributes.
  * This DTO is used when a client needs to check the validity of a set of attribute values
  * before proceeding with an action, such as creating or updating a product.
  */
-export class ProductValidateAttributesRequestDto {
+export class ValidateAttributesRequestDto {
   /**
    * The key of the attribute that triggered the validation.
    * This helps the server understand the context of the validation request,
@@ -2624,13 +2592,13 @@ export class ProductValidateAttributesRequestDto {
    */
   @IsDefined()
   @IsObject()
-  attributeValues!: Record<string, unknown>;
+  values!: Record<string, unknown>;
 }
 ```
 
 ----------------------------------------
 
-TITLE: validateProductValidateAttributesRequestDto
+TITLE: validateValidateAttributesRequestDto
 DESCRIPTION: Validates a product validate attributes request object.
 SOURCE: validators/product-validate-attributes-request-validator.ts
 LANGUAGE: typescript
@@ -2638,7 +2606,7 @@ CODE:
 ```typescript
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { ProductValidateAttributesRequestDto } from '../dtos/product/requests/product-validate-attributes-request.dto';
+import { ValidateAttributesRequestDto } from '../dtos/product/requests/product-validate-attributes-request.dto';
 
 /**
  * Validates a product validate attributes request object.
@@ -2646,37 +2614,15 @@ import { ProductValidateAttributesRequestDto } from '../dtos/product/requests/pr
  * @param {Record<string, unknown>} plainObject - The plain object to validate.
  * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
  */
-export const validateProductValidateAttributesRequestDto = async (
+export const validateValidateAttributesRequestDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const request = plainToInstance(
-    ProductValidateAttributesRequestDto,
+    ValidateAttributesRequestDto,
     plainObject,
   );
   return await validate(request);
 };
-```
-
-----------------------------------------
-
-SOURCE: dtos/product/responses/item-validate-attributes-response.dto.ts
-LANGUAGE: typescript
-CODE:
-```typescript
-import { BaseResponse } from '../../base-response.dto';
-import { FieldDto } from '../../field.dto';
-
-/**
- * Represents the response from validating item attributes.
- * Contains the list of attributes that have been validated.
- */
-export class ItemValidateAttributesResponseDto extends BaseResponse {
-  /**
-   * An array of field DTOs representing the validated attributes.
-   * Each `FieldDto` contains details about a single attribute.
-   */
-  validatedAttributes!: FieldDto[];
-}
 ```
 
 ----------------------------------------
@@ -2771,6 +2717,8 @@ SOURCE: dtos/tab.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
+import { IsString, IsUrl, IsNotEmpty } from "class-validator";
+
 /**
  * DTO for tabs
  * Used for defining tabs in the user interface
@@ -2779,6 +2727,8 @@ export class TabDto {
   /**
    * The label displayed on the tab
    */
+  @IsString()
+  @IsNotEmpty()
   label!: string;
 
   /**
@@ -2786,6 +2736,8 @@ export class TabDto {
    * The requests coming from the hoster will be signed
    * with jwt, which will contain information about the company
    */
+  @IsUrl({ protocols: ['https'], require_protocol: true })
+  @IsNotEmpty()
   url!: string;
 }
 ```
@@ -2821,6 +2773,8 @@ SOURCE: dtos/unit.dto.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
+import { IsString, IsDefined, IsNotEmpty } from "class-validator";
+
 /**
  * DTO for billing units.
  * Used for defining units for pay-per-use billing.
@@ -2830,36 +2784,45 @@ export class UnitDto {
    * The unique identifier for the unit.
    * @example "ram"
    */
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   id!: string;
 
   /**
    * The description of the unit.
    * @example "MB"
    */
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   unitDescription!: string;
 
   /**
    * The description of the billing interval.
    * @example "month"
    */
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   intervalDescription!: string;
 }
 ```
 
 ----------------------------------------
 
-TITLE: ProductProductActionsEnum
-DESCRIPTION: This file defines the ProductProductActionsEnum for product integration actions.
+TITLE: ActionsEnum
+DESCRIPTION: This file defines the ActionsEnum for integration actions.
 SOURCE: enums/actions.enum.ts
 LANGUAGE: typescript
 CODE:
 ```typescript
-export enum ProductProductActionsEnum {
-  // Product Integration
+export enum ActionsEnum {
   CREATE = 'create',
   RENEW = 'renew',
   UPGRADE = 'upgrade',
   DOWNGRADE = 'downgrade',
+  TRANSFER = 'transfer',
   SUSPEND = 'suspend',
   UNSUSPEND = 'unsuspend',
   DELETE = 'delete',
@@ -4620,6 +4583,848 @@ export function validateSmsSenderDto(data: object): ValidationError[] {
   const errors = validateSync(dto);
 
   return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateAdminPanelDto
+DESCRIPTION: Validates an AdminPanelDto object using class-validator decorators.
+SOURCE: validators/admin-panel.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { AdminPanelDto } from '../dtos/admin-panel.dto';
+
+export async function validateAdminPanelDto(data: object): Promise<ValidationError[]> {
+    const dto = plainToInstance(AdminPanelDto, data);
+    const errors = await validate(dto, {
+        whitelist: true,               // strips unknown props
+        forbidNonWhitelisted: true,    // throws error if unknown props present
+      });
+    return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateAdminPanelTabsDto
+DESCRIPTION: Validates an AdminPanelTabsDto object using class-validator decorators.
+SOURCE: validators/admin-panel-tabs.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ValidationError } from "class-validator";
+import { plainToInstance } from "class-transformer";
+import { AdminPanelTabsDto } from "../dtos/admin-panel.dto";
+import { validateSync } from "class-validator";
+
+export function validateAdminPanelTabsDto(data: object): ValidationError[] {
+  const dto = plainToInstance(AdminPanelTabsDto, data);
+  const errors = validateSync(dto);
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateAdminPanelMoreActionsDto
+DESCRIPTION: Validates an AdminPanelMoreActionsDto object using class-validator decorators.
+SOURCE: validators/admin-panel-more-actions.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ValidationError } from "class-validator";
+import { plainToInstance } from "class-transformer";
+import { validateSync } from "class-validator";
+import { AdminPanelMoreActionsDto } from "../dtos/admin-panel.dto";
+
+export function validateAdminPanelMoreActionsDto(data: object): ValidationError[] {
+  const dto = plainToInstance(AdminPanelMoreActionsDto, data);
+  const errors = validateSync(dto);
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateClientPanelDto
+DESCRIPTION: Validates a ClientPanelDto object using class-validator decorators.
+SOURCE: validators/client-panel.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validate, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { ClientPanelDto } from '../dtos/client-panel.dto';
+
+export async function validateClientPanelDto(data: object): Promise<ValidationError[]> {
+    const dto = plainToInstance(ClientPanelDto, data);
+    const errors = await validate(dto, {
+        whitelist: true,              
+        forbidNonWhitelisted: true,    
+      });
+    return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateFieldOptionDto
+DESCRIPTION: Validates a FieldOptionDto object using class-validator decorators.
+SOURCE: validators/field-option.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { FieldOptionDto } from '../dtos/field-option.dto';
+
+export function validateFieldOptionDto(data: object): ValidationError[] {
+    const dto = plainToInstance(FieldOptionDto, data);
+    const errors = validateSync(dto);
+
+    return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateMenuWithUrlDto
+DESCRIPTION: Validates a MenuDtoWithUrl object using class-validator decorators.
+SOURCE: validators/menu-with-url.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { MenuDtoWithUrl } from '../dtos/menu.dto';
+import { ValidationError } from 'class-validator';
+
+export function validateMenuWithUrlDto(data: object): ValidationError[] {
+    const dto = plainToInstance(MenuDtoWithUrl, data);
+    const errors = validateSync(dto);
+    return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateMenuWithSubmenuDto
+DESCRIPTION: Validates a MenuDtoWithSubmenu object using class-validator decorators.
+SOURCE: validators/menu-with-submenu.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { MenuDtoWithSubmenu } from '../dtos/menu.dto';
+import { ValidationError } from 'class-validator';
+
+export function validateMenuWithSubmenuDto(data: object): ValidationError[] {
+    const dto = plainToInstance(MenuDtoWithSubmenu, data);
+    const errors = validateSync(dto);
+    return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateNotificationInfoDto
+DESCRIPTION: Validates a NotificationInfoDto object using class-validator decorators.
+SOURCE: validators/notification-info.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync } from 'class-validator';
+import { ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { NotificationInfoDto } from '../dtos/notification/notification-info.dto';
+
+/**
+ * Validates a NotificationInfoDto object.
+ * @param dto The NotificationInfoDto object to validate.
+ * @returns An array of validation errors, if any.
+ */
+export function validateNotificationInfoDto(dto: object): ValidationError[] {
+    const notificationInfoDto = plainToInstance(NotificationInfoDto, dto);
+    const errors = validateSync(notificationInfoDto);
+    return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateProductInfoDto
+DESCRIPTION: Validates a ProductInfoDto object using class-validator decorators.
+SOURCE: validators/product-info.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { plainToInstance } from "class-transformer";
+import { ValidationError, validateSync } from "class-validator";
+import { ProductInfoDto } from '../dtos/product/product-info.dto';
+
+
+export function validateProductInfoDto(data: object): ValidationError[] {
+  const dto = plainToInstance(ProductInfoDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateSettingsWithUrlDto
+DESCRIPTION: Validates a SettingsWithUrlDto object using class-validator decorators.
+SOURCE: validators/settings-with-url.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { SettingsWithUrlDto } from '../dtos/settings.dto';
+import { ValidationError } from 'class-validator';
+
+export function validateSettingsWithUrlDto(data: object): ValidationError[] {
+    const dto = plainToInstance(SettingsWithUrlDto, data);
+    const errors = validateSync(dto);
+    return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateSettingsWithTabsDto
+DESCRIPTION: Validates a SettingsWithTabsDto object using class-validator decorators.
+SOURCE: validators/settings-with-tabs.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { SettingsWithTabsDto } from '../dtos/settings.dto';
+import { ValidationError } from 'class-validator';
+
+export function validateSettingsWithTabsDto(data: object): ValidationError[] {
+    const dto = plainToInstance(SettingsWithTabsDto, data);
+    const errors = validateSync(dto);
+    return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: validateUnitDto
+DESCRIPTION: Validates a UnitDto object using class-validator decorators.
+SOURCE: validators/unit.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { UnitDto } from '../dtos/unit.dto';
+
+export function validateUnitDto(data: object): ValidationError[] {
+  const dto = plainToInstance(UnitDto, data);
+  const errors = validateSync(dto);
+
+  return errors;
+}
+```
+
+----------------------------------------
+
+TITLE: AllOrNoneProperty
+DESCRIPTION: Custom class-validator decorator that ensures specified properties are either all present or all absent together.
+SOURCE: decorators/all-or-none.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+  registerDecorator,
+  ValidationArguments,
+  ValidationOptions,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+} from 'class-validator';
+
+@ValidatorConstraint({ name: 'AllOrNone', async: false })
+class AllOrNoneConstraint implements ValidatorConstraintInterface {
+  validate(_: any, args: ValidationArguments) {
+    const object = args.object as Record<string, any>;
+    const input = args.constraints[0] as [string, string] | [string, string][] | string[] | string[][];
+
+    // Normalize to an array of groups, each group being string[] (length >= 2 preferred)
+    let groups: string[][] = [];
+    if (Array.isArray(input)) {
+      if (input.length > 0 && typeof (input as any)[0] === 'string') {
+        // Single group given as string[] (could be pair or more than 2)
+        groups = [input as string[]];
+      } else {
+        // Array of groups (pairs or larger)
+        groups = (input as any[]).map((g) => g as string[]);
+      }
+    }
+
+    const has = (k: string) => object[k] !== undefined && object[k] !== null;
+
+    return groups.every((group) => {
+      if (!Array.isArray(group) || group.length < 2) return true; // Ignore invalid/misconfigured groups
+      const statuses = group.map((k) => has(k));
+      const allPresent = statuses.every(Boolean);
+      const allAbsent = statuses.every((v) => !v);
+      return allPresent || allAbsent;
+    });
+  }
+
+  defaultMessage(args: ValidationArguments) {
+    const input = args.constraints[0] as [string, string] | [string, string][] | string[] | string[][];
+    let groups: string[][] = [];
+    if (Array.isArray(input)) {
+      if (input.length > 0 && typeof (input as any)[0] === 'string') {
+        groups = [input as string[]];
+      } else {
+        groups = (input as any[]).map((g) => g as string[]);
+      }
+    }
+
+    if (groups.length === 1) {
+      const g = groups[0];
+      const list = g.join(', ');
+      return `All of (${list}) must be provided together or omitted together`;
+    }
+
+    const list = groups.map((g) => `(${g.join('/')})`).join(', ');
+    return `Each group must be provided together or omitted together: ${list}`;
+  }
+}
+
+export function AllOrNoneProperty(
+  keysOrGroups: [string, string] | [string, string][] | string[] | string[][],
+  validationOptions?: ValidationOptions,
+) {
+  return function (constructor: Function) {
+    registerDecorator({
+      name: 'AllOrNone',
+      target: constructor,
+      propertyName: '',
+      options: validationOptions,
+      constraints: [keysOrGroups],
+      validator: AllOrNoneConstraint,
+    });
+  };
+}
+```
+
+----------------------------------------
+
+TITLE: AtLeastOneNonEmptyProperty
+DESCRIPTION: Custom class-validator decorator that ensures at least one of the specified properties is non-empty (for arrays or objects).
+SOURCE: decorators/at-least-one-non-empty.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+    registerDecorator,
+    ValidationArguments,
+    ValidationOptions,
+    ValidatorConstraint,
+    ValidatorConstraintInterface,
+  } from 'class-validator';
+  
+  function isNonEmptyObjectOrArray(value: unknown): boolean {
+    if (Array.isArray(value)) return value.length > 0;
+    if (value && typeof value === 'object') return Object.keys(value).length > 0;
+    return false;
+  }
+  
+  @ValidatorConstraint({ name: 'AtLeastOneNonEmpty', async: false })
+  class AtLeastOneNonEmptyConstraint implements ValidatorConstraintInterface {
+    validate(_: any, args: ValidationArguments) {
+      const object = args.object as Record<string, any>;
+      const keys = args.constraints[0] as string[];
+  
+      return keys.some(key => isNonEmptyObjectOrArray(object[key]));
+    }
+  
+    defaultMessage(args: ValidationArguments) {
+      const keys = args.constraints[0] as string[];
+      return `At least one of the following must be non-empty: ${keys.join(', ')}`;
+    }
+  }
+
+  
+  
+  export function AtLeastOneNonEmptyProperty(
+    keys: string[],
+    validationOptions?: ValidationOptions,
+  ) {
+    return function (constructor: Function) {
+      registerDecorator({
+        name: 'AtLeastOneNonEmpty',
+        target: constructor,
+        propertyName: "",
+        options: validationOptions,
+        constraints: [keys],
+        validator: AtLeastOneNonEmptyConstraint,
+      });
+    };
+  }
+```
+
+----------------------------------------
+
+TITLE: IsOfAllowedTypes
+DESCRIPTION: Custom class-validator decorator that validates if a value is one of the allowed types with additional constraints.
+SOURCE: decorators/is-of-allowed-types.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+  registerDecorator,
+  ValidationOptions,
+  ValidationArguments,
+} from 'class-validator';
+
+type AllowedPrimitive = 'string' | 'number' | 'boolean';
+type AllowedType = AllowedPrimitive | 'object' | 'array';
+
+interface IsOfAllowedTypesOptions {
+  objectClass?: new (...args: any[]) => any;
+  arrayElementClass?: new (...args: any[]) => any;
+  require?: boolean;
+  objectNotEmpty?: boolean;
+  arrayNotEmpty?: boolean;
+  stringPattern?: RegExp;
+}
+
+// Overloads
+export function IsOfAllowedTypes(types: AllowedType[]): PropertyDecorator;
+export function IsOfAllowedTypes(types: AllowedType[], options: IsOfAllowedTypesOptions): PropertyDecorator;
+export function IsOfAllowedTypes(types: AllowedType[], validationOptions: ValidationOptions): PropertyDecorator;
+export function IsOfAllowedTypes(types: AllowedType[], options: IsOfAllowedTypesOptions, validationOptions: ValidationOptions): PropertyDecorator;
+
+// Implementation
+export function IsOfAllowedTypes(
+  types: AllowedType[],
+  optionsOrValidationOptions?: IsOfAllowedTypesOptions | ValidationOptions,
+  validationOptions?: ValidationOptions
+): PropertyDecorator {
+  return function (target: any, propertyKey: string | symbol) {
+    let options: IsOfAllowedTypesOptions = {};
+    let finalValidationOptions: ValidationOptions | undefined;
+
+    if (optionsOrValidationOptions) {
+      if (
+        'objectClass' in optionsOrValidationOptions ||
+        'arrayElementClass' in optionsOrValidationOptions ||
+        'require' in optionsOrValidationOptions ||
+        'objectNotEmpty' in optionsOrValidationOptions ||
+        'arrayNotEmpty' in optionsOrValidationOptions ||
+        'stringPattern' in optionsOrValidationOptions
+      ) {
+        options = optionsOrValidationOptions as IsOfAllowedTypesOptions;
+        finalValidationOptions = validationOptions;
+      } else {
+        finalValidationOptions = optionsOrValidationOptions as ValidationOptions;
+      }
+    }
+
+    registerDecorator({
+      name: 'isOfAllowedTypes',
+      target: target.constructor,
+      propertyName: propertyKey.toString(),
+      constraints: [types, options],
+      options: finalValidationOptions,
+      validator: {
+        validate(value: any, args: ValidationArguments) {
+          const [allowedTypes, opts] = args.constraints as [AllowedType[], IsOfAllowedTypesOptions];
+
+          if (value === null || value === undefined) {
+            return !opts.require;
+          }
+
+          for (const type of allowedTypes) {
+            switch (type) {
+              case 'string':
+                if (typeof value === 'string') {
+                  if (opts.require && value.trim().length === 0) return false;
+                  if (opts.stringPattern && !opts.stringPattern.test(value)) return false;
+                  return true;
+                }
+                break;
+              case 'number':
+                if (typeof value === 'number') return true;
+                break;
+              case 'boolean':
+                if (typeof value === 'boolean') return true;
+                break;
+              case 'object':
+                if (
+                  typeof value === 'object' &&
+                  !Array.isArray(value) &&
+                  (!opts.objectClass || value instanceof opts.objectClass)
+                ) {
+                  if (opts.objectNotEmpty && Object.keys(value).length === 0) {
+                    return false;
+                  }
+                  return true;
+                }
+                break;
+              case 'array':
+                if (
+                  Array.isArray(value) &&
+                  (!opts.arrayElementClass ||
+                    value.every((item) => item instanceof (opts.arrayElementClass as new (...args: any[]) => any)))
+                ) {
+                  if (opts.arrayNotEmpty && value.length === 0) {
+                    return false;
+                  }
+                  return true;
+                }
+                break;
+            }
+          }
+
+          return false;
+        },
+
+        defaultMessage(args: ValidationArguments) {
+          const [allowedTypes, opts] = args.constraints as [AllowedType[], IsOfAllowedTypesOptions];
+          const messages = [];
+
+          if (opts.require) {
+            messages.push('is required');
+          }
+
+          if (allowedTypes.includes('string')) {
+            if (opts.require) messages.push('must be a non-empty string');
+            if (opts.stringPattern) messages.push(`must match pattern ${opts.stringPattern}`);
+          }
+
+          if (allowedTypes.includes('array') && opts.arrayNotEmpty) {
+            messages.push('must be a non-empty array');
+          }
+
+          if (allowedTypes.includes('object') && opts.objectNotEmpty) {
+            messages.push('must be a non-empty object');
+          }
+
+          if (messages.length === 0) {
+            messages.push(`must be one of: ${allowedTypes.join(', ')}`);
+          }
+
+          return `${args.property} ${messages.join(' and ')}`;
+        },
+      },
+    });
+  };
+}
+```
+
+----------------------------------------
+
+TITLE: IsOneOf
+DESCRIPTION: Custom class-validator decorator that validates if a value is an instance of one of the specified classes.
+SOURCE: decorators/is-one-of.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { ValidationArguments, ValidationOptions, registerDecorator } from "class-validator";
+
+
+export function IsOneOf(validClasses: Function[], validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    registerDecorator({
+      name: 'isOneOf',
+      target: object.constructor,
+      propertyName,
+      options: validationOptions,
+      validator: {
+        validate(value: any, _args: ValidationArguments) {
+          return validClasses.some(cls => value instanceof cls);
+        },
+      },
+    });
+  };
+}
+```
+
+----------------------------------------
+
+TITLE: IsPlainObject
+DESCRIPTION: Custom class-validator decorator that validates if a value is a plain object with key-value pairs.
+SOURCE: decorators/is-plain-object.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+
+export function IsPlainObject(validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    registerDecorator({
+      name: 'isPlainObject',
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      validator: {
+        validate(value: any, _args: ValidationArguments) {
+          if (value === null || typeof value !== 'object' || value.constructor !== Object) {
+            return false;
+          }
+          for (const key in value) {
+            if (typeof key !== 'string' || typeof value[key] === 'function') {
+              return false;
+            }
+          }
+          return true;
+        },
+        defaultMessage(_args: ValidationArguments) {
+          return '$property must be a plain object with key-value pairs';
+        },
+      },
+    });
+  };
+}
+```
+
+----------------------------------------
+
+TITLE: IsPropertyForbidden
+DESCRIPTION: Custom class-validator decorator that ensures a specific property is not present in the object.
+SOURCE: decorators/is-property-forbidden.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+
+export function IsPropertyForbidden(property: string, validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    registerDecorator({
+      name: 'isPropertyForbidden',
+      target: object.constructor,
+      propertyName,
+      options: validationOptions,
+      validator: {
+        validate(_value: any, args: ValidationArguments) {
+          return !(property in args.object);
+        },
+        defaultMessage(_args: ValidationArguments) {
+          return `Property '${property}' is not allowed`;
+        },
+      },
+    });
+  };
+}
+```
+
+----------------------------------------
+
+TITLE: IsRegex
+DESCRIPTION: Custom class-validator decorator that validates if a string is a valid regular expression.
+SOURCE: decorators/is-regex.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { registerDecorator, ValidationOptions } from 'class-validator';
+
+export function IsRegex(validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    registerDecorator({
+      name: 'isRegex',
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      validator: {
+        validate(value: any) {
+          if (typeof value !== 'string') return false;
+          if (value.trim().length === 0) return false;
+          try {
+            new RegExp(value);
+            return true;
+          } catch {
+            return false;
+          }
+        },
+        defaultMessage() {
+          return '$property must be a valid regular expression';
+        },
+      },
+    });
+  };
+}
+```
+
+----------------------------------------
+
+TITLE: MinLessOrEqualMaxProperty
+DESCRIPTION: Custom class-validator decorator that ensures minimum values are less than or equal to maximum values for specified property pairs.
+SOURCE: decorators/min-less-or-equal.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+  registerDecorator,
+  ValidationArguments,
+  ValidationOptions,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+} from 'class-validator';
+
+@ValidatorConstraint({ name: 'MinLessOrEqualMax', async: false })
+class MinLessOrEqualMaxConstraint implements ValidatorConstraintInterface {
+  validate(_: any, args: ValidationArguments) {
+    const object = args.object as Record<string, any>;
+    const input = args.constraints[0] as [string, string] | [string, string][];
+
+    const pairs: [string, string][] = Array.isArray(input) && typeof (input as any)[0] === 'string'
+      ? [input as [string, string]]
+      : (input as [string, string][]);
+
+    return pairs.every(([minKey, maxKey]) => {
+      const minVal = object[minKey];
+      const maxVal = object[maxKey];
+
+      // If one or both are missing, do not fail here; let AllOrNone or other validators handle presence
+      if (minVal === undefined || minVal === null) return true;
+      if (maxVal === undefined || maxVal === null) return true;
+
+      if (typeof minVal !== 'number' || typeof maxVal !== 'number') return true; // Type guards handled elsewhere
+
+      return minVal <= maxVal;
+    });
+  }
+
+  defaultMessage(args: ValidationArguments) {
+    const input = args.constraints[0] as [string, string] | [string, string][];
+    const pairs: [string, string][] = Array.isArray(input) && typeof (input as any)[0] === 'string'
+      ? [input as [string, string]]
+      : (input as [string, string][]);
+
+    if (pairs.length === 1) {
+      const [minKey, maxKey] = pairs[0];
+      return `${minKey} must be less than or equal to ${maxKey}`;
+    }
+
+    const list = pairs.map(([a, b]) => `${a}<=${b}`).join(', ');
+    return `The following constraints must hold: ${list}`;
+  }
+}
+
+export function MinLessOrEqualMaxProperty(
+  keysOrPairs: [string, string] | [string, string][],
+  validationOptions?: ValidationOptions,
+) {
+  return function (constructor: Function) {
+    registerDecorator({
+      name: 'MinLessOrEqualMax',
+      target: constructor,
+      propertyName: '',
+      options: validationOptions,
+      constraints: [keysOrPairs],
+      validator: MinLessOrEqualMaxConstraint,
+    });
+  };
+}
+```
+
+----------------------------------------
+
+TITLE: UniqueFieldInArray
+DESCRIPTION: Custom class-validator decorator that ensures all objects in an array have unique values for a specified field.
+SOURCE: decorators/unique-field-in-array.validator.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import {
+    registerDecorator,
+    ValidationArguments,
+    ValidationOptions,
+    ValidatorConstraint,
+    ValidatorConstraintInterface,
+  } from 'class-validator';
+  
+  @ValidatorConstraint({ async: false })
+  export class UniqueFieldInArrayConstraint implements ValidatorConstraintInterface {
+    validate(value: any[], args: ValidationArguments) {
+      if (!Array.isArray(value)) return true; // Let @IsArray handle wrong type
+      const field = args.constraints[0];
+      const seen = new Set();
+      for (const obj of value) {
+        if (obj && typeof obj === 'object' && obj[field] !== undefined) {
+          if (seen.has(obj[field])) {
+            return false;
+          }
+          seen.add(obj[field]);
+        }
+      }
+      return true;
+    }
+  
+    defaultMessage(args: ValidationArguments) {
+      const field = args.constraints[0];
+      return `All objects in ${args.property} must have a unique "${field}" value`;
+    }
+  }
+  
+  export function UniqueFieldInArray(field: string, validationOptions?: ValidationOptions) {
+    return function (object: any, propertyName: string) {
+      registerDecorator({
+        target: object.constructor,
+        propertyName,
+        options: validationOptions,
+        constraints: [field],
+        validator: UniqueFieldInArrayConstraint,
+      });
+    };
+  }
+```
+
+----------------------------------------
+
+TITLE: transformMenu
+DESCRIPTION: Transformer function that converts plain objects to MenuDtoWithUrl or MenuDtoWithSubmenu based on the type property.
+SOURCE: transformers/menu.transformer.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { plainToInstance } from 'class-transformer';
+import { MenuDtoWithUrl, MenuDtoWithSubmenu, BaseMenuDto } from '../dtos/menu.dto';
+
+export function transformMenu(value: any): MenuDtoWithUrl | MenuDtoWithSubmenu | BaseMenuDto | undefined {
+  if (!value) return undefined;
+  if (value.type === 'only-url') {
+    return plainToInstance(MenuDtoWithUrl, value);
+  } else if (value.type === 'with-submenu') {
+    return plainToInstance(MenuDtoWithSubmenu, value);
+  }
+  return plainToInstance(BaseMenuDto, value)
+}
+```
+
+----------------------------------------
+
+TITLE: transformSettings
+DESCRIPTION: Transformer function that converts plain objects to SettingsWithUrlDto or SettingsWithTabsDto based on the presence of url or tabs properties.
+SOURCE: transformers/settings.transformer.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { plainToInstance } from 'class-transformer';
+import { SettingsWithUrlDto } from '../dtos/settings.dto';
+import { SettingsWithTabsDto } from '../dtos/settings.dto';
+
+export function transformSettings(value: any) {
+  if (value?.tabs) {
+    return plainToInstance(SettingsWithTabsDto, value);
+  } else if (value?.url) {
+    return plainToInstance(SettingsWithUrlDto, value);
+  }
+  return value;
 }
 ```
 

@@ -1,10 +1,12 @@
 {
   "name": "@hosterai/types",
-  "version": "0.0.18",
+  "version": "0.0.23",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "build:schemas": "ts-node scripts/generate-schemas.ts",
+    "prepack": "npm run build:schemas && npm run build",
     "test": "jest",
     "coverage": "jest --coverage",
     "lint": "eslint . --ext .ts --fix",
@@ -41,6 +43,7 @@
   "peerDependencies": {
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "class-validator-jsonschema": "^5.0.0",
     "express": "^4.0.0 || ^5.0.0",
     "reflect-metadata": "^0.2.2"
   },

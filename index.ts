@@ -24,6 +24,12 @@ export * from './dtos/admin-panel.dto';
 export * from './dtos/client-panel.dto';
 export * from './dtos/settings.dto';
 
+// Base Requests
+export * from './dtos/requests/validate-attributes-request.dto';
+
+// Base Response
+export * from './dtos/responses/validate-attributes-response.dto';
+
 // Notification DTOs
 export * from './dtos/notification/notification-info.dto';
 export * from './dtos/notification/notification-send-request.dto';
@@ -48,8 +54,6 @@ export * from './dtos/product/requests/product-suspend-request.dto';
 export * from './dtos/product/requests/product-unsuspend-request.dto';
 export * from './dtos/product/requests/product-upgrade-request.dto';
 export * from './dtos/product/requests/product-upgradable-request.dto';
-export * from './dtos/product/requests/product-validate-attributes-request.dto';
-export * from './dtos/product/requests/item-validate-attributes-request.dto';
 
 // Product Responses
 export * from './dtos/product/responses/product-create-response.dto';
@@ -62,8 +66,6 @@ export * from './dtos/product/responses/product-suspend-response.dto';
 export * from './dtos/product/responses/product-unsuspend-response.dto';
 export * from './dtos/product/responses/product-upgrade-response.dto';
 export * from './dtos/product/responses/product-upgradable-response.dto';
-export * from './dtos/product/responses/product-validate-attributes-response.dto';
-export * from './dtos/product/responses/item-validate-attributes-response.dto';
 
 // Enums
 export * from './enums/actions.enum';
@@ -117,3 +119,6 @@ export * from './validators/unit.validator';
 
 // Interfaces
 export * from './dtos/product/product.interface';
+
+// OpenApi schemas
+export { ComponentsSchemas } from './openapi/schemas/components.schemas';
