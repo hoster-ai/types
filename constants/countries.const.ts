@@ -1,4 +1,4 @@
-import { createCountry } from '../interfaces/country.interface';
+import { createCountry } from "../functions/country.functions";
 
 export const COUNTRIES = {
   AF: createCountry('Afghanistan', 'AF'),
