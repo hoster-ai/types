@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { validateProductSuspendRequestDto } from './product-suspend-request-validator';
-import { CountryEnum } from '../enums/country.enum';
+import { CountryEnum } from '../dtos/country.dto';
 import { DurationEnum } from '../enums/duration.enum';
 
 describe('validateProductSuspendRequestDto', () => {

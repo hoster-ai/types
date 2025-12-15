@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { validateProductRenewRequestDto } from './product-renew-request-validator';
-import { CountryEnum } from '../enums/country.enum';
+import { CountryEnum } from '../dtos/country.dto';
 import { DurationEnum } from '../enums/duration.enum';
 
 describe('validateProductRenewRequestDto', () => {

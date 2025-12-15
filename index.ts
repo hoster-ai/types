@@ -69,7 +69,7 @@ export * from './dtos/product/responses/product-upgradable-response.dto';
 
 // Enums
 export * from './enums/actions.enum';
-export * from './enums/country.enum';
+export * from './dtos/country.dto';
 export * from './enums/duration.enum';
 export * from './enums/events.enum';
 export * from './enums/field-type.enum';

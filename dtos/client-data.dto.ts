@@ -9,7 +9,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { CountryEnum } from '../enums/country.enum';
+import { CountryDto } from './country.dto';
 
 /**
  * Defines the data structure for a client.
@@ -104,8 +104,7 @@ export class ClientDataDto {
    */
   @IsDefined()
   @IsNotEmpty()
-  @IsEnum(CountryEnum)
-  country!: CountryEnum;
+  country!: CountryDto;
 
   /**
    * State of the user

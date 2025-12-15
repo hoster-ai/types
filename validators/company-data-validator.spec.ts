@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { validateCompanyDataDto } from './company-data-validator';
-import { CountryEnum } from '../enums/country.enum';
+import { CountryEnum } from '../dtos/country.dto';
 import { LanguageEnum } from '../enums/language.enum';
 
 describe('CompanyDataDto Validator', () => {

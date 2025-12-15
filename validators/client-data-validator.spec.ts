@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { validateClientDataDto } from './client-data-validator';
-import { CountryEnum } from '../enums/country.enum';
+import { CountryEnum } from '../dtos/country.dto';
 
 describe('validateClientDataDto', () => {
   it('should return no errors for a valid client data object', async () => {
