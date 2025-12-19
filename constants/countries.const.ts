@@ -249,32 +249,34 @@ export const COUNTRIES = {
 } as const;
 
 /**
- * Comprehensive list of all countries that are geographically in Europe
- * Includes EU members, EEA, microstates, and other European countries
+ * list of all countries that are geographically in Europe
+ * includes EU members, EEA, microstates, and other European countries
  */
 export const GEOGRAPHIC_EUROPEAN_COUNTRIES = new Set([
   // EU Member States
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR',
   'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
   'SI', 'ES', 'SE',
-  
-  // Non-EU European countries
+
+  // non-EU European countries
   'AL', 'AD', 'BA', 'BY', 'FO', 'GI', 'GG', 'IS', 'IM', 'JE', 'XK', 'LI',
   'MD', 'MC', 'ME', 'MK', 'NO', 'RU', 'SM', 'RS', 'CH', 'UA', 'VA', 'UK', 'GB'
 ]);
 
 /**
- * List of EU/EEA member countries for regulatory/trade purposes
+ * list of EU/EEA member countries 
  */
 export const EU_EEA_COUNTRIES = new Set([
   // EU Members
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR',
   'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
   'SI', 'ES', 'SE',
-  // EEA (EU + Norway, Iceland, Liechtenstein)
-  'IS', 'LI', 'NO',
-  // Special cases
-  'CH'  // Switzerland has bilateral agreements
+  // Northern Ireland
+  'XI',
+  // EEA, EU + Norway, Iceland, Liechtenstein
+  // 'IS', 'LI', 'NO',
+  // special cases
+  //'CH' // Switzerland has bilateral agreements, it is special case
 ]);
 
 export const EUROPEAN_COUNTRY_CODES = Array.from(EU_EEA_COUNTRIES).sort();

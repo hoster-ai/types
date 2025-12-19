@@ -1,4 +1,4 @@
-import { COUNTRIES, GEOGRAPHIC_EUROPEAN_COUNTRIES } from "../constants/countries.const";
+import { COUNTRIES, EU_EEA_COUNTRIES, GEOGRAPHIC_EUROPEAN_COUNTRIES } from "../constants/countries.const";
 import { CountryDto } from "../dtos/country.dto";
 
 /**
@@ -11,7 +11,7 @@ export function createCountry(name: string, code: string): CountryDto {
   return {
     name,
     code,
-    isEurope: GEOGRAPHIC_EUROPEAN_COUNTRIES.has(code) || code === 'UK'
+    isEurope: EU_EEA_COUNTRIES.has(code) || code === 'UK'
   };
 }
 /**
