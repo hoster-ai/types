@@ -1,4 +1,4 @@
-import { COUNTRIES, EU_EEA_COUNTRIES, GEOGRAPHIC_EUROPEAN_COUNTRIES } from "../constants/countries.const";
+import { COUNTRIES, EU_EEA_COUNTRIES } from "../constants/countries.const";
 import { CountryDto } from "../dtos/country.dto";
 
 /**

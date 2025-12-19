@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { validateProductDowngradeRequestDto } from './product-downgrade-request-validator';
-import { CountryEnum } from '../dtos/country.dto';
 import { DurationEnum } from '../enums/duration.enum';
+import { CountryEnum } from '../enums/country.enum';
 
 describe('validateProductDowngradeRequestDto', () => {
   it('should return no errors for a valid request', async () => {

@@ -8,7 +8,7 @@ import {
   IsNotEmpty,
   IsPhoneNumber,
 } from 'class-validator';
-import { CountryEnum } from './country.dto';
+import { CountryEnum } from '../enums/country.enum';
 import { LanguageEnum } from '../enums/language.enum';
 
 /**

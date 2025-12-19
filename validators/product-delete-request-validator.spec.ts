@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { validateProductDeleteRequestDto } from './product-delete-request-validator';
-import { CountryEnum } from '../dtos/country.dto';
+import { CountryEnum } from '../enums/country.enum';
 import { DurationEnum } from '../enums/duration.enum';
 
 describe('validateProductDeleteRequestDto', () => {
