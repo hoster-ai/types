@@ -113,6 +113,16 @@ Enums provide a set of named constants for common types, preventing errors with 
 - `RolesEnum`: Defines user roles.
 - `SetupStatusEnum`: Defines the status of a setup process.
 
+#### Country Helpers
+
+- The canonical ISO-3166 list plus metadata resides in `enums/country.enum.ts` via:
+  - `CountryEnum` with alpha-2 codes.
+  - `EU_EEA_COUNTRIES` / `EUROZONE_COUNTRIES` sets for regional logic.
+  - `BASE_COUNTRY_DATA` and derived `COUNTRY_DATA`, including the `isEurope` flag.
+- Utility helpers in `helpers/country.helper.ts` expose:
+  - `getCountryData`, `getAllCountriesData`, `getEuropeanCountriesData`, `getEurozoneCountriesData`.
+- After editing the enum or country data, rerun `npm run build:schemas` (see **Generating JSON Schemas**) so the OpenAPI bundle reflects the latest list.
+
 ### Interfaces
 
 - `product/product.interface.ts`: Defines the contract for a product module.
