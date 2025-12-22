@@ -38,6 +38,7 @@ import { getMetadataStorage } from 'class-validator';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 
 // Import dtos to register their decorators in metadata storage
+import '../dtos/country.dto';
 import '../dtos/notification/notification-info.dto';
 import '../dtos/product/product-info.dto';
 

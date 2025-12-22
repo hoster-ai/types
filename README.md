@@ -58,6 +58,7 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `base-response.dto.ts`: A base structure for API responses.
 - `client-data.dto.ts`: Defines the data structure for a client.
 - `company-data.dto.ts`: Holds all the relevant data for a company.
+- `country.dto.ts`: Represents country metadata (name, ISO code, Europe flag).
 - `error-response.dto.ts`: Defines the structure for error responses.
 - `field.dto.ts`: Represents a generic field for forms or dynamic data.
 - `field-option.dto.ts`: Represents options for form fields (used for checkboxes, radioboxes, and selects).

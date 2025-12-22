@@ -125,6 +125,31 @@ export class BaseResponse {
 
 ----------------------------------------
 
+TITLE: CountryDto
+DESCRIPTION: Represents country metadata including name, ISO-3166 alpha-2 code, and Europe flag.
+SOURCE: dtos/country.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { CountryEnum } from '../enums/country.enum';
+
+export class CountryDto {
+  @IsString()
+  @IsNotEmpty()
+  name!: string;
+
+  @IsEnum(CountryEnum)
+  code!: CountryEnum;
+
+  @IsBoolean()
+  @IsOptional()
+  isEurope?: boolean;
+}
+```
+
+----------------------------------------
+
 TITLE: ClientDataDto
 DESCRIPTION: Defines the data structure for a client. This object is used to transfer client data between different parts of the application.
 SOURCE: dtos/client-data.dto.ts
