@@ -9,10 +9,12 @@ export function getCountryData(code: CountryEnum): CountryDto {
   return COUNTRY_DATA[code];
 }
 
-export function getAllCountriesData(): CountryDto[] {
-  return Object.values(COUNTRY_DATA)
-    .slice()
-    .sort((a, b) => a.name.localeCompare(b.name));
+export function getAllCountriesData(): Record<CountryEnum, CountryDto> {
+  return Object.fromEntries(
+    Object.entries(COUNTRY_DATA).sort(([, a], [, b]) =>
+      a.name.localeCompare(b.name),
+    ),
+  ) as Record<CountryEnum, CountryDto>;
 }
 
 export function getEuropeanCountriesData(): Record<CountryEnum, CountryDto> {

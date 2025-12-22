@@ -23,9 +23,10 @@ describe('country.helper', () => {
     const result = getAllCountriesData();
     const expectedLength = Object.keys(COUNTRY_DATA).length;
 
-    expect(result).toHaveLength(expectedLength);
+    const entries = Object.entries(result);
+    expect(entries).toHaveLength(expectedLength);
 
-    const names = result.map((country) => country.name);
+    const names = entries.map(([, country]) => country.name);
     const sortedNames = [...names].sort((a, b) => a.localeCompare(b));
 
     expect(names).toEqual(sortedNames);

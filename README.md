@@ -107,7 +107,7 @@ Enums provide a set of named constants for common types, preventing errors with 
 - `DurationEnum`: Defines billing durations (e.g., `MONTHLY`, `YEARLY`).
 - `EventsEnum`: Defines triggerable events.
 - `FieldTypeEnum`: Defines types of fields.
-- `LanguageEnum`: A list of supported languages.
+- `LanguageEnum`: A list of supported languages (enum members use descriptive names like `ENGLISH`, `FRENCH` while their string values remain ISO-639-1 codes such as `EN`, `FR`).
 - `NotificationMessageTypeEnum`: Defines the type of notification (e.g., `EMAIL`, `SMS`).
 - `OpenMethodEnum`: Defines how an action's URL should be opened.
 - `ResponseStatusEnum`: Defines the status of a response (e.g., `COMPLETED`, `FAILED`).
@@ -122,6 +122,7 @@ Enums provide a set of named constants for common types, preventing errors with 
   - `BASE_COUNTRY_DATA` and derived `COUNTRY_DATA`, including the `isEurope` flag.
 - Utility helpers in `helpers/country.helper.ts` expose:
   - `getCountryData`, `getAllCountriesData`, `getEuropeanCountriesData`, `getEurozoneCountriesData`.
+  - `getAllCountriesData` now returns a `Record<CountryEnum, CountryDto>` (instead of an array) sorted by the localized `name`, which keeps the map structure intact while preserving alphabetical order for deterministic downstream processing.
 - After editing the enum or country data, rerun `npm run build:schemas` (see **Generating JSON Schemas**) so the OpenAPI bundle reflects the latest list.
 
 ### Interfaces

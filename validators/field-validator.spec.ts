@@ -5,7 +5,7 @@ import { LanguageEnum } from '../enums/language.enum';
 
 const baseValidDto = {
   id: 'test-id',
-  label: [{ language: LanguageEnum.EN, text: 'Test Label' }],
+  label: [{ language: LanguageEnum.ENGLISH, text: 'Test Label' }],
   value: 'test-value',
   type: FieldTypeEnum.TEXT_BOX,
   required: true,
@@ -24,8 +24,8 @@ describe('FieldDto Validator', () => {
     it('should return no errors for a valid DTO with optional error messages', () => {
       const dto = {
         ...baseValidDto,
-        regexValidationErrorMessage: [{ language: LanguageEnum.EN, text: 'Invalid format' }],
-        remoteValidationErrorMessage: [{ language: LanguageEnum.EN, text: 'Invalid value' }],
+        regexValidationErrorMessage: [{ language: LanguageEnum.ENGLISH, text: 'Invalid format' }],
+        remoteValidationErrorMessage: [{ language: LanguageEnum.ENGLISH, text: 'Invalid value' }],
       };
       expect(validateFieldDto(dto)).toHaveLength(0);
     });

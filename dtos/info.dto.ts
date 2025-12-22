@@ -75,7 +75,7 @@ export class InfoDto {
     description: 'Locales supported by the integration.',
     type: 'array',
     items: { type: 'string', enum: Object.values(LanguageEnum) },
-    example: ['en']
+    example: ['EN']
   })
   supportedLanguages!: LanguageEnum[];
 

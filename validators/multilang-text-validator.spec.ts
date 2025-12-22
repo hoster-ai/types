@@ -5,7 +5,7 @@ import { LanguageEnum } from '../enums/language.enum';
 describe('MultilangTextDto Validator', () => {
   it('should return no errors for valid DTO', () => {
     const validDto = {
-      language: LanguageEnum.EN,
+      language: LanguageEnum.ENGLISH,
       text: 'Hello World',
     };
 
@@ -26,7 +26,7 @@ describe('MultilangTextDto Validator', () => {
 
   it('should return error for missing text', () => {
     const invalidDto = {
-      language: LanguageEnum.EN,
+      language: LanguageEnum.ENGLISH,
       // Missing text
     };
 

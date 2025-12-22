@@ -15,7 +15,7 @@ describe('NotificationInfoDto Validator', () => {
         type: NotificationMessageTypeEnum.EMAIL,
         title: 'Valid Title',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         payPerUseUnits: [validUnit]
       },
       expectedErrorsLength: 0
@@ -25,7 +25,7 @@ describe('NotificationInfoDto Validator', () => {
       dto: {
         title: 'Valid Title',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         payPerUseUnits: [validUnit]
       },
       expectedErrorsLength: 1
@@ -36,7 +36,7 @@ describe('NotificationInfoDto Validator', () => {
         type: NotificationMessageTypeEnum.EMAIL,
         title: 'Valid Title',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         payPerUseUnits: [{ id: "", unitDescription: "", intervalDescription: "" }] // Invalid unit
       },
       expectedErrorsLength: 1
@@ -56,7 +56,7 @@ describe('NotificationInfoDto Validator', () => {
       dto: {
         type: NotificationMessageTypeEnum.EMAIL,
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         payPerUseUnits: [validUnit]
       },
       expectedErrors: ['title']
@@ -67,7 +67,7 @@ describe('NotificationInfoDto Validator', () => {
         type: NotificationMessageTypeEnum.EMAIL,
         title: 'Valid Title',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         payPerUseUnits: [{ id: "", unitDescription: "", intervalDescription: "" }]
       },
       expectedErrors: ['payPerUseUnits']

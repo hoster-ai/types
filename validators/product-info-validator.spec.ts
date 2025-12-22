@@ -10,7 +10,7 @@ describe('ProductInfoDto Validator', () => {
 
   const field: FieldDto = {
     id: 'field',
-    label: [{ language: LanguageEnum.EN, text: "label" }],
+    label: [{ language: LanguageEnum.ENGLISH, text: "label" }],
     value: 'string',
     type: FieldTypeEnum.TEXT_BOX,
     required: false,
@@ -22,7 +22,7 @@ describe('ProductInfoDto Validator', () => {
 
   const invalidField = {
     id: 'field',
-    label: [{ language: LanguageEnum.EN, text: "label" }],
+    label: [{ language: LanguageEnum.ENGLISH, text: "label" }],
     value: 'string',
     type: FieldTypeEnum.TEXT_BOX,
     disabled: false,
@@ -35,7 +35,7 @@ describe('ProductInfoDto Validator', () => {
       dto: {
         title: 'Test',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field]
       },
@@ -46,7 +46,7 @@ describe('ProductInfoDto Validator', () => {
       dto: {
         title: 'Test',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         itemAttributes: [invalidField]
       },
       expectedErrorsLength: 1
@@ -56,7 +56,7 @@ describe('ProductInfoDto Validator', () => {
       dto: {
         title: '',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field]
       },
@@ -67,7 +67,7 @@ describe('ProductInfoDto Validator', () => {
       dto: {
         title: 'Test',
         supportedActions: ['update'] as any,
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field]
       },
@@ -89,7 +89,7 @@ describe('ProductInfoDto Validator', () => {
       dto: {
         title: 'Test',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
         adminPanel: { tabs: { product: [{ label: 'Product', url: 'https://example.com/product' }] } },
@@ -102,7 +102,7 @@ describe('ProductInfoDto Validator', () => {
       dto: {
         title: '',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
         adminPanel: { /* invalid admin panel data */ },
@@ -115,7 +115,7 @@ describe('ProductInfoDto Validator', () => {
       dto: {
         title: 'Test',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
         payPerUseUnits: [{ id: "ram", unitDescription: "MB", intervalDescription: "month" }]
@@ -127,7 +127,7 @@ describe('ProductInfoDto Validator', () => {
       dto: {
         title: 'Test',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
         payPerUseUnits: [{ id: "", unitDescription: "", intervalDescription: "" }]
@@ -148,7 +148,7 @@ describe('ProductInfoDto Validator', () => {
       description: 'should return ValidationError for missing title',
       dto: {
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field]
       },
@@ -159,7 +159,7 @@ describe('ProductInfoDto Validator', () => {
       dto: {
         title: 'Test',
         supportedActions: ['update'] as any,
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field]
       },
@@ -181,7 +181,7 @@ describe('ProductInfoDto Validator', () => {
     it('fails when a FieldDto has only repeatableMin (AllOrNone)', () => {
       const fieldWithOnlyMin: FieldDto = {
         id: 'f1',
-        label: [{ language: LanguageEnum.EN, text: 'label' }],
+        label: [{ language: LanguageEnum.ENGLISH, text: 'label' }],
         value: 'v',
         type: FieldTypeEnum.TEXT_BOX,
         required: false,
@@ -195,7 +195,7 @@ describe('ProductInfoDto Validator', () => {
       const dto = {
         title: 'Test',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [fieldWithOnlyMin],
       };
 
@@ -206,7 +206,7 @@ describe('ProductInfoDto Validator', () => {
     it('fails when a FieldDto has only repeatableMax (AllOrNone)', () => {
       const fieldWithOnlyMax: FieldDto = {
         id: 'f2',
-        label: [{ language: LanguageEnum.EN, text: 'label' }],
+        label: [{ language: LanguageEnum.ENGLISH, text: 'label' }],
         value: 'v',
         type: FieldTypeEnum.TEXT_BOX,
         required: false,
@@ -220,7 +220,7 @@ describe('ProductInfoDto Validator', () => {
       const dto = {
         title: 'Test',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         itemAttributes: [fieldWithOnlyMax],
       };
 
@@ -231,7 +231,7 @@ describe('ProductInfoDto Validator', () => {
     it('passes when a FieldDto has both min and max with min <= max', () => {
       const fieldOk: FieldDto = {
         id: 'f3',
-        label: [{ language: LanguageEnum.EN, text: 'label' }],
+        label: [{ language: LanguageEnum.ENGLISH, text: 'label' }],
         value: 'v',
         type: FieldTypeEnum.TEXT_BOX,
         required: false,
@@ -246,7 +246,7 @@ describe('ProductInfoDto Validator', () => {
       const dto = {
         title: 'Test',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [fieldOk],
       };
 
@@ -256,7 +256,7 @@ describe('ProductInfoDto Validator', () => {
     it('fails when a FieldDto has both min and max with min > max (Min<=Max)', () => {
       const fieldBad: FieldDto = {
         id: 'f4',
-        label: [{ language: LanguageEnum.EN, text: 'label' }],
+        label: [{ language: LanguageEnum.ENGLISH, text: 'label' }],
         value: 'v',
         type: FieldTypeEnum.TEXT_BOX,
         required: false,
@@ -271,7 +271,7 @@ describe('ProductInfoDto Validator', () => {
       const dto = {
         title: 'Test',
         supportedActions: [ActionsEnum.CREATE],
-        supportedLanguages: [LanguageEnum.EN],
+        supportedLanguages: [LanguageEnum.ENGLISH],
         itemAttributes: [fieldBad],
       };
 
