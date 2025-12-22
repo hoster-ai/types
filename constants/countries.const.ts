@@ -12,7 +12,20 @@ const isEurope = (code: string) =>
  * @param code Country code
  * @returns CountryDto object
  */
-export function getCountryDto(name: string, code: string): CountryDto {
+export function getCountryDto(name: string, code?: string): CountryDto {
+  if (!code) {
+    const normalizedName = name.trim().toLowerCase();
+    const match = Object.values(COUNTRIES).find(
+      (country) => country.name.trim().toLowerCase() === normalizedName,
+    );
+
+    if (!match) {
+      throw new Error(`Unknown country name: ${name}`);
+    }
+
+    return match;
+  }
+
   const upperCode = code.toUpperCase();
   return {
     name,

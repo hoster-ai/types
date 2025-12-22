@@ -5429,3 +5429,339 @@ export function transformSettings(value: any) {
 ```
 
 ----------------------------------------
+
+TITLE: CountryDto
+DESCRIPTION: DTO representing a country with ISO 3166-1 alpha-2 code and Europe membership.
+SOURCE: dtos/country.dto.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+
+export class CountryDto {
+  @IsNotEmpty()
+  @IsString()
+  name!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  code!: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isEurope?: boolean;
+}
+```
+
+----------------------------------------
+
+TITLE: Europe Constants
+DESCRIPTION: Country code sets for Europe and EU/EEA membership.
+SOURCE: constants/europe.const.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+export const GEOGRAPHIC_EUROPEAN_COUNTRIES = new Set([
+  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR',
+  'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
+  'SI', 'ES', 'SE',
+
+  'AL', 'AD', 'BA', 'BY', 'FO', 'GI', 'GG', 'IS', 'IM', 'JE', 'XK', 'LI',
+  'MD', 'MC', 'ME', 'MK', 'NO', 'RU', 'SM', 'RS', 'CH', 'UA', 'VA', 'UK', 'GB'
+]);
+
+export const EU_EEA_COUNTRIES = new Set([
+  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR',
+  'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
+  'SI', 'ES', 'SE',
+  'XI'
+]);
+```
+
+----------------------------------------
+
+TITLE: Countries Constants
+DESCRIPTION: CountryDto factory and country map including Europe membership.
+SOURCE: constants/countries.const.ts
+LANGUAGE: typescript
+CODE:
+```typescript
+import { CountryDto } from "../dtos/country.dto";
+import { EU_EEA_COUNTRIES } from "./europe.const";
+
+export const EUROPEAN_COUNTRY_CODES = Array.from(EU_EEA_COUNTRIES).sort();
+
+const isEurope = (code: string) =>
+  EU_EEA_COUNTRIES.has(code) || code === 'UK' || code === 'GB';
+
+export function getCountryDto(name: string, code?: string): CountryDto {
+  if (!code) {
+    const normalizedName = name.trim().toLowerCase();
+    const match = Object.values(COUNTRIES).find(
+      (country) => country.name.trim().toLowerCase() === normalizedName,
+    );
+
+    if (!match) {
+      throw new Error(`Unknown country name: ${name}`);
+    }
+
+    return match;
+  }
+
+  const upperCode = code.toUpperCase();
+  return {
+    name,
+    code,
+    isEurope: isEurope(upperCode)
+  };
+}
+
+export const COUNTRIES = {
+  AF: getCountryDto('Afghanistan', 'AF'),
+  AL: getCountryDto('Albania', 'AL'),
+  DZ: getCountryDto('Algeria', 'DZ'),
+  AS: getCountryDto('American Samoa', 'AS'),
+  AD: getCountryDto('Andorra', 'AD'),
+  AO: getCountryDto('Angola', 'AO'),
+  AI: getCountryDto('Anguilla', 'AI'),
+  AQ: getCountryDto('Antarctica', 'AQ'),
+  AG: getCountryDto('Antigua and Barbuda', 'AG'),
+  AR: getCountryDto('Argentina', 'AR'),
+  AM: getCountryDto('Armenia', 'AM'),
+  AW: getCountryDto('Aruba', 'AW'),
+  AU: getCountryDto('Australia', 'AU'),
+  AT: getCountryDto('Austria', 'AT'),
+  AZ: getCountryDto('Azerbaijan', 'AZ'),
+  BS: getCountryDto('Bahamas', 'BS'),
+  BH: getCountryDto('Bahrain', 'BH'),
+  BD: getCountryDto('Bangladesh', 'BD'),
+  BB: getCountryDto('Barbados', 'BB'),
+  BY: getCountryDto('Belarus', 'BY'),
+  BE: getCountryDto('Belgium', 'BE'),
+  BZ: getCountryDto('Belize', 'BZ'),
+  BJ: getCountryDto('Benin', 'BJ'),
+  BM: getCountryDto('Bermuda', 'BM'),
+  BT: getCountryDto('Bhutan', 'BT'),
+  BO: getCountryDto('Bolivia', 'BO'),
+  BA: getCountryDto('Bosnia and Herzegovina', 'BA'),
+  BW: getCountryDto('Botswana', 'BW'),
+  BV: getCountryDto('Bouvet Island', 'BV'),
+  BR: getCountryDto('Brazil', 'BR'),
+  IO: getCountryDto('British Indian Ocean Territory', 'IO'),
+  BN: getCountryDto('Brunei Darussalam', 'BN'),
+  BG: getCountryDto('Bulgaria', 'BG'),
+  BF: getCountryDto('Burkina Faso', 'BF'),
+  BI: getCountryDto('Burundi', 'BI'),
+  KH: getCountryDto('Cambodia', 'KH'),
+  CM: getCountryDto('Cameroon', 'CM'),
+  CA: getCountryDto('Canada', 'CA'),
+  CV: getCountryDto('Cape Verde', 'CV'),
+  KY: getCountryDto('Cayman Islands', 'KY'),
+  CF: getCountryDto('Central African Republic', 'CF'),
+  TD: getCountryDto('Chad', 'TD'),
+  CL: getCountryDto('Chile', 'CL'),
+  CN: getCountryDto('China', 'CN'),
+  CX: getCountryDto('Christmas Island', 'CX'),
+  CC: getCountryDto('Cocos (Keeling) Islands', 'CC'),
+  CO: getCountryDto('Colombia', 'CO'),
+  KM: getCountryDto('Comoros', 'KM'),
+  CG: getCountryDto('Congo', 'CG'),
+  CD: getCountryDto('Congo, the Democratic Republic of the', 'CD'),
+  CK: getCountryDto('Cook Islands', 'CK'),
+  CR: getCountryDto('Costa Rica', 'CR'),
+  CI: getCountryDto('Côte d\'Ivoire', 'CI'),
+  HR: getCountryDto('Croatia', 'HR'),
+  CU: getCountryDto('Cuba', 'CU'),
+  CY: getCountryDto('Cyprus', 'CY'),
+  CZ: getCountryDto('Czech Republic', 'CZ'),
+  DK: getCountryDto('Denmark', 'DK'),
+  DJ: getCountryDto('Djibouti', 'DJ'),
+  DM: getCountryDto('Dominica', 'DM'),
+  DO: getCountryDto('Dominican Republic', 'DO'),
+  EC: getCountryDto('Ecuador', 'EC'),
+  EG: getCountryDto('Egypt', 'EG'),
+  SV: getCountryDto('El Salvador', 'SV'),
+  GQ: getCountryDto('Equatorial Guinea', 'GQ'),
+  ER: getCountryDto('Eritrea', 'ER'),
+  EE: getCountryDto('Estonia', 'EE'),
+  ET: getCountryDto('Ethiopia', 'ET'),
+  FK: getCountryDto('Falkland Islands (Malvinas)', 'FK'),
+  FO: getCountryDto('Faroe Islands', 'FO'),
+  FJ: getCountryDto('Fiji', 'FJ'),
+  FI: getCountryDto('Finland', 'FI'),
+  FR: getCountryDto('France', 'FR'),
+  GF: getCountryDto('French Guiana', 'GF'),
+  PF: getCountryDto('French Polynesia', 'PF'),
+  TF: getCountryDto('French Southern Territories', 'TF'),
+  GA: getCountryDto('Gabon', 'GA'),
+  GM: getCountryDto('Gambia', 'GM'),
+  GE: getCountryDto('Georgia', 'GE'),
+  DE: getCountryDto('Germany', 'DE'),
+  GH: getCountryDto('Ghana', 'GH'),
+  GI: getCountryDto('Gibraltar', 'GI'),
+  GR: getCountryDto('Greece', 'GR'),
+  GL: getCountryDto('Greenland', 'GL'),
+  GD: getCountryDto('Grenada', 'GD'),
+  GP: getCountryDto('Guadeloupe', 'GP'),
+  GU: getCountryDto('Guam', 'GU'),
+  GT: getCountryDto('Guatemala', 'GT'),
+  GG: getCountryDto('Guernsey', 'GG'),
+  GN: getCountryDto('Guinea', 'GN'),
+  GW: getCountryDto('Guinea-Bissau', 'GW'),
+  GY: getCountryDto('Guyana', 'GY'),
+  HT: getCountryDto('Haiti', 'HT'),
+  HM: getCountryDto('Heard Island and McDonald Islands', 'HM'),
+  VA: getCountryDto('Holy See (Vatican City State)', 'VA'),
+  HN: getCountryDto('Honduras', 'HN'),
+  HK: getCountryDto('Hong Kong', 'HK'),
+  HU: getCountryDto('Hungary', 'HU'),
+  IS: getCountryDto('Iceland', 'IS'),
+  IN: getCountryDto('India', 'IN'),
+  ID: getCountryDto('Indonesia', 'ID'),
+  IR: getCountryDto('Iran, Islamic Republic of', 'IR'),
+  IQ: getCountryDto('Iraq', 'IQ'),
+  IE: getCountryDto('Ireland', 'IE'),
+  IM: getCountryDto('Isle of Man', 'IM'),
+  IL: getCountryDto('Israel', 'IL'),
+  IT: getCountryDto('Italy', 'IT'),
+  JM: getCountryDto('Jamaica', 'JM'),
+  JP: getCountryDto('Japan', 'JP'),
+  JE: getCountryDto('Jersey', 'JE'),
+  JO: getCountryDto('Jordan', 'JO'),
+  KZ: getCountryDto('Kazakhstan', 'KZ'),
+  KE: getCountryDto('Kenya', 'KE'),
+  KI: getCountryDto('Kiribati', 'KI'),
+  KP: getCountryDto('Korea, Democratic People\'s Republic of', 'KP'),
+  KR: getCountryDto('Korea, Republic of', 'KR'),
+  KW: getCountryDto('Kuwait', 'KW'),
+  KG: getCountryDto('Kyrgyzstan', 'KG'),
+  LA: getCountryDto('Lao People\'s Democratic Republic', 'LA'),
+  LV: getCountryDto('Latvia', 'LV'),
+  LB: getCountryDto('Lebanon', 'LB'),
+  LS: getCountryDto('Lesotho', 'LS'),
+  LR: getCountryDto('Liberia', 'LR'),
+  LY: getCountryDto('Libyan Arab Jamahiriya', 'LY'),
+  LI: getCountryDto('Liechtenstein', 'LI'),
+  LT: getCountryDto('Lithuania', 'LT'),
+  LU: getCountryDto('Luxembourg', 'LU'),
+  MO: getCountryDto('Macao', 'MO'),
+  MK: getCountryDto('Macedonia, the former Yugoslav Republic of', 'MK'),
+  MG: getCountryDto('Madagascar', 'MG'),
+  MW: getCountryDto('Malawi', 'MW'),
+  MY: getCountryDto('Malaysia', 'MY'),
+  MV: getCountryDto('Maldives', 'MV'),
+  ML: getCountryDto('Mali', 'ML'),
+  MT: getCountryDto('Malta', 'MT'),
+  MH: getCountryDto('Marshall Islands', 'MH'),
+  MQ: getCountryDto('Martinique', 'MQ'),
+  MR: getCountryDto('Mauritania', 'MR'),
+  MU: getCountryDto('Mauritius', 'MU'),
+  YT: getCountryDto('Mayotte', 'YT'),
+  MX: getCountryDto('Mexico', 'MX'),
+  FM: getCountryDto('Micronesia, Federated States of', 'FM'),
+  MD: getCountryDto('Moldova, Republic of', 'MD'),
+  MC: getCountryDto('Monaco', 'MC'),
+  MN: getCountryDto('Mongolia', 'MN'),
+  ME: getCountryDto('Montenegro', 'ME'),
+  MS: getCountryDto('Montserrat', 'MS'),
+  MA: getCountryDto('Morocco', 'MA'),
+  MZ: getCountryDto('Mozambique', 'MZ'),
+  MM: getCountryDto('Myanmar', 'MM'),
+  NA: getCountryDto('Namibia', 'NA'),
+  NR: getCountryDto('Nauru', 'NR'),
+  NP: getCountryDto('Nepal', 'NP'),
+  NL: getCountryDto('Netherlands', 'NL'),
+  AN: getCountryDto('Netherlands Antilles', 'AN'),
+  NC: getCountryDto('New Caledonia', 'NC'),
+  NZ: getCountryDto('New Zealand', 'NZ'),
+  NI: getCountryDto('Nicaragua', 'NI'),
+  NE: getCountryDto('Niger', 'NE'),
+  NG: getCountryDto('Nigeria', 'NG'),
+  NU: getCountryDto('Niue', 'NU'),
+  NF: getCountryDto('Norfolk Island', 'NF'),
+  MP: getCountryDto('Northern Mariana Islands', 'MP'),
+  NO: getCountryDto('Norway', 'NO'),
+  OM: getCountryDto('Oman', 'OM'),
+  PK: getCountryDto('Pakistan', 'PK'),
+  PW: getCountryDto('Palau', 'PW'),
+  PS: getCountryDto('Palestinian Territory, Occupied', 'PS'),
+  PA: getCountryDto('Panama', 'PA'),
+  PG: getCountryDto('Papua New Guinea', 'PG'),
+  PY: getCountryDto('Paraguay', 'PY'),
+  PE: getCountryDto('Peru', 'PE'),
+  PH: getCountryDto('Philippines', 'PH'),
+  PN: getCountryDto('Pitcairn', 'PN'),
+  PL: getCountryDto('Poland', 'PL'),
+  PT: getCountryDto('Portugal', 'PT'),
+  PR: getCountryDto('Puerto Rico', 'PR'),
+  QA: getCountryDto('Qatar', 'QA'),
+  RE: getCountryDto('Réunion', 'RE'),
+  RO: getCountryDto('Romania', 'RO'),
+  RU: getCountryDto('Russian Federation', 'RU'),
+  RW: getCountryDto('Rwanda', 'RW'),
+  SH: getCountryDto('Saint Helena', 'SH'),
+  KN: getCountryDto('Saint Kitts and Nevis', 'KN'),
+  LC: getCountryDto('Saint Lucia', 'LC'),
+  PM: getCountryDto('Saint Pierre and Miquelon', 'PM'),
+  VC: getCountryDto('Saint Vincent and the Grenadines', 'VC'),
+  WS: getCountryDto('Samoa', 'WS'),
+  SM: getCountryDto('San Marino', 'SM'),
+  ST: getCountryDto('Sao Tome and Principe', 'ST'),
+  SA: getCountryDto('Saudi Arabia', 'SA'),
+  SN: getCountryDto('Senegal', 'SN'),
+  RS: getCountryDto('Serbia', 'RS'),
+  SC: getCountryDto('Seychelles', 'SC'),
+  SL: getCountryDto('Sierra Leone', 'SL'),
+  SG: getCountryDto('Singapore', 'SG'),
+  SK: getCountryDto('Slovakia', 'SK'),
+  SI: getCountryDto('Slovenia', 'SI'),
+  SB: getCountryDto('Solomon Islands', 'SB'),
+  SO: getCountryDto('Somalia', 'SO'),
+  ZA: getCountryDto('South Africa', 'ZA'),
+  GS: getCountryDto('South Georgia and the South Sandwich Islands', 'GS'),
+  ES: getCountryDto('Spain', 'ES'),
+  LK: getCountryDto('Sri Lanka', 'LK'),
+  SD: getCountryDto('Sudan', 'SD'),
+  SR: getCountryDto('Suriname', 'SR'),
+  SJ: getCountryDto('Svalbard and Jan Mayen', 'SJ'),
+  SZ: getCountryDto('Swaziland', 'SZ'),
+  SE: getCountryDto('Sweden', 'SE'),
+  CH: getCountryDto('Switzerland', 'CH'),
+  SY: getCountryDto('Syrian Arab Republic', 'SY'),
+  TW: getCountryDto('Taiwan, Province of China', 'TW'),
+  TJ: getCountryDto('Tajikistan', 'TJ'),
+  TZ: getCountryDto('Tanzania, United Republic of', 'TZ'),
+  TH: getCountryDto('Thailand', 'TH'),
+  TL: getCountryDto('Timor-Leste', 'TL'),
+  TG: getCountryDto('Togo', 'TG'),
+  TK: getCountryDto('Tokelau', 'TK'),
+  TO: getCountryDto('Tonga', 'TO'),
+  TT: getCountryDto('Trinidad and Tobago', 'TT'),
+  TN: getCountryDto('Tunisia', 'TN'),
+  TR: getCountryDto('Turkey', 'TR'),
+  TM: getCountryDto('Turkmenistan', 'TM'),
+  TC: getCountryDto('Turks and Caicos Islands', 'TC'),
+  TV: getCountryDto('Tuvalu', 'TV'),
+  UG: getCountryDto('Uganda', 'UG'),
+  UA: getCountryDto('Ukraine', 'UA'),
+  AE: getCountryDto('United Arab Emirates', 'AE'),
+  GB: getCountryDto('United Kingdom', 'GB'),
+  US: getCountryDto('United States', 'US'),
+  UM: getCountryDto('United States Minor Outlying Islands', 'UM'),
+  UY: getCountryDto('Uruguay', 'UY'),
+  UZ: getCountryDto('Uzbekistan', 'UZ'),
+  VU: getCountryDto('Vanuatu', 'VU'),
+  VE: getCountryDto('Venezuela, Bolivarian Republic of', 'VE'),
+  VN: getCountryDto('Viet Nam', 'VN'),
+  VG: getCountryDto('Virgin Islands, British', 'VG'),
+  VI: getCountryDto('Virgin Islands, U.S.', 'VI'),
+  WF: getCountryDto('Wallis and Futuna', 'WF'),
+  EH: getCountryDto('Western Sahara', 'EH'),
+  YE: getCountryDto('Yemen', 'YE'),
+  ZM: getCountryDto('Zambia', 'ZM'),
+  ZW: getCountryDto('Zimbabwe', 'ZW'),
+  UK: getCountryDto('United Kingdom', 'UK')
+} as const;
+```
+
+----------------------------------------

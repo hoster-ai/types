@@ -18,6 +18,7 @@ export const EU_EEA_COUNTRIES = new Set([
     'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR',
     'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
     'SI', 'ES', 'SE',
+    // Northern Ireland (part of UK but treated separately for EEA purposes)
     'XI',
     // EEA, EU + Norway, Iceland, Liechtenstein
     // 'IS', 'LI', 'NO',

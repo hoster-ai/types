@@ -83,6 +83,7 @@ export * from './enums/setup-status.enum';
 
 // Constants
 export * from './constants/countries.const';
+export * from './constants/europe.const';
 
 // Functions
 export * from './functions/country.functions';

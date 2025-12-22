@@ -95,6 +95,23 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `product/requests/*`: DTOs for product-related requests (create, delete, upgrade, etc.).
 - `product/responses/*`: DTOs for product-related responses.
 
+### Constants
+
+This package exposes country-related constants and helpers:
+
+- `EU_EEA_COUNTRIES` and `GEOGRAPHIC_EUROPEAN_COUNTRIES` from `constants/europe.const`.
+- `COUNTRIES`, `EUROPEAN_COUNTRY_CODES`, and `getCountryDto` from `constants/countries.const`.
+
+Example:
+
+```ts
+import { EU_EEA_COUNTRIES, GEOGRAPHIC_EUROPEAN_COUNTRIES, COUNTRIES, getCountryDto } from '@hosterai/types';
+
+const de = getCountryDto('Germany');
+const isInEu = EU_EEA_COUNTRIES.has(de.code);
+const europeanCountries = Object.values(COUNTRIES).filter(c => c.isEurope);
+```
+
 ### Enums
 
 Enums provide a set of named constants for common types, preventing errors with magic strings.
