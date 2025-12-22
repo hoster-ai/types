@@ -1,6 +1,6 @@
+import { CountryDto } from '../dtos/country.dto';
 import {
   COUNTRY_DATA,
-  CountryDto,
   CountryEnum,
   EUROZONE_COUNTRIES,
 } from '../enums/country.enum';

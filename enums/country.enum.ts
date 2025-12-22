@@ -1,3 +1,5 @@
+import { CountryDto } from "../dtos/country.dto";
+
 export enum CountryEnum {
   AFGHANISTAN = 'AF',
   ALAND_ISLANDS = 'AX',
@@ -250,14 +252,6 @@ export enum CountryEnum {
   TRINIDAD_AND_TOBAGO = 'TT',
 }
 
-// TODO θέλουμε JSONSchema
-export interface CountryDto {
-  name: string;
-  code: string;
-  isEurope: boolean;
-}
-
-// Θέλουμε χώρες ευρώπης και ευρωζώνη 
 export const EU_EEA_COUNTRIES = new Set<CountryEnum>([
   CountryEnum.AUSTRIA,
   CountryEnum.BELGIUM,
