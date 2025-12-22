@@ -1,19 +1,7 @@
-import { COUNTRIES, EU_EEA_COUNTRIES } from "../constants/countries.const";
+import { COUNTRIES } from "../constants/countries.const";
 import { CountryDto } from "../dtos/country.dto";
 
-/**
- * Create a CountryDto object
- * @param name Country name
- * @param code Country code
- * @returns CountryDto object
- */
-export function createCountry(name: string, code: string): CountryDto {
-  return {
-    name,
-    code,
-    isEurope: EU_EEA_COUNTRIES.has(code) || code === 'UK'
-  };
-}
+
 /**
  * Get all European countries from the COUNTRIES constant
  * @returns Record of European country codes to Country objects

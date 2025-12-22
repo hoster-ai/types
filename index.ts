@@ -23,6 +23,7 @@ export * from './dtos/unit.dto';
 export * from './dtos/admin-panel.dto';
 export * from './dtos/client-panel.dto';
 export * from './dtos/settings.dto';
+export * from './dtos/country.dto';
 
 // Base Requests
 export * from './dtos/requests/validate-attributes-request.dto';
@@ -69,7 +70,7 @@ export * from './dtos/product/responses/product-upgradable-response.dto';
 
 // Enums
 export * from './enums/actions.enum';
-export * from './dtos/country.dto';
+export * from './enums/country.enum';
 export * from './enums/duration.enum';
 export * from './enums/events.enum';
 export * from './enums/field-type.enum';
