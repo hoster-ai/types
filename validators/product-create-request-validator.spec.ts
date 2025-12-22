@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import 'reflect-metadata';
 import { validateProductCreateRequestDto } from './product-create-request-validator';
-import { DurationEnum } from '../enums/duration.enum';
 import { CountryEnum } from '../enums/country.enum';
+import { DurationEnum } from '../enums/duration.enum';
 
 describe('validateProductCreateRequestDto', () => {
   it('should return no errors for a valid request', async () => {

@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { validateProductUnsuspendRequestDto } from './product-unsuspend-request-validator';
-import { DurationEnum } from '../enums/duration.enum';
 import { CountryEnum } from '../enums/country.enum';
+import { DurationEnum } from '../enums/duration.enum';
 
 describe('validateProductUnsuspendRequestDto', () => {
   it('should return no errors for a valid request', async () => {
