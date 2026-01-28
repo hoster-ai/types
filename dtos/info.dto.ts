@@ -12,6 +12,7 @@ import { ClientPanelDto } from './client-panel.dto';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { FieldDto } from './field.dto';
 import { UniqueFieldInArray } from '../decorators/unique-field-in-array.validator';
+import { InvoiceActionsEnum } from '../enums/invoice/invoice-actions.enum';
 
 /**
  * DTO for integration information.
@@ -82,6 +83,7 @@ export class InfoDto {
   /**
    * A list of actions that are supported by this integration.
    */
+  //TODO Να φυγει απο εδω 
   @IsOptional()
   @IsArray()
   @IsEnum(ActionsEnum, { each: true })
@@ -89,9 +91,12 @@ export class InfoDto {
     title: 'Supported Actions',
     description: 'Actions supported by this integration.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(ActionsEnum) }
+    oneOf: [
+      { type: 'string', enum: Object.values(ActionsEnum) },
+      { type: 'string', enum: Object.values(InvoiceActionsEnum) }
+    ]
   })
-  supportedActions?: ActionsEnum[] = [];
+  supportedActions?: ActionsEnum[] | InvoiceActionsEnum[] = [];
 
   /**
    * A list of events that the integration listens to.

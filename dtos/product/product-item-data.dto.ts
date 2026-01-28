@@ -1,4 +1,4 @@
-import { IsDefined, IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsDefined, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { DurationEnum } from '../../enums/duration.enum';
 
 /**
@@ -12,6 +12,18 @@ export class ProductItemDataDto {
   @IsOptional()
   @IsString()
   itemId?: string;
+
+  @IsNotEmpty()
+  @IsString()
+  productId!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  productName!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  resourceName!: string;
 
   /**
    * A record of product-level attributes.
@@ -35,10 +47,30 @@ export class ProductItemDataDto {
   @IsOptional()
   creationResponseData?: Record<string, unknown>;
 
+  @IsNotEmpty()
+  @IsString()
+  startDate!: string;
+  
+  @IsNotEmpty()
+  @IsString()
+  endDate!: string;
+  
   /**
-   * The duration of the product subscription or license.
+   * The price of the product item without tax and discount.
    */
   @IsDefined()
-  @IsEnum(DurationEnum)
-  duration!: DurationEnum;
+  price!: number;
+
+  /**
+   * The discount of the product item. The price after removing the discount
+   */
+  @IsDefined()
+  discountPrice!: number;
+
+  /**
+   * The action to perform on the product item.
+   */
+  @IsDefined()
+  @IsEnum(["create", "renew", "upgrade", "downgrade"])
+  action!: "create" | "renew" | "upgrade" | "downgrade";
 }
