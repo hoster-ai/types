@@ -1,7 +1,7 @@
 import { IsDefined, IsObject, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ProductItemDataDto } from '../../item-data.dto';
 import { ClientDataDto } from '../../client-data.dto';
+import { ProductItemDataDto } from '../product-item-data.dto';
 
 /**
  * Represents a request to unsuspend a product item.

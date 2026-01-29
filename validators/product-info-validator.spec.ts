@@ -2,13 +2,13 @@ import 'reflect-metadata';
 // import { ProductInfoDto } from '../dtos/product/product-info.dto';
 import { ProductItemActionsEnum } from '../enums/item-actions.enum';
 import { LanguageEnum } from '../enums/language.enum';
-import { FieldDto } from '../dtos/field.dto';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { validateProductInfoDto } from './product-info.validator';
+import { AttributeFieldDto } from '../dtos/attribute-field.dto';
 
 describe('ProductInfoDto Validator', () => {
 
-  const field: FieldDto = {
+  const field: AttributeFieldDto = {
     id: 'field',
     label: [{ language: LanguageEnum.ENGLISH, text: "label" }],
     value: 'string',
@@ -16,7 +16,6 @@ describe('ProductInfoDto Validator', () => {
     required: false,
     disabled: false,
     hidden: false,
-    visibleInClientPanel: true,
     upgradable: false
   };
 
@@ -27,7 +26,7 @@ describe('ProductInfoDto Validator', () => {
     type: FieldTypeEnum.TEXT_BOX,
     disabled: false,
     upgradable: false
-  } as FieldDto;
+  } as AttributeFieldDto;
 
   const testCases = [
     {
@@ -179,7 +178,7 @@ describe('ProductInfoDto Validator', () => {
 
   describe('FieldDto class-level constraints inside ProductInfoDto', () => {
     it('fails when a FieldDto has only repeatableMin (AllOrNone)', () => {
-      const fieldWithOnlyMin: FieldDto = {
+      const fieldWithOnlyMin: AttributeFieldDto = {
         id: 'f1',
         label: [{ language: LanguageEnum.ENGLISH, text: 'label' }],
         value: 'v',
@@ -187,9 +186,7 @@ describe('ProductInfoDto Validator', () => {
         required: false,
         disabled: false,
         hidden: false,
-        visibleInClientPanel: true,
         upgradable: false,
-        repeatableMin: 1,
       };
 
       const dto = {
@@ -204,18 +201,16 @@ describe('ProductInfoDto Validator', () => {
     });
 
     it('fails when a FieldDto has only repeatableMax (AllOrNone)', () => {
-      const fieldWithOnlyMax: FieldDto = {
+      const fieldWithOnlyMax: AttributeFieldDto = {
         id: 'f2',
         label: [{ language: LanguageEnum.ENGLISH, text: 'label' }],
         value: 'v',
         type: FieldTypeEnum.TEXT_BOX,
         required: false,
         disabled: false,
-        visibleInOrder: false,
-        visibleInClientPanel: true,
         upgradable: false,
-        repeatableMax: 2,
-      } as any;
+        hidden: false
+      };
 
       const dto = {
         title: 'Test',
@@ -229,7 +224,7 @@ describe('ProductInfoDto Validator', () => {
     });
 
     it('passes when a FieldDto has both min and max with min <= max', () => {
-      const fieldOk: FieldDto = {
+      const fieldOk: AttributeFieldDto = {
         id: 'f3',
         label: [{ language: LanguageEnum.ENGLISH, text: 'label' }],
         value: 'v',
@@ -237,10 +232,6 @@ describe('ProductInfoDto Validator', () => {
         required: false,
         disabled: false,
         hidden: false,
-        visibleInClientPanel: true,
-        upgradable: false,
-        repeatableMin: 1,
-        repeatableMax: 2,
       };
 
       const dto = {
@@ -254,7 +245,7 @@ describe('ProductInfoDto Validator', () => {
     });
 
     it('fails when a FieldDto has both min and max with min > max (Min<=Max)', () => {
-      const fieldBad: FieldDto = {
+      const fieldBad: AttributeFieldDto = {
         id: 'f4',
         label: [{ language: LanguageEnum.ENGLISH, text: 'label' }],
         value: 'v',
@@ -262,10 +253,7 @@ describe('ProductInfoDto Validator', () => {
         required: false,
         disabled: false,
         hidden: false,
-        visibleInClientPanel: true,
         upgradable: false,
-        repeatableMin: 5,
-        repeatableMax: 2,
       };
 
       const dto = {

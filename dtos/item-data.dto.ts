@@ -1,5 +1,4 @@
-import { IsDefined, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { InvoiceItemActionsEnum } from '../enums/invoice/invoice-item-actions.enum';
+import { IsDefined, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 /**
  * Represents the data of a specific product item.

@@ -9,7 +9,6 @@ import {
   IsArray,
   ArrayMinSize,
   ValidateIf,
-  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FieldTypeEnum } from '../enums/field-type.enum';
@@ -155,7 +154,7 @@ export class FieldDto {
     description: 'Whether the item attribute is upgradable by the user.',
     type: 'boolean',
   })
-  upgradable: boolean = false;
+  upgradable?: boolean = false;
 
     @IsBoolean()
   @IsDefined()
@@ -164,5 +163,5 @@ export class FieldDto {
     description: 'Whether the item attribute is downgradable by the user.',
     type: 'boolean',
   })
-  downgradable: boolean = false;
+  downgradable?: boolean = false;
 }

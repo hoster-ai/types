@@ -16,7 +16,7 @@ export class AttributeFieldDto extends FieldDto {
     description: 'Whether the field is hidden.',
     type: 'boolean',
   })
-  hidden!: boolean;
+  hidden?: boolean = false;
 
   /**
  * Indicates if the field is disabled
