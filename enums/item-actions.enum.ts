@@ -1,5 +1,5 @@
 //TODO να γινει ProductActionsEnum
-export enum ActionsEnum {
+export enum ProductItemActionsEnum {
   CREATE = 'create',
   RENEW = 'renew',
   UPGRADE = 'upgrade',

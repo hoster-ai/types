@@ -1,7 +1,7 @@
 import { IsArray, IsEnum, IsNotEmpty } from "class-validator";
 import { CountryEnum } from "../../enums/country.enum";
 import { InfoDto } from "../info.dto";
-import { InvoiceActionsEnum } from "../../enums/invoice/invoice-actions.enum";
+import { InvoiceTypesEnum } from "../../enums/invoice/invoice-types.enum";
 import { JSONSchema } from 'class-validator-jsonschema';
 
 export class InvoiceInfoDto extends InfoDto {
@@ -12,12 +12,12 @@ export class InvoiceInfoDto extends InfoDto {
      */
     @IsNotEmpty()
     @IsArray()
-    @IsEnum(InvoiceActionsEnum, { each: true })
+    @IsEnum(InvoiceTypesEnum, { each: true })
     @JSONSchema({
-        title: 'Supported Actions',
-        description: 'Actions supported by this integration.',
+        title: 'Supported Types',
+        description: 'Types of invoice supported by this integration.',
         type: 'array',
-        items: { type: 'string', enum: Object.values(InvoiceActionsEnum) }
+        items: { type: 'string', enum: Object.values(InvoiceTypesEnum) }
     })
-    supportedActions: InvoiceActionsEnum[] = [];
+    supportedTypes: InvoiceTypesEnum[] = [];
 }

@@ -101,14 +101,6 @@ export class FieldDto {
   })
   type!: FieldTypeEnum;
 
-  @IsOptional()
-  @IsNumber()
-  repeatableMin?: number;
-
-  @IsOptional()
-  @IsNumber()
-  repeatableMax?: number;
-
   /**
    * Indicates if the field is required
    */
@@ -121,41 +113,6 @@ export class FieldDto {
   })
   required!: boolean;
 
-  /**
-   * Indicates if the field is disabled
-   */
-  @IsBoolean()
-  @IsDefined()
-  @JSONSchema({
-    title: 'Disabled',
-    description: 'Whether the field is disabled.',
-    type: 'boolean',
-  })
-  disabled!: boolean;
-
-  /**
-   * Indicates if the field is hidden in order
-   */
-  @IsBoolean()
-  @IsDefined()
-  @JSONSchema({
-    title: 'Visible In Order',
-    description: 'Whether the field is visible in order.',
-    type: 'boolean',
-  })
-  visibleInOrder!: boolean;
-
-  /**
-   * Indicates if the field is visible in client panel
-   */
-  @IsBoolean()
-  @IsDefined()
-  @JSONSchema({
-    title: 'Visible In Client Panel',
-    description: 'Whether the field is visible in client panel.',
-    type: 'boolean',
-  })
-  visibleInClientPanel!: boolean;
 
   /**
    * Regex validation pattern for the field
@@ -187,33 +144,6 @@ export class FieldDto {
   regexValidationErrorMessage?: MultilangTextDto[];
 
   /**
-   * Indicates if the field triggers remote validation
-   */
-  @IsBoolean()
-  @IsOptional()
-  @JSONSchema({
-    title: 'Triggers Remote Validation',
-    description: 'If true, field triggers remote validation.',
-    type: 'boolean',
-  })
-  triggersRemoteValidation?: boolean = false;
-
-  /**
-   * Error message for the field for supported languages
-   */
-  @ValidateIf((o) => o.triggersRemoteValidation === true)
-  @ValidateNested({ each: true })
-  @Type(() => MultilangTextDto)
-  @IsOptional()
-  @JSONSchema({
-    title: 'Remote Validation Error Message',
-    description: 'Localized error messages for remote validation.',
-    type: 'array',
-    items: { $ref: '#/components/schemas/MultilangTextDto' },
-  })
-  remoteValidationErrorMessage?: MultilangTextDto[];
-
-  /**
    * The item attribute is upgradable
    * If the user has the permission to upgrade the item from his panel
    * TODO: Let's see if this approach is the best way for the user to upgrade their item
@@ -226,4 +156,13 @@ export class FieldDto {
     type: 'boolean',
   })
   upgradable: boolean = false;
+
+    @IsBoolean()
+  @IsDefined()
+  @JSONSchema({
+    title: 'Downgradable',
+    description: 'Whether the item attribute is downgradable by the user.',
+    type: 'boolean',
+  })
+  downgradable: boolean = false;
 }

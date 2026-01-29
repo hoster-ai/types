@@ -1,4 +1,4 @@
-import { ActionsEnum } from '../enums/actions.enum';
+import { ProductItemActionsEnum } from '../enums/item-actions.enum';
 import { EventsEnum } from '../enums/events.enum';
 import { LanguageEnum } from '../enums/language.enum';
 import { RolesEnum } from '../enums/roles.enum';
@@ -12,7 +12,7 @@ import { ClientPanelDto } from './client-panel.dto';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { FieldDto } from './field.dto';
 import { UniqueFieldInArray } from '../decorators/unique-field-in-array.validator';
-import { InvoiceActionsEnum } from '../enums/invoice/invoice-actions.enum';
+import { InvoiceTypesEnum } from '../enums/invoice/invoice-types.enum';
 
 /**
  * DTO for integration information.
@@ -86,17 +86,17 @@ export class InfoDto {
   //TODO Να φυγει απο εδω 
   @IsOptional()
   @IsArray()
-  @IsEnum(ActionsEnum, { each: true })
+  @IsEnum(ProductItemActionsEnum, { each: true })
   @JSONSchema({
     title: 'Supported Actions',
     description: 'Actions supported by this integration.',
     type: 'array',
     oneOf: [
-      { type: 'string', enum: Object.values(ActionsEnum) },
-      { type: 'string', enum: Object.values(InvoiceActionsEnum) }
+      { type: 'string', enum: Object.values(ProductItemActionsEnum) },
+      { type: 'string', enum: Object.values(InvoiceTypesEnum) }
     ]
   })
-  supportedActions?: ActionsEnum[] | InvoiceActionsEnum[] = [];
+  supportedTypes?: ProductItemActionsEnum[] | InvoiceTypesEnum[] = [];
 
   /**
    * A list of events that the integration listens to.

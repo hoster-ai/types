@@ -1,5 +1,5 @@
 import { ProformaInvoiceResponseDto } from "./proforma-invoice-response.dto";
 
-export class InvoiceResponseDto extends ProformaInvoiceResponseDto {
-    
+export class CreditNoteResponseDto extends ProformaInvoiceResponseDto {
+
 }

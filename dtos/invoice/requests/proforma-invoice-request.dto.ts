@@ -1,3 +1,5 @@
+import { InvoiceContactData } from "../../invoice-contact-data.dto";
+import { InvoiceItemDataDto } from "../invoice-item-data.dto";
 import { TransactionData } from "../transaction-data.dto";
 
 export class ProformaInvoiceRequestDto {
@@ -5,6 +7,6 @@ export class ProformaInvoiceRequestDto {
     companyId!: string;
     transactions!: TransactionData[];
     invoiceContact!: InvoiceContactData;
-    items!: ItemData[]:
+    items!: InvoiceItemDataDto[];
     totalAmount!: number;
 }
