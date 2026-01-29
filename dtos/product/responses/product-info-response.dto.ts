@@ -1,3 +1,5 @@
+import { Type } from 'class-transformer';
+import { ValidateNested } from 'class-validator';
 import { BaseResponse } from '../../base-response.dto';
 import { ProductInfoDto } from '../product-info.dto';
 
@@ -10,5 +12,7 @@ export class ProductInfoResponseDto extends BaseResponse {
    * The detailed information of the product.
    * This object contains all the attributes and settings of the product.
    */
+  @ValidateNested()
+  @Type(() => ProductInfoDto)
   info!: ProductInfoDto;
 }

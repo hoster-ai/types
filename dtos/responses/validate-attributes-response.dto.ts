@@ -1,3 +1,5 @@
+import { Type } from 'class-transformer';
+import { IsArray, ValidateNested } from 'class-validator';
 import { BaseResponse } from "../base-response.dto";
 import { FieldDto } from "../field.dto";
 
@@ -11,5 +13,8 @@ export class ValidateAttributesResponseDto extends BaseResponse {
    * An array of field DTOs representing the validated attributes.
    * Each `FieldDto` contains details about a single attribute.
    */
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => FieldDto)
   validatedAttributes!: FieldDto[];
 }

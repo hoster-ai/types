@@ -1,6 +1,13 @@
+import { IsString, IsNotEmpty } from 'class-validator';
 import { SuccessResponseDto } from "../../success-response.dto";
 
+/**
+ * Response from notification integrations after successfully sending a notification.
+ * Returned to hoster.ai confirming the notification was sent.
+ */
 export class NotificationSendResponseDto extends SuccessResponseDto {
-
-    notificationId!: string;
+  /** Unique identifier for the sent notification */
+  @IsString()
+  @IsNotEmpty()
+  notificationId!: string;
 }
