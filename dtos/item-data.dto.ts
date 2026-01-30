@@ -12,14 +12,17 @@ export class ItemDataDto {
   @IsString()
   itemId?: string;
 
+  /** Unique identifier for the product */
   @IsNotEmpty()
   @IsString()
   productId!: string;
 
+  /** Name of the product */
   @IsNotEmpty()
   @IsString()
   productName!: string;
 
+  /** Resource name associated with the product */
   @IsNotEmpty()
   @IsString()
   resourceName!: string;
@@ -46,10 +49,12 @@ export class ItemDataDto {
   @IsOptional()
   creationResponseData?: Record<string, unknown>;
 
+  /** Start date of the product item */
   @IsNotEmpty()
   @IsString()
   startDate!: string;
 
+  /** End date of the product item */
   @IsNotEmpty()
   @IsString()
   endDate!: string;

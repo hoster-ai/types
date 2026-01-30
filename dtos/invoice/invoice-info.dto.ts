@@ -4,7 +4,12 @@ import { InfoDto } from "../info.dto";
 import { InvoiceTypesEnum } from "../../enums/invoice/invoice-types.enum";
 import { JSONSchema } from 'class-validator-jsonschema';
 
+/**
+ * Invoice integration information.
+ * Extends base integration info with invoice-specific configuration.
+ */
 export class InvoiceInfoDto extends InfoDto {
+    /** Countries supported by this invoice integration */
     supportedCountries!: CountryEnum[];
 
     /**

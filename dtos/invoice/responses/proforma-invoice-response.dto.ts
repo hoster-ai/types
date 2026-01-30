@@ -1,15 +1,22 @@
 import { IsNotEmpty, IsString, IsUrl } from "class-validator";
 
+/**
+ * Response from invoice integrations after successfully creating a proforma invoice.
+ * Contains the generated invoice details and access URL.
+ */
 export class ProformaInvoiceResponseDto {
-    @IsUrl()
-    @IsNotEmpty()
-    invoiceUrl!:string;
+  /** URL to access the generated invoice document */
+  @IsUrl()
+  @IsNotEmpty()
+  invoiceUrl!:string;
 
-    @IsString()
-    @IsNotEmpty()
-    invoiceNumber!:string;
+  /** Invoice number assigned by the integration */
+  @IsString()
+  @IsNotEmpty()
+  invoiceNumber!:string;
 
-    @IsString()
-    @IsNotEmpty()
-    invoiceId!:string;
+  /** Unique identifier for the invoice in the integration system */
+  @IsString()
+  @IsNotEmpty()
+  invoiceId!:string;
 }

@@ -1,10 +1,13 @@
 import { IsOptional, IsString } from "class-validator";
 import { ProformaInvoiceRequestDto } from "./proforma-invoice-request.dto";
 
+/**
+ * Request payload for creating a standard invoice.
+ * Extends proforma invoice with minimal variations to keep the API clean for invoice integration developers.
+ */
 export class InvoiceRequestDto extends ProformaInvoiceRequestDto {
-
-    @IsOptional()
-    @IsString()
-    parentInvoiceId?: string;
-    
+  /** Reference to parent invoice if applicable */
+  @IsOptional()
+  @IsString()
+  parentInvoiceId?: string;
 }
