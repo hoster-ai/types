@@ -21,7 +21,6 @@ export * from './dtos/tab.dto';
 export * from './dtos/unit.dto';
 export * from './dtos/admin-panel.dto';
 export * from './dtos/client-panel.dto';
-export * from './dtos/settings.dto';
 
 // Base Requests
 export * from './dtos/requests/validate-attributes-request.dto';
