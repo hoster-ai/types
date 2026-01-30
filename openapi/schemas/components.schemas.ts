@@ -463,7 +463,9 @@ export const ComponentsSchemas = {
     "properties": {
       "url": {
         "format": "url",
-        "type": "string"
+        "type": "string",
+        "title": "URL",
+        "description": "URL to the settings page."
       },
       "label": {
         "minLength": 1,
@@ -499,7 +501,7 @@ export const ComponentsSchemas = {
         },
         "type": "array",
         "title": "Tabs",
-        "description": "Tabs shown on the settings page."
+        "description": "List of tabs for the settings page."
       },
       "label": {
         "minLength": 1,
@@ -1029,31 +1031,10 @@ export const ComponentsSchemas = {
         "title": "Field Type",
         "description": "Type of the field."
       },
-      "repeatableMin": {
-        "type": "number"
-      },
-      "repeatableMax": {
-        "type": "number"
-      },
       "required": {
         "type": "boolean",
         "title": "Required",
         "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "visibleInOrder": {
-        "type": "boolean",
-        "title": "Visible In Order",
-        "description": "Whether the field is visible in order."
-      },
-      "visibleInClientPanel": {
-        "type": "boolean",
-        "title": "Visible In Client Panel",
-        "description": "Whether the field is visible in client panel."
       },
       "regexValidation": {
         "type": "string",
@@ -1069,23 +1050,15 @@ export const ComponentsSchemas = {
         "title": "Regex Validation Error Message",
         "description": "Localized error message shown when regex validation fails."
       },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "If true, field triggers remote validation."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error messages for remote validation."
-      },
       "upgradable": {
         "type": "boolean",
         "title": "Upgradable",
         "description": "Whether the item attribute is upgradable by the user."
+      },
+      "downgradable": {
+        "type": "boolean",
+        "title": "Downgradable",
+        "description": "Whether the item attribute is downgradable by the user."
       }
     },
     "type": "object",
@@ -1095,10 +1068,8 @@ export const ComponentsSchemas = {
       "value",
       "type",
       "required",
-      "disabled",
-      "visibleInOrder",
-      "visibleInClientPanel",
-      "upgradable"
+      "upgradable",
+      "downgradable"
     ]
   },
   "InfoDto": {
@@ -1321,7 +1292,7 @@ export const ComponentsSchemas = {
           "EN"
         ]
       },
-      "supportedActions": {
+      "supportedTypes": {
         "items": {
           "enum": [
             "create",
@@ -1338,7 +1309,31 @@ export const ComponentsSchemas = {
         },
         "type": "array",
         "title": "Supported Actions",
-        "description": "Actions supported by this integration."
+        "description": "Actions supported by this integration.",
+        "oneOf": [
+          {
+            "type": "string",
+            "enum": [
+              "create",
+              "renew",
+              "upgrade",
+              "downgrade",
+              "transfer",
+              "trade",
+              "suspend",
+              "unsuspend",
+              "delete"
+            ]
+          },
+          {
+            "type": "string",
+            "enum": [
+              "invoice",
+              "credit-note",
+              "proforma"
+            ]
+          }
+        ]
       },
       "listenEvents": {
         "items": {
@@ -1901,7 +1896,7 @@ export const ComponentsSchemas = {
           "EN"
         ]
       },
-      "supportedActions": {
+      "supportedTypes": {
         "items": {
           "enum": [
             "create",
@@ -1918,7 +1913,31 @@ export const ComponentsSchemas = {
         },
         "type": "array",
         "title": "Supported Actions",
-        "description": "Actions supported by this integration."
+        "description": "Actions supported by this integration.",
+        "oneOf": [
+          {
+            "type": "string",
+            "enum": [
+              "create",
+              "renew",
+              "upgrade",
+              "downgrade",
+              "transfer",
+              "trade",
+              "suspend",
+              "unsuspend",
+              "delete"
+            ]
+          },
+          {
+            "type": "string",
+            "enum": [
+              "invoice",
+              "credit-note",
+              "proforma"
+            ]
+          }
+        ]
       },
       "listenEvents": {
         "items": {
@@ -2253,6 +2272,26 @@ export const ComponentsSchemas = {
           "status_text": "status"
         }
       },
+      "supportedTypes": {
+        "items": {
+          "enum": [
+            "create",
+            "renew",
+            "upgrade",
+            "downgrade",
+            "transfer",
+            "trade",
+            "suspend",
+            "unsuspend",
+            "delete"
+          ],
+          "type": "string"
+        },
+        "type": "array",
+        "minLength": 1,
+        "title": "Supported Actions",
+        "description": "Actions supported by this integration."
+      },
       "title": {
         "minLength": 1,
         "type": "string",
@@ -2470,25 +2509,6 @@ export const ComponentsSchemas = {
         "example": [
           "EN"
         ]
-      },
-      "supportedActions": {
-        "items": {
-          "enum": [
-            "create",
-            "renew",
-            "upgrade",
-            "downgrade",
-            "transfer",
-            "trade",
-            "suspend",
-            "unsuspend",
-            "delete"
-          ],
-          "type": "string"
-        },
-        "type": "array",
-        "title": "Supported Actions",
-        "description": "Actions supported by this integration."
       },
       "listenEvents": {
         "items": {
