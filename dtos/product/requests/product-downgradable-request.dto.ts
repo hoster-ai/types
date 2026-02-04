@@ -1,7 +1,7 @@
 import { IsDefined, IsObject, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ClientDataDto } from '../../client-data.dto';
 import { ProductItemDataDto } from '../product-item-data.dto';
+import { ClientDataDto } from '../../client-data.dto';
 
 /**
  * Represents a request to check if a product item is downgradable.
