@@ -1,8 +1,9 @@
 import { Type } from 'class-transformer';
-import { IsString, IsNumber, IsArray, IsNotEmpty, ValidateNested } from 'class-validator';
+import { IsString, IsNumber, IsArray, IsNotEmpty, ValidateNested, IsEnum } from 'class-validator';
 import { InvoiceContactData } from "../../invoice-contact-data.dto";
 import { InvoiceItemDataDto } from "../invoice-item-data.dto";
 import { TransactionData } from "../transaction-data.dto";
+import { CountryEnum } from '../../../enums/country.enum';
 
 /**
  * Request payload for creating a proforma invoice.
@@ -18,6 +19,11 @@ export class ProformaInvoiceRequestDto {
   @IsString()
   @IsNotEmpty()
   companyId!: string;
+
+  /** Country where the company is registered */
+  @IsEnum(CountryEnum)
+  @IsNotEmpty()
+  companyCountry!: CountryEnum;
 
   /** List of transactions associated with this invoice */
   @IsArray()

@@ -618,6 +618,33 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### TaxDetailsRequestDto
+**Description:** Request payload for calculating tax details. Contains company and customer location information for tax rate determination.
+
+**Source:** `dtos/invoice/requests/tax-details.request.dto.ts`
+
+**Details:** See [llm/dtos/taxdetailsrequestdto.md](llm/dtos/taxdetailsrequestdto.md)
+
+---
+
+### TaxDetailsResponseDto
+**Description:** Represents the response containing tax calculation details. Includes VAT rate and optional TIN validation information.
+
+**Source:** `dtos/invoice/responses/tax-details-response.dto.ts`
+
+**Details:** See [llm/dtos/taxdetailsresponsedto.md](llm/dtos/taxdetailsresponsedto.md)
+
+---
+
+### TINValidationDetails
+**Description:** Contains detailed Tax Identification Number validation information. Includes company details and address information from tax authority validation.
+
+**Source:** `dtos/invoice/tin-validation-details.dto.ts`
+
+**Details:** See [llm/dtos/tinvalidationdetails.md](llm/dtos/tinvalidationdetails.md)
+
+---
+
 
 ## ENUMS
 
