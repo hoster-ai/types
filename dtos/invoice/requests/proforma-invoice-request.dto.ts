@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsString, IsNumber, IsArray, IsNotEmpty, ValidateNested, IsEnum } from 'class-validator';
+import { IsArray, IsDefined, IsEnum, IsNumber, IsString, ValidateNested } from 'class-validator';
 import { InvoiceContactData } from "../../invoice-contact-data.dto";
 import { InvoiceItemDataDto } from "../invoice-item-data.dto";
 import { TransactionData } from "../transaction-data.dto";
@@ -11,39 +11,42 @@ import { CountryEnum } from '../../../enums/country.enum';
  */
 export class ProformaInvoiceRequestDto {
   /** Unique identifier for the invoice */
+  @IsDefined()
   @IsString()
-  @IsNotEmpty()
   invoiceId!: string;
 
   /** Company identifier issuing the invoice */
+  @IsDefined()
   @IsString()
-  @IsNotEmpty()
   companyId!: string;
 
   /** Country where the company is registered */
+  @IsDefined()
   @IsEnum(CountryEnum)
-  @IsNotEmpty()
   companyCountry!: CountryEnum;
 
   /** List of transactions associated with this invoice */
+  @IsDefined()
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => TransactionData)
   transactions!: TransactionData[];
 
   /** Billing contact information for the invoice recipient */
+  @IsDefined()
   @ValidateNested()
   @Type(() => InvoiceContactData)
   invoiceContact!: InvoiceContactData;
 
   /** Line items included in the invoice */
+  @IsDefined()
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => InvoiceItemDataDto)
   items!: InvoiceItemDataDto[];
 
   /** Total invoice amount */
+  @IsDefined()
   @IsNumber()
-  @IsNotEmpty()
   totalAmount!: number;
 }
