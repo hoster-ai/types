@@ -49,6 +49,7 @@ export * from './dtos/invoice/requests/proforma-invoice-request.dto';
 export * from './dtos/invoice/responses/invoice-response.dto';
 export * from './dtos/invoice/responses/credit-note-response.dto';
 export * from './dtos/invoice/responses/proforma-invoice-response.dto';
+export * from './dtos/invoice/tin-validation-details.dto';
 
 // Product DTOs
 export * from './dtos/product/product-info.dto';
