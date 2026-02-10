@@ -1,6 +1,6 @@
-# MenuDtoWithUrl
+# BaseMenuDto
 
-**Description:** Represents a menu item that links directly to a URL. This type of menu item does not have a submenu.
+**Description:** Base properties shared by all menu items.
 
 **Source:** `dtos/menu.dto.ts`
 
@@ -12,6 +12,7 @@
 import { IsDefined, IsIn, IsString, IsNotEmpty, IsUrl, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { IsPropertyForbidden } from '../decorators/is-property-forbidden.validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 import { TabDto } from './tab.dto';
 
 /**
@@ -24,6 +25,11 @@ export class BaseMenuDto {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Icon',
+    description: 'Icon for the menu item.',
+    type: 'string',
+  })
   icon!: string;
 
   /**
@@ -32,6 +38,11 @@ export class BaseMenuDto {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Label',
+    description: 'Label for the menu item.',
+    type: 'string',
+  })
   label!: string;
 }
 
@@ -45,6 +56,11 @@ export class MenuDtoWithUrl extends BaseMenuDto {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Type',
+    description: 'Type of the menu item.',
+    type: 'string',
+  })
   @IsIn(['only-url'])
   type!: 'only-url';
 
@@ -54,6 +70,12 @@ export class MenuDtoWithUrl extends BaseMenuDto {
    */
   @IsUrl({ protocols: ['https'], require_protocol: true })
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'URL',
+    description: 'URL associated with the menu item.',
+    type: 'string',
+    format: 'uri'
+  })
   url!: string;
 
   /**
@@ -74,8 +96,12 @@ export class MenuDtoWithSubmenu extends BaseMenuDto {
   @IsString()
   @IsNotEmpty()
   @IsIn(['with-submenu'])
+  @JSONSchema({
+    title: 'Type',
+    description: 'Type of the menu item.',
+    type: 'string',
+  })
   type!: 'with-submenu';
-
   /**
    * Explicitly prevents a URL from being added to this type of menu item.
    */
@@ -89,6 +115,12 @@ export class MenuDtoWithSubmenu extends BaseMenuDto {
   @IsDefined()
   @ValidateNested({ each: true })
   @Type(() => TabDto)
+  @JSONSchema({
+    title: 'Submenu',
+    description: 'List of tabs that will appear in the submenu.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/TabDto' }
+  })
   submenu!: TabDto[];
 }
 ```

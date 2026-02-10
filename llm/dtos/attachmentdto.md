@@ -10,6 +10,7 @@
 
 ```typescript
 import { IsString, IsOptional, IsBase64, IsNotEmpty } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for file attachments
@@ -21,6 +22,11 @@ export class AttachmentDto {
    */
   @IsNotEmpty()
   @IsString()
+  @JSONSchema({
+    title: 'Filename',
+    description: 'The name of the attached file.',
+    type: 'string',
+  })
   filename!: string;
 
   /**
@@ -29,6 +35,12 @@ export class AttachmentDto {
   @IsNotEmpty()
   @IsString()
   @IsBase64()
+  @JSONSchema({
+    title: 'Content',
+    description: 'The content of the file in Base64 encoding.',
+    type: 'string',
+    format: 'byte',
+  })
   content!: string;
 
   /**
@@ -36,6 +48,11 @@ export class AttachmentDto {
    */
   @IsOptional()
   @IsString()
+  @JSONSchema({
+    title: 'Content Type',
+    description: 'The content type of the file (MIME type).',
+    type: 'string',
+  })
   contentType?: string;
 }
 ```

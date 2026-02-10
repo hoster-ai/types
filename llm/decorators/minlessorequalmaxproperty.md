@@ -1,6 +1,6 @@
 # MinLessOrEqualMaxProperty
 
-**Description:** Custom class-validator decorator that ensures minimum values are less than or equal to maximum values for specified property pairs.
+**Description:** Custom class-validator decorator: MinLessOrEqualMaxProperty
 
 **Source:** `decorators/min-less-or-equal.validator.ts`
 

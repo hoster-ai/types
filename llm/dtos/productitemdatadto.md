@@ -9,7 +9,8 @@
 ## Code
 
 ```typescript
-import { IsDefined, IsEnum } from "class-validator";
+import { IsEnum, IsOptional } from "class-validator";
+import { JSONSchema } from 'class-validator-jsonschema';
 import { ProductItemActionsEnum } from "../../enums/item-actions.enum";
 import { ItemDataDto } from "../item-data.dto";
 
@@ -19,9 +20,15 @@ import { ItemDataDto } from "../item-data.dto";
  */
 export class ProductItemDataDto extends ItemDataDto {
   /** Product-specific action type for this item */
-  @IsDefined()
+  @IsOptional()
   @IsEnum(ProductItemActionsEnum)
-  action!: ProductItemActionsEnum;
+  @JSONSchema({
+    title: 'Action',
+    description: 'Product-specific action type for this item.',
+    type: 'string',
+    enum: Object.values(ProductItemActionsEnum),
+  })
+  action?: ProductItemActionsEnum;
 }
 ```
 

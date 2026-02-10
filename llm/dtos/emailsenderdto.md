@@ -19,6 +19,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { AttachmentDto } from '../../attachment.dto';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for email sender
@@ -30,6 +31,11 @@ export class EmailSenderDto {
    */
   @IsNotEmpty()
   @IsString()
+  @JSONSchema({
+    title: 'Full Name',
+    description: 'The full name of the sender.',
+    type: 'string',
+  })
   fullName!: string;
 
   /**
@@ -39,6 +45,13 @@ export class EmailSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 500)
+  @JSONSchema({
+    title: 'Subject',
+    description: 'The email subject.',
+    type: 'string',
+    minLength: 1,
+    maxLength: 500,
+  })
   subject!: string;
 
   /**
@@ -48,6 +61,13 @@ export class EmailSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 50000)
+  @JSONSchema({
+    title: 'Message',
+    description: 'The message content.',
+    type: 'string',
+    minLength: 1,
+    maxLength: 50000,
+  })
   message!: string;
 
   /**
@@ -57,6 +77,12 @@ export class EmailSenderDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => AttachmentDto)
+  @JSONSchema({
+    title: 'Attachments',
+    description: 'File attachments.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/AttachmentDto' },
+  })
   attachments?: AttachmentDto[];
 }
 ```

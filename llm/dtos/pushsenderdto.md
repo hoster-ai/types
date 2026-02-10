@@ -10,6 +10,7 @@
 
 ```typescript
 import { IsString, IsNotEmpty, IsOptional, Length } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for push notification sender
@@ -23,6 +24,13 @@ export class PushSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 255)
+  @JSONSchema({
+    title: 'Message ID',
+    description: 'Unique identifier of the message.',
+    type: 'string',
+    minLength: 1,
+    maxLength: 255,
+  })
   messageId!: string;
 
   /**
@@ -32,6 +40,13 @@ export class PushSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 255)
+  @JSONSchema({
+    title: 'User ID',
+    description: 'The user ID that will receive the push notification.',
+    type: 'string',
+    minLength: 1,
+    maxLength: 255,
+  })
   userId!: string;
 
   /**
@@ -41,6 +56,13 @@ export class PushSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 255)
+  @JSONSchema({
+    title: 'Title',
+    description: 'The title of the push notification.',
+    type: 'string',
+    minLength: 1,
+    maxLength: 255,
+  })
   title!: string;
 
   /**
@@ -50,6 +72,13 @@ export class PushSenderDto {
   @IsNotEmpty()
   @IsString()
   @Length(1, 1000)
+  @JSONSchema({
+    title: 'Message',
+    description: 'The content of the push notification.',
+    type: 'string',
+    minLength: 1,
+    maxLength: 1000,
+  })
   message!: string;
 
   /**
@@ -59,6 +88,13 @@ export class PushSenderDto {
   @IsOptional()
   @IsString()
   @Length(1, 255)
+  @JSONSchema({
+    title: 'Subtitle',
+    description: 'The subtitle of the push notification.',
+    type: 'string',
+    minLength: 1,
+    maxLength: 255,
+  })
   subtitle?: string;
 }
 ```

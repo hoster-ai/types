@@ -187,6 +187,7 @@ describe('ProductInfoDto Validator', () => {
         disabled: false,
         hidden: false,
         upgradable: false,
+        repeatableMin: 1,
       };
 
       const dto = {
@@ -209,7 +210,8 @@ describe('ProductInfoDto Validator', () => {
         required: false,
         disabled: false,
         upgradable: false,
-        hidden: false
+        hidden: false,
+        repeatableMax: 5,
       };
 
       const dto = {
@@ -254,6 +256,8 @@ describe('ProductInfoDto Validator', () => {
         disabled: false,
         hidden: false,
         upgradable: false,
+        repeatableMin: 5,
+        repeatableMax: 2,
       };
 
       const dto = {

@@ -12,7 +12,7 @@ export function validateNotificationRequestDto(
   data: object,
 ): ValidationError[] {
   const dto = plainToInstance(NotificationSendRequestDto, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, { forbidUnknownValues: false });
 
   return errors;
 }

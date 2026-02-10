@@ -1,4 +1,5 @@
 import { ArrayUnique, IsArray, IsPhoneNumber } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for SMS recipients
@@ -12,5 +13,11 @@ export class SmsReceiverDto {
   @IsArray()
   @ArrayUnique()
   @IsPhoneNumber(undefined, { each: true })
+  @JSONSchema({
+    title: 'Receiver Phones',
+    description: 'List of recipient phone numbers.',
+    type: 'array',
+    items: { type: 'string' },
+  })
   receiverPhones!: string[];
 }

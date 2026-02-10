@@ -1,3 +1,14 @@
+# ItemDataDto
+
+**Description:** Represents the data of a specific product item. This DTO is used to transfer detailed information about a product instance.
+
+**Source:** `dtos/item-data.dto.ts`
+
+**Language:** typescript
+
+## Code
+
+```typescript
 import { IsDefined, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 
@@ -132,3 +143,5 @@ export class ItemDataDto {
   })
   discountPrice?: number;
 }
+```
+

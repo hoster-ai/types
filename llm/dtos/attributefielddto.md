@@ -1,3 +1,14 @@
+# AttributeFieldDto
+
+**Description:** Indicates if the field is visible in orders
+
+**Source:** `dtos/attribute-field.dto.ts`
+
+**Language:** typescript
+
+## Code
+
+```typescript
 import { IsBoolean, IsNumber, IsOptional } from "class-validator";
 import { JSONSchema } from 'class-validator-jsonschema';
 import { FieldDto } from "./field.dto";
@@ -56,3 +67,5 @@ export class AttributeFieldDto extends FieldDto {
   })
   repeatableMax?: number;
 }
+```
+

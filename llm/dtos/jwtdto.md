@@ -1,6 +1,6 @@
 # JwtDto
 
-**Description:** DTO for the JWT itself. This is the main DTO used for user authentication and authorization.
+**Description:** DTO for the JWT payload. This defines the structure of the data contained within the JWT.
 
 **Source:** `dtos/jwt.dto.ts`
 
@@ -20,6 +20,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { RolesEnum } from '../enums/roles.enum';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for the JWT payload.
@@ -31,6 +32,11 @@ class JwtPayloadDto {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Integration ID',
+    description: 'The unique identifier for the integration.',
+    type: 'string',
+  })
   integrationId!: string;
 
   /**
@@ -39,6 +45,11 @@ class JwtPayloadDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({
+    title: 'User ID',
+    description: 'The unique identifier for the user who triggered the API call.',
+    type: 'string',
+  })
   userId?: string;
 
   /**
@@ -46,6 +57,11 @@ class JwtPayloadDto {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Company ID',
+    description: 'The unique identifier for the company.',
+    type: 'string',
+  })
   companyId!: string;
 
   /**
@@ -53,6 +69,12 @@ class JwtPayloadDto {
    */
   @IsArray()
   @IsEnum(RolesEnum, { each: true })
+  @JSONSchema({
+    title: 'Accepted Roles',
+    description: 'The roles accepted by the company for this integration.',
+    type: 'array',
+    items: { type: 'string', enum: Object.values(RolesEnum) },
+  })
   acceptedRoles!: RolesEnum[];
 }
 
@@ -67,6 +89,11 @@ export class JwtDto {
   @ValidateNested()
   @Type(() => JwtPayloadDto)
   @IsDefined()
+  @JSONSchema({
+    title: 'JWT',
+    description: 'The JWT payload containing user and company information.',
+    $ref: '#/components/schemas/JwtPayloadDto',
+  })
   jwt!: JwtPayloadDto;
 }
 ```

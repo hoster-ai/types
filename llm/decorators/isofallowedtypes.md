@@ -1,6 +1,6 @@
 # IsOfAllowedTypes
 
-**Description:** Custom class-validator decorator that validates if a value is one of the allowed types with additional constraints.
+**Description:** Custom class-validator decorator: IsOfAllowedTypes
 
 **Source:** `decorators/is-of-allowed-types.validator.ts`
 

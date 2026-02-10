@@ -9,8 +9,9 @@
 ## Code
 
 ```typescript
-import { IsDefined, IsEnum, IsString, IsNotEmpty } from 'class-validator';
+import { IsDefined, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { LanguageEnum } from '../enums/language.enum';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for multilingual text.
@@ -23,6 +24,12 @@ export class MultilangTextDto {
    */
   @IsEnum(LanguageEnum)
   @IsDefined()
+  @JSONSchema({
+    title: 'Language',
+    description: 'The language of the text.',
+    type: 'string',
+    enum: Object.values(LanguageEnum),
+  })
   language!: LanguageEnum;
 
   /**
@@ -30,6 +37,11 @@ export class MultilangTextDto {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Text',
+    description: 'The text content in the specified language.',
+    type: 'string',
+  })
   text!: string;
 }
 ```

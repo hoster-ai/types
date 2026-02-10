@@ -30,8 +30,8 @@ import { ProductUnsuspendResponseDto } from './responses/product-unsuspend-respo
 import { ProductDowngradableResponseDto } from './responses/product-downgradable-response.dto';
 import { ProductDeleteResponseDto } from './responses/product-delete-response.dto';
 import { ProductDeleteRequestDto } from './requests/product-delete-request.dto';
-import { ValidateAttributesRequestDto } from './requests/validate-attributes-request.dto';
-import { ValidateAttributesResponseDto } from './responses/validate-attributes-response.dto';
+import { ValidateAttributesRequestDto } from '../requests/validate-attributes-request.dto';
+import { ValidateAttributesResponseDto } from '../responses/validate-attributes-response.dto';
 import { SetupStatusResponseDto } from '../setup-status-response.dto';
 import { CompanyDataDto } from '../company-data.dto';
 

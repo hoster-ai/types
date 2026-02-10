@@ -1,6 +1,6 @@
 # AtLeastOneNonEmptyProperty
 
-**Description:** Custom class-validator decorator that ensures at least one of the specified properties is non-empty (for arrays or objects).
+**Description:** Custom class-validator decorator: AtLeastOneNonEmptyProperty
 
 **Source:** `decorators/at-least-one-non-empty.validator.ts`
 

@@ -1,5 +1,5 @@
 import { IsArray, IsOptional, ValidateNested, ArrayMinSize, IsEnum, IsNotEmpty } from 'class-validator';
-import { FieldDto } from '../field.dto';
+import { AttributeFieldDto } from '../attribute-field.dto';
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
 import { Type } from 'class-transformer';
@@ -23,15 +23,15 @@ export class ProductInfoDto extends InfoDto {
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
-  @Type(() => FieldDto)
+  @Type(() => AttributeFieldDto)
   @UniqueFieldInArray('id')
   @JSONSchema({
     title: 'Product Attributes',
     description: 'Configurable attributes that apply at the product level.',
     type: 'array',
-    items: { $ref: '#/components/schemas/FieldDto' }
+    items: { $ref: '#/components/schemas/AttributeFieldDto' }
   })
-  productAttributes?: FieldDto[];
+  productAttributes?: AttributeFieldDto[];
 
   /**
    * Custom attributes that can be defined for items.
@@ -41,15 +41,15 @@ export class ProductInfoDto extends InfoDto {
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
-  @Type(() => FieldDto)
+  @Type(() => AttributeFieldDto)
   @UniqueFieldInArray('id')
   @JSONSchema({
     title: 'Item Attributes',
     description: 'Configurable attributes that apply at the item level.',
     type: 'array',
-    items: { $ref: '#/components/schemas/FieldDto' }
+    items: { $ref: '#/components/schemas/AttributeFieldDto' }
   })
-  itemAttributes?: FieldDto[];
+  itemAttributes?: AttributeFieldDto[];
 
   /**
    * Defines the units for pay-per-use billing.
@@ -98,5 +98,5 @@ export class ProductInfoDto extends InfoDto {
     type: 'array',
     items: { type: 'string', enum: Object.values(ProductItemActionsEnum) }
   })
-  supportedTypes: ProductItemActionsEnum[] = [];
+  supportedActions: ProductItemActionsEnum[] = [];
 }

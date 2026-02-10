@@ -10,6 +10,7 @@
 
 ```typescript
 import { IsString, IsPhoneNumber, IsNotEmpty } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for SMS sender
@@ -22,6 +23,11 @@ export class SmsSenderDto {
    */
   @IsNotEmpty()
   @IsPhoneNumber()
+  @JSONSchema({
+    title: 'Sender Phone',
+    description: 'Sender\'s phone number.',
+    type: 'string',
+  })
   senderPhone!: string;
 
   /**
@@ -29,6 +35,11 @@ export class SmsSenderDto {
    */
   @IsNotEmpty()
   @IsString()
+  @JSONSchema({
+    title: 'Message',
+    description: 'The content of the SMS message.',
+    type: 'string',
+  })
   message!: string;
 }
 ```

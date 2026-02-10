@@ -1,5 +1,6 @@
 import { IsBoolean, IsDefined, IsEnum, IsOptional, IsString } from 'class-validator';
 import { CountryEnum } from '../../../enums/country.enum';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * Request payload for calculating tax details.
@@ -11,6 +12,12 @@ export class TaxDetailsRequestDto {
    */
   @IsDefined()
   @IsEnum(CountryEnum)
+  @JSONSchema({
+    title: 'Company Country',
+    description: 'Country where the company is registered.',
+    type: 'string',
+    enum: Object.values(CountryEnum),
+  })
   companyCountry!: CountryEnum;
 
   /**
@@ -18,6 +25,12 @@ export class TaxDetailsRequestDto {
    */
   @IsDefined()
   @IsEnum(CountryEnum)
+  @JSONSchema({
+    title: 'Customer Country',
+    description: 'Country where the customer is located.',
+    type: 'string',
+    enum: Object.values(CountryEnum),
+  })
   customerCountry!: CountryEnum;
 
   /**
@@ -25,6 +38,11 @@ export class TaxDetailsRequestDto {
    */
   @IsDefined()
   @IsString()
+  @JSONSchema({
+    title: 'Customer TIN',
+    description: 'Customer\'s Tax Identification Number.',
+    type: 'string',
+  })
   customerTIN!: string;
 
   /**
@@ -32,6 +50,11 @@ export class TaxDetailsRequestDto {
    */
   @IsOptional()
   @IsString()
+  @JSONSchema({
+    title: 'Customer Postal Code',
+    description: 'Customer\'s postal code.',
+    type: 'string',
+  })
   customerPostalCode?: string;
 
   /**
@@ -39,6 +62,11 @@ export class TaxDetailsRequestDto {
    */
   @IsOptional()
   @IsString()
+  @JSONSchema({
+    title: 'Customer State',
+    description: 'Customer\'s state or province.',
+    type: 'string',
+  })
   customerState?: string;
 
   /**
@@ -46,5 +74,10 @@ export class TaxDetailsRequestDto {
    */
   @IsOptional()
   @IsBoolean()
+  @JSONSchema({
+    title: 'Validated Address',
+    description: 'Whether the customer address has been validated.',
+    type: 'boolean',
+  })
   validatedAddress?: boolean;
 }

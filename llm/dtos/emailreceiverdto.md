@@ -16,6 +16,7 @@ import {
   IsNotEmpty,
   IsOptional,
 } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for email recipients
@@ -27,6 +28,12 @@ export class EmailReceiverDto {
    */
   @IsNotEmpty()
   @IsEmail()
+  @JSONSchema({
+    title: 'To',
+    description: 'The main email address.',
+    type: 'string',
+    format: 'email',
+  })
   to!: string;
 
   /**
@@ -37,6 +44,12 @@ export class EmailReceiverDto {
   @IsArray()
   @IsEmail({}, { each: true })
   @ArrayUnique()
+  @JSONSchema({
+    title: 'CC',
+    description: 'List of email addresses for carbon copy.',
+    type: 'array',
+    items: { type: 'string', format: 'email' },
+  })
   cc?: string[];
 
   /**
@@ -47,6 +60,12 @@ export class EmailReceiverDto {
   @IsArray()
   @IsEmail({}, { each: true })
   @ArrayUnique()
+  @JSONSchema({
+    title: 'BCC',
+    description: 'List of email addresses for blind carbon copy.',
+    type: 'array',
+    items: { type: 'string', format: 'email' },
+  })
   bcc?: string[];
 }
 ```

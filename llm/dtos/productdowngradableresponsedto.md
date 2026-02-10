@@ -2,7 +2,7 @@
 
 **Description:** Represents the response for a product Downgradable check. It indicates whether a product item is Downgradable and may contain additional data.
 
-**Source:** `dtos/product/responses/product-Downgradable-response.dto.ts`
+**Source:** `dtos/product/responses/product-downgradable-response.dto.ts`
 
 **Language:** typescript
 

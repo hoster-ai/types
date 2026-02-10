@@ -1,6 +1,6 @@
 # InfoDto
 
-**Description:** DTO for integration information. Central DTO including UI configuration, supported features, and billing details.
+**Description:** DTO for integration information. This is a central DTO that contains all the necessary information for a service integration, including UI configuration, supported features, and billing details.
 
 **Source:** `dtos/info.dto.ts`
 
@@ -9,14 +9,21 @@
 ## Code
 
 ```typescript
-import { ActionsEnum } from '../enums/actions.enum';
+import { ProductItemActionsEnum } from '../enums/item-actions.enum';
 import { EventsEnum } from '../enums/events.enum';
 import { LanguageEnum } from '../enums/language.enum';
 import { RolesEnum } from '../enums/roles.enum';
+// import { ActionDto } from './action.dto';
+// import { TabDto } from './tab.dto';
+// import { MenuDtoWithSubmenu, MenuDtoWithUrl } from './menu.dto';
 import { IsString, IsUrl, IsOptional, ValidateNested, IsArray, ArrayMinSize, IsEnum, IsNotEmpty, IsDefined } from 'class-validator';
 import { Type } from 'class-transformer';
 import { AdminPanelDto } from './admin-panel.dto';
 import { ClientPanelDto } from './client-panel.dto';
+import { JSONSchema } from 'class-validator-jsonschema';
+import { FieldDto } from './field.dto';
+import { UniqueFieldInArray } from '../decorators/unique-field-in-array.validator';
+import { InvoiceTypesEnum } from '../enums/invoice/invoice-types.enum';
 
 /**
  * DTO for integration information.
@@ -31,6 +38,12 @@ export class InfoDto {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Title',
+    description: 'Integration display title.',
+    type: 'string',
+    example: 'Example Product'
+  })
   title!: string;
 
   /**
@@ -39,6 +52,13 @@ export class InfoDto {
    */
   @IsUrl({ protocols: ['https'], require_protocol: true })
   @IsOptional()
+  @JSONSchema({
+    title: 'Logo URL',
+    description: 'Public HTTPS URL for the integration logo.',
+    type: 'string',
+    format: 'uri',
+    example: 'https://cdn.example.com/logo.png'
+  })
   logo?: string;
 
   /**
@@ -47,6 +67,12 @@ export class InfoDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({
+    title: 'Description',
+    description: 'Short description of the integration.',
+    type: 'string',
+    example: 'An example product integration.'
+  })
   description?: string;
 
   /**
@@ -56,15 +82,32 @@ export class InfoDto {
   @IsArray()
   @IsEnum(LanguageEnum, { each: true })
   @ArrayMinSize(1)
+  @JSONSchema({
+    title: 'Supported Languages',
+    description: 'Locales supported by the integration.',
+    type: 'array',
+    items: { type: 'string', enum: Object.values(LanguageEnum) },
+    example: ['EN']
+  })
   supportedLanguages!: LanguageEnum[];
 
   /**
    * A list of actions that are supported by this integration.
    */
+  //TODO Να φυγει απο εδω 
   @IsOptional()
   @IsArray()
-  @IsEnum(ActionsEnum, { each: true })
-  supportedActions?: ActionsEnum[] = [];
+  @IsEnum(ProductItemActionsEnum, { each: true })
+  @JSONSchema({
+    title: 'Supported Actions',
+    description: 'Actions supported by this integration.',
+    type: 'array',
+    oneOf: [
+      { type: 'string', enum: Object.values(ProductItemActionsEnum) },
+      { type: 'string', enum: Object.values(InvoiceTypesEnum) }
+    ]
+  })
+  supportedTypes?: ProductItemActionsEnum[] | InvoiceTypesEnum[] = [];
 
   /**
    * A list of events that the integration listens to.
@@ -74,6 +117,12 @@ export class InfoDto {
   @IsArray()
   @IsEnum(EventsEnum, { each: true })
   @ArrayMinSize(1)
+  @JSONSchema({
+    title: 'Listen Events',
+    description: 'Platform events the integration can subscribe to.',
+    type: 'array',
+    items: { type: 'string', enum: Object.values(EventsEnum) }
+  })
   listenEvents?: EventsEnum[];
 
   /**
@@ -83,6 +132,12 @@ export class InfoDto {
   @IsArray()
   @IsEnum(RolesEnum, { each: true })
   @ArrayMinSize(1)
+  @JSONSchema({
+    title: 'Required Roles',
+    description: 'Roles required for this integration to operate.',
+    type: 'array',
+    items: { type: 'string', enum: Object.values(RolesEnum) }
+  })
   requiredRoles?: RolesEnum[];
 
   /**
@@ -92,6 +147,11 @@ export class InfoDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => AdminPanelDto)
+  @JSONSchema({
+    title: 'Admin Panel',
+    description: 'Admin UI links, tabs, and actions provided by the integration.',
+    type: 'object'
+  })
   adminPanel?: AdminPanelDto;
 
   /**
@@ -101,6 +161,11 @@ export class InfoDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => ClientPanelDto)
+  @JSONSchema({
+    title: 'Client Panel',
+    description: 'Client UI links, tabs, and actions provided by the integration.',
+    type: 'object'
+  })
   clientPanel?: ClientPanelDto;
 
   /**
@@ -109,17 +174,28 @@ export class InfoDto {
    */
   @IsOptional()
   @IsUrl({ protocols: ['https'], require_protocol: true })
+  @JSONSchema({
+    title: 'Onboarding URL',
+    description: 'URL to onboard/configure the integration.',
+    type: 'string',
+    format: 'uri',
+    example: 'https://example.com/onboarding'
+  })
   onboardingUrl?: string;
 
-  /**
-   * Configuration for setup attributes that can be defined during the setup process.
-   * These attributes will be displayed in the setup wizard.
-   */
+
   @IsOptional()
   @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => FieldDto)
   @UniqueFieldInArray('id')
+  @JSONSchema({
+    title: 'Setup Attributes',
+    description: 'Configurable attributes that are used in the setup process.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/FieldDto' }
+  })
   setupAttributes?: FieldDto[];
 }
 ```

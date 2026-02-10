@@ -46,9 +46,11 @@ export * from './dtos/invoice/invoice-item-data.dto';
 export * from './dtos/invoice/requests/invoice-request.dto';
 export * from './dtos/invoice/requests/credit-note-request.dto';
 export * from './dtos/invoice/requests/proforma-invoice-request.dto';
+export * from './dtos/invoice/requests/tax-details-request.dto';
 export * from './dtos/invoice/responses/invoice-response.dto';
 export * from './dtos/invoice/responses/credit-note-response.dto';
 export * from './dtos/invoice/responses/proforma-invoice-response.dto';
+export * from './dtos/invoice/responses/tax-details-response.dto';
 export * from './dtos/invoice/tin-validation-details.dto';
 
 // Product DTOs

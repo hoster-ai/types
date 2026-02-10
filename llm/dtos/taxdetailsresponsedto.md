@@ -11,6 +11,7 @@
 ```typescript
 import { Type } from 'class-transformer';
 import { IsBoolean, IsDefined, IsNumber, IsObject, IsOptional, ValidateNested } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 import { BaseResponse } from '../../base-response.dto';
 import { TINValidationDetails } from '../tin-validation-details.dto';
 
@@ -24,6 +25,11 @@ export class TaxDetailsResponseDto extends BaseResponse {
    */
   @IsDefined()
   @IsNumber()
+  @JSONSchema({
+    title: 'VAT Rate',
+    description: 'The applicable VAT rate for the transaction.',
+    type: 'number',
+  })
   vatRate!: number;
 
   /**
@@ -31,6 +37,11 @@ export class TaxDetailsResponseDto extends BaseResponse {
    */
   @IsOptional()
   @IsBoolean()
+  @JSONSchema({
+    title: 'TIN Valid',
+    description: 'Whether the Tax Identification Number is valid.',
+    type: 'boolean',
+  })
   TINValid?: boolean;
 
   /**
@@ -40,6 +51,11 @@ export class TaxDetailsResponseDto extends BaseResponse {
   @IsObject()
   @ValidateNested()
   @Type(() => TINValidationDetails)
+  @JSONSchema({
+    title: 'Tax Details',
+    description: 'Detailed tax validation information including company details.',
+    $ref: '#/components/schemas/TINValidationDetails',
+  })
   taxDetails?: TINValidationDetails;
 }
 ```

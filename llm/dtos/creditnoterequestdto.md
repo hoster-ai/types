@@ -10,6 +10,7 @@
 
 ```typescript
 import { IsOptional, IsString } from "class-validator";
+import { JSONSchema } from 'class-validator-jsonschema';
 import { ProformaInvoiceRequestDto } from "./proforma-invoice-request.dto";
 
 /**
@@ -20,6 +21,11 @@ export class CreditNoteRequestDto extends ProformaInvoiceRequestDto {
   /** Reference to the parent invoice being credited */
   @IsOptional()
   @IsString()
+  @JSONSchema({
+    title: 'Parent Invoice ID',
+    description: 'Reference to the parent invoice being credited.',
+    type: 'string',
+  })
   parentInvoiceId!: string;
 }
 ```

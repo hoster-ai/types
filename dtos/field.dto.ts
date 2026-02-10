@@ -15,8 +15,6 @@ import { FieldTypeEnum } from '../enums/field-type.enum';
 import { MultilangTextDto } from './multilang-text.dto';
 import { FieldOptionDto } from './field-option.dto';
 import { IsRegex } from '../decorators/is-regex.validator';
-import { AllOrNoneProperty } from '../decorators/all-or-none.validator';
-import { MinLessOrEqualMaxProperty } from '../decorators/min-less-or-equal.validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
@@ -24,8 +22,6 @@ import { JSONSchema } from 'class-validator-jsonschema';
  * This class defines the structure and properties of a single field
  * that can be used in a user interface form.
  */
-@AllOrNoneProperty(['repeatableMin', 'repeatableMax'])
-@MinLessOrEqualMaxProperty(['repeatableMin', 'repeatableMax'])
 export class FieldDto {
   /**
    * ID of action field
@@ -110,7 +106,26 @@ export class FieldDto {
     description: 'Whether the field is required.',
     type: 'boolean',
   })
-  required!: boolean;
+  required?: boolean;
+
+  /**
+   * Indicates if the field is disabled
+   */
+  @IsBoolean()
+  @IsDefined()
+  @JSONSchema({
+    title: 'Disabled',
+    description: 'Whether the field is disabled.',
+    type: 'boolean',
+  })
+  disabled?: boolean;
+
+  /**
+   * Indicates if the field is hidden
+   */
+  @IsBoolean()
+  @IsOptional()
+  hidden?: boolean;
 
 
   /**
@@ -133,6 +148,8 @@ export class FieldDto {
   @ValidateIf((o) => !!o.regexValidation)
   @ValidateNested({ each: true })
   @Type(() => MultilangTextDto)
+  @IsArray()
+  @ArrayMinSize(1)
   @IsOptional()
   @JSONSchema({
     title: 'Regex Validation Error Message',
@@ -143,12 +160,36 @@ export class FieldDto {
   regexValidationErrorMessage?: MultilangTextDto[];
 
   /**
+   * Whether remote validation should be triggered
+   */
+  @IsBoolean()
+  @IsOptional()
+  triggersRemoteValidation?: boolean;
+
+  /**
+   * Remote validation error message for supported languages
+   */
+  @ValidateIf((o) => !!o.triggersRemoteValidation)
+  @ValidateNested({ each: true })
+  @Type(() => MultilangTextDto)
+  @IsArray()
+  @ArrayMinSize(1)
+  @IsOptional()
+  @JSONSchema({
+    title: 'Remote Validation Error Message',
+    description: 'Localized error message shown when remote validation fails.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/MultilangTextDto' },
+  })
+  remoteValidationErrorMessage?: MultilangTextDto[];
+
+  /**
    * The item attribute is upgradable
    * If the user has the permission to upgrade the item from his panel
    * TODO: Let's see if this approach is the best way for the user to upgrade their item
    */
   @IsBoolean()
-  @IsDefined()
+  @IsOptional()
   @JSONSchema({
     title: 'Upgradable',
     description: 'Whether the item attribute is upgradable by the user.',
@@ -156,8 +197,8 @@ export class FieldDto {
   })
   upgradable?: boolean = false;
 
-    @IsBoolean()
-  @IsDefined()
+  @IsBoolean()
+  @IsOptional()
   @JSONSchema({
     title: 'Downgradable',
     description: 'Whether the item attribute is downgradable by the user.',

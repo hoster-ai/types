@@ -1,4 +1,5 @@
 import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 import { Type } from 'class-transformer';
 import { ProductItemDataDto } from '../product-item-data.dto';
 import { ClientDataDto } from '../../client-data.dto';
@@ -16,6 +17,11 @@ export class ProductUpgradeRequestDto {
   @IsObject()
   @ValidateNested()
   @Type(() => ClientDataDto)
+  @JSONSchema({
+    title: 'Client Data',
+    description: 'The client\'s data for the request.',
+    $ref: '#/components/schemas/ClientDataDto',
+  })
   clientData!: ClientDataDto;
 
   /**
@@ -26,6 +32,11 @@ export class ProductUpgradeRequestDto {
   @IsObject()
   @ValidateNested()
   @Type(() => ProductItemDataDto)
+  @JSONSchema({
+    title: 'Item Data',
+    description: 'The data of the product item to be upgraded.',
+    $ref: '#/components/schemas/ProductItemDataDto',
+  })
   itemData!: ProductItemDataDto;
 
   /**
@@ -37,5 +48,10 @@ export class ProductUpgradeRequestDto {
   @IsObject()
   @ValidateNested()
   @Type(() => ProductItemDataDto)
+  @JSONSchema({
+    title: 'Previous Item Data',
+    description: 'The data of the product item before the upgrade.',
+    $ref: '#/components/schemas/ProductItemDataDto',
+  })
   previousItemData?: ProductItemDataDto;
 }

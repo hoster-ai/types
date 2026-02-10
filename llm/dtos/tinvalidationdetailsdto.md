@@ -1,3 +1,14 @@
+# TINValidationDetails
+
+**Description:** Contains detailed Tax Identification Number validation information. Includes company details and address information from tax authority validation.
+
+**Source:** `dtos/invoice/tin-validation-details.dto.ts`
+
+**Language:** typescript
+
+## Code
+
+```typescript
 import { IsDefined, IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { CountryEnum } from '../../enums/country.enum';
 import { JSONSchema } from 'class-validator-jsonschema';
@@ -172,3 +183,5 @@ export class TINValidationDetails {
   })
   profession?: string[];
 }
+```
+

@@ -1,6 +1,6 @@
 # AllOrNoneProperty
 
-**Description:** Custom class-validator decorator that ensures specified properties are either all present or all absent together.
+**Description:** Custom class-validator decorator: AllOrNoneProperty
 
 **Source:** `decorators/all-or-none.validator.ts`
 
