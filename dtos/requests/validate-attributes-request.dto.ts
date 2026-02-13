@@ -1,4 +1,5 @@
 import { IsDefined, IsObject, IsString } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * Represents a request to validate attributes.
@@ -13,6 +14,11 @@ export class ValidateAttributesRequestDto {
    */
   @IsDefined()
   @IsString()
+  @JSONSchema({
+    title: 'Triggered By Key',
+    description: 'The key of the attribute that triggered the validation.',
+    type: 'string',
+  })
   triggeredByKey!: string;
 
   /**
@@ -21,5 +27,11 @@ export class ValidateAttributesRequestDto {
    */
   @IsDefined()
   @IsObject()
+  @JSONSchema({
+    title: 'Attribute Values',
+    description: 'A record of attribute values to be validated.',
+    type: 'object',
+    additionalProperties: true,
+  })
   attributeValues!: Record<string, unknown>;
 }

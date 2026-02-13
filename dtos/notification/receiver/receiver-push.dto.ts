@@ -5,7 +5,6 @@ import {
   IsNotEmpty,
   IsString,
 } from 'class-validator';
-import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for push notification recipients
@@ -17,11 +16,6 @@ export class PushReceiverDto {
    */
   @IsNotEmpty()
   @IsString()
-  @JSONSchema({
-    title: 'User ID',
-    description: 'The user ID that will receive the push notification.',
-    type: 'string',
-  })
   userId!: string;
 
   /**
@@ -31,12 +25,5 @@ export class PushReceiverDto {
   @IsArray()
   @ArrayNotEmpty()
   @ArrayMinSize(1)
-  @JSONSchema({
-    title: 'Device Tokens',
-    description: 'List of user device tokens.',
-    type: 'array',
-    items: { type: 'string' },
-    minItems: 1,
-  })
   deviceTokens!: string[];
 }

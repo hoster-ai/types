@@ -19,8 +19,8 @@ export class ProductDeleteRequestDto {
   @Type(() => ClientDataDto)
   @JSONSchema({
     title: 'Client Data',
-    description: 'The client\'s data for the request.',
-    $ref: '#/components/schemas/ClientDataDto',
+    description: 'The client\'s data initiating the request.',
+    type: 'object',
   })
   clientData!: ClientDataDto;
 
@@ -35,7 +35,7 @@ export class ProductDeleteRequestDto {
   @JSONSchema({
     title: 'Item Data',
     description: 'The data of the product item to be deleted.',
-    $ref: '#/components/schemas/ProductItemDataDto',
+    type: 'object',
   })
   itemData!: ProductItemDataDto;
 }

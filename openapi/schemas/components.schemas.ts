@@ -3,7 +3,9 @@ export const ComponentsSchemas = {
     "properties": {
       "name": {
         "minLength": 1,
-        "type": "string"
+        "type": "string",
+        "title": "Name",
+        "description": "Country name."
       },
       "code": {
         "enum": [
@@ -257,10 +259,14 @@ export const ComponentsSchemas = {
           "TO",
           "TT"
         ],
-        "type": "string"
+        "type": "string",
+        "title": "Code",
+        "description": "Country code."
       },
       "isEurope": {
-        "type": "boolean"
+        "type": "boolean",
+        "title": "Is Europe",
+        "description": "Whether the country is in Europe."
       }
     },
     "type": "object",
@@ -938,11 +944,15 @@ export const ComponentsSchemas = {
           "ZA",
           "ZU"
         ],
-        "type": "string"
+        "type": "string",
+        "title": "Language",
+        "description": "The language of the text."
       },
       "text": {
         "minLength": 1,
-        "type": "string"
+        "type": "string",
+        "title": "Text",
+        "description": "The text content in the specified language."
       }
     },
     "type": "object",
@@ -1036,6 +1046,14 @@ export const ComponentsSchemas = {
         "title": "Required",
         "description": "Whether the field is required."
       },
+      "disabled": {
+        "type": "boolean",
+        "title": "Disabled",
+        "description": "Whether the field is disabled."
+      },
+      "hidden": {
+        "type": "boolean"
+      },
       "regexValidation": {
         "type": "string",
         "title": "Regex Validation",
@@ -1046,9 +1064,22 @@ export const ComponentsSchemas = {
         "items": {
           "$ref": "#/components/schemas/MultilangTextDto"
         },
+        "minItems": 1,
         "type": "array",
         "title": "Regex Validation Error Message",
         "description": "Localized error message shown when regex validation fails."
+      },
+      "triggersRemoteValidation": {
+        "type": "boolean"
+      },
+      "remoteValidationErrorMessage": {
+        "items": {
+          "$ref": "#/components/schemas/MultilangTextDto"
+        },
+        "minItems": 1,
+        "type": "array",
+        "title": "Remote Validation Error Message",
+        "description": "Localized error message shown when remote validation fails."
       },
       "upgradable": {
         "type": "boolean",
@@ -1068,8 +1099,7 @@ export const ComponentsSchemas = {
       "value",
       "type",
       "required",
-      "upgradable",
-      "downgradable"
+      "disabled"
     ]
   },
   "InfoDto": {
@@ -1290,49 +1320,6 @@ export const ComponentsSchemas = {
         "description": "Locales supported by the integration.",
         "example": [
           "EN"
-        ]
-      },
-      "supportedTypes": {
-        "items": {
-          "enum": [
-            "create",
-            "renew",
-            "upgrade",
-            "downgrade",
-            "transfer",
-            "trade",
-            "suspend",
-            "unsuspend",
-            "delete"
-          ],
-          "type": "string"
-        },
-        "type": "array",
-        "title": "Supported Actions",
-        "description": "Actions supported by this integration.",
-        "oneOf": [
-          {
-            "type": "string",
-            "enum": [
-              "create",
-              "renew",
-              "upgrade",
-              "downgrade",
-              "transfer",
-              "trade",
-              "suspend",
-              "unsuspend",
-              "delete"
-            ]
-          },
-          {
-            "type": "string",
-            "enum": [
-              "invoice",
-              "credit-note",
-              "proforma"
-            ]
-          }
         ]
       },
       "listenEvents": {
@@ -1896,49 +1883,6 @@ export const ComponentsSchemas = {
           "EN"
         ]
       },
-      "supportedTypes": {
-        "items": {
-          "enum": [
-            "create",
-            "renew",
-            "upgrade",
-            "downgrade",
-            "transfer",
-            "trade",
-            "suspend",
-            "unsuspend",
-            "delete"
-          ],
-          "type": "string"
-        },
-        "type": "array",
-        "title": "Supported Actions",
-        "description": "Actions supported by this integration.",
-        "oneOf": [
-          {
-            "type": "string",
-            "enum": [
-              "create",
-              "renew",
-              "upgrade",
-              "downgrade",
-              "transfer",
-              "trade",
-              "suspend",
-              "unsuspend",
-              "delete"
-            ]
-          },
-          {
-            "type": "string",
-            "enum": [
-              "invoice",
-              "credit-note",
-              "proforma"
-            ]
-          }
-        ]
-      },
       "listenEvents": {
         "items": {
           "enum": [
@@ -2224,11 +2168,148 @@ export const ComponentsSchemas = {
       "supportedLanguages"
     ]
   },
+  "AttributeFieldDto": {
+    "properties": {
+      "visibleInOrder": {
+        "type": "boolean",
+        "title": "Visible In Order",
+        "description": "Whether the field is visible in order view."
+      },
+      "visibleInClientPanel": {
+        "type": "boolean",
+        "title": "Visible In Client Panel",
+        "description": "Whether the field is visible in the client panel."
+      },
+      "repeatableMin": {
+        "type": "number",
+        "title": "Repeatable Min",
+        "description": "Minimum repeats for repeatable fields."
+      },
+      "repeatableMax": {
+        "type": "number",
+        "title": "Repeatable Max",
+        "description": "Maximum repeats for repeatable fields."
+      },
+      "id": {
+        "type": "string",
+        "title": "ID",
+        "description": "Unique identifier for the field."
+      },
+      "label": {
+        "items": {
+          "$ref": "#/components/schemas/MultilangTextDto"
+        },
+        "minItems": 1,
+        "type": "array",
+        "title": "Label",
+        "description": "Multilingual label for the field."
+      },
+      "value": {
+        "title": "Value",
+        "description": "Value of the field. String/Number, or FieldOptionDto/FieldOptionDto[] depending on type.",
+        "oneOf": [
+          {
+            "title": "String",
+            "type": "string"
+          },
+          {
+            "title": "Number",
+            "type": "number"
+          },
+          {
+            "title": "Option",
+            "$ref": "#/components/schemas/FieldOptionDto"
+          },
+          {
+            "title": "Options Array",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldOptionDto"
+            }
+          }
+        ]
+      },
+      "type": {
+        "enum": [
+          "TEXT_BOX",
+          "TEXT_AREA",
+          "SELECT",
+          "MULTI_SELECT",
+          "DESCRIPTION",
+          "RADIO_BOX",
+          "CHECKBOX",
+          "SLIDER"
+        ],
+        "type": "string",
+        "title": "Field Type",
+        "description": "Type of the field."
+      },
+      "required": {
+        "type": "boolean",
+        "title": "Required",
+        "description": "Whether the field is required."
+      },
+      "disabled": {
+        "type": "boolean",
+        "title": "Disabled",
+        "description": "Whether the field is disabled."
+      },
+      "hidden": {
+        "type": "boolean"
+      },
+      "regexValidation": {
+        "type": "string",
+        "title": "Regex Validation",
+        "description": "Optional regex to validate input.",
+        "example": "^[A-Za-z0-9_-]+$"
+      },
+      "regexValidationErrorMessage": {
+        "items": {
+          "$ref": "#/components/schemas/MultilangTextDto"
+        },
+        "minItems": 1,
+        "type": "array",
+        "title": "Regex Validation Error Message",
+        "description": "Localized error message shown when regex validation fails."
+      },
+      "triggersRemoteValidation": {
+        "type": "boolean"
+      },
+      "remoteValidationErrorMessage": {
+        "items": {
+          "$ref": "#/components/schemas/MultilangTextDto"
+        },
+        "minItems": 1,
+        "type": "array",
+        "title": "Remote Validation Error Message",
+        "description": "Localized error message shown when remote validation fails."
+      },
+      "upgradable": {
+        "type": "boolean",
+        "title": "Upgradable",
+        "description": "Whether the item attribute is upgradable by the user."
+      },
+      "downgradable": {
+        "type": "boolean",
+        "title": "Downgradable",
+        "description": "Whether the item attribute is downgradable by the user."
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "label",
+      "value",
+      "type",
+      "required",
+      "disabled"
+    ]
+  },
   "ProductInfoDto": {
     "properties": {
       "productAttributes": {
         "items": {
-          "$ref": "#/components/schemas/FieldDto"
+          "$ref": "#/components/schemas/AttributeFieldDto"
         },
         "type": "array",
         "minItems": 1,
@@ -2237,7 +2318,7 @@ export const ComponentsSchemas = {
       },
       "itemAttributes": {
         "items": {
-          "$ref": "#/components/schemas/FieldDto"
+          "$ref": "#/components/schemas/AttributeFieldDto"
         },
         "type": "array",
         "minItems": 1,
@@ -2272,7 +2353,7 @@ export const ComponentsSchemas = {
           "status_text": "status"
         }
       },
-      "supportedTypes": {
+      "supportedActions": {
         "items": {
           "enum": [
             "create",
@@ -2790,6 +2871,7 @@ export const ComponentsSchemas = {
     },
     "type": "object",
     "required": [
+      "supportedActions",
       "title",
       "supportedLanguages"
     ]

@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import { ValidateNested } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 import { BaseResponse } from '../../base-response.dto';
 import { ProductInfoDto } from '../product-info.dto';
 
@@ -14,5 +15,10 @@ export class ProductInfoResponseDto extends BaseResponse {
    */
   @ValidateNested()
   @Type(() => ProductInfoDto)
+  @JSONSchema({
+    title: 'Info',
+    description: 'The detailed information of the product.',
+    type: 'object',
+  })
   info!: ProductInfoDto;
 }
