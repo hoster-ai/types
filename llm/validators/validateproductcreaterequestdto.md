@@ -23,7 +23,7 @@ export const validateProductCreateRequestDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const request = plainToInstance(ProductCreateRequestDto, plainObject);
-  return await validate(request);
+  return await validate(request, { skipMissingProperties: true });
 };
 ```
 

@@ -2,7 +2,7 @@
 
 **Description:** Represents a request to validate product attributes. This DTO is used when a client needs to check the validity of a set of attribute values before proceeding with an action, such as creating or updating a product.
 
-**Source:** `dtos/product/requests/product-validate-attributes-request.dto.ts`
+**Source:** `dtos/requests/validate-attributes-request.dto.ts`
 
 **Language:** typescript
 
@@ -10,6 +10,7 @@
 
 ```typescript
 import { IsDefined, IsObject, IsString } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * Represents a request to validate attributes.
@@ -24,6 +25,11 @@ export class ValidateAttributesRequestDto {
    */
   @IsDefined()
   @IsString()
+  @JSONSchema({
+    title: 'Triggered By Key',
+    description: 'The key of the attribute that triggered the validation.',
+    type: 'string',
+  })
   triggeredByKey!: string;
 
   /**
@@ -32,7 +38,13 @@ export class ValidateAttributesRequestDto {
    */
   @IsDefined()
   @IsObject()
-  values!: Record<string, unknown>;
+  @JSONSchema({
+    title: 'Attribute Values',
+    description: 'A record of attribute values to be validated.',
+    type: 'object',
+    additionalProperties: true,
+  })
+  attributeValues!: Record<string, unknown>;
 }
 ```
 

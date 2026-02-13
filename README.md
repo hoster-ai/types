@@ -78,7 +78,6 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `success-response.dto.ts`: Defines the structure for successful API responses.
 - `tab.dto.ts`: Represents a tab in a user interface.
 - `submenu.dto.ts`: Represents a submenu item.
-- `task-response.dto.ts`: DTO for responses related to background tasks.
 - `unit.dto.ts`: Represents a unit for pay-per-use billing.
 
 **Notification DTOs:**
@@ -93,11 +92,15 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `notification/sender/sender-push.dto.ts`: Defines the sender for a push notification.
 - `notification/sender/sender-sms.dto.ts`: Defines the sender for an SMS notification.
 
+**General Request/Response DTOs:**
+
+- `requests/validate-attributes-request.dto.ts`: Defines the structure for validating product attributes.
+- `responses/validate-attributes-response.dto.ts`: Response from validating product attributes.
+
 **Product DTOs:**
 
 - `product/product-info.dto.ts`: Contains detailed information about a product. Uses `AttributeFieldDto` for product/item attributes.
 - `product/product-item-data.dto.ts`: Extends `ItemDataDto` with product-specific action type.
-- `product/requests/product-validate-attributes-request.dto.ts`: Defines the structure for validating product attributes.
 - `product/requests/*`: DTOs for product-related requests (create, delete, upgrade, downgrade, renew, suspend, unsuspend, upgradable, downgradable).
 - `product/responses/*`: DTOs for product-related responses.
 
@@ -122,7 +125,9 @@ Enums provide a set of named constants for common types, preventing errors with 
 
 **Key Enums:**
 
-- `ActionsEnum`: Defines possible actions.
+- `ProductItemActionsEnum`: Defines possible product item actions (create, renew, upgrade, downgrade, etc.).
+- `InvoiceItemActionsEnum`: Defines possible invoice item actions (create, renew, upgrade, downgrade, transfer, trade).
+- `InvoiceTypesEnum`: Defines invoice document types (invoice, credit-note, proforma).
 - `CountryEnum`: A list of all countries.
 - `DurationEnum`: Defines billing durations (e.g., `MONTHLY`, `YEARLY`).
 - `EventsEnum`: Defines triggerable events.
@@ -164,7 +169,14 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateJwtDto`: Validates JWT data.
 - `validateMultilangTextDto`: Validates multilingual text objects.
 - `validateUnitDto`: Validates billing unit data.
-- `validateAttributesDto`: Validates attributes.
+- `validateAttachmentDto`: Validates file attachments.
+- `validateAttributeFieldDto`: Validates attribute fields.
+- `validateAddonFieldDto`: Validates addon fields.
+- `validateCountryDto`: Validates country data.
+- `validateTabDto`: Validates tab data.
+- `validateItemDataDto`: Validates item data.
+- `validateProductItemDataDto`: Validates product item data.
+- `validateInfoDto`: Validates integration info.
 
 **Panel Validators:**
 - `validateAdminPanelDto`: Validates admin panel configuration.
@@ -184,6 +196,13 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateEmailReceiverDto`, `validateSmsReceiverDto`, `validatePushReceiverDto`: Validators for notification receivers.
 - `validateEmailSenderDto`, `validateSmsSenderDto`, `validatePushSenderDto`: Validators for notification senders.
 
+**Invoice Validators:**
+- `validateInvoiceInfoDto`: Validates invoice integration info.
+- `validateInvoiceContactDataDto`: Validates invoice contact data.
+- `validateInvoiceItemDataDto`: Validates invoice item data.
+- `validateTinValidationDetailsDto`: Validates TIN validation details.
+- `validateTransactionDataDto`: Validates transaction data.
+
 **Product Validators:**
 - `validateProductInfoDto`: Validates product information.
 - `validateProductCreateRequestDto`: Validates product creation requests.
@@ -194,6 +213,8 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateProductSuspendRequestDto`: Validates product suspension requests.
 - `validateProductUnsuspendRequestDto`: Validates product unsuspension requests.
 - `validateProductUpgradableRequestDto`: Validates product upgradability checks.
+- `validateProductDowngradableRequestDto`: Validates product downgradability checks.
+- `validateValidateAttributesRequestDto`: Validates attribute validation requests.
 
 
 ### Custom Decorators

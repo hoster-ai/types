@@ -10,6 +10,7 @@
 
 ```typescript
 import { IsString, IsDefined, IsNotEmpty } from "class-validator";
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for billing units.
@@ -23,6 +24,12 @@ export class UnitDto {
   @IsString()
   @IsDefined()
   @IsNotEmpty()
+  @JSONSchema({ 
+    title: 'Unit ID', 
+    description: 'Unit identifier.', 
+    type: 'string', 
+    example: 'messages' 
+  })
   id!: string;
 
   /**
@@ -32,6 +39,12 @@ export class UnitDto {
   @IsString()
   @IsDefined()
   @IsNotEmpty()
+  @JSONSchema({ 
+    title: 'Unit Description', 
+    description: 'What is measured.', 
+    type: 'string', 
+    example: 'Message sent' 
+  })
   unitDescription!: string;
 
   /**
@@ -41,6 +54,12 @@ export class UnitDto {
   @IsString()
   @IsDefined()
   @IsNotEmpty()
+  @JSONSchema({ 
+    title: 'Interval Description', 
+    description: 'Billing interval.', 
+    type: 'string', 
+    example: 'Per month' 
+  })
   intervalDescription!: string;
 }
 ```

@@ -23,7 +23,7 @@ export const validateProductUpgradeRequestDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const request = plainToInstance(ProductUpgradeRequestDto, plainObject);
-  return await validate(request);
+  return await validate(request, { skipMissingProperties: true });
 };
 ```
 

@@ -11,7 +11,7 @@
 ```typescript
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { ValidateAttributesRequestDto } from '../dtos/product/requests/product-validate-attributes-request.dto';
+import { ValidateAttributesRequestDto } from '../dtos/requests/validate-attributes-request.dto';
 
 /**
  * Validates a product validate attributes request object.

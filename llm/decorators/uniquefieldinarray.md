@@ -1,8 +1,10 @@
 # UniqueFieldInArray
 
-**Description:** Custom class-validator decorator: UniqueFieldInArray
+**Description:** Custom class-validator decorator that ensures all objects in an array have unique values for a specified field.
 
 **Source:** `decorators/unique-field-in-array.validator.ts`
+
+**Exports:** `UniqueFieldInArrayConstraint`, `UniqueFieldInArray`
 
 **Language:** typescript
 

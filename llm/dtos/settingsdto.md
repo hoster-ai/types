@@ -4,6 +4,8 @@
 
 **Source:** `dtos/settings.dto.ts`
 
+**Exports:** `SettingsDto`, `SettingsWithUrlDto`, `SettingsWithTabsDto`
+
 **Language:** typescript
 
 ## Code
@@ -14,6 +16,7 @@ import { Type } from 'class-transformer';
 import { TabDto } from './tab.dto';
 import { IsDefined } from 'class-validator';
 import { IsPropertyForbidden } from '../decorators/is-property-forbidden.validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * Base settings properties shared by all settings variants.
@@ -23,16 +26,31 @@ export class SettingsDto {
   @IsString()
   @IsDefined()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Label',
+    description: 'Label of the settings page.',
+    type: 'string',
+  })
   label!: string;
 
   /** Icon of the settings page */
   @IsString()
   @IsDefined()
+  @JSONSchema({
+    title: 'Icon',
+    description: 'Icon of the settings page.',
+    type: 'string',
+  })
   icon!: string;
 
   /** Description of the settings page */
   @IsString()
   @IsDefined()
+  @JSONSchema({
+    title: 'Description',
+    description: 'Description of the settings page.',
+    type: 'string',
+  })
   description!: string;
 }
 
@@ -43,6 +61,12 @@ export class SettingsDto {
 export class SettingsWithUrlDto extends SettingsDto {
   /** URL to the settings page */
   @IsUrl({ protocols: ['https'], require_protocol: true })
+  @JSONSchema({
+    title: 'URL',
+    description: 'URL to the settings page.',
+    type: 'string',
+    format: 'url',
+  })
   url!: string;
 
   /** Explicitly prevents tabs from being added to this variant */
@@ -58,6 +82,12 @@ export class SettingsWithTabsDto extends SettingsDto {
   /** List of tabs for the settings page */
   @ValidateNested({ each: true })
   @Type(() => TabDto)
+  @JSONSchema({
+    title: 'Tabs',
+    description: 'List of tabs for the settings page.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/TabDto' },
+  })
   tabs!: [TabDto, ...TabDto[]];
 
   /** Explicitly prevents URL from being added to this variant */

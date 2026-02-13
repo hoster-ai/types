@@ -1,8 +1,10 @@
-# AdminPanelTabsDto
+# AdminPanelDto
 
-**Description:** Defines the tab structure for different sections of the admin panel. Each property represents a section (e.g., product, item) and contains an array of TabDto objects.
+**Description:** Admin panel layout DTOs: tabs, moreActions, menu, and settings. Uses @AtLeastOneNonEmptyProperty and @IsOneOf.
 
 **Source:** `dtos/admin-panel.dto.ts`
+
+**Exports:** `AdminPanelTabsDto`, `AdminPanelMoreActionsDto`, `AdminPanelDto`
 
 **Language:** typescript
 

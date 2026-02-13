@@ -1,20 +1,22 @@
-# ActionsEnum
+# ProductItemActionsEnum
 
-**Description:** This file defines the ActionsEnum for integration actions.
+**Description:** This file defines the ProductItemActionsEnum.
 
-**Source:** `enums/actions.enum.ts`
+**Source:** `enums/item-actions.enum.ts`
 
 **Language:** typescript
 
 ## Code
 
 ```typescript
-export enum ActionsEnum {
+//TODO να γινει ProductActionsEnum
+export enum ProductItemActionsEnum {
   CREATE = 'create',
   RENEW = 'renew',
   UPGRADE = 'upgrade',
   DOWNGRADE = 'downgrade',
   TRANSFER = 'transfer',
+  TRADE = 'trade',
   SUSPEND = 'suspend',
   UNSUSPEND = 'unsuspend',
   DELETE = 'delete',

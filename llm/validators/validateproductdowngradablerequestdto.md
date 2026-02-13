@@ -2,7 +2,7 @@
 
 **Description:** Validates a product downgradable request object.
 
-**Source:** `validators/product-Downgradable-request-validator.ts`
+**Source:** `validators/product-downgradable-request-validator.ts`
 
 **Language:** typescript
 
@@ -11,7 +11,7 @@
 ```typescript
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { ProductDowngradableRequestDto } from '../dtos/product/requests/product-Downgradable-request.dto';
+import { ProductDowngradableRequestDto } from '../dtos/product/requests/product-downgradable-request.dto';
 
 /**
  * Validates a product downgradable request object.
@@ -23,7 +23,7 @@ export const validateProductDowngradableRequestDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const request = plainToInstance(ProductDowngradableRequestDto, plainObject);
-  return await validate(request);
+  return await validate(request, { skipMissingProperties: true });
 };
 ```
 

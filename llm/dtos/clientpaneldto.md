@@ -1,8 +1,10 @@
-# ClientPanelTabsDto
+# ClientPanelDto
 
-**Description:** Defines the tab structure for the client panel.
+**Description:** Client panel layout DTOs: tabs, moreActions, and menu. Uses @AtLeastOneNonEmptyProperty and @IsOneOf.
 
 **Source:** `dtos/client-panel.dto.ts`
+
+**Exports:** `ClientPanelTabsDto`, `ClientPanelMoreActionsDto`, `ClientPanelDto`
 
 **Language:** typescript
 

@@ -1,6 +1,6 @@
 # IsOneOf
 
-**Description:** Custom class-validator decorator: IsOneOf
+**Description:** Custom class-validator decorator that validates if a value is an instance of one of the specified classes.
 
 **Source:** `decorators/is-one-of.validator.ts`
 

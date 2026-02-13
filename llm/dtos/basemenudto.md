@@ -4,6 +4,8 @@
 
 **Source:** `dtos/menu.dto.ts`
 
+**Exports:** `BaseMenuDto`, `MenuDtoWithUrl`, `MenuDtoWithSubmenu`
+
 **Language:** typescript
 
 ## Code

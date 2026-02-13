@@ -1,6 +1,6 @@
 # ProductInfoDto
 
-**Description:** DTO for notification information. Extends the base InfoDto to include the notification message type.
+**Description:** DTO for product information. Extends the base InfoDto to include the product attributes, optional pay-per-use units, and response mapping.
 
 **Source:** `dtos/product/product-info.dto.ts`
 

@@ -1,6 +1,6 @@
 # validateMenuWithUrlDto
 
-**Description:** Validates a MenuDtoWithUrl object using class-validator decorators.
+**Description:** Validates a MenuWithUrlDto object using class-validator decorators.
 
 **Source:** `validators/menu-with-url.validator.ts`
 

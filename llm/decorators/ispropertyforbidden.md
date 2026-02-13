@@ -1,6 +1,6 @@
 # IsPropertyForbidden
 
-**Description:** Custom class-validator decorator: IsPropertyForbidden
+**Description:** Custom class-validator decorator that ensures a specific property is not present in the object.
 
 **Source:** `decorators/is-property-forbidden.validator.ts`
 

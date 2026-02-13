@@ -39,7 +39,7 @@ export class TaxDetailsResponseDto extends BaseResponse {
   @IsBoolean()
   @JSONSchema({
     title: 'TIN Valid',
-    description: 'Whether the Tax Identification Number is valid.',
+    description: 'Indicates whether the Tax Identification Number is valid.',
     type: 'boolean',
   })
   TINValid?: boolean;
@@ -54,7 +54,7 @@ export class TaxDetailsResponseDto extends BaseResponse {
   @JSONSchema({
     title: 'Tax Details',
     description: 'Detailed tax validation information including company details.',
-    $ref: '#/components/schemas/TINValidationDetails',
+    type: 'object',
   })
   taxDetails?: TINValidationDetails;
 }

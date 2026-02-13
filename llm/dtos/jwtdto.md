@@ -1,6 +1,6 @@
 # JwtDto
 
-**Description:** DTO for the JWT payload. This defines the structure of the data contained within the JWT.
+**Description:** DTO for the JWT itself. This is the main DTO used for user authentication and authorization.
 
 **Source:** `dtos/jwt.dto.ts`
 

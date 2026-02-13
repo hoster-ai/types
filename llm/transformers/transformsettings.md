@@ -23,6 +23,3 @@ export function transformSettings(value: any) {
 }
 ```
 
-----------------------------------------}
-```
-

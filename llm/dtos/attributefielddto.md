@@ -1,6 +1,6 @@
 # AttributeFieldDto
 
-**Description:** Indicates if the field is visible in orders
+**Description:** Extends FieldDto with product-specific attributes (visibleInOrder, visibleInClientPanel, repeatableMin, repeatableMax). Uses @AllOrNoneProperty and @MinLessOrEqualMaxProperty decorators.
 
 **Source:** `dtos/attribute-field.dto.ts`
 

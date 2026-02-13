@@ -1,6 +1,6 @@
 # IsRegex
 
-**Description:** Custom class-validator decorator: IsRegex
+**Description:** Custom class-validator decorator that validates if a string is a valid regular expression.
 
 **Source:** `decorators/is-regex.validator.ts`
 

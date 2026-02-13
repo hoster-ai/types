@@ -1,6 +1,6 @@
 # ActionDto
 
-**Description:** Defines the structure for a UI action. { "icon": "add", "label": "Create New", "openMethod": "ajax_call", "url": "/api/create" }
+**Description:** Defines the structure for a UI action.
 
 **Source:** `dtos/action.dto.ts`
 

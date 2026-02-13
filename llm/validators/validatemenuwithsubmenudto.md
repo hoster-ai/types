@@ -1,6 +1,6 @@
 # validateMenuWithSubmenuDto
 
-**Description:** Validates a MenuDtoWithSubmenu object using class-validator decorators.
+**Description:** Validates a MenuWithSubmenuDto object using class-validator decorators.
 
 **Source:** `validators/menu-with-submenu.validator.ts`
 

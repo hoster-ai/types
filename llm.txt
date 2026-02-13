@@ -15,12 +15,48 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### AddonFieldDto
+**Description:** Fields defined by the seller for a product, requested during checkout setup. These fields contain information relevant only to the seller, not to the integration.
+
+**Source:** `dtos/addon-field.dto.ts`
+
+**Details:** See [llm/dtos/addonfielddto.md](llm/dtos/addonfielddto.md)
+
+---
+
+### AdminPanelDto
+**Description:** Admin panel layout DTOs: tabs, moreActions, menu, and settings. Uses @AtLeastOneNonEmptyProperty and @IsOneOf. (also exports: AdminPanelMoreActionsDto)
+
+**Source:** `dtos/admin-panel.dto.ts`
+
+**Details:** See [llm/dtos/adminpaneldto.md](llm/dtos/adminpaneldto.md)
+
+---
+
 ### AttachmentDto
 **Description:** DTO for file attachments Used for sending attached files with emails
 
 **Source:** `dtos/attachment.dto.ts`
 
 **Details:** See [llm/dtos/attachmentdto.md](llm/dtos/attachmentdto.md)
+
+---
+
+### AttributeFieldDto
+**Description:** Extends FieldDto with product-specific attributes (visibleInOrder, visibleInClientPanel, repeatableMin, repeatableMax). Uses @AllOrNoneProperty and @MinLessOrEqualMaxProperty decorators.
+
+**Source:** `dtos/attribute-field.dto.ts`
+
+**Details:** See [llm/dtos/attributefielddto.md](llm/dtos/attributefielddto.md)
+
+---
+
+### BaseMenuDto
+**Description:** Base properties shared by all menu items. (also exports: MenuDtoWithUrl, MenuDtoWithSubmenu)
+
+**Source:** `dtos/menu.dto.ts`
+
+**Details:** See [llm/dtos/basemenudto.md](llm/dtos/basemenudto.md)
 
 ---
 
@@ -33,15 +69,6 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### CountryDto
-**Description:** Country information returned by the hoster.ai helper function. Used to provide a list of all available countries.
-
-**Source:** `dtos/country.dto.ts`
-
-**Details:** See [llm/dtos/countrydto.md](llm/dtos/countrydto.md)
-
----
-
 ### ClientDataDto
 **Description:** Defines the data structure for a client. This object is used to transfer client data between different parts of the application.
 
@@ -51,12 +78,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### FieldOptionDto
-**Description:** Data Transfer Object for field options. This class defines the structure and properties of a field option that can be used in form fields.
+### ClientPanelDto
+**Description:** Client panel layout DTOs: tabs, moreActions, and menu. Uses @AtLeastOneNonEmptyProperty and @IsOneOf. (also exports: ClientPanelMoreActionsDto)
 
-**Source:** `dtos/field-option.dto.ts`
+**Source:** `dtos/client-panel.dto.ts`
 
-**Details:** See [llm/dtos/fieldoptiondto.md](llm/dtos/fieldoptiondto.md)
+**Details:** See [llm/dtos/clientpaneldto.md](llm/dtos/clientpaneldto.md)
 
 ---
 
@@ -66,6 +93,51 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `dtos/company-data.dto.ts`
 
 **Details:** See [llm/dtos/companydatadto.md](llm/dtos/companydatadto.md)
+
+---
+
+### CountryDto
+**Description:** Country information returned by the hoster.ai helper function. Used to provide a list of all available countries.
+
+**Source:** `dtos/country.dto.ts`
+
+**Details:** See [llm/dtos/countrydto.md](llm/dtos/countrydto.md)
+
+---
+
+### CreditNoteRequestDto
+**Description:** Request payload for creating a credit note. Extends proforma invoice with minimal variations to keep the API clean for invoice integration developers.
+
+**Source:** `dtos/invoice/requests/credit-note-request.dto.ts`
+
+**Details:** See [llm/dtos/creditnoterequestdto.md](llm/dtos/creditnoterequestdto.md)
+
+---
+
+### CreditNoteResponseDto
+**Description:** Response from invoice integrations after successfully creating a credit note. Maintains consistency with request/response naming (CreditNoteRequest → CreditNoteResponse).
+
+**Source:** `dtos/invoice/responses/credit-note-response.dto.ts`
+
+**Details:** See [llm/dtos/creditnoteresponsedto.md](llm/dtos/creditnoteresponsedto.md)
+
+---
+
+### EmailReceiverDto
+**Description:** DTO for email recipients Used to define the recipients of an email
+
+**Source:** `dtos/notification/receiver/receiver-email.dto.ts`
+
+**Details:** See [llm/dtos/emailreceiverdto.md](llm/dtos/emailreceiverdto.md)
+
+---
+
+### EmailSenderDto
+**Description:** DTO for email sender Used to define the details for sending an email
+
+**Source:** `dtos/notification/sender/sender-email.dto.ts`
+
+**Details:** See [llm/dtos/emailsenderdto.md](llm/dtos/emailsenderdto.md)
 
 ---
 
@@ -87,39 +159,75 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### SettingsDto
-**Description:** Base settings DTO and its two variants for URL or Tabs. Uses custom @IsPropertyForbidden to forbid incompatible properties.
+### FieldOptionDto
+**Description:** Data Transfer Object for field options. This class defines the structure and properties of a field option that can be used in form fields.
 
-**Source:** `dtos/settings.dto.ts`
+**Source:** `dtos/field-option.dto.ts`
 
-**Details:** See [llm/dtos/settingsdto.md](llm/dtos/settingsdto.md)
-
----
-
-### AdminPanelDto
-**Description:** Admin panel layout DTOs: tabs, moreActions, menu, and settings. Uses @AtLeastOneNonEmptyProperty and @IsOneOf.
-
-**Source:** `dtos/admin-panel.dto.ts`
-
-**Details:** See [llm/dtos/adminpaneldto.md](llm/dtos/adminpaneldto.md)
-
----
-
-### ClientPanelDto
-**Description:** Client panel layout DTOs: tabs, moreActions, and menu. Uses @AtLeastOneNonEmptyProperty and @IsOneOf.
-
-**Source:** `dtos/client-panel.dto.ts`
-
-**Details:** See [llm/dtos/clientpaneldto.md](llm/dtos/clientpaneldto.md)
+**Details:** See [llm/dtos/fieldoptiondto.md](llm/dtos/fieldoptiondto.md)
 
 ---
 
 ### InfoDto
-**Description:** DTO for integration information. Central DTO including UI configuration, supported features, and billing details.
+**Description:** DTO for integration information. This is a central DTO that contains all the necessary information for a service integration, including UI configuration, supported features, and billing details.
 
 **Source:** `dtos/info.dto.ts`
 
 **Details:** See [llm/dtos/infodto.md](llm/dtos/infodto.md)
+
+---
+
+### InvoiceContactData
+**Description:** Billing contact information sent from hoster.ai to invoice integrations. Contains the details of the person or business for whom an invoice will be issued.
+
+**Source:** `dtos/invoice-contact-data.dto.ts`
+
+**Details:** See [llm/dtos/invoicecontactdata.md](llm/dtos/invoicecontactdata.md)
+
+---
+
+### InvoiceInfoDto
+**Description:** Invoice integration information. Extends base integration info with invoice-specific configuration.
+
+**Source:** `dtos/invoice/invoice-info.dto.ts`
+
+**Details:** See [llm/dtos/invoiceinfodto.md](llm/dtos/invoiceinfodto.md)
+
+---
+
+### InvoiceItemDataDto
+**Description:** Order product item data sent to invoice integrations. Uses invoice-specific actions to avoid confusion with product integration actions.
+
+**Source:** `dtos/invoice/invoice-item-data.dto.ts`
+
+**Details:** See [llm/dtos/invoiceitemdatadto.md](llm/dtos/invoiceitemdatadto.md)
+
+---
+
+### InvoiceRequestDto
+**Description:** Request payload for creating a standard invoice. Extends proforma invoice with minimal variations to keep the API clean for invoice integration developers.
+
+**Source:** `dtos/invoice/requests/invoice-request.dto.ts`
+
+**Details:** See [llm/dtos/invoicerequestdto.md](llm/dtos/invoicerequestdto.md)
+
+---
+
+### InvoiceResponseDto
+**Description:** Response from invoice integrations after successfully creating a standard invoice. Maintains consistency with request/response naming (InvoiceRequest → InvoiceResponse).
+
+**Source:** `dtos/invoice/responses/invoice-response.dto.ts`
+
+**Details:** See [llm/dtos/invoiceresponsedto.md](llm/dtos/invoiceresponsedto.md)
+
+---
+
+### ItemDataDto
+**Description:** Represents the data of a specific product item. This DTO is used to transfer detailed information about a product instance.
+
+**Source:** `dtos/item-data.dto.ts`
+
+**Details:** See [llm/dtos/itemdatadto.md](llm/dtos/itemdatadto.md)
 
 ---
 
@@ -129,15 +237,6 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `dtos/jwt.dto.ts`
 
 **Details:** See [llm/dtos/jwtdto.md](llm/dtos/jwtdto.md)
-
----
-
-### MenuDtoWithUrl
-**Description:** Represents a menu item that links directly to a URL. This type of menu item does not have a submenu.
-
-**Source:** `dtos/menu.dto.ts`
-
-**Details:** See [llm/dtos/menudtowithurl.md](llm/dtos/menudtowithurl.md)
 
 ---
 
@@ -160,83 +259,20 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### NotificationSendRequestDto
-**Description:** Represents a request to send a notification. This DTO encapsulates all the necessary information for sending a notification, including the notification ID, sender details, and receiver details.
+**Description:** Request payload for sending a notification. Sent from hoster.ai to notification integrations (email, push, SMS).
 
-**Source:** `dtos/notification/notification-send-request.dto.ts`
+**Source:** `dtos/notification/requests/notification-send-request.dto.ts`
 
 **Details:** See [llm/dtos/notificationsendrequestdto.md](llm/dtos/notificationsendrequestdto.md)
 
 ---
 
-### EmailReceiverDto
-**Description:** DTO for email recipients Used to define the recipients of an email
+### NotificationSendResponseDto
+**Description:** Response from notification integrations after successfully sending a notification. Returned to hoster.ai confirming the notification was sent.
 
-**Source:** `dtos/notification/receiver/receiver-email.dto.ts`
+**Source:** `dtos/notification/responses/notification-send-response.dto.ts`
 
-**Details:** See [llm/dtos/emailreceiverdto.md](llm/dtos/emailreceiverdto.md)
-
----
-
-### PushReceiverDto
-**Description:** DTO for push notification recipients Used to define the recipients of a push notification
-
-**Source:** `dtos/notification/receiver/receiver-push.dto.ts`
-
-**Details:** See [llm/dtos/pushreceiverdto.md](llm/dtos/pushreceiverdto.md)
-
----
-
-### SmsReceiverDto
-**Description:** DTO for SMS recipients Used to define the recipients of an SMS message
-
-**Source:** `dtos/notification/receiver/receiver-sms.dto.ts`
-
-**Details:** See [llm/dtos/smsreceiverdto.md](llm/dtos/smsreceiverdto.md)
-
----
-
-### EmailSenderDto
-**Description:** DTO for email sender Used to define the details for sending an email
-
-**Source:** `dtos/notification/sender/sender-email.dto.ts`
-
-**Details:** See [llm/dtos/emailsenderdto.md](llm/dtos/emailsenderdto.md)
-
----
-
-### PushSenderDto
-**Description:** DTO for push notification sender Used to define the details for sending a push notification
-
-**Source:** `dtos/notification/sender/sender-push.dto.ts`
-
-**Details:** See [llm/dtos/pushsenderdto.md](llm/dtos/pushsenderdto.md)
-
----
-
-### SmsSenderDto
-**Description:** DTO for SMS sender Used to define the details for sending an SMS message
-
-**Source:** `dtos/notification/sender/sender-sms.dto.ts`
-
-**Details:** See [llm/dtos/smssenderdto.md](llm/dtos/smssenderdto.md)
-
----
-
-### ProductInfoDto
-**Description:** DTO for product information. Extends the base InfoDto to include the product attributes, optional pay-per-use units, and response mapping.
-
-**Source:** `dtos/product/product-info.dto.ts`
-
-**Details:** See [llm/dtos/productinfodto.md](llm/dtos/productinfodto.md)
-
----
-
-### ProductItemDataDto
-**Description:** Represents the data of a specific product item. This DTO is used to transfer detailed information about a product instance.
-
-**Source:** `dtos/product/product-item-data.dto.ts`
-
-**Details:** See [llm/dtos/productitemdatadto.md](llm/dtos/productitemdatadto.md)
+**Details:** See [llm/dtos/notificationsendresponsedto.md](llm/dtos/notificationsendresponsedto.md)
 
 ---
 
@@ -258,93 +294,21 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### ProductDeleteRequestDto
-**Description:** Represents a request to delete a product item. This DTO contains all the necessary information for the deletion process.
-
-**Source:** `dtos/product/requests/product-delete-request.dto.ts`
-
-**Details:** See [llm/dtos/productdeleterequestdto.md](llm/dtos/productdeleterequestdto.md)
-
----
-
-### ProductDowngradeRequestDto
-**Description:** Represents a request to downgrade a product item. This DTO contains all the necessary information for the downgrade process.
-
-**Source:** `dtos/product/requests/product-downgrade-request.dto.ts`
-
-**Details:** See [llm/dtos/productdowngraderequestdto.md](llm/dtos/productdowngraderequestdto.md)
-
----
-
-### ProductDowngradableRequestDto
-**Description:** Represents a request to check if a product item is downgradable. This DTO contains all the necessary information for the check.
-
-**Source:** `dtos/product/requests/product-Downgradable-request.dto.ts`
-
-**Details:** See [llm/dtos/productdowngradablerequestdto.md](llm/dtos/productdowngradablerequestdto.md)
-
----
-
-### ProductRenewRequestDto
-**Description:** Represents a request to renew a product item. This DTO contains all the necessary information for the renewal process.
-
-**Source:** `dtos/product/requests/product-renew-request.dto.ts`
-
-**Details:** See [llm/dtos/productrenewrequestdto.md](llm/dtos/productrenewrequestdto.md)
-
----
-
-### ProductSuspendRequestDto
-**Description:** Represents a request to suspend a product item. This DTO contains all the necessary information for the suspension process.
-
-**Source:** `dtos/product/requests/product-suspend-request.dto.ts`
-
-**Details:** See [llm/dtos/productsuspendrequestdto.md](llm/dtos/productsuspendrequestdto.md)
-
----
-
-### ProductUnsuspendRequestDto
-**Description:** Represents a request to unsuspend a product item. This DTO contains all the necessary information for the unsuspend process.
-
-**Source:** `dtos/product/requests/product-unsuspend-request.dto.ts`
-
-**Details:** See [llm/dtos/productunsuspendrequestdto.md](llm/dtos/productunsuspendrequestdto.md)
-
----
-
-### ProductUpgradeRequestDto
-**Description:** Represents a request to upgrade a product item. This DTO contains all the necessary information for the upgrade process.
-
-**Source:** `dtos/product/requests/product-upgrade-request.dto.ts`
-
-**Details:** See [llm/dtos/productupgraderequestdto.md](llm/dtos/productupgraderequestdto.md)
-
----
-
-### ProductUpgradableRequestDto
-**Description:** Represents a request to check if a product item is upgradable. This DTO contains all the necessary information for the check.
-
-**Source:** `dtos/product/requests/product-upgradable-request.dto.ts`
-
-**Details:** See [llm/dtos/productupgradablerequestdto.md](llm/dtos/productupgradablerequestdto.md)
-
----
-
-### ValidateAttributesRequestDto
-**Description:** Represents a request to validate product attributes. This DTO is used when a client needs to check the validity of a set of attribute values before proceeding with an action, such as creating or updating a product.
-
-**Source:** `dtos/product/requests/product-validate-attributes-request.dto.ts`
-
-**Details:** See [llm/dtos/validateattributesrequestdto.md](llm/dtos/validateattributesrequestdto.md)
-
----
-
 ### ProductCreateResponseDto
 **Description:** Represents the response after attempting to create a product. It confirms the status of the creation operation.
 
 **Source:** `dtos/product/responses/product-create-response.dto.ts`
 
 **Details:** See [llm/dtos/productcreateresponsedto.md](llm/dtos/productcreateresponsedto.md)
+
+---
+
+### ProductDeleteRequestDto
+**Description:** Represents a request to delete a product item. This DTO contains all the necessary information for the deletion process.
+
+**Source:** `dtos/product/requests/product-delete-request.dto.ts`
+
+**Details:** See [llm/dtos/productdeleterequestdto.md](llm/dtos/productdeleterequestdto.md)
 
 ---
 
@@ -357,6 +321,33 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### ProductDowngradableRequestDto
+**Description:** Represents a request to check if a product item is downgradable. This DTO contains all the necessary information for the check.
+
+**Source:** `dtos/product/requests/product-downgradable-request.dto.ts`
+
+**Details:** See [llm/dtos/productdowngradablerequestdto.md](llm/dtos/productdowngradablerequestdto.md)
+
+---
+
+### ProductDowngradableResponseDto
+**Description:** Represents the response for a product Downgradable check. It indicates whether a product item is Downgradable and may contain additional data.
+
+**Source:** `dtos/product/responses/product-downgradable-response.dto.ts`
+
+**Details:** See [llm/dtos/productdowngradableresponsedto.md](llm/dtos/productdowngradableresponsedto.md)
+
+---
+
+### ProductDowngradeRequestDto
+**Description:** Represents a request to downgrade a product item. This DTO contains all the necessary information for the downgrade process.
+
+**Source:** `dtos/product/requests/product-downgrade-request.dto.ts`
+
+**Details:** See [llm/dtos/productdowngraderequestdto.md](llm/dtos/productdowngraderequestdto.md)
+
+---
+
 ### ProductDowngradeResponseDto
 **Description:** Represents the response after attempting to downgrade a product. It confirms the status of the downgrade operation.
 
@@ -366,12 +357,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### ProductDowngradableResponseDto
-**Description:** Represents the response for a product Downgradable check. It indicates whether a product item is Downgradable and may contain additional data.
+### ProductInfoDto
+**Description:** DTO for product information. Extends the base InfoDto to include the product attributes, optional pay-per-use units, and response mapping.
 
-**Source:** `dtos/product/responses/product-Downgradable-response.dto.ts`
+**Source:** `dtos/product/product-info.dto.ts`
 
-**Details:** See [llm/dtos/productdowngradableresponsedto.md](llm/dtos/productdowngradableresponsedto.md)
+**Details:** See [llm/dtos/productinfodto.md](llm/dtos/productinfodto.md)
 
 ---
 
@@ -384,12 +375,39 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### ProductItemDataDto
+**Description:** Product item data sent to product integrations. Uses product-specific actions distinct from invoice integration actions.
+
+**Source:** `dtos/product/product-item-data.dto.ts`
+
+**Details:** See [llm/dtos/productitemdatadto.md](llm/dtos/productitemdatadto.md)
+
+---
+
+### ProductRenewRequestDto
+**Description:** Represents a request to renew a product item. This DTO contains all the necessary information for the renewal process.
+
+**Source:** `dtos/product/requests/product-renew-request.dto.ts`
+
+**Details:** See [llm/dtos/productrenewrequestdto.md](llm/dtos/productrenewrequestdto.md)
+
+---
+
 ### ProductRenewResponseDto
 **Description:** Represents the response after attempting to renew a product. It confirms the status of the renewal operation.
 
 **Source:** `dtos/product/responses/product-renew-response.dto.ts`
 
 **Details:** See [llm/dtos/productrenewresponsedto.md](llm/dtos/productrenewresponsedto.md)
+
+---
+
+### ProductSuspendRequestDto
+**Description:** Represents a request to suspend a product item. This DTO contains all the necessary information for the suspension process.
+
+**Source:** `dtos/product/requests/product-suspend-request.dto.ts`
+
+**Details:** See [llm/dtos/productsuspendrequestdto.md](llm/dtos/productsuspendrequestdto.md)
 
 ---
 
@@ -402,6 +420,15 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### ProductUnsuspendRequestDto
+**Description:** Represents a request to unsuspend a product item. This DTO contains all the necessary information for the unsuspend process.
+
+**Source:** `dtos/product/requests/product-unsuspend-request.dto.ts`
+
+**Details:** See [llm/dtos/productunsuspendrequestdto.md](llm/dtos/productunsuspendrequestdto.md)
+
+---
+
 ### ProductUnsuspendResponseDto
 **Description:** Represents the response after attempting to unsuspend a product. It confirms the status of the unsuspend operation.
 
@@ -411,12 +438,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### ProductUpgradeResponseDto
-**Description:** Represents the response after attempting to upgrade a product. It confirms the status of the upgrade operation.
+### ProductUpgradableRequestDto
+**Description:** Represents a request to check if a product item is upgradable. This DTO contains all the necessary information for the check.
 
-**Source:** `dtos/product/responses/product-upgrade-response.dto.ts`
+**Source:** `dtos/product/requests/product-upgradable-request.dto.ts`
 
-**Details:** See [llm/dtos/productupgraderesponsedto.md](llm/dtos/productupgraderesponsedto.md)
+**Details:** See [llm/dtos/productupgradablerequestdto.md](llm/dtos/productupgradablerequestdto.md)
 
 ---
 
@@ -429,21 +456,57 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### ValidateAttributesResponseDto
-**Description:** Represents the response from validating product attributes. Contains the list of attributes that have been validated.
+### ProductUpgradeRequestDto
+**Description:** Represents a request to upgrade a product item. This DTO contains all the necessary information for the upgrade process.
 
-**Source:** `dtos/product/responses/product-validate-attributes-response.dto.ts`
+**Source:** `dtos/product/requests/product-upgrade-request.dto.ts`
 
-**Details:** See [llm/dtos/validateattributesresponsedto.md](llm/dtos/validateattributesresponsedto.md)
+**Details:** See [llm/dtos/productupgraderequestdto.md](llm/dtos/productupgraderequestdto.md)
 
 ---
 
-### ValidateAttributesRequestDto
-**Description:** Represents a request to validate product attributes. This DTO is used when a client needs to check the validity of a set of attribute values before proceeding with an action, such as creating or updating a product.
+### ProductUpgradeResponseDto
+**Description:** Represents the response after attempting to upgrade a product. It confirms the status of the upgrade operation.
 
-**Source:** `dtos/product/requests/product-validate-attributes-request.dto.ts`
+**Source:** `dtos/product/responses/product-upgrade-response.dto.ts`
 
-**Details:** See [llm/dtos/validateattributesrequestdto.md](llm/dtos/validateattributesrequestdto.md)
+**Details:** See [llm/dtos/productupgraderesponsedto.md](llm/dtos/productupgraderesponsedto.md)
+
+---
+
+### ProformaInvoiceRequestDto
+**Description:** Request payload for creating a proforma invoice. Sent from hoster.ai to invoice integrations to issue a proforma document.
+
+**Source:** `dtos/invoice/requests/proforma-invoice-request.dto.ts`
+
+**Details:** See [llm/dtos/proformainvoicerequestdto.md](llm/dtos/proformainvoicerequestdto.md)
+
+---
+
+### ProformaInvoiceResponseDto
+**Description:** Response from invoice integrations after successfully creating a proforma invoice. Contains the generated invoice details and access URL.
+
+**Source:** `dtos/invoice/responses/proforma-invoice-response.dto.ts`
+
+**Details:** See [llm/dtos/proformainvoiceresponsedto.md](llm/dtos/proformainvoiceresponsedto.md)
+
+---
+
+### PushReceiverDto
+**Description:** DTO for push notification recipients Used to define the recipients of a push notification
+
+**Source:** `dtos/notification/receiver/receiver-push.dto.ts`
+
+**Details:** See [llm/dtos/pushreceiverdto.md](llm/dtos/pushreceiverdto.md)
+
+---
+
+### PushSenderDto
+**Description:** DTO for push notification sender Used to define the details for sending a push notification
+
+**Source:** `dtos/notification/sender/sender-push.dto.ts`
+
+**Details:** See [llm/dtos/pushsenderdto.md](llm/dtos/pushsenderdto.md)
 
 ---
 
@@ -456,12 +519,39 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### SettingsDto
+**Description:** Base settings DTO and its two variants for URL or Tabs. Uses custom @IsPropertyForbidden to forbid incompatible properties. (also exports: SettingsWithUrlDto, SettingsWithTabsDto)
+
+**Source:** `dtos/settings.dto.ts`
+
+**Details:** See [llm/dtos/settingsdto.md](llm/dtos/settingsdto.md)
+
+---
+
 ### SetupStatusResponseDto
 **Description:** DTO for setup status response. Extends the base response to include the setup status.
 
 **Source:** `dtos/setup-status-response.dto.ts`
 
 **Details:** See [llm/dtos/setupstatusresponsedto.md](llm/dtos/setupstatusresponsedto.md)
+
+---
+
+### SmsReceiverDto
+**Description:** DTO for SMS recipients Used to define the recipients of an SMS message
+
+**Source:** `dtos/notification/receiver/receiver-sms.dto.ts`
+
+**Details:** See [llm/dtos/smsreceiverdto.md](llm/dtos/smsreceiverdto.md)
+
+---
+
+### SmsSenderDto
+**Description:** DTO for SMS sender Used to define the details for sending an SMS message
+
+**Source:** `dtos/notification/sender/sender-sms.dto.ts`
+
+**Details:** See [llm/dtos/smssenderdto.md](llm/dtos/smssenderdto.md)
 
 ---
 
@@ -492,136 +582,10 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### TaskResponseDto
-**Description:** DTO for task response. Used to return the ID of a created task.
-
-**Source:** `dtos/task-response.dto.ts`
-
-**Details:** See [llm/dtos/taskresponsedto.md](llm/dtos/taskresponsedto.md)
-
----
-
-### UnitDto
-**Description:** DTO for billing units. Used for defining units for pay-per-use billing.
-
-**Source:** `dtos/unit.dto.ts`
-
-**Details:** See [llm/dtos/unitdto.md](llm/dtos/unitdto.md)
-
----
-
-### AddonFieldDto
-**Description:** Fields defined by the seller for a product, requested during checkout setup. These fields contain information relevant only to the seller, not to the integration.
-
-**Source:** `dtos/addon-field.dto.ts`
-
-**Details:** See [llm/dtos/addonfielddto.md](llm/dtos/addonfielddto.md)
-
----
-
-### InvoiceContactDataDto
-**Description:** Billing contact information sent from hoster.ai to invoice integrations. Contains the details of the person or business for whom an invoice will be issued.
-
-**Source:** `dtos/invoice-contact-data.dto.ts`
-
-**Details:** See [llm/dtos/invoicecontactdatadto.md](llm/dtos/invoicecontactdatadto.md)
-
----
-
-### TransactionDataDto
-**Description:** Transaction details related to the invoice. Contains payment and transaction information for the document being issued.
-
-**Source:** `dtos/invoice/transaction-data.dto.ts`
-
-**Details:** See [llm/dtos/transactiondatadto.md](llm/dtos/transactiondatadto.md)
-
----
-
-### InvoiceItemDataDto
-**Description:** Order product item data sent to invoice integrations. Uses invoice-specific actions to avoid confusion with product integration actions.
-
-**Source:** `dtos/invoice/invoice-item-data.dto.ts`
-
-**Details:** See [llm/dtos/invoiceitemdatadto.md](llm/dtos/invoiceitemdatadto.md)
-
----
-
-### ProformaInvoiceRequestDto
-**Description:** Request payload for creating a proforma invoice. Sent from hoster.ai to invoice integrations to issue a proforma document.
-
-**Source:** `dtos/invoice/requests/proforma-invoice-request.dto.ts`
-
-**Details:** See [llm/dtos/proformainvoicerequestdto.md](llm/dtos/proformainvoicerequestdto.md)
-
----
-
-### InvoiceRequestDto
-**Description:** Request payload for creating a standard invoice. Extends proforma invoice with minimal variations to keep the API clean for invoice integration developers.
-
-**Source:** `dtos/invoice/requests/invoice-request.dto.ts`
-
-**Details:** See [llm/dtos/invoicerequestdto.md](llm/dtos/invoicerequestdto.md)
-
----
-
-### CreditNoteRequestDto
-**Description:** Request payload for creating a credit note. Extends proforma invoice with minimal variations to keep the API clean for invoice integration developers.
-
-**Source:** `dtos/invoice/requests/credit-note-request.dto.ts`
-
-**Details:** See [llm/dtos/creditnoterequestdto.md](llm/dtos/creditnoterequestdto.md)
-
----
-
-### ProformaInvoiceResponseDto
-**Description:** Response from invoice integrations after successfully creating a proforma invoice. Contains the generated invoice details and access URL.
-
-**Source:** `dtos/invoice/responses/proforma-invoice-response.dto.ts`
-
-**Details:** See [llm/dtos/proformainvoiceresponsedto.md](llm/dtos/proformainvoiceresponsedto.md)
-
----
-
-### InvoiceResponseDto
-**Description:** Response from invoice integrations after successfully creating a standard invoice. Maintains consistency with request/response naming (InvoiceRequest → InvoiceResponse).
-
-**Source:** `dtos/invoice/responses/invoice-response.dto.ts`
-
-**Details:** See [llm/dtos/invoiceresponsedto.md](llm/dtos/invoiceresponsedto.md)
-
----
-
-### CreditNoteResponseDto
-**Description:** Response from invoice integrations after successfully creating a credit note. Maintains consistency with request/response naming (CreditNoteRequest → CreditNoteResponse).
-
-**Source:** `dtos/invoice/responses/credit-note-response.dto.ts`
-
-**Details:** See [llm/dtos/creditnoteresponsedto.md](llm/dtos/creditnoteresponsedto.md)
-
----
-
-### ProductItemDataDto
-**Description:** Product item data sent to product integrations. Uses product-specific actions distinct from invoice integration actions.
-
-**Source:** `dtos/product/product-item-data.dto.ts`
-
-**Details:** See [llm/dtos/productitemdatadto.md](llm/dtos/productitemdatadto.md)
-
----
-
-### InvoiceInfoDto
-**Description:** Invoice integration information. Extends base integration info with invoice-specific configuration.
-
-**Source:** `dtos/invoice/invoice-info.dto.ts`
-
-**Details:** See [llm/dtos/invoiceinfodto.md](llm/dtos/invoiceinfodto.md)
-
----
-
 ### TaxDetailsRequestDto
 **Description:** Request payload for calculating tax details. Contains company and customer location information for tax rate determination.
 
-**Source:** `dtos/invoice/requests/tax-details.request.dto.ts`
+**Source:** `dtos/invoice/requests/tax-details-request.dto.ts`
 
 **Details:** See [llm/dtos/taxdetailsrequestdto.md](llm/dtos/taxdetailsrequestdto.md)
 
@@ -645,17 +609,44 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### TransactionData
+**Description:** Transaction details related to the invoice. Contains payment and transaction information for the document being issued.
 
-## ENUMS
+**Source:** `dtos/invoice/transaction-data.dto.ts`
 
-### ActionsEnum
-**Description:** This file defines the ActionsEnum for integration actions.
-
-**Source:** `enums/actions.enum.ts`
-
-**Details:** See [llm/enums/actionsenum.md](llm/enums/actionsenum.md)
+**Details:** See [llm/dtos/transactiondata.md](llm/dtos/transactiondata.md)
 
 ---
+
+### UnitDto
+**Description:** DTO for billing units. Used for defining units for pay-per-use billing.
+
+**Source:** `dtos/unit.dto.ts`
+
+**Details:** See [llm/dtos/unitdto.md](llm/dtos/unitdto.md)
+
+---
+
+### ValidateAttributesRequestDto
+**Description:** Represents a request to validate product attributes. This DTO is used when a client needs to check the validity of a set of attribute values before proceeding with an action, such as creating or updating a product.
+
+**Source:** `dtos/requests/validate-attributes-request.dto.ts`
+
+**Details:** See [llm/dtos/validateattributesrequestdto.md](llm/dtos/validateattributesrequestdto.md)
+
+---
+
+### ValidateAttributesResponseDto
+**Description:** Represents the response from validating product attributes. Contains the list of attributes that have been validated.
+
+**Source:** `dtos/responses/validate-attributes-response.dto.ts`
+
+**Details:** See [llm/dtos/validateattributesresponsedto.md](llm/dtos/validateattributesresponsedto.md)
+
+---
+
+
+## ENUMS
 
 ### CountryEnum
 **Description:** This file defines the CountryEnum.
@@ -693,6 +684,24 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### InvoiceItemActionsEnum
+**Description:** This file defines the InvoiceItemActionsEnum.
+
+**Source:** `enums/invoice/invoice-item-actions.enum.ts`
+
+**Details:** See [llm/enums/invoiceitemactionsenum.md](llm/enums/invoiceitemactionsenum.md)
+
+---
+
+### InvoiceTypesEnum
+**Description:** This file defines the InvoiceTypesEnum.
+
+**Source:** `enums/invoice/invoice-types.enum.ts`
+
+**Details:** See [llm/enums/invoicetypesenum.md](llm/enums/invoicetypesenum.md)
+
+---
+
 ### LanguageEnum
 **Description:** This file defines the LanguageEnum.
 
@@ -717,6 +726,15 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `enums/open-method.enum.ts`
 
 **Details:** See [llm/enums/openmethodenum.md](llm/enums/openmethodenum.md)
+
+---
+
+### ProductItemActionsEnum
+**Description:** This file defines the ProductItemActionsEnum.
+
+**Source:** `enums/item-actions.enum.ts`
+
+**Details:** See [llm/enums/productitemactionsenum.md](llm/enums/productitemactionsenum.md)
 
 ---
 
@@ -834,21 +852,66 @@ Each entry links to a separate file containing the full code and details.
 
 ## VALIDATORS
 
-### validateValidateAttributesRequestDto
-**Description:** Validates a product validate attributes request object.
-
-**Source:** `validators/product-validate-attributes-request-validator.ts`
-
-**Details:** See [llm/validators/validatevalidateattributesrequestdto.md](llm/validators/validatevalidateattributesrequestdto.md)
-
----
-
 ### validateActionDto
 **Description:** Validates a ActionDto object using class-validator decorators.
 
 **Source:** `validators/action-validator.ts`
 
 **Details:** See [llm/validators/validateactiondto.md](llm/validators/validateactiondto.md)
+
+---
+
+### validateAddonFieldDto
+**Description:** Validates an AddonFieldDto object. Since AddonFieldDto is an empty subclass of FieldDto, this delegates to validateFieldDto.
+
+**Source:** `validators/addon-field-validator.ts`
+
+**Details:** See [llm/validators/validateaddonfielddto.md](llm/validators/validateaddonfielddto.md)
+
+---
+
+### validateAdminPanelDto
+**Description:** Validates an AdminPanelDto object using class-validator decorators.
+
+**Source:** `validators/admin-panel.validator.ts`
+
+**Details:** See [llm/validators/validateadminpaneldto.md](llm/validators/validateadminpaneldto.md)
+
+---
+
+### validateAdminPanelMoreActionsDto
+**Description:** Validates an AdminPanelMoreActionsDto object using class-validator decorators.
+
+**Source:** `validators/admin-panel-more-actions.validator.ts`
+
+**Details:** See [llm/validators/validateadminpanelmoreactionsdto.md](llm/validators/validateadminpanelmoreactionsdto.md)
+
+---
+
+### validateAdminPanelTabsDto
+**Description:** Validates an AdminPanelTabsDto object using class-validator decorators.
+
+**Source:** `validators/admin-panel-tabs.validator.ts`
+
+**Details:** See [llm/validators/validateadminpaneltabsdto.md](llm/validators/validateadminpaneltabsdto.md)
+
+---
+
+### validateAttachmentDto
+**Description:** Validates an AttachmentDto object using class-validator decorators.
+
+**Source:** `validators/attachment-validator.ts`
+
+**Details:** See [llm/validators/validateattachmentdto.md](llm/validators/validateattachmentdto.md)
+
+---
+
+### validateAttributeFieldDto
+**Description:** Validates an AttributeFieldDto object using class-validator decorators.
+
+**Source:** `validators/attribute-field-validator.ts`
+
+**Details:** See [llm/validators/validateattributefielddto.md](llm/validators/validateattributefielddto.md)
 
 ---
 
@@ -861,12 +924,48 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### validateClientPanelDto
+**Description:** Validates a ClientPanelDto object using class-validator decorators.
+
+**Source:** `validators/client-panel.validator.ts`
+
+**Details:** See [llm/validators/validateclientpaneldto.md](llm/validators/validateclientpaneldto.md)
+
+---
+
 ### validateCompanyDataDto
 **Description:** Validates a CompanyDataDto object using class-validator decorators.
 
 **Source:** `validators/company-data-validator.ts`
 
 **Details:** See [llm/validators/validatecompanydatadto.md](llm/validators/validatecompanydatadto.md)
+
+---
+
+### validateCountryDto
+**Description:** Validates a CountryDto object using class-validator decorators.
+
+**Source:** `validators/country-validator.ts`
+
+**Details:** See [llm/validators/validatecountrydto.md](llm/validators/validatecountrydto.md)
+
+---
+
+### validateEmailReceiverDto
+**Description:** Validates a EmailReceiverDto object using class-validator decorators.
+
+**Source:** `validators/receiver-email-validator.ts`
+
+**Details:** See [llm/validators/validateemailreceiverdto.md](llm/validators/validateemailreceiverdto.md)
+
+---
+
+### validateEmailSenderDto
+**Description:** Validates a EmailSenderDto object using class-validator decorators.
+
+**Source:** `validators/sender-email-validator.ts`
+
+**Details:** See [llm/validators/validateemailsenderdto.md](llm/validators/validateemailsenderdto.md)
 
 ---
 
@@ -879,6 +978,60 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### validateFieldOptionDto
+**Description:** Validates a FieldOptionDto object using class-validator decorators.
+
+**Source:** `validators/field-option.validator.ts`
+
+**Details:** See [llm/validators/validatefieldoptiondto.md](llm/validators/validatefieldoptiondto.md)
+
+---
+
+### validateInfoDto
+**Description:** Validates an InfoDto object using class-validator decorators.
+
+**Source:** `validators/info-validator.ts`
+
+**Details:** See [llm/validators/validateinfodto.md](llm/validators/validateinfodto.md)
+
+---
+
+### validateInvoiceContactDataDto
+**Description:** Validates an InvoiceContactData object using class-validator decorators.
+
+**Source:** `validators/invoice-contact-data-validator.ts`
+
+**Details:** See [llm/validators/validateinvoicecontactdatadto.md](llm/validators/validateinvoicecontactdatadto.md)
+
+---
+
+### validateInvoiceInfoDto
+**Description:** Validates an InvoiceInfoDto object using class-validator decorators.
+
+**Source:** `validators/invoice-info-validator.ts`
+
+**Details:** See [llm/validators/validateinvoiceinfodto.md](llm/validators/validateinvoiceinfodto.md)
+
+---
+
+### validateInvoiceItemDataDto
+**Description:** Validates an InvoiceItemDataDto object using class-validator decorators.
+
+**Source:** `validators/invoice-item-data-validator.ts`
+
+**Details:** See [llm/validators/validateinvoiceitemdatadto.md](llm/validators/validateinvoiceitemdatadto.md)
+
+---
+
+### validateItemDataDto
+**Description:** Validates an ItemDataDto object using class-validator decorators.
+
+**Source:** `validators/item-data-validator.ts`
+
+**Details:** See [llm/validators/validateitemdatadto.md](llm/validators/validateitemdatadto.md)
+
+---
+
 ### validateJwtDto
 **Description:** Validates a JwtDto object using class-validator decorators.
 
@@ -888,12 +1041,39 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### validateMenuWithSubmenuDto
+**Description:** Validates a MenuWithSubmenuDto object using class-validator decorators.
+
+**Source:** `validators/menu-with-submenu.validator.ts`
+
+**Details:** See [llm/validators/validatemenuwithsubmenudto.md](llm/validators/validatemenuwithsubmenudto.md)
+
+---
+
+### validateMenuWithUrlDto
+**Description:** Validates a MenuWithUrlDto object using class-validator decorators.
+
+**Source:** `validators/menu-with-url.validator.ts`
+
+**Details:** See [llm/validators/validatemenuwithurldto.md](llm/validators/validatemenuwithurldto.md)
+
+---
+
 ### validateMultilangTextDto
 **Description:** Validates a MultilangTextDto object using class-validator decorators.
 
 **Source:** `validators/multilang-text-validator.ts`
 
 **Details:** See [llm/validators/validatemultilangtextdto.md](llm/validators/validatemultilangtextdto.md)
+
+---
+
+### validateNotificationInfoDto
+**Description:** Validates a NotificationInfoDto object using class-validator decorators.
+
+**Source:** `validators/notification-info.validator.ts`
+
+**Details:** See [llm/validators/validatenotificationinfodto.md](llm/validators/validatenotificationinfodto.md)
 
 ---
 
@@ -924,6 +1104,15 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### validateProductDowngradableRequestDto
+**Description:** Validates a product downgradable request object.
+
+**Source:** `validators/product-downgradable-request-validator.ts`
+
+**Details:** See [llm/validators/validateproductdowngradablerequestdto.md](llm/validators/validateproductdowngradablerequestdto.md)
+
+---
+
 ### validateProductDowngradeRequestDto
 **Description:** Validates a product downgrade request object.
 
@@ -933,12 +1122,21 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### validateProductDowngradableRequestDto
-**Description:** Validates a product downgradable request object.
+### validateProductInfoDto
+**Description:** Validates a ProductInfoDto object using class-validator decorators.
 
-**Source:** `validators/product-Downgradable-request-validator.ts`
+**Source:** `validators/product-info.validator.ts`
 
-**Details:** See [llm/validators/validateproductdowngradablerequestdto.md](llm/validators/validateproductdowngradablerequestdto.md)
+**Details:** See [llm/validators/validateproductinfodto.md](llm/validators/validateproductinfodto.md)
+
+---
+
+### validateProductItemDataDto
+**Description:** Validates a ProductItemDataDto object using class-validator decorators.
+
+**Source:** `validators/product-item-data-validator.ts`
+
+**Details:** See [llm/validators/validateproductitemdatadto.md](llm/validators/validateproductitemdatadto.md)
 
 ---
 
@@ -969,15 +1167,6 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### validateProductUpgradeRequestDto
-**Description:** Validates a product upgrade request object.
-
-**Source:** `validators/product-upgrade-request-validator.ts`
-
-**Details:** See [llm/validators/validateproductupgraderequestdto.md](llm/validators/validateproductupgraderequestdto.md)
-
----
-
 ### validateProductUpgradableRequestDto
 **Description:** Validates a product upgradable request object.
 
@@ -987,21 +1176,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### validateProductValidateAttributesRequestDto
-**Description:** Validates a product validate attributes request object.
+### validateProductUpgradeRequestDto
+**Description:** Validates a product upgrade request object.
 
-**Source:** `validators/product-validate-attributes-request-validator.ts`
+**Source:** `validators/product-upgrade-request-validator.ts`
 
-**Details:** See [llm/validators/validateproductvalidateattributesrequestdto.md](llm/validators/validateproductvalidateattributesrequestdto.md)
-
----
-
-### validateEmailReceiverDto
-**Description:** Validates a EmailReceiverDto object using class-validator decorators.
-
-**Source:** `validators/receiver-email-validator.ts`
-
-**Details:** See [llm/validators/validateemailreceiverdto.md](llm/validators/validateemailreceiverdto.md)
+**Details:** See [llm/validators/validateproductupgraderequestdto.md](llm/validators/validateproductupgraderequestdto.md)
 
 ---
 
@@ -1014,129 +1194,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### validateSmsReceiverDto
-**Description:** Validates a SmsReceiverDto object using class-validator decorators.
-
-**Source:** `validators/receiver-sms-validator.ts`
-
-**Details:** See [llm/validators/validatesmsreceiverdto.md](llm/validators/validatesmsreceiverdto.md)
-
----
-
-### validateEmailSenderDto
-**Description:** Validates a EmailSenderDto object using class-validator decorators.
-
-**Source:** `validators/sender-email-validator.ts`
-
-**Details:** See [llm/validators/validateemailsenderdto.md](llm/validators/validateemailsenderdto.md)
-
----
-
 ### validatePushSenderDto
 **Description:** Validates a PushSenderDto object using class-validator decorators.
 
 **Source:** `validators/sender-push-validator.ts`
 
 **Details:** See [llm/validators/validatepushsenderdto.md](llm/validators/validatepushsenderdto.md)
-
----
-
-### validateSmsSenderDto
-**Description:** Validates a SmsSenderDto object using class-validator decorators.
-
-**Source:** `validators/sender-sms-validator.ts`
-
-**Details:** See [llm/validators/validatesmssenderdto.md](llm/validators/validatesmssenderdto.md)
-
----
-
-### validateAdminPanelDto
-**Description:** Validates an AdminPanelDto object using class-validator decorators.
-
-**Source:** `validators/admin-panel.validator.ts`
-
-**Details:** See [llm/validators/validateadminpaneldto.md](llm/validators/validateadminpaneldto.md)
-
----
-
-### validateAdminPanelTabsDto
-**Description:** Validates an AdminPanelTabsDto object using class-validator decorators.
-
-**Source:** `validators/admin-panel-tabs.validator.ts`
-
-**Details:** See [llm/validators/validateadminpaneltabsdto.md](llm/validators/validateadminpaneltabsdto.md)
-
----
-
-### validateAdminPanelMoreActionsDto
-**Description:** Validates an AdminPanelMoreActionsDto object using class-validator decorators.
-
-**Source:** `validators/admin-panel-more-actions.validator.ts`
-
-**Details:** See [llm/validators/validateadminpanelmoreactionsdto.md](llm/validators/validateadminpanelmoreactionsdto.md)
-
----
-
-### validateClientPanelDto
-**Description:** Validates a ClientPanelDto object using class-validator decorators.
-
-**Source:** `validators/client-panel.validator.ts`
-
-**Details:** See [llm/validators/validateclientpaneldto.md](llm/validators/validateclientpaneldto.md)
-
----
-
-### validateFieldOptionDto
-**Description:** Validates a FieldOptionDto object using class-validator decorators.
-
-**Source:** `validators/field-option.validator.ts`
-
-**Details:** See [llm/validators/validatefieldoptiondto.md](llm/validators/validatefieldoptiondto.md)
-
----
-
-### validateMenuWithUrlDto
-**Description:** Validates a MenuDtoWithUrl object using class-validator decorators.
-
-**Source:** `validators/menu-with-url.validator.ts`
-
-**Details:** See [llm/validators/validatemenuwithurldto.md](llm/validators/validatemenuwithurldto.md)
-
----
-
-### validateMenuWithSubmenuDto
-**Description:** Validates a MenuDtoWithSubmenu object using class-validator decorators.
-
-**Source:** `validators/menu-with-submenu.validator.ts`
-
-**Details:** See [llm/validators/validatemenuwithsubmenudto.md](llm/validators/validatemenuwithsubmenudto.md)
-
----
-
-### validateNotificationInfoDto
-**Description:** Validates a NotificationInfoDto object using class-validator decorators.
-
-**Source:** `validators/notification-info.validator.ts`
-
-**Details:** See [llm/validators/validatenotificationinfodto.md](llm/validators/validatenotificationinfodto.md)
-
----
-
-### validateProductInfoDto
-**Description:** Validates a ProductInfoDto object using class-validator decorators.
-
-**Source:** `validators/product-info.validator.ts`
-
-**Details:** See [llm/validators/validateproductinfodto.md](llm/validators/validateproductinfodto.md)
-
----
-
-### validateSettingsWithUrlDto
-**Description:** Validates a SettingsWithUrlDto object using class-validator decorators.
-
-**Source:** `validators/settings-with-url.validator.ts`
-
-**Details:** See [llm/validators/validatesettingswithurldto.md](llm/validators/validatesettingswithurldto.md)
 
 ---
 
@@ -1149,12 +1212,75 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### validateSettingsWithUrlDto
+**Description:** Validates a SettingsWithUrlDto object using class-validator decorators.
+
+**Source:** `validators/settings-with-url.validator.ts`
+
+**Details:** See [llm/validators/validatesettingswithurldto.md](llm/validators/validatesettingswithurldto.md)
+
+---
+
+### validateSmsReceiverDto
+**Description:** Validates a SmsReceiverDto object using class-validator decorators.
+
+**Source:** `validators/receiver-sms-validator.ts`
+
+**Details:** See [llm/validators/validatesmsreceiverdto.md](llm/validators/validatesmsreceiverdto.md)
+
+---
+
+### validateSmsSenderDto
+**Description:** Validates a SmsSenderDto object using class-validator decorators.
+
+**Source:** `validators/sender-sms-validator.ts`
+
+**Details:** See [llm/validators/validatesmssenderdto.md](llm/validators/validatesmssenderdto.md)
+
+---
+
+### validateTabDto
+**Description:** Validates a TabDto object using class-validator decorators.
+
+**Source:** `validators/tab-validator.ts`
+
+**Details:** See [llm/validators/validatetabdto.md](llm/validators/validatetabdto.md)
+
+---
+
+### validateTINValidationDetailsDto
+**Description:** Validates a TINValidationDetails object using class-validator decorators.
+
+**Source:** `validators/tin-validation-details-validator.ts`
+
+**Details:** See [llm/validators/validatetinvalidationdetailsdto.md](llm/validators/validatetinvalidationdetailsdto.md)
+
+---
+
+### validateTransactionDataDto
+**Description:** Validates a TransactionData object using class-validator decorators.
+
+**Source:** `validators/transaction-data-validator.ts`
+
+**Details:** See [llm/validators/validatetransactiondatadto.md](llm/validators/validatetransactiondatadto.md)
+
+---
+
 ### validateUnitDto
 **Description:** Validates a UnitDto object using class-validator decorators.
 
 **Source:** `validators/unit.validator.ts`
 
 **Details:** See [llm/validators/validateunitdto.md](llm/validators/validateunitdto.md)
+
+---
+
+### validateValidateAttributesRequestDto
+**Description:** Validates a product validate attributes request object.
+
+**Source:** `validators/product-validate-attributes-request-validator.ts`
+
+**Details:** See [llm/validators/validatevalidateattributesrequestdto.md](llm/validators/validatevalidateattributesrequestdto.md)
 
 ---
 

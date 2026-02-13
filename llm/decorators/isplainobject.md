@@ -1,6 +1,6 @@
 # IsPlainObject
 
-**Description:** Custom class-validator decorator: IsPlainObject
+**Description:** Custom class-validator decorator that validates if a value is a plain object with key-value pairs.
 
 **Source:** `decorators/is-plain-object.validator.ts`
 
