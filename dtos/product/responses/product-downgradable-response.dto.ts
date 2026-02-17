@@ -1,5 +1,6 @@
 import { ResponseStatusEnum } from '../../../enums/response-status.enum';
 import { BaseResponse } from '../../base-response.dto';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * Represents the response for a product Downgradable check.
@@ -9,11 +10,22 @@ export class ProductDowngradableResponseDto extends BaseResponse {
   /**
    * The status of the response, indicating success or failure.
    */
+  @JSONSchema({
+    title: 'Status',
+    description: 'The status of the response, indicating success or failure.',
+    type: 'string',
+    enum: Object.values(ResponseStatusEnum),
+  })
   status!: ResponseStatusEnum;
 
   /**
    * The unique identifier of the product item being checked.
    */
+  @JSONSchema({
+    title: 'Item ID',
+    description: 'The unique identifier of the product item being checked.',
+    type: 'string',
+  })
   itemId!: string;
 
   /**
@@ -21,5 +33,11 @@ export class ProductDowngradableResponseDto extends BaseResponse {
    * Can contain details about available downgrades or reasons for failure.
    * @optional
    */
+  @JSONSchema({
+    title: 'Data',
+    description: 'Optional data associated with the downgradable check.',
+    type: 'object',
+    additionalProperties: true,
+  })
   data?: Record<string, unknown>;
 }

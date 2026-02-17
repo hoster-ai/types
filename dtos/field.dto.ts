@@ -9,15 +9,12 @@ import {
   IsArray,
   ArrayMinSize,
   ValidateIf,
-  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { MultilangTextDto } from './multilang-text.dto';
 import { FieldOptionDto } from './field-option.dto';
 import { IsRegex } from '../decorators/is-regex.validator';
-import { AllOrNoneProperty } from '../decorators/all-or-none.validator';
-import { MinLessOrEqualMaxProperty } from '../decorators/min-less-or-equal.validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
@@ -25,8 +22,6 @@ import { JSONSchema } from 'class-validator-jsonschema';
  * This class defines the structure and properties of a single field
  * that can be used in a user interface form.
  */
-@AllOrNoneProperty(['repeatableMin', 'repeatableMax'])
-@MinLessOrEqualMaxProperty(['repeatableMin', 'repeatableMax'])
 export class FieldDto {
   /**
    * ID of action field
@@ -101,14 +96,6 @@ export class FieldDto {
   })
   type!: FieldTypeEnum;
 
-  @IsOptional()
-  @IsNumber()
-  repeatableMin?: number;
-
-  @IsOptional()
-  @IsNumber()
-  repeatableMax?: number;
-
   /**
    * Indicates if the field is required
    */
@@ -119,7 +106,7 @@ export class FieldDto {
     description: 'Whether the field is required.',
     type: 'boolean',
   })
-  required!: boolean;
+  required?: boolean;
 
   /**
    * Indicates if the field is disabled
@@ -131,31 +118,15 @@ export class FieldDto {
     description: 'Whether the field is disabled.',
     type: 'boolean',
   })
-  disabled!: boolean;
+  disabled?: boolean;
 
   /**
-   * Indicates if the field is hidden in order
+   * Indicates if the field is hidden
    */
   @IsBoolean()
-  @IsDefined()
-  @JSONSchema({
-    title: 'Visible In Order',
-    description: 'Whether the field is visible in order.',
-    type: 'boolean',
-  })
-  visibleInOrder!: boolean;
+  @IsOptional()
+  hidden?: boolean;
 
-  /**
-   * Indicates if the field is visible in client panel
-   */
-  @IsBoolean()
-  @IsDefined()
-  @JSONSchema({
-    title: 'Visible In Client Panel',
-    description: 'Whether the field is visible in client panel.',
-    type: 'boolean',
-  })
-  visibleInClientPanel!: boolean;
 
   /**
    * Regex validation pattern for the field
@@ -177,6 +148,8 @@ export class FieldDto {
   @ValidateIf((o) => !!o.regexValidation)
   @ValidateNested({ each: true })
   @Type(() => MultilangTextDto)
+  @IsArray()
+  @ArrayMinSize(1)
   @IsOptional()
   @JSONSchema({
     title: 'Regex Validation Error Message',
@@ -187,27 +160,24 @@ export class FieldDto {
   regexValidationErrorMessage?: MultilangTextDto[];
 
   /**
-   * Indicates if the field triggers remote validation
+   * Whether remote validation should be triggered
    */
   @IsBoolean()
   @IsOptional()
-  @JSONSchema({
-    title: 'Triggers Remote Validation',
-    description: 'If true, field triggers remote validation.',
-    type: 'boolean',
-  })
-  triggersRemoteValidation?: boolean = false;
+  triggersRemoteValidation?: boolean;
 
   /**
-   * Error message for the field for supported languages
+   * Remote validation error message for supported languages
    */
-  @ValidateIf((o) => o.triggersRemoteValidation === true)
+  @ValidateIf((o) => !!o.triggersRemoteValidation)
   @ValidateNested({ each: true })
   @Type(() => MultilangTextDto)
+  @IsArray()
+  @ArrayMinSize(1)
   @IsOptional()
   @JSONSchema({
     title: 'Remote Validation Error Message',
-    description: 'Localized error messages for remote validation.',
+    description: 'Localized error message shown when remote validation fails.',
     type: 'array',
     items: { $ref: '#/components/schemas/MultilangTextDto' },
   })
@@ -219,11 +189,20 @@ export class FieldDto {
    * TODO: Let's see if this approach is the best way for the user to upgrade their item
    */
   @IsBoolean()
-  @IsDefined()
+  @IsOptional()
   @JSONSchema({
     title: 'Upgradable',
     description: 'Whether the item attribute is upgradable by the user.',
     type: 'boolean',
   })
-  upgradable: boolean = false;
+  upgradable?: boolean = false;
+
+  @IsBoolean()
+  @IsOptional()
+  @JSONSchema({
+    title: 'Downgradable',
+    description: 'Whether the item attribute is downgradable by the user.',
+    type: 'boolean',
+  })
+  downgradable?: boolean = false;
 }

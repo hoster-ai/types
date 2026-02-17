@@ -1,11 +1,12 @@
-import { IsArray, IsOptional, ValidateNested, ArrayMinSize } from 'class-validator';
-import { FieldDto } from '../field.dto';
+import { IsArray, IsOptional, ValidateNested, ArrayMinSize, IsEnum, IsNotEmpty } from 'class-validator';
+import { AttributeFieldDto } from '../attribute-field.dto';
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
 import { Type } from 'class-transformer';
 import { IsPlainObject } from '../../decorators/is-plain-object.validator';
 import { UniqueFieldInArray } from '../../decorators/unique-field-in-array.validator';
 import { JSONSchema } from 'class-validator-jsonschema';
+import { ProductItemActionsEnum } from '../../enums/item-actions.enum';
 
 /**
  * DTO for notification information.
@@ -22,15 +23,15 @@ export class ProductInfoDto extends InfoDto {
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
-  @Type(() => FieldDto)
+  @Type(() => AttributeFieldDto)
   @UniqueFieldInArray('id')
-  @JSONSchema({ 
-    title: 'Product Attributes', 
-    description: 'Configurable attributes that apply at the product level.', 
-    type: 'array', 
-    items: { $ref: '#/components/schemas/FieldDto' } 
+  @JSONSchema({
+    title: 'Product Attributes',
+    description: 'Configurable attributes that apply at the product level.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/AttributeFieldDto' }
   })
-  productAttributes?: FieldDto[];
+  productAttributes?: AttributeFieldDto[];
 
   /**
    * Custom attributes that can be defined for items.
@@ -40,15 +41,15 @@ export class ProductInfoDto extends InfoDto {
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
-  @Type(() => FieldDto)
+  @Type(() => AttributeFieldDto)
   @UniqueFieldInArray('id')
-  @JSONSchema({ 
-    title: 'Item Attributes', 
-    description: 'Configurable attributes that apply at the item level.', 
-    type: 'array', 
-    items: { $ref: '#/components/schemas/FieldDto' } 
+  @JSONSchema({
+    title: 'Item Attributes',
+    description: 'Configurable attributes that apply at the item level.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/AttributeFieldDto' }
   })
-  itemAttributes?: FieldDto[];
+  itemAttributes?: AttributeFieldDto[];
 
   /**
    * Defines the units for pay-per-use billing.
@@ -60,12 +61,12 @@ export class ProductInfoDto extends InfoDto {
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => UnitDto)
-  @JSONSchema({ 
-    title: 'Pay-Per-Use Units', 
-    description: 'Optional metering units for pay-per-use billing.', 
-    type: 'array', 
-    items: { $ref: '#/components/schemas/UnitDto' }, 
-    example: [{ id: 'requests', unitDescription: 'API request', intervalDescription: 'Per month' }] 
+  @JSONSchema({
+    title: 'Pay-Per-Use Units',
+    description: 'Optional metering units for pay-per-use billing.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/UnitDto' },
+    example: [{ id: 'requests', unitDescription: 'API request', intervalDescription: 'Per month' }]
   })
   payPerUseUnits?: UnitDto[];
 
@@ -75,12 +76,27 @@ export class ProductInfoDto extends InfoDto {
    */
   @IsOptional()
   @IsPlainObject()
-  @JSONSchema({ 
-    title: 'Response Data Field Names', 
-    description: 'Mapping of field names used in provider responses.', 
-    type: 'object', 
+  @JSONSchema({
+    title: 'Response Data Field Names',
+    description: 'Mapping of field names used in provider responses.',
+    type: 'object',
     additionalProperties: { type: 'string' },
-    example: { external_id: 'id', status_text: 'status' } 
+    example: { external_id: 'id', status_text: 'status' }
   })
   responseDataFieldNames?: Record<string, unknown>;
+
+
+  /**
+   * A list of actions that are supported by this integration.
+   */
+  @IsNotEmpty()
+  @IsArray()
+  @IsEnum(ProductItemActionsEnum, { each: true })
+  @JSONSchema({
+    title: 'Supported Actions',
+    description: 'Actions supported by this integration.',
+    type: 'array',
+    items: { type: 'string', enum: Object.values(ProductItemActionsEnum) }
+  })
+  supportedActions: ProductItemActionsEnum[] = [];
 }

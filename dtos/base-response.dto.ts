@@ -1,4 +1,5 @@
 import { IsNumber, IsString, IsNotEmpty } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * Base response class
@@ -10,6 +11,11 @@ export class BaseResponse {
    */
   @IsNumber()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Code',
+    description: 'Response code.',
+    type: 'number',
+  })
   code!: number;
 
   /**
@@ -17,5 +23,10 @@ export class BaseResponse {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Message',
+    description: 'Response message.',
+    type: 'string',
+  })
   message!: string;
 }

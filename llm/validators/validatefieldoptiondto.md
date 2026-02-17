@@ -1,0 +1,23 @@
+# validateFieldOptionDto
+
+**Description:** Validates a FieldOptionDto object using class-validator decorators.
+
+**Source:** `validators/field-option.validator.ts`
+
+**Language:** typescript
+
+## Code
+
+```typescript
+import { validateSync, ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { FieldOptionDto } from '../dtos/field-option.dto';
+
+export function validateFieldOptionDto(data: object): ValidationError[] {
+    const dto = plainToInstance(FieldOptionDto, data);
+    const errors = validateSync(dto);
+
+    return errors;
+}
+```
+

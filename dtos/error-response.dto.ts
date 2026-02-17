@@ -1,4 +1,5 @@
 import { IsArray, IsOptional, IsString, IsNotEmpty } from 'class-validator';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * DTO for error response.
@@ -11,6 +12,12 @@ export class ErrorResponseDto {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Code',
+    description: 'A unique and specific error code for programmatic error handling.',
+    type: 'number',
+    example: 400,
+  })
   code!: number;
 
   /**
@@ -22,5 +29,13 @@ export class ErrorResponseDto {
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
+  @JSONSchema({
+    title: 'Errors',
+    description: 'A developer-friendly error message or an array of messages.',
+    oneOf: [
+      { type: 'string' },
+      { type: 'array', items: { type: 'string' } },
+    ],
+  })
   errors?: string[] | string;
 }

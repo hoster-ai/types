@@ -61,7 +61,11 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `country.dto.ts`: Represents country metadata (name, ISO code, Europe flag).
 - `error-response.dto.ts`: Defines the structure for error responses.
 - `field.dto.ts`: Represents a generic field for forms or dynamic data.
+- `attribute-field.dto.ts`: Extends `FieldDto` with product-specific attributes (visibleInOrder, visibleInClientPanel, repeatableMin, repeatableMax).
+- `addon-field.dto.ts`: Extends `FieldDto` for seller-defined checkout fields.
 - `field-option.dto.ts`: Represents options for form fields (used for checkboxes, radioboxes, and selects).
+- `item-data.dto.ts`: Represents the data of a specific product item (IDs, attributes, dates, pricing).
+- `invoice-contact-data.dto.ts`: Billing contact information for invoice integrations.
 - `info.dto.ts`: Contains all necessary information for a service integration.
 - `jwt.dto.ts`: DTOs related to JSON Web Tokens.
 - `menu.dto.ts`: Defines the structure for menu items.
@@ -74,13 +78,13 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `success-response.dto.ts`: Defines the structure for successful API responses.
 - `tab.dto.ts`: Represents a tab in a user interface.
 - `submenu.dto.ts`: Represents a submenu item.
-- `task-response.dto.ts`: DTO for responses related to background tasks.
 - `unit.dto.ts`: Represents a unit for pay-per-use billing.
 
 **Notification DTOs:**
 
 - `notification/notification-info.dto.ts`: Contains detailed information about a notification.
-- `notification/notification-send-request.dto.ts`: The primary DTO for requesting a new notification.
+- `notification/requests/notification-send-request.dto.ts`: The primary DTO for requesting a new notification.
+- `notification/responses/notification-send-response.dto.ts`: Response after successfully sending a notification.
 - `notification/receiver/receiver-email.dto.ts`: Defines the receiver for an email notification.
 - `notification/receiver/receiver-push.dto.ts`: Defines the receiver for a push notification.
 - `notification/receiver/receiver-sms.dto.ts`: Defines the receiver for an SMS notification.
@@ -88,13 +92,32 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `notification/sender/sender-push.dto.ts`: Defines the sender for a push notification.
 - `notification/sender/sender-sms.dto.ts`: Defines the sender for an SMS notification.
 
+**General Request/Response DTOs:**
+
+- `requests/validate-attributes-request.dto.ts`: Defines the structure for validating product attributes.
+- `responses/validate-attributes-response.dto.ts`: Response from validating product attributes.
+
 **Product DTOs:**
 
-- `product/product-info.dto.ts`: Contains detailed information about a product.
-- `product/product-item-data.dto.ts`: Represents the data of a specific product item.
-- `product/requests/product-validate-attributes-request.dto.ts`: Defines the structure for validating product attributes.
-- `product/requests/*`: DTOs for product-related requests (create, delete, upgrade, etc.).
+- `product/product-info.dto.ts`: Contains detailed information about a product. Uses `AttributeFieldDto` for product/item attributes.
+- `product/product-item-data.dto.ts`: Extends `ItemDataDto` with product-specific action type.
+- `product/requests/*`: DTOs for product-related requests (create, delete, upgrade, downgrade, renew, suspend, unsuspend, upgradable, downgradable).
 - `product/responses/*`: DTOs for product-related responses.
+
+**Invoice DTOs:**
+
+- `invoice/invoice-info.dto.ts`: Contains detailed information about an invoice integration.
+- `invoice/invoice-item-data.dto.ts`: Extends `ItemDataDto` with invoice-specific action type.
+- `invoice/transaction-data.dto.ts`: Transaction details (ID, amount, payment method, date).
+- `invoice/tin-validation-details.dto.ts`: Tax Identification Number validation details.
+- `invoice/requests/proforma-invoice-request.dto.ts`: Request payload for creating a proforma invoice.
+- `invoice/requests/invoice-request.dto.ts`: Request payload for creating a standard invoice.
+- `invoice/requests/credit-note-request.dto.ts`: Request payload for creating a credit note.
+- `invoice/requests/tax-details-request.dto.ts`: Request payload for calculating tax details.
+- `invoice/responses/proforma-invoice-response.dto.ts`: Response after creating a proforma invoice.
+- `invoice/responses/invoice-response.dto.ts`: Response after creating a standard invoice.
+- `invoice/responses/credit-note-response.dto.ts`: Response after creating a credit note.
+- `invoice/responses/tax-details-response.dto.ts`: Response with tax calculation details.
 
 ### Enums
 
@@ -102,7 +125,9 @@ Enums provide a set of named constants for common types, preventing errors with 
 
 **Key Enums:**
 
-- `ActionsEnum`: Defines possible actions.
+- `ProductItemActionsEnum`: Defines possible product item actions (create, renew, upgrade, downgrade, etc.).
+- `InvoiceItemActionsEnum`: Defines possible invoice item actions (create, renew, upgrade, downgrade, transfer, trade).
+- `InvoiceTypesEnum`: Defines invoice document types (invoice, credit-note, proforma).
 - `CountryEnum`: A list of all countries.
 - `DurationEnum`: Defines billing durations (e.g., `MONTHLY`, `YEARLY`).
 - `EventsEnum`: Defines triggerable events.
@@ -144,7 +169,14 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateJwtDto`: Validates JWT data.
 - `validateMultilangTextDto`: Validates multilingual text objects.
 - `validateUnitDto`: Validates billing unit data.
-- `validateAttributesDto`: Validates attributes.
+- `validateAttachmentDto`: Validates file attachments.
+- `validateAttributeFieldDto`: Validates attribute fields.
+- `validateAddonFieldDto`: Validates addon fields.
+- `validateCountryDto`: Validates country data.
+- `validateTabDto`: Validates tab data.
+- `validateItemDataDto`: Validates item data.
+- `validateProductItemDataDto`: Validates product item data.
+- `validateInfoDto`: Validates integration info.
 
 **Panel Validators:**
 - `validateAdminPanelDto`: Validates admin panel configuration.
@@ -164,6 +196,13 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateEmailReceiverDto`, `validateSmsReceiverDto`, `validatePushReceiverDto`: Validators for notification receivers.
 - `validateEmailSenderDto`, `validateSmsSenderDto`, `validatePushSenderDto`: Validators for notification senders.
 
+**Invoice Validators:**
+- `validateInvoiceInfoDto`: Validates invoice integration info.
+- `validateInvoiceContactDataDto`: Validates invoice contact data.
+- `validateInvoiceItemDataDto`: Validates invoice item data.
+- `validateTinValidationDetailsDto`: Validates TIN validation details.
+- `validateTransactionDataDto`: Validates transaction data.
+
 **Product Validators:**
 - `validateProductInfoDto`: Validates product information.
 - `validateProductCreateRequestDto`: Validates product creation requests.
@@ -174,6 +213,8 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateProductSuspendRequestDto`: Validates product suspension requests.
 - `validateProductUnsuspendRequestDto`: Validates product unsuspension requests.
 - `validateProductUpgradableRequestDto`: Validates product upgradability checks.
+- `validateProductDowngradableRequestDto`: Validates product downgradability checks.
+- `validateValidateAttributesRequestDto`: Validates attribute validation requests.
 
 
 ### Custom Decorators

@@ -1,0 +1,24 @@
+# FieldTypeEnum
+
+**Description:** This file defines the FieldTypeEnum.
+
+**Source:** `enums/field-type.enum.ts`
+
+**Language:** typescript
+
+## Code
+
+```typescript
+export enum FieldTypeEnum {
+  //These are the enums for all possible types of action fields as they will be rendered on the hoster
+  TEXT_BOX = 'TEXT_BOX',
+  TEXT_AREA = 'TEXT_AREA',
+  SELECT = 'SELECT',
+  MULTI_SELECT = 'MULTI_SELECT',
+  DESCRIPTION = 'DESCRIPTION',
+  RADIO_BOX = 'RADIO_BOX',
+  CHECKBOX = 'CHECKBOX',
+  SLIDER = 'SLIDER',
+}
+```
+

@@ -1,4 +1,3 @@
-import { ActionsEnum } from '../enums/actions.enum';
 import { EventsEnum } from '../enums/events.enum';
 import { LanguageEnum } from '../enums/language.enum';
 import { RolesEnum } from '../enums/roles.enum';
@@ -78,20 +77,6 @@ export class InfoDto {
     example: ['EN']
   })
   supportedLanguages!: LanguageEnum[];
-
-  /**
-   * A list of actions that are supported by this integration.
-   */
-  @IsOptional()
-  @IsArray()
-  @IsEnum(ActionsEnum, { each: true })
-  @JSONSchema({
-    title: 'Supported Actions',
-    description: 'Actions supported by this integration.',
-    type: 'array',
-    items: { type: 'string', enum: Object.values(ActionsEnum) }
-  })
-  supportedActions?: ActionsEnum[] = [];
 
   /**
    * A list of events that the integration listens to.
