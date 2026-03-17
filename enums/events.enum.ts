@@ -197,6 +197,9 @@ export enum EventsEnum {
   ITEM_ACTIVATED = 'item/activated',
   ITEM_DEACTIVATED = 'item/set-inactive',
   ITEM_PROCESSED = 'item/processed',
+  ITEM_REFUND_REQUESTED = 'item/refund-requested',
+  ITEM_REFUND_ACCEPTED = 'item/refund-accepted',
+  ITEM_REFUND_REJECTED = 'item/refund-rejected',
 
   ORDER_PAID = 'order/paid',
 
