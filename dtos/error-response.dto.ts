@@ -14,7 +14,8 @@ export class ErrorResponseDto {
   @IsNotEmpty()
   @JSONSchema({
     title: 'Code',
-    description: 'A unique and specific error code for programmatic error handling.',
+    description:
+      'A unique and specific error code for programmatic error handling.',
     type: 'number',
     example: 400,
   })
@@ -32,10 +33,7 @@ export class ErrorResponseDto {
   @JSONSchema({
     title: 'Errors',
     description: 'A developer-friendly error message or an array of messages.',
-    oneOf: [
-      { type: 'string' },
-      { type: 'array', items: { type: 'string' } },
-    ],
+    oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
   })
   errors?: string[] | string;
 }

@@ -1,9 +1,8 @@
 import { Type } from 'class-transformer';
 import { IsArray, ValidateNested } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { BaseResponse } from "../base-response.dto";
-import { FieldDto } from "../field.dto";
-
+import { BaseResponse } from '../base-response.dto';
+import { FieldDto } from '../field.dto';
 
 /**
  * Represents the response from validating product attributes.
@@ -19,7 +18,8 @@ export class ValidateAttributesResponseDto extends BaseResponse {
   @Type(() => FieldDto)
   @JSONSchema({
     title: 'Validated Attributes',
-    description: 'An array of field DTOs representing the validated attributes.',
+    description:
+      'An array of field DTOs representing the validated attributes.',
     type: 'array',
     items: { $ref: '#/components/schemas/FieldDto' },
   })

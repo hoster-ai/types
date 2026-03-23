@@ -19,7 +19,7 @@ export class ProductCreateRequestDto {
   @Type(() => ClientDataDto)
   @JSONSchema({
     title: 'Client Data',
-    description: 'The client\'s data for the request.',
+    description: "The client's data for the request.",
     $ref: '#/components/schemas/ClientDataDto',
   })
   clientData!: ClientDataDto;

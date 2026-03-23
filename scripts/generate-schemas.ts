@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * Script: generate-schemas.ts
  *
@@ -49,7 +48,6 @@ function ensureDir(dir: string) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
-
 function main() {
   const outDir = path.resolve(__dirname, '../openapi/schemas');
   ensureDir(outDir);
@@ -75,7 +73,10 @@ function main() {
             ? v.replace('#/definitions/', '#/components/schemas/')
             : v;
           // Drop placeholder refs to Array/Object; keep inline type/items instead
-          if (toComponents.endsWith('/Array') || toComponents.endsWith('/Object')) {
+          if (
+            toComponents.endsWith('/Array') ||
+            toComponents.endsWith('/Object')
+          ) {
             // do not include this $ref; other keys like type/items will remain
           } else {
             out[k] = toComponents;
@@ -102,7 +103,12 @@ function main() {
       const out: any = {};
       for (const [k, v] of Object.entries(obj)) {
         // Skip invalid "not: { type: 'null' }" constraints
-        if (k === 'not' && v && typeof v === 'object' && (v as any).type === 'null') {
+        if (
+          k === 'not' &&
+          v &&
+          typeof v === 'object' &&
+          (v as any).type === 'null'
+        ) {
           continue;
         }
 
@@ -115,24 +121,27 @@ function main() {
               pvSan.type = 'string';
             }
             // Drop properties with effectively empty schemas (no shape info)
-            const hasShape = pvSan && typeof pvSan === 'object' && (
-              ('$ref' in pvSan) ||
-              ('type' in pvSan) ||
-              ('oneOf' in pvSan) ||
-              ('allOf' in pvSan) ||
-              ('anyOf' in pvSan) ||
-              ('items' in pvSan) ||
-              ('properties' in pvSan) ||
-              ('enum' in pvSan) ||
-              ('format' in pvSan)
-            );
+            const hasShape =
+              pvSan &&
+              typeof pvSan === 'object' &&
+              ('$ref' in pvSan ||
+                'type' in pvSan ||
+                'oneOf' in pvSan ||
+                'allOf' in pvSan ||
+                'anyOf' in pvSan ||
+                'items' in pvSan ||
+                'properties' in pvSan ||
+                'enum' in pvSan ||
+                'format' in pvSan);
             if (hasShape) {
               cleanedProps[pk] = pvSan;
             }
           }
           out[k] = cleanedProps;
         } else if (k === 'required' && Array.isArray(v)) {
-          const cleaned = (v as any[]).filter((x) => typeof x === 'string' && x.trim() !== '');
+          const cleaned = (v as any[]).filter(
+            (x) => typeof x === 'string' && x.trim() !== '',
+          );
           if (cleaned.length > 0) {
             out[k] = cleaned;
           }
@@ -145,11 +154,13 @@ function main() {
     return obj;
   };
 
-
   // 4) Emit full components map to be merged into an OpenAPI document
   const componentsOut = path.join(outDir, 'components.schemas.ts');
   // Remap and ensure required helper definitions exist
-  const remappedComponents = sanitizeSchema(remapRefs(schemas)) as Record<string, unknown>;
+  const remappedComponents = sanitizeSchema(remapRefs(schemas)) as Record<
+    string,
+    unknown
+  >;
 
   // 5) Write the file with a typed `const` export for easy import/merge in the API app
   const componentsContent = `export const ComponentsSchemas = ${JSON.stringify(remappedComponents, null, 2)} as const;\n`;

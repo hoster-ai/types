@@ -19,7 +19,7 @@ export class ProductDeleteRequestDto {
   @Type(() => ClientDataDto)
   @JSONSchema({
     title: 'Client Data',
-    description: 'The client\'s data initiating the request.',
+    description: "The client's data initiating the request.",
     type: 'object',
   })
   clientData!: ClientDataDto;

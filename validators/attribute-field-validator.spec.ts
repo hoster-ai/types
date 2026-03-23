@@ -20,7 +20,11 @@ describe('AttributeFieldDto Validator', () => {
     });
 
     it('should return no errors with optional visibleInOrder and visibleInClientPanel', () => {
-      const dto = { ...baseValidDto, visibleInOrder: true, visibleInClientPanel: false };
+      const dto = {
+        ...baseValidDto,
+        visibleInOrder: true,
+        visibleInClientPanel: false,
+      };
       expect(validateAttributeFieldDto(dto)).toHaveLength(0);
     });
 
@@ -61,34 +65,43 @@ describe('AttributeFieldDto Validator', () => {
     it('should return error for non-boolean visibleInOrder', () => {
       const dto = { ...baseValidDto, visibleInOrder: 'yes' };
       const errors = validateAttributeFieldDto(dto);
-      expect(errors.some(e => e.property === 'visibleInOrder')).toBe(true);
+      expect(errors.some((e) => e.property === 'visibleInOrder')).toBe(true);
     });
 
     it('should return error for non-boolean visibleInClientPanel', () => {
       const dto = { ...baseValidDto, visibleInClientPanel: 1 };
       const errors = validateAttributeFieldDto(dto);
-      expect(errors.some(e => e.property === 'visibleInClientPanel')).toBe(true);
+      expect(errors.some((e) => e.property === 'visibleInClientPanel')).toBe(
+        true,
+      );
     });
 
     it('should return error for non-number repeatableMin', () => {
       const dto = { ...baseValidDto, repeatableMin: 'one', repeatableMax: 5 };
       const errors = validateAttributeFieldDto(dto);
-      expect(errors.some(e => e.property === 'repeatableMin')).toBe(true);
+      expect(errors.some((e) => e.property === 'repeatableMin')).toBe(true);
     });
 
     it('should return error for non-number repeatableMax', () => {
       const dto = { ...baseValidDto, repeatableMin: 1, repeatableMax: 'five' };
       const errors = validateAttributeFieldDto(dto);
-      expect(errors.some(e => e.property === 'repeatableMax')).toBe(true);
+      expect(errors.some((e) => e.property === 'repeatableMax')).toBe(true);
     });
   });
 
   describe('Inherited FieldDto validation', () => {
     it('should return errors when inherited required fields are missing', () => {
       const errors = validateAttributeFieldDto({});
-      const requiredProps = ['id', 'label', 'value', 'type', 'required', 'disabled'];
+      const requiredProps = [
+        'id',
+        'label',
+        'value',
+        'type',
+        'required',
+        'disabled',
+      ];
       for (const prop of requiredProps) {
-        expect(errors.some(e => e.property === prop)).toBe(true);
+        expect(errors.some((e) => e.property === prop)).toBe(true);
       }
     });
   });

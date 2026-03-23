@@ -19,23 +19,26 @@ describe('InvoiceItemDataDto Validator', () => {
       expect(validateInvoiceItemDataDto(baseValidDto)).toHaveLength(0);
     });
 
-    it.each(Object.values(InvoiceItemActionsEnum))('should accept action %s', (action) => {
-      const dto = { ...baseValidDto, action };
-      expect(validateInvoiceItemDataDto(dto)).toHaveLength(0);
-    });
+    it.each(Object.values(InvoiceItemActionsEnum))(
+      'should accept action %s',
+      (action) => {
+        const dto = { ...baseValidDto, action };
+        expect(validateInvoiceItemDataDto(dto)).toHaveLength(0);
+      },
+    );
   });
 
   describe('Missing required fields', () => {
     it('should return error when action is missing', () => {
       const { action, ...dto } = baseValidDto;
       const errors = validateInvoiceItemDataDto(dto);
-      expect(errors.some(e => e.property === 'action')).toBe(true);
+      expect(errors.some((e) => e.property === 'action')).toBe(true);
     });
 
     it('should return errors for inherited required fields when missing', () => {
       const errors = validateInvoiceItemDataDto({});
-      expect(errors.some(e => e.property === 'action')).toBe(true);
-      expect(errors.some(e => e.property === 'productId')).toBe(true);
+      expect(errors.some((e) => e.property === 'action')).toBe(true);
+      expect(errors.some((e) => e.property === 'productId')).toBe(true);
     });
   });
 
@@ -43,7 +46,7 @@ describe('InvoiceItemDataDto Validator', () => {
     it('should return error for invalid action enum', () => {
       const dto = { ...baseValidDto, action: 'invalid-action' };
       const errors = validateInvoiceItemDataDto(dto);
-      expect(errors.some(e => e.property === 'action')).toBe(true);
+      expect(errors.some((e) => e.property === 'action')).toBe(true);
     });
   });
 });

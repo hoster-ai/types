@@ -21,20 +21,20 @@ describe('AttachmentDto Validator', () => {
   describe('Missing required fields', () => {
     it('should return errors when all fields are missing', () => {
       const errors = validateAttachmentDto({});
-      expect(errors.some(e => e.property === 'filename')).toBe(true);
-      expect(errors.some(e => e.property === 'content')).toBe(true);
+      expect(errors.some((e) => e.property === 'filename')).toBe(true);
+      expect(errors.some((e) => e.property === 'content')).toBe(true);
     });
 
     it('should return error when filename is missing', () => {
       const dto = { content: 'SGVsbG8=' };
       const errors = validateAttachmentDto(dto);
-      expect(errors.some(e => e.property === 'filename')).toBe(true);
+      expect(errors.some((e) => e.property === 'filename')).toBe(true);
     });
 
     it('should return error when content is missing', () => {
       const dto = { filename: 'test.pdf' };
       const errors = validateAttachmentDto(dto);
-      expect(errors.some(e => e.property === 'content')).toBe(true);
+      expect(errors.some((e) => e.property === 'content')).toBe(true);
     });
   });
 
@@ -42,25 +42,25 @@ describe('AttachmentDto Validator', () => {
     it('should return error for empty filename', () => {
       const dto = { ...baseValidDto, filename: '' };
       const errors = validateAttachmentDto(dto);
-      expect(errors.some(e => e.property === 'filename')).toBe(true);
+      expect(errors.some((e) => e.property === 'filename')).toBe(true);
     });
 
     it('should return error for empty content', () => {
       const dto = { ...baseValidDto, content: '' };
       const errors = validateAttachmentDto(dto);
-      expect(errors.some(e => e.property === 'content')).toBe(true);
+      expect(errors.some((e) => e.property === 'content')).toBe(true);
     });
 
     it('should return error for non-base64 content', () => {
       const dto = { ...baseValidDto, content: 'not-valid-base64!!!' };
       const errors = validateAttachmentDto(dto);
-      expect(errors.some(e => e.property === 'content')).toBe(true);
+      expect(errors.some((e) => e.property === 'content')).toBe(true);
     });
 
     it('should return error for non-string contentType', () => {
       const dto = { ...baseValidDto, contentType: 123 };
       const errors = validateAttachmentDto(dto);
-      expect(errors.some(e => e.property === 'contentType')).toBe(true);
+      expect(errors.some((e) => e.property === 'contentType')).toBe(true);
     });
   });
 });

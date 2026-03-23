@@ -39,20 +39,24 @@ describe('InfoDto Validator', () => {
   describe('Missing required fields', () => {
     it('should return errors when all fields are missing', () => {
       const errors = validateInfoDto({});
-      expect(errors.some(e => e.property === 'title')).toBe(true);
-      expect(errors.some(e => e.property === 'supportedLanguages')).toBe(true);
+      expect(errors.some((e) => e.property === 'title')).toBe(true);
+      expect(errors.some((e) => e.property === 'supportedLanguages')).toBe(
+        true,
+      );
     });
 
     it('should return error when title is missing', () => {
       const { title, ...dto } = baseValidDto;
       const errors = validateInfoDto(dto);
-      expect(errors.some(e => e.property === 'title')).toBe(true);
+      expect(errors.some((e) => e.property === 'title')).toBe(true);
     });
 
     it('should return error when supportedLanguages is missing', () => {
       const { supportedLanguages, ...dto } = baseValidDto;
       const errors = validateInfoDto(dto);
-      expect(errors.some(e => e.property === 'supportedLanguages')).toBe(true);
+      expect(errors.some((e) => e.property === 'supportedLanguages')).toBe(
+        true,
+      );
     });
   });
 
@@ -60,38 +64,41 @@ describe('InfoDto Validator', () => {
     it('should return error for empty title', () => {
       const dto = { ...baseValidDto, title: '' };
       const errors = validateInfoDto(dto);
-      expect(errors.some(e => e.property === 'title')).toBe(true);
+      expect(errors.some((e) => e.property === 'title')).toBe(true);
     });
 
     it('should return error for empty supportedLanguages array', () => {
       const dto = { ...baseValidDto, supportedLanguages: [] };
       const errors = validateInfoDto(dto);
-      expect(errors.some(e => e.property === 'supportedLanguages')).toBe(true);
+      expect(errors.some((e) => e.property === 'supportedLanguages')).toBe(
+        true,
+      );
     });
 
     it('should return error for invalid language enum', () => {
       const dto = { ...baseValidDto, supportedLanguages: ['INVALID'] };
       const errors = validateInfoDto(dto);
-      expect(errors.some(e => e.property === 'supportedLanguages')).toBe(true);
+      expect(errors.some((e) => e.property === 'supportedLanguages')).toBe(
+        true,
+      );
     });
 
     it('should return error for invalid logo URL (not https)', () => {
       const dto = { ...baseValidDto, logo: 'http://example.com/logo.png' };
       const errors = validateInfoDto(dto);
-      expect(errors.some(e => e.property === 'logo')).toBe(true);
+      expect(errors.some((e) => e.property === 'logo')).toBe(true);
     });
 
     it('should return error for invalid logo URL (not a URL)', () => {
       const dto = { ...baseValidDto, logo: 'not-a-url' };
       const errors = validateInfoDto(dto);
-      expect(errors.some(e => e.property === 'logo')).toBe(true);
+      expect(errors.some((e) => e.property === 'logo')).toBe(true);
     });
 
     it('should return error for invalid onboardingUrl', () => {
       const dto = { ...baseValidDto, onboardingUrl: 'not-a-url' };
       const errors = validateInfoDto(dto);
-      expect(errors.some(e => e.property === 'onboardingUrl')).toBe(true);
+      expect(errors.some((e) => e.property === 'onboardingUrl')).toBe(true);
     });
-
   });
 });

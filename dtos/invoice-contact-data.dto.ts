@@ -9,7 +9,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { CountryEnum } from "../enums/country.enum";
+import { CountryEnum } from '../enums/country.enum';
 import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
@@ -42,7 +42,7 @@ export class InvoiceContactData {
   @IsNotEmpty()
   @JSONSchema({
     title: 'First Name',
-    description: 'Contact\'s first name.',
+    description: "Contact's first name.",
     type: 'string',
   })
   firstName!: string;
@@ -52,7 +52,7 @@ export class InvoiceContactData {
   @IsNotEmpty()
   @JSONSchema({
     title: 'Last Name',
-    description: 'Contact\'s last name.',
+    description: "Contact's last name.",
     type: 'string',
   })
   lastName!: string;
@@ -72,7 +72,7 @@ export class InvoiceContactData {
   @IsNotEmpty()
   @JSONSchema({
     title: 'Email',
-    description: 'Contact\'s email address.',
+    description: "Contact's email address.",
     type: 'string',
     format: 'email',
   })
@@ -212,7 +212,7 @@ export class InvoiceContactData {
   @IsOptional()
   @JSONSchema({
     title: 'Profession',
-    description: 'Contact\'s profession or business activity.',
+    description: "Contact's profession or business activity.",
     type: 'string',
   })
   profession?: string;

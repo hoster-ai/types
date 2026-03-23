@@ -12,9 +12,10 @@ class MinLessOrEqualMaxConstraint implements ValidatorConstraintInterface {
     const object = args.object as Record<string, any>;
     const input = args.constraints[0] as [string, string] | [string, string][];
 
-    const pairs: [string, string][] = Array.isArray(input) && typeof (input as any)[0] === 'string'
-      ? [input as [string, string]]
-      : (input as [string, string][]);
+    const pairs: [string, string][] =
+      Array.isArray(input) && typeof (input as any)[0] === 'string'
+        ? [input as [string, string]]
+        : (input as [string, string][]);
 
     return pairs.every(([minKey, maxKey]) => {
       const minVal = object[minKey];
@@ -32,9 +33,10 @@ class MinLessOrEqualMaxConstraint implements ValidatorConstraintInterface {
 
   defaultMessage(args: ValidationArguments) {
     const input = args.constraints[0] as [string, string] | [string, string][];
-    const pairs: [string, string][] = Array.isArray(input) && typeof (input as any)[0] === 'string'
-      ? [input as [string, string]]
-      : (input as [string, string][]);
+    const pairs: [string, string][] =
+      Array.isArray(input) && typeof (input as any)[0] === 'string'
+        ? [input as [string, string]]
+        : (input as [string, string][]);
 
     if (pairs.length === 1) {
       const [minKey, maxKey] = pairs[0];

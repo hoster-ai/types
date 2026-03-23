@@ -12,7 +12,8 @@ export class ProductDowngradeResponseDto extends BaseResponse {
    */
   @JSONSchema({
     title: 'Status',
-    description: 'The status of the response, indicating the outcome of the downgrade.',
+    description:
+      'The status of the response, indicating the outcome of the downgrade.',
     type: 'string',
     enum: Object.values(ResponseStatusEnum),
   })
@@ -23,7 +24,8 @@ export class ProductDowngradeResponseDto extends BaseResponse {
    */
   @JSONSchema({
     title: 'Item ID',
-    description: 'The unique identifier of the product item that was downgraded.',
+    description:
+      'The unique identifier of the product item that was downgraded.',
     type: 'string',
   })
   itemId!: string;

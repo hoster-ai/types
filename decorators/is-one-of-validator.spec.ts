@@ -33,6 +33,8 @@ describe('IsOneOf decorator', () => {
   it('returns custom message', async () => {
     const dto = plainToInstance(TestDto, { prop: 123 });
     const errors = await validate(dto);
-    expect(errors[0].constraints?.isOneOf).toBe('value must be instance of A or B');
+    expect(errors[0].constraints?.isOneOf).toBe(
+      'value must be instance of A or B',
+    );
   });
 });

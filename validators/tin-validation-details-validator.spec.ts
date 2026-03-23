@@ -35,20 +35,20 @@ describe('TINValidationDetails Validator', () => {
       const errors = validateTINValidationDetailsDto({});
       const requiredProps = ['address1', 'postcode', 'city', 'country'];
       for (const prop of requiredProps) {
-        expect(errors.some(e => e.property === prop)).toBe(true);
+        expect(errors.some((e) => e.property === prop)).toBe(true);
       }
     });
 
     it('should return error when address1 is missing', () => {
       const { address1, ...dto } = baseValidDto;
       const errors = validateTINValidationDetailsDto(dto);
-      expect(errors.some(e => e.property === 'address1')).toBe(true);
+      expect(errors.some((e) => e.property === 'address1')).toBe(true);
     });
 
     it('should return error when country is missing', () => {
       const { country, ...dto } = baseValidDto;
       const errors = validateTINValidationDetailsDto(dto);
-      expect(errors.some(e => e.property === 'country')).toBe(true);
+      expect(errors.some((e) => e.property === 'country')).toBe(true);
     });
   });
 
@@ -56,31 +56,31 @@ describe('TINValidationDetails Validator', () => {
     it('should return error for invalid country code', () => {
       const dto = { ...baseValidDto, country: 'INVALID' };
       const errors = validateTINValidationDetailsDto(dto);
-      expect(errors.some(e => e.property === 'country')).toBe(true);
+      expect(errors.some((e) => e.property === 'country')).toBe(true);
     });
 
     it('should return error for postcode exceeding max length', () => {
       const dto = { ...baseValidDto, postcode: '1'.repeat(17) };
       const errors = validateTINValidationDetailsDto(dto);
-      expect(errors.some(e => e.property === 'postcode')).toBe(true);
+      expect(errors.some((e) => e.property === 'postcode')).toBe(true);
     });
 
     it('should return error for city exceeding max length', () => {
       const dto = { ...baseValidDto, city: 'a'.repeat(251) };
       const errors = validateTINValidationDetailsDto(dto);
-      expect(errors.some(e => e.property === 'city')).toBe(true);
+      expect(errors.some((e) => e.property === 'city')).toBe(true);
     });
 
     it('should return error for companyName exceeding max length', () => {
       const dto = { ...baseValidDto, companyName: 'a'.repeat(251) };
       const errors = validateTINValidationDetailsDto(dto);
-      expect(errors.some(e => e.property === 'companyName')).toBe(true);
+      expect(errors.some((e) => e.property === 'companyName')).toBe(true);
     });
 
     it('should return error for tin exceeding max length', () => {
       const dto = { ...baseValidDto, tin: 'X'.repeat(21) };
       const errors = validateTINValidationDetailsDto(dto);
-      expect(errors.some(e => e.property === 'tin')).toBe(true);
+      expect(errors.some((e) => e.property === 'tin')).toBe(true);
     });
   });
 });

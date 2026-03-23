@@ -1,9 +1,16 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsDefined, IsEnum, IsNumber, IsString, ValidateNested } from 'class-validator';
+import {
+  IsArray,
+  IsDefined,
+  IsEnum,
+  IsNumber,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { InvoiceContactData } from "../../invoice-contact-data.dto";
-import { InvoiceItemDataDto } from "../invoice-item-data.dto";
-import { TransactionData } from "../transaction-data.dto";
+import { InvoiceContactData } from '../../invoice-contact-data.dto';
+import { InvoiceItemDataDto } from '../invoice-item-data.dto';
+import { TransactionData } from '../transaction-data.dto';
 import { CountryEnum } from '../../../enums/country.enum';
 
 /**

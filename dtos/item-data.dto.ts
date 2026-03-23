@@ -1,4 +1,10 @@
-import { IsDefined, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsDefined,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 
 /**

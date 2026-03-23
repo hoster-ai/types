@@ -12,7 +12,8 @@ export class ProductSuspendResponseDto extends BaseResponse {
    */
   @JSONSchema({
     title: 'Status',
-    description: 'The status of the response, indicating the outcome of the suspend operation.',
+    description:
+      'The status of the response, indicating the outcome of the suspend operation.',
     type: 'string',
     enum: Object.values(ResponseStatusEnum),
   })
@@ -23,7 +24,8 @@ export class ProductSuspendResponseDto extends BaseResponse {
    */
   @JSONSchema({
     title: 'Item ID',
-    description: 'The unique identifier of the product item that was suspended.',
+    description:
+      'The unique identifier of the product item that was suspended.',
     type: 'string',
   })
   itemId!: string;

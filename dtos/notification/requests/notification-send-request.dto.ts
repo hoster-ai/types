@@ -1,5 +1,10 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsObject, IsString, ValidateNested } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsObject,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { EmailSenderDto } from '../sender/sender-email.dto';
 import { PushSenderDto } from '../sender/sender-push.dto';
@@ -40,7 +45,8 @@ export class NotificationSendRequestDto {
   })
   @JSONSchema({
     title: 'Sender',
-    description: 'Sender details (type depends on integration: email, push, or SMS).',
+    description:
+      'Sender details (type depends on integration: email, push, or SMS).',
     oneOf: [
       { $ref: '#/components/schemas/EmailSenderDto' },
       { $ref: '#/components/schemas/PushSenderDto' },
@@ -66,7 +72,8 @@ export class NotificationSendRequestDto {
   })
   @JSONSchema({
     title: 'Receiver',
-    description: 'Recipient details (type depends on integration: email, push, or SMS).',
+    description:
+      'Recipient details (type depends on integration: email, push, or SMS).',
     oneOf: [
       { $ref: '#/components/schemas/EmailReceiverDto' },
       { $ref: '#/components/schemas/PushReceiverDto' },

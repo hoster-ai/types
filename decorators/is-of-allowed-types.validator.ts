@@ -18,15 +18,25 @@ interface IsOfAllowedTypesOptions {
 
 // Overloads
 export function IsOfAllowedTypes(types: AllowedType[]): PropertyDecorator;
-export function IsOfAllowedTypes(types: AllowedType[], options: IsOfAllowedTypesOptions): PropertyDecorator;
-export function IsOfAllowedTypes(types: AllowedType[], validationOptions: ValidationOptions): PropertyDecorator;
-export function IsOfAllowedTypes(types: AllowedType[], options: IsOfAllowedTypesOptions, validationOptions: ValidationOptions): PropertyDecorator;
+export function IsOfAllowedTypes(
+  types: AllowedType[],
+  options: IsOfAllowedTypesOptions,
+): PropertyDecorator;
+export function IsOfAllowedTypes(
+  types: AllowedType[],
+  validationOptions: ValidationOptions,
+): PropertyDecorator;
+export function IsOfAllowedTypes(
+  types: AllowedType[],
+  options: IsOfAllowedTypesOptions,
+  validationOptions: ValidationOptions,
+): PropertyDecorator;
 
 // Implementation
 export function IsOfAllowedTypes(
   types: AllowedType[],
   optionsOrValidationOptions?: IsOfAllowedTypesOptions | ValidationOptions,
-  validationOptions?: ValidationOptions
+  validationOptions?: ValidationOptions,
 ): PropertyDecorator {
   return function (target: any, propertyKey: string | symbol) {
     let options: IsOfAllowedTypesOptions = {};
@@ -44,7 +54,8 @@ export function IsOfAllowedTypes(
         options = optionsOrValidationOptions as IsOfAllowedTypesOptions;
         finalValidationOptions = validationOptions;
       } else {
-        finalValidationOptions = optionsOrValidationOptions as ValidationOptions;
+        finalValidationOptions =
+          optionsOrValidationOptions as ValidationOptions;
       }
     }
 
@@ -56,7 +67,10 @@ export function IsOfAllowedTypes(
       options: finalValidationOptions,
       validator: {
         validate(value: any, args: ValidationArguments) {
-          const [allowedTypes, opts] = args.constraints as [AllowedType[], IsOfAllowedTypesOptions];
+          const [allowedTypes, opts] = args.constraints as [
+            AllowedType[],
+            IsOfAllowedTypesOptions,
+          ];
 
           if (value === null || value === undefined) {
             return !opts.require;
@@ -67,7 +81,8 @@ export function IsOfAllowedTypes(
               case 'string':
                 if (typeof value === 'string') {
                   if (opts.require && value.trim().length === 0) return false;
-                  if (opts.stringPattern && !opts.stringPattern.test(value)) return false;
+                  if (opts.stringPattern && !opts.stringPattern.test(value))
+                    return false;
                   return true;
                 }
                 break;
@@ -93,7 +108,11 @@ export function IsOfAllowedTypes(
                 if (
                   Array.isArray(value) &&
                   (!opts.arrayElementClass ||
-                    value.every((item) => item instanceof (opts.arrayElementClass as new (...args: any[]) => any)))
+                    value.every(
+                      (item) =>
+                        item instanceof
+                        (opts.arrayElementClass as new (...args: any[]) => any),
+                    ))
                 ) {
                   if (opts.arrayNotEmpty && value.length === 0) {
                     return false;
@@ -108,7 +127,10 @@ export function IsOfAllowedTypes(
         },
 
         defaultMessage(args: ValidationArguments) {
-          const [allowedTypes, opts] = args.constraints as [AllowedType[], IsOfAllowedTypesOptions];
+          const [allowedTypes, opts] = args.constraints as [
+            AllowedType[],
+            IsOfAllowedTypesOptions,
+          ];
           const messages = [];
 
           if (opts.require) {
@@ -117,7 +139,8 @@ export function IsOfAllowedTypes(
 
           if (allowedTypes.includes('string')) {
             if (opts.require) messages.push('must be a non-empty string');
-            if (opts.stringPattern) messages.push(`must match pattern ${opts.stringPattern}`);
+            if (opts.stringPattern)
+              messages.push(`must match pattern ${opts.stringPattern}`);
           }
 
           if (allowedTypes.includes('array') && opts.arrayNotEmpty) {

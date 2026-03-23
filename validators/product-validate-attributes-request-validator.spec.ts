@@ -11,8 +11,7 @@ describe('validateValidateAttributesRequestDto', () => {
       },
     };
 
-    const errors =
-      await validateValidateAttributesRequestDto(validRequest);
+    const errors = await validateValidateAttributesRequestDto(validRequest);
     expect(errors.length).toBe(0);
   });
 
@@ -24,8 +23,7 @@ describe('validateValidateAttributesRequestDto', () => {
       },
     };
 
-    const errors =
-      await validateValidateAttributesRequestDto(invalidRequest);
+    const errors = await validateValidateAttributesRequestDto(invalidRequest);
     expect(errors.length).toBeGreaterThan(0);
   });
 });

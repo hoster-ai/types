@@ -27,20 +27,20 @@ describe('CountryDto Validator', () => {
   describe('Missing required fields', () => {
     it('should return errors when all fields are missing', () => {
       const errors = validateCountryDto({});
-      expect(errors.some(e => e.property === 'name')).toBe(true);
-      expect(errors.some(e => e.property === 'code')).toBe(true);
+      expect(errors.some((e) => e.property === 'name')).toBe(true);
+      expect(errors.some((e) => e.property === 'code')).toBe(true);
     });
 
     it('should return error when name is missing', () => {
       const dto = { code: CountryEnum.GREECE };
       const errors = validateCountryDto(dto);
-      expect(errors.some(e => e.property === 'name')).toBe(true);
+      expect(errors.some((e) => e.property === 'name')).toBe(true);
     });
 
     it('should return error when code is missing', () => {
       const dto = { name: 'Greece' };
       const errors = validateCountryDto(dto);
-      expect(errors.some(e => e.property === 'code')).toBe(true);
+      expect(errors.some((e) => e.property === 'code')).toBe(true);
     });
   });
 
@@ -48,19 +48,19 @@ describe('CountryDto Validator', () => {
     it('should return error for empty name', () => {
       const dto = { ...baseValidDto, name: '' };
       const errors = validateCountryDto(dto);
-      expect(errors.some(e => e.property === 'name')).toBe(true);
+      expect(errors.some((e) => e.property === 'name')).toBe(true);
     });
 
     it('should return error for invalid country code', () => {
       const dto = { ...baseValidDto, code: 'INVALID' };
       const errors = validateCountryDto(dto);
-      expect(errors.some(e => e.property === 'code')).toBe(true);
+      expect(errors.some((e) => e.property === 'code')).toBe(true);
     });
 
     it('should return error for non-boolean isEurope', () => {
       const dto = { ...baseValidDto, isEurope: 'yes' };
       const errors = validateCountryDto(dto);
-      expect(errors.some(e => e.property === 'isEurope')).toBe(true);
+      expect(errors.some((e) => e.property === 'isEurope')).toBe(true);
     });
   });
 });

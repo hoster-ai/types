@@ -12,12 +12,15 @@ describe('SmsSenderDto Validator', () => {
   });
 
   it.each([
-    [{ senderPhone: 'not-a-phone-number', message: 'Test Message' }, 'senderPhone'],
+    [
+      { senderPhone: 'not-a-phone-number', message: 'Test Message' },
+      'senderPhone',
+    ],
     [{ senderPhone: '+11234567890' }, 'message'],
     [{ message: 'Test Message' }, 'senderPhone'],
   ])('should return error for invalid %s', (dto, expectedProp) => {
     const errors = validateSmsSenderDto(dto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === expectedProp)).toBe(true);
+    expect(errors.some((e) => e.property === expectedProp)).toBe(true);
   });
 });

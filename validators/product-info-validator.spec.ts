@@ -7,25 +7,24 @@ import { validateProductInfoDto } from './product-info.validator';
 import { AttributeFieldDto } from '../dtos/attribute-field.dto';
 
 describe('ProductInfoDto Validator', () => {
-
   const field: AttributeFieldDto = {
     id: 'field',
-    label: [{ language: LanguageEnum.ENGLISH, text: "label" }],
+    label: [{ language: LanguageEnum.ENGLISH, text: 'label' }],
     value: 'string',
     type: FieldTypeEnum.TEXT_BOX,
     required: false,
     disabled: false,
     hidden: false,
-    upgradable: false
+    upgradable: false,
   };
 
   const invalidField = {
     id: 'field',
-    label: [{ language: LanguageEnum.ENGLISH, text: "label" }],
+    label: [{ language: LanguageEnum.ENGLISH, text: 'label' }],
     value: 'string',
     type: FieldTypeEnum.TEXT_BOX,
     disabled: false,
-    upgradable: false
+    upgradable: false,
   } as AttributeFieldDto;
 
   const testCases = [
@@ -36,9 +35,9 @@ describe('ProductInfoDto Validator', () => {
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
-        itemAttributes: [field]
+        itemAttributes: [field],
       },
-      expectedErrorsLength: 0
+      expectedErrorsLength: 0,
     },
     {
       description: 'should return error for invalid required and hidden',
@@ -46,9 +45,9 @@ describe('ProductInfoDto Validator', () => {
         title: 'Test',
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
-        itemAttributes: [invalidField]
+        itemAttributes: [invalidField],
       },
-      expectedErrorsLength: 1
+      expectedErrorsLength: 1,
     },
     {
       description: 'should return error for invalid title',
@@ -57,9 +56,9 @@ describe('ProductInfoDto Validator', () => {
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
-        itemAttributes: [field]
+        itemAttributes: [field],
       },
-      expectedErrorsLength: 1
+      expectedErrorsLength: 1,
     },
     {
       description: 'should return error for unsupported action',
@@ -68,9 +67,9 @@ describe('ProductInfoDto Validator', () => {
         supportedActions: ['update'] as any,
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
-        itemAttributes: [field]
+        itemAttributes: [field],
       },
-      expectedErrorsLength: 1
+      expectedErrorsLength: 1,
     },
     {
       description: 'should return error for unsupported language',
@@ -79,35 +78,47 @@ describe('ProductInfoDto Validator', () => {
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [],
         productAttributes: [field],
-        itemAttributes: [field]
+        itemAttributes: [field],
       },
-      expectedErrorsLength: 1
+      expectedErrorsLength: 1,
     },
     {
-      description: 'should return no errors for valid DTO with adminPanel and clientPanel',
+      description:
+        'should return no errors for valid DTO with adminPanel and clientPanel',
       dto: {
         title: 'Test',
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
-        adminPanel: { tabs: { product: [{ label: 'Product', url: 'https://example.com/product' }] } },
-        clientPanel: { tabs: { item: [{ label: 'Item', url: 'https://example.com/item' }] } }
+        adminPanel: {
+          tabs: {
+            product: [{ label: 'Product', url: 'https://example.com/product' }],
+          },
+        },
+        clientPanel: {
+          tabs: { item: [{ label: 'Item', url: 'https://example.com/item' }] },
+        },
       },
-      expectedErrorsLength: 0
+      expectedErrorsLength: 0,
     },
     {
-      description: 'should return error for invalid DTO with adminPanel and clientPanel',
+      description:
+        'should return error for invalid DTO with adminPanel and clientPanel',
       dto: {
         title: '',
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
-        adminPanel: { /* invalid admin panel data */ },
-        clientPanel: { /* invalid client panel data */ }
+        adminPanel: {
+          /* invalid admin panel data */
+        },
+        clientPanel: {
+          /* invalid client panel data */
+        },
       },
-      expectedErrorsLength: 3
+      expectedErrorsLength: 3,
     },
     {
       description: 'should return no errors for valid DTO with payPerUseUnits',
@@ -117,9 +128,11 @@ describe('ProductInfoDto Validator', () => {
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
-        payPerUseUnits: [{ id: "ram", unitDescription: "MB", intervalDescription: "month" }]
+        payPerUseUnits: [
+          { id: 'ram', unitDescription: 'MB', intervalDescription: 'month' },
+        ],
       },
-      expectedErrorsLength: 0
+      expectedErrorsLength: 0,
     },
     {
       description: 'should return error for invalid DTO with payPerUseUnits',
@@ -129,10 +142,12 @@ describe('ProductInfoDto Validator', () => {
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
-        payPerUseUnits: [{ id: "", unitDescription: "", intervalDescription: "" }]
+        payPerUseUnits: [
+          { id: '', unitDescription: '', intervalDescription: '' },
+        ],
       },
-      expectedErrorsLength: 1
-    }
+      expectedErrorsLength: 1,
+    },
   ];
 
   testCases.forEach(({ description, dto, expectedErrorsLength }) => {
@@ -149,9 +164,9 @@ describe('ProductInfoDto Validator', () => {
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
-        itemAttributes: [field]
+        itemAttributes: [field],
       },
-      expectedErrors: ['title']
+      expectedErrors: ['title'],
     },
     {
       description: 'should return ValidationError for unsupported action',
@@ -160,17 +175,17 @@ describe('ProductInfoDto Validator', () => {
         supportedActions: ['update'] as any,
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
-        itemAttributes: [field]
+        itemAttributes: [field],
       },
-      expectedErrors: ['supportedActions']
-    }
+      expectedErrors: ['supportedActions'],
+    },
   ];
 
   validationErrorTestCases.forEach(({ description, dto, expectedErrors }) => {
     it(description, async () => {
       const errors = await validateProductInfoDto(dto);
-      const errorProperties = errors.map(error => error.property);
-      expectedErrors.forEach(expectedError => {
+      const errorProperties = errors.map((error) => error.property);
+      expectedErrors.forEach((expectedError) => {
         expect(errorProperties).toContain(expectedError);
       });
     });

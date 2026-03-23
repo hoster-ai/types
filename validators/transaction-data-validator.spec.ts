@@ -23,22 +23,27 @@ describe('TransactionData Validator', () => {
   describe('Missing required fields', () => {
     it('should return errors when all fields are missing', () => {
       const errors = validateTransactionDataDto({});
-      const requiredProps = ['transactionId', 'amount', 'paymentMethod', 'date'];
+      const requiredProps = [
+        'transactionId',
+        'amount',
+        'paymentMethod',
+        'date',
+      ];
       for (const prop of requiredProps) {
-        expect(errors.some(e => e.property === prop)).toBe(true);
+        expect(errors.some((e) => e.property === prop)).toBe(true);
       }
     });
 
     it('should return error when transactionId is missing', () => {
       const { transactionId, ...dto } = baseValidDto;
       const errors = validateTransactionDataDto(dto);
-      expect(errors.some(e => e.property === 'transactionId')).toBe(true);
+      expect(errors.some((e) => e.property === 'transactionId')).toBe(true);
     });
 
     it('should return error when amount is missing', () => {
       const { amount, ...dto } = baseValidDto;
       const errors = validateTransactionDataDto(dto);
-      expect(errors.some(e => e.property === 'amount')).toBe(true);
+      expect(errors.some((e) => e.property === 'amount')).toBe(true);
     });
   });
 
@@ -46,25 +51,25 @@ describe('TransactionData Validator', () => {
     it('should return error for empty transactionId', () => {
       const dto = { ...baseValidDto, transactionId: '' };
       const errors = validateTransactionDataDto(dto);
-      expect(errors.some(e => e.property === 'transactionId')).toBe(true);
+      expect(errors.some((e) => e.property === 'transactionId')).toBe(true);
     });
 
     it('should return error for non-number amount', () => {
       const dto = { ...baseValidDto, amount: 'free' };
       const errors = validateTransactionDataDto(dto);
-      expect(errors.some(e => e.property === 'amount')).toBe(true);
+      expect(errors.some((e) => e.property === 'amount')).toBe(true);
     });
 
     it('should return error for empty paymentMethod', () => {
       const dto = { ...baseValidDto, paymentMethod: '' };
       const errors = validateTransactionDataDto(dto);
-      expect(errors.some(e => e.property === 'paymentMethod')).toBe(true);
+      expect(errors.some((e) => e.property === 'paymentMethod')).toBe(true);
     });
 
     it('should return error for invalid date', () => {
       const dto = { ...baseValidDto, date: 'not-a-date' };
       const errors = validateTransactionDataDto(dto);
-      expect(errors.some(e => e.property === 'date')).toBe(true);
+      expect(errors.some((e) => e.property === 'date')).toBe(true);
     });
   });
 });

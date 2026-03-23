@@ -12,7 +12,8 @@ export class ProductRenewResponseDto extends BaseResponse {
    */
   @JSONSchema({
     title: 'Status',
-    description: 'The status of the response, indicating the outcome of the renewal.',
+    description:
+      'The status of the response, indicating the outcome of the renewal.',
     type: 'string',
     enum: Object.values(ResponseStatusEnum),
   })

@@ -2,41 +2,43 @@ import 'reflect-metadata';
 import { validateMenuWithSubmenuDto } from './menu-with-submenu.validator';
 describe('validateMenuDto', () => {
   test.each([
-    ['valid data with submenu', 
+    [
+      'valid data with submenu',
       {
         type: 'with-submenu',
         icon: 'https://example.com/icon.png',
         label: 'Menu Label',
-        submenu: [
-          { label: 'Submenu 1', url: 'https://example.com/sub1' }
-        ],
+        submenu: [{ label: 'Submenu 1', url: 'https://example.com/sub1' }],
       },
-      true
+      true,
     ],
-    ['missing required icon', 
+    [
+      'missing required icon',
       {
         type: 'with-submenu',
         label: 'Menu Label',
         submenu: [{ label: 'Submenu 1', url: 'https://example.com/sub1' }],
       },
-      false
+      false,
     ],
-    ['missing submenu', 
+    [
+      'missing submenu',
       {
         type: 'with-submenu',
         icon: 'https://example.com/icon.png',
         label: 'Menu Label',
       },
-      false
+      false,
     ],
-    ['submenu with missing label', 
+    [
+      'submenu with missing label',
       {
         type: 'with-submenu',
         icon: 'https://example.com/icon.png',
         label: 'Menu Label',
         submenu: [{ url: 'https://example.com/sub1' }],
       },
-      false
+      false,
     ],
   ])('%s', (_, input, expectedValid) => {
     const errors = validateMenuWithSubmenuDto(input);

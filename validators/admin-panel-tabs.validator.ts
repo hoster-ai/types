@@ -1,7 +1,7 @@
-import { ValidationError } from "class-validator";
-import { plainToInstance } from "class-transformer";
-import { AdminPanelTabsDto } from "../dtos/admin-panel.dto";
-import { validateSync } from "class-validator";
+import { ValidationError } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { AdminPanelTabsDto } from '../dtos/admin-panel.dto';
+import { validateSync } from 'class-validator';
 
 export function validateAdminPanelTabsDto(data: object): ValidationError[] {
   const dto = plainToInstance(AdminPanelTabsDto, data);

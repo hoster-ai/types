@@ -3,8 +3,8 @@ import { plainToInstance } from 'class-transformer';
 import { FieldOptionDto } from '../dtos/field-option.dto';
 
 export function validateFieldOptionDto(data: object): ValidationError[] {
-    const dto = plainToInstance(FieldOptionDto, data);
-    const errors = validateSync(dto);
+  const dto = plainToInstance(FieldOptionDto, data);
+  const errors = validateSync(dto);
 
-    return errors;
+  return errors;
 }

@@ -7,7 +7,9 @@ import { AllOrNoneProperty } from './all-or-none.validator';
 class PairDto {
   a?: any;
   b?: any;
-  constructor(data: Partial<PairDto>) { Object.assign(this, data); }
+  constructor(data: Partial<PairDto>) {
+    Object.assign(this, data);
+  }
 }
 
 // Multiple pairs
@@ -20,7 +22,9 @@ class MultiPairDto {
   b?: any;
   c?: any;
   d?: any;
-  constructor(data: Partial<MultiPairDto>) { Object.assign(this, data); }
+  constructor(data: Partial<MultiPairDto>) {
+    Object.assign(this, data);
+  }
 }
 
 // Group of 3+
@@ -29,7 +33,9 @@ class GroupDto {
   x?: any;
   y?: any;
   z?: any;
-  constructor(data: Partial<GroupDto>) { Object.assign(this, data); }
+  constructor(data: Partial<GroupDto>) {
+    Object.assign(this, data);
+  }
 }
 
 describe('AllOrNoneProperty', () => {

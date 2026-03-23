@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { SuccessResponseDto } from "../../success-response.dto";
+import { SuccessResponseDto } from '../../success-response.dto';
 
 /**
  * Response from notification integrations after successfully sending a notification.

@@ -41,7 +41,7 @@ describe('ActionDto Validator', () => {
   it('should return error for missing required fields', () => {
     const invalidDto = {
       // missing 'icon' and 'url'
-      openMethod: OpenMethodEnum.AJAX_CALL
+      openMethod: OpenMethodEnum.AJAX_CALL,
     };
 
     const errors = validateActionDto(invalidDto);
@@ -54,7 +54,7 @@ describe('ActionDto Validator', () => {
     const invalidDto = {
       icon: 123, // should be a string
       openMethod: OpenMethodEnum.AJAX_CALL,
-      url: 456 // should be a string
+      url: 456, // should be a string
     };
 
     const errors = validateActionDto(invalidDto);
@@ -68,7 +68,7 @@ describe('ActionDto Validator', () => {
       icon: 'test-icon',
       openMethod: OpenMethodEnum.AJAX_CALL,
       url: 'https://example.com',
-      unexpectedField: 'unexpected' // additional field
+      unexpectedField: 'unexpected', // additional field
     };
 
     const errors = validateActionDto(validDto);

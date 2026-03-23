@@ -1,4 +1,11 @@
-import { IsDefined, IsIn, IsString, IsNotEmpty, IsUrl, ValidateNested } from 'class-validator';
+import {
+  IsDefined,
+  IsIn,
+  IsString,
+  IsNotEmpty,
+  IsUrl,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { IsPropertyForbidden } from '../decorators/is-property-forbidden.validator';
 import { JSONSchema } from 'class-validator-jsonschema';
@@ -63,14 +70,16 @@ export class MenuDtoWithUrl extends BaseMenuDto {
     title: 'URL',
     description: 'URL associated with the menu item.',
     type: 'string',
-    format: 'uri'
+    format: 'uri',
   })
   url!: string;
 
   /**
    * Explicitly prevents a submenu from being added to this type of menu item.
    */
-  @IsPropertyForbidden('submenu', { message: 'submenu is forbidden in MenuDtoWithUrl' })
+  @IsPropertyForbidden('submenu', {
+    message: 'submenu is forbidden in MenuDtoWithUrl',
+  })
   submenu?: never;
 }
 
@@ -94,7 +103,9 @@ export class MenuDtoWithSubmenu extends BaseMenuDto {
   /**
    * Explicitly prevents a URL from being added to this type of menu item.
    */
-  @IsPropertyForbidden('url', { message: 'url is forbidden in MenuDtoWithSubmenu' })
+  @IsPropertyForbidden('url', {
+    message: 'url is forbidden in MenuDtoWithSubmenu',
+  })
   url?: never;
 
   /**
@@ -108,7 +119,7 @@ export class MenuDtoWithSubmenu extends BaseMenuDto {
     title: 'Submenu',
     description: 'List of tabs that will appear in the submenu.',
     type: 'array',
-    items: { $ref: '#/components/schemas/TabDto' }
+    items: { $ref: '#/components/schemas/TabDto' },
   })
   submenu!: TabDto[];
 }

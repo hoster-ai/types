@@ -75,7 +75,12 @@ describe('AtLeastOneNonEmptyClass', () => {
     const constraints = errors[0].constraints;
     expect(constraints).toBeDefined();
     const messages = Object.values(constraints!);
-    expect(messages.some(msg => msg.includes('At least one of the following must be non-empty: a, b, c'))).toBe(true);
+    expect(
+      messages.some((msg) =>
+        msg.includes(
+          'At least one of the following must be non-empty: a, b, c',
+        ),
+      ),
+    ).toBe(true);
   });
-
 });

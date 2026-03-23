@@ -1,13 +1,12 @@
-import { IsBoolean, IsNumber, IsOptional } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { FieldDto } from "./field.dto";
-import { AllOrNoneProperty } from "../decorators/all-or-none.validator";
-import { MinLessOrEqualMaxProperty } from "../decorators/min-less-or-equal.validator";
+import { FieldDto } from './field.dto';
+import { AllOrNoneProperty } from '../decorators/all-or-none.validator';
+import { MinLessOrEqualMaxProperty } from '../decorators/min-less-or-equal.validator';
 
 @AllOrNoneProperty(['repeatableMin', 'repeatableMax'])
 @MinLessOrEqualMaxProperty(['repeatableMin', 'repeatableMax'])
 export class AttributeFieldDto extends FieldDto {
-
   /**
    * Indicates if the field is visible in orders
    */

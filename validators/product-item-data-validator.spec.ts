@@ -23,10 +23,13 @@ describe('ProductItemDataDto Validator', () => {
       expect(validateProductItemDataDto(dto)).toHaveLength(0);
     });
 
-    it.each(Object.values(ProductItemActionsEnum))('should accept action %s', (action) => {
-      const dto = { ...baseValidDto, action };
-      expect(validateProductItemDataDto(dto)).toHaveLength(0);
-    });
+    it.each(Object.values(ProductItemActionsEnum))(
+      'should accept action %s',
+      (action) => {
+        const dto = { ...baseValidDto, action };
+        expect(validateProductItemDataDto(dto)).toHaveLength(0);
+      },
+    );
 
     it('should return no errors with optional inherited fields', () => {
       const dto = {
@@ -43,9 +46,17 @@ describe('ProductItemDataDto Validator', () => {
   describe('Missing inherited required fields', () => {
     it('should return errors when all fields are missing', () => {
       const errors = validateProductItemDataDto({});
-      const requiredProps = ['productId', 'productName', 'resourceName', 'productAttributes', 'itemAttributes', 'startDate', 'endDate'];
+      const requiredProps = [
+        'productId',
+        'productName',
+        'resourceName',
+        'productAttributes',
+        'itemAttributes',
+        'startDate',
+        'endDate',
+      ];
       for (const prop of requiredProps) {
-        expect(errors.some(e => e.property === prop)).toBe(true);
+        expect(errors.some((e) => e.property === prop)).toBe(true);
       }
     });
   });
@@ -54,13 +65,13 @@ describe('ProductItemDataDto Validator', () => {
     it('should return error for invalid action enum', () => {
       const dto = { ...baseValidDto, action: 'invalid-action' };
       const errors = validateProductItemDataDto(dto);
-      expect(errors.some(e => e.property === 'action')).toBe(true);
+      expect(errors.some((e) => e.property === 'action')).toBe(true);
     });
 
     it('should return error for non-string action', () => {
       const dto = { ...baseValidDto, action: 123 };
       const errors = validateProductItemDataDto(dto);
-      expect(errors.some(e => e.property === 'action')).toBe(true);
+      expect(errors.some((e) => e.property === 'action')).toBe(true);
     });
   });
 });

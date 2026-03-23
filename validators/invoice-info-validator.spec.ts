@@ -21,7 +21,11 @@ describe('InvoiceInfoDto Validator', () => {
     it('should return no errors with all supported types', () => {
       const dto = {
         ...baseValidDto,
-        supportedTypes: [InvoiceTypesEnum.INVOICE, InvoiceTypesEnum.CREDIT_NOTE, InvoiceTypesEnum.PROFORMA],
+        supportedTypes: [
+          InvoiceTypesEnum.INVOICE,
+          InvoiceTypesEnum.CREDIT_NOTE,
+          InvoiceTypesEnum.PROFORMA,
+        ],
       };
       expect(validateInvoiceInfoDto(dto)).toHaveLength(0);
     });
@@ -40,20 +44,24 @@ describe('InvoiceInfoDto Validator', () => {
   describe('Missing required fields', () => {
     it('should return errors when all fields are missing', () => {
       const errors = validateInvoiceInfoDto({});
-      expect(errors.some(e => e.property === 'title')).toBe(true);
-      expect(errors.some(e => e.property === 'supportedLanguages')).toBe(true);
+      expect(errors.some((e) => e.property === 'title')).toBe(true);
+      expect(errors.some((e) => e.property === 'supportedLanguages')).toBe(
+        true,
+      );
     });
 
     it('should return error when title is missing', () => {
       const { title, ...dto } = baseValidDto;
       const errors = validateInvoiceInfoDto(dto);
-      expect(errors.some(e => e.property === 'title')).toBe(true);
+      expect(errors.some((e) => e.property === 'title')).toBe(true);
     });
 
     it('should return error when supportedLanguages is missing', () => {
       const { supportedLanguages, ...dto } = baseValidDto;
       const errors = validateInvoiceInfoDto(dto);
-      expect(errors.some(e => e.property === 'supportedLanguages')).toBe(true);
+      expect(errors.some((e) => e.property === 'supportedLanguages')).toBe(
+        true,
+      );
     });
   });
 
@@ -61,31 +69,35 @@ describe('InvoiceInfoDto Validator', () => {
     it('should return error for invalid supportedTypes enum', () => {
       const dto = { ...baseValidDto, supportedTypes: ['invalid-type'] };
       const errors = validateInvoiceInfoDto(dto);
-      expect(errors.some(e => e.property === 'supportedTypes')).toBe(true);
+      expect(errors.some((e) => e.property === 'supportedTypes')).toBe(true);
     });
 
     it('should return error for empty title', () => {
       const dto = { ...baseValidDto, title: '' };
       const errors = validateInvoiceInfoDto(dto);
-      expect(errors.some(e => e.property === 'title')).toBe(true);
+      expect(errors.some((e) => e.property === 'title')).toBe(true);
     });
 
     it('should return error for empty supportedLanguages array', () => {
       const dto = { ...baseValidDto, supportedLanguages: [] };
       const errors = validateInvoiceInfoDto(dto);
-      expect(errors.some(e => e.property === 'supportedLanguages')).toBe(true);
+      expect(errors.some((e) => e.property === 'supportedLanguages')).toBe(
+        true,
+      );
     });
 
     it('should return error for invalid language enum', () => {
       const dto = { ...baseValidDto, supportedLanguages: ['INVALID'] };
       const errors = validateInvoiceInfoDto(dto);
-      expect(errors.some(e => e.property === 'supportedLanguages')).toBe(true);
+      expect(errors.some((e) => e.property === 'supportedLanguages')).toBe(
+        true,
+      );
     });
 
     it('should return error for invalid logo URL', () => {
       const dto = { ...baseValidDto, logo: 'not-a-url' };
       const errors = validateInvoiceInfoDto(dto);
-      expect(errors.some(e => e.property === 'logo')).toBe(true);
+      expect(errors.some((e) => e.property === 'logo')).toBe(true);
     });
   });
 });

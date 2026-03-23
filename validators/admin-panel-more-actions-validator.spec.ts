@@ -90,16 +90,20 @@ describe('AdminPanelMoreActionsDto', () => {
 
   it('validates complex nested structures', async () => {
     const complexData = {
-      client: [{
-        icon: 'add',
-        openMethod: OpenMethodEnum.AJAX_CALL,
-        url: 'https://example.com/api',
-        nested: [{
-          icon: 'nested-icon',
+      client: [
+        {
+          icon: 'add',
           openMethod: OpenMethodEnum.AJAX_CALL,
-          url: 'https://example.com/nested'
-        }]
-      }]
+          url: 'https://example.com/api',
+          nested: [
+            {
+              icon: 'nested-icon',
+              openMethod: OpenMethodEnum.AJAX_CALL,
+              url: 'https://example.com/nested',
+            },
+          ],
+        },
+      ],
     };
     const errors = validateAdminPanelMoreActionsDto(complexData);
     expect(errors.length).toBe(0);
@@ -117,7 +121,7 @@ describe('AdminPanelMoreActionsDto', () => {
       item: [],
       invoice: [],
       user: [],
-      order: []
+      order: [],
     };
     const errors = validateAdminPanelMoreActionsDto(data);
     expect(errors.length).toBeGreaterThan(0);
@@ -125,7 +129,7 @@ describe('AdminPanelMoreActionsDto', () => {
 
   it('passes with one non-empty property', async () => {
     const data = {
-      client: [minimalValidActionDto()]
+      client: [minimalValidActionDto()],
     };
     const errors = validateAdminPanelMoreActionsDto(data);
     expect(errors.length).toBe(0);
@@ -134,7 +138,7 @@ describe('AdminPanelMoreActionsDto', () => {
   it('passes with multiple non-empty properties', async () => {
     const data = {
       client: [minimalValidActionDto()],
-      item: [minimalValidActionDto()]
+      item: [minimalValidActionDto()],
     };
     const errors = validateAdminPanelMoreActionsDto(data);
     expect(errors.length).toBe(0);

@@ -22,8 +22,12 @@ describe('FieldDto Validator', () => {
     it('should return no errors for a valid DTO with optional error messages', () => {
       const dto = {
         ...baseValidDto,
-        regexValidationErrorMessage: [{ language: LanguageEnum.ENGLISH, text: 'Invalid format' }],
-        remoteValidationErrorMessage: [{ language: LanguageEnum.ENGLISH, text: 'Invalid value' }],
+        regexValidationErrorMessage: [
+          { language: LanguageEnum.ENGLISH, text: 'Invalid format' },
+        ],
+        remoteValidationErrorMessage: [
+          { language: LanguageEnum.ENGLISH, text: 'Invalid value' },
+        ],
       };
       expect(validateFieldDto(dto)).toHaveLength(0);
     });
@@ -32,9 +36,16 @@ describe('FieldDto Validator', () => {
   describe('Missing required fields', () => {
     it('should return errors for all missing required fields (except upgradable)', () => {
       const errors = validateFieldDto({});
-      const requiredProps = ['id', 'label', 'value', 'type', 'required', 'disabled'];
+      const requiredProps = [
+        'id',
+        'label',
+        'value',
+        'type',
+        'required',
+        'disabled',
+      ];
       for (const prop of requiredProps) {
-        expect(errors.some(e => e.property === prop)).toBe(true);
+        expect(errors.some((e) => e.property === prop)).toBe(true);
       }
     });
 
@@ -42,7 +53,7 @@ describe('FieldDto Validator', () => {
       const dto = { ...baseValidDto };
       delete (dto as any).value;
       const errors = validateFieldDto(dto);
-      expect(errors.some(e => e.property === 'value')).toBe(true);
+      expect(errors.some((e) => e.property === 'value')).toBe(true);
     });
   });
 
@@ -50,12 +61,26 @@ describe('FieldDto Validator', () => {
     it.each([
       [{ ...baseValidDto, type: 'not-a-valid-type' }, 'type'],
       [{}, 'id'],
-      [{ ...baseValidDto, regexValidation: 'regex', regexValidationErrorMessage: 'not-an-array' }, 'regexValidationErrorMessage'],
-      [{ ...baseValidDto, triggersRemoteValidation: true, remoteValidationErrorMessage: 'not-an-array' }, 'remoteValidationErrorMessage'],
+      [
+        {
+          ...baseValidDto,
+          regexValidation: 'regex',
+          regexValidationErrorMessage: 'not-an-array',
+        },
+        'regexValidationErrorMessage',
+      ],
+      [
+        {
+          ...baseValidDto,
+          triggersRemoteValidation: true,
+          remoteValidationErrorMessage: 'not-an-array',
+        },
+        'remoteValidationErrorMessage',
+      ],
     ])('should return error for invalid %s', (dto, expectedProp) => {
       const errors = validateFieldDto(dto);
       expect(errors.length).toBeGreaterThan(0);
-      expect(errors.some(e => e.property === expectedProp)).toBe(true);
+      expect(errors.some((e) => e.property === expectedProp)).toBe(true);
     });
   });
 
@@ -66,17 +91,19 @@ describe('FieldDto Validator', () => {
       [undefined, 'undefined'],
       [{}, 'object'],
       [[], 'array'],
-    ])('should return error if value is invalid type (%s)', (invalidValue, _label) => {
-      const dto = { ...baseValidDto, value: invalidValue };
-      const errors = validateFieldDto(dto);
-      expect(errors.some(e => e.property === 'value')).toBe(true);
-    });
+    ])(
+      'should return error if value is invalid type (%s)',
+      (invalidValue, _label) => {
+        const dto = { ...baseValidDto, value: invalidValue };
+        const errors = validateFieldDto(dto);
+        expect(errors.some((e) => e.property === 'value')).toBe(true);
+      },
+    );
 
     it('should return error if value is empty string when required', () => {
       const dto = { ...baseValidDto, value: '' };
       const errors = validateFieldDto(dto);
-      expect(errors.some(e => e.property === 'value')).toBe(true);
+      expect(errors.some((e) => e.property === 'value')).toBe(true);
     });
   });
-
 });

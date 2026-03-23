@@ -12,7 +12,8 @@ export class ProductCreateResponseDto extends BaseResponse {
    */
   @JSONSchema({
     title: 'Status',
-    description: 'The status of the response, indicating the outcome of the creation.',
+    description:
+      'The status of the response, indicating the outcome of the creation.',
     type: 'string',
     enum: Object.values(ResponseStatusEnum),
   })

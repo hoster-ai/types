@@ -1,4 +1,11 @@
-import { IsDefined, IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsDefined,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { CountryEnum } from '../../enums/country.enum';
 import { JSONSchema } from 'class-validator-jsonschema';
 

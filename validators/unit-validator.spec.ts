@@ -17,12 +17,21 @@ describe('UnitDto Validator', () => {
     [{ ...validDto, unitDescription: undefined }, 'unitDescription'],
     [{ ...validDto, intervalDescription: undefined }, 'intervalDescription'],
     [{ unitDescription: 'MB', intervalDescription: 'month' }, 'id'],
-    [{ id: 6979466666, unitDescription: 'MB', intervalDescription: 'month' }, 'id'],
-    [{ id: 'ram', unitDescription: 123, intervalDescription: 'month' }, 'unitDescription'],
-    [{ id: 'ram', unitDescription: 'MB', intervalDescription: 123 }, 'intervalDescription'],
+    [
+      { id: 6979466666, unitDescription: 'MB', intervalDescription: 'month' },
+      'id',
+    ],
+    [
+      { id: 'ram', unitDescription: 123, intervalDescription: 'month' },
+      'unitDescription',
+    ],
+    [
+      { id: 'ram', unitDescription: 'MB', intervalDescription: 123 },
+      'intervalDescription',
+    ],
   ])('should return error for invalid %s', (dto, expectedErrorProp) => {
     const errors = validateUnitDto(dto);
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors.some(e => e.property === expectedErrorProp)).toBe(true);
+    expect(errors.some((e) => e.property === expectedErrorProp)).toBe(true);
   });
 });

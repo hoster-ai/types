@@ -127,7 +127,6 @@ export class FieldDto {
   @IsOptional()
   hidden?: boolean;
 
-
   /**
    * Regex validation pattern for the field
    */

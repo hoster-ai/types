@@ -23,9 +23,16 @@ describe('AddonFieldDto Validator', () => {
   describe('Missing required fields', () => {
     it('should return errors when all fields are missing', () => {
       const errors = validateAddonFieldDto({});
-      const requiredProps = ['id', 'label', 'value', 'type', 'required', 'disabled'];
+      const requiredProps = [
+        'id',
+        'label',
+        'value',
+        'type',
+        'required',
+        'disabled',
+      ];
       for (const prop of requiredProps) {
-        expect(errors.some(e => e.property === prop)).toBe(true);
+        expect(errors.some((e) => e.property === prop)).toBe(true);
       }
     });
   });
@@ -34,7 +41,7 @@ describe('AddonFieldDto Validator', () => {
     it('should return error for invalid type enum', () => {
       const dto = { ...baseValidDto, type: 'not-a-valid-type' };
       const errors = validateAddonFieldDto(dto);
-      expect(errors.some(e => e.property === 'type')).toBe(true);
+      expect(errors.some((e) => e.property === 'type')).toBe(true);
     });
   });
 });

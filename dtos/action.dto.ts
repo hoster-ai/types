@@ -1,4 +1,10 @@
-import { IsString, IsUrl, IsEnum, IsOptional, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsUrl,
+  IsEnum,
+  IsOptional,
+  IsNotEmpty,
+} from 'class-validator';
 import { OpenMethodEnum } from '../enums/open-method.enum';
 import { JSONSchema } from 'class-validator-jsonschema';
 
@@ -19,10 +25,10 @@ export class ActionDto {
    */
   @IsString()
   @IsNotEmpty()
-  @JSONSchema({ 
-    title: 'Icon', 
-    description: 'Name of the icon to display for the action.', 
-    type: 'string'
+  @JSONSchema({
+    title: 'Icon',
+    description: 'Name of the icon to display for the action.',
+    type: 'string',
   })
   icon!: string;
 
@@ -33,10 +39,10 @@ export class ActionDto {
    */
   @IsString()
   @IsOptional()
-  @JSONSchema({ 
-    title: 'Label', 
-    description: 'Text label for the action.', 
-    type: 'string'
+  @JSONSchema({
+    title: 'Label',
+    description: 'Text label for the action.',
+    type: 'string',
   })
   label?: string;
 
@@ -46,10 +52,10 @@ export class ActionDto {
    */
   @IsEnum(OpenMethodEnum)
   @IsNotEmpty()
-  @JSONSchema({ 
-    title: 'Open Method', 
-    description: 'Method by which the action\'s URL should be opened.', 
-    enum: Object.values(OpenMethodEnum)
+  @JSONSchema({
+    title: 'Open Method',
+    description: "Method by which the action's URL should be opened.",
+    enum: Object.values(OpenMethodEnum),
   })
   openMethod!: OpenMethodEnum;
 
@@ -59,10 +65,10 @@ export class ActionDto {
    */
   @IsUrl({ protocols: ['https'], require_protocol: true })
   @IsNotEmpty()
-  @JSONSchema({ 
-    title: 'URL', 
-    description: 'URL to navigate to when the action is triggered.', 
-    type: 'string'
+  @JSONSchema({
+    title: 'URL',
+    description: 'URL to navigate to when the action is triggered.',
+    type: 'string',
   })
   url!: string;
 }

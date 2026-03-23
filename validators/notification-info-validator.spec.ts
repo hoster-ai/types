@@ -6,7 +6,11 @@ import { ProductItemActionsEnum } from '../enums/item-actions.enum';
 import { LanguageEnum } from '../enums/language.enum';
 
 describe('NotificationInfoDto Validator', () => {
-  const validUnit: UnitDto = { id: "ram", unitDescription: "MB", intervalDescription: "month" };
+  const validUnit: UnitDto = {
+    id: 'ram',
+    unitDescription: 'MB',
+    intervalDescription: 'month',
+  };
 
   const testCases = [
     {
@@ -16,9 +20,9 @@ describe('NotificationInfoDto Validator', () => {
         title: 'Valid Title',
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
-        payPerUseUnits: [validUnit]
+        payPerUseUnits: [validUnit],
       },
-      expectedErrorsLength: 0
+      expectedErrorsLength: 0,
     },
     {
       description: 'should return error for missing type',
@@ -26,9 +30,9 @@ describe('NotificationInfoDto Validator', () => {
         title: 'Valid Title',
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
-        payPerUseUnits: [validUnit]
+        payPerUseUnits: [validUnit],
       },
-      expectedErrorsLength: 1
+      expectedErrorsLength: 1,
     },
     {
       description: 'should return error for invalid payPerUseUnits',
@@ -37,10 +41,12 @@ describe('NotificationInfoDto Validator', () => {
         title: 'Valid Title',
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
-        payPerUseUnits: [{ id: "", unitDescription: "", intervalDescription: "" }] // Invalid unit
+        payPerUseUnits: [
+          { id: '', unitDescription: '', intervalDescription: '' },
+        ], // Invalid unit
       },
-      expectedErrorsLength: 1
-    }
+      expectedErrorsLength: 1,
+    },
   ];
 
   testCases.forEach(({ description, dto, expectedErrorsLength }) => {
@@ -57,9 +63,9 @@ describe('NotificationInfoDto Validator', () => {
         type: NotificationMessageTypeEnum.EMAIL,
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
-        payPerUseUnits: [validUnit]
+        payPerUseUnits: [validUnit],
       },
-      expectedErrors: ['title']
+      expectedErrors: ['title'],
     },
     {
       description: 'should return ValidationError for invalid payPerUseUnits',
@@ -68,17 +74,19 @@ describe('NotificationInfoDto Validator', () => {
         title: 'Valid Title',
         supportedActions: [ProductItemActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
-        payPerUseUnits: [{ id: "", unitDescription: "", intervalDescription: "" }]
+        payPerUseUnits: [
+          { id: '', unitDescription: '', intervalDescription: '' },
+        ],
       },
-      expectedErrors: ['payPerUseUnits']
-    }
+      expectedErrors: ['payPerUseUnits'],
+    },
   ];
 
   validationErrorTestCases.forEach(({ description, dto, expectedErrors }) => {
     it(description, async () => {
       const errors = await validateNotificationInfoDto(dto);
-      const errorProperties = errors.map(error => error.property);
-      expectedErrors.forEach(expectedError => {
+      const errorProperties = errors.map((error) => error.property);
+      expectedErrors.forEach((expectedError) => {
         expect(errorProperties).toContain(expectedError);
       });
     });

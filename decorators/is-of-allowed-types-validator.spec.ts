@@ -53,7 +53,9 @@ class ObjectNotEmptyDto {
 }
 
 class ValidationOptionsDto {
-  @IsOfAllowedTypes(['string'], { message: 'Custom error message' } as ValidationOptions)
+  @IsOfAllowedTypes(['string'], {
+    message: 'Custom error message',
+  } as ValidationOptions)
   prop: any;
 }
 
@@ -81,17 +83,19 @@ describe('IsOfAllowedTypes validator - compact', () => {
     dto.arrProp = 'not array';
     dto.typedArrProp = [{}];
     dto.multiTypeProp = true;
-    const errors = validateSync(dto).map(e => e.property);
-    expect(new Set(errors)).toEqual(new Set([
-      'arrProp',
-      'boolProp',
-      'multiTypeProp',
-      'numProp',
-      'objProp',
-      'strProp',
-      'typedArrProp',
-      'typedObjProp',
-    ]));
+    const errors = validateSync(dto).map((e) => e.property);
+    expect(new Set(errors)).toEqual(
+      new Set([
+        'arrProp',
+        'boolProp',
+        'multiTypeProp',
+        'numProp',
+        'objProp',
+        'strProp',
+        'typedArrProp',
+        'typedObjProp',
+      ]),
+    );
   });
 
   it('allows null or undefined when not required', () => {
@@ -104,13 +108,17 @@ describe('IsOfAllowedTypes validator - compact', () => {
   it('fails when objectClass is provided but instance check fails', () => {
     const dto = new TestDto();
     dto.typedObjProp = {};
-    expect(validateSync(dto).some(e => e.property === 'typedObjProp')).toBe(true);
+    expect(validateSync(dto).some((e) => e.property === 'typedObjProp')).toBe(
+      true,
+    );
   });
 
   it('fails when arrayElementClass is provided but element check fails', () => {
     const dto = new TestDto();
     dto.typedArrProp = [{}];
-    expect(validateSync(dto).some(e => e.property === 'typedArrProp')).toBe(true);
+    expect(validateSync(dto).some((e) => e.property === 'typedArrProp')).toBe(
+      true,
+    );
   });
 
   // Added coverage tests
@@ -119,14 +127,14 @@ describe('IsOfAllowedTypes validator - compact', () => {
     const dto = new OptionsTestDto();
     dto.strPatternProp = '   ';
     const errors = validateSync(dto);
-    expect(errors.some(e => e.property === 'strPatternProp')).toBe(true);
+    expect(errors.some((e) => e.property === 'strPatternProp')).toBe(true);
   });
 
   it('fails if string does not match pattern', () => {
     const dto = new OptionsTestDto();
     dto.strPatternProp = '123';
     const errors = validateSync(dto);
-    expect(errors.some(e => e.property === 'strPatternProp')).toBe(true);
+    expect(errors.some((e) => e.property === 'strPatternProp')).toBe(true);
   });
 
   it('passes if string matches pattern', () => {
@@ -140,7 +148,7 @@ describe('IsOfAllowedTypes validator - compact', () => {
     const dto = new OptionsTestDto();
     dto.arrayNotEmptyProp = [];
     const errors = validateSync(dto);
-    expect(errors.some(e => e.property === 'arrayNotEmptyProp')).toBe(true);
+    expect(errors.some((e) => e.property === 'arrayNotEmptyProp')).toBe(true);
   });
 
   it('passes if array is non-empty and arrayNotEmpty true', () => {
@@ -154,7 +162,7 @@ describe('IsOfAllowedTypes validator - compact', () => {
     const dto = new OptionsTestDto();
     dto.objectNotEmptyProp = {};
     const errors = validateSync(dto);
-    expect(errors.some(e => e.property === 'objectNotEmptyProp')).toBe(true);
+    expect(errors.some((e) => e.property === 'objectNotEmptyProp')).toBe(true);
   });
 
   it('passes if object is non-empty and objectNotEmpty true', () => {
@@ -171,6 +179,8 @@ describe('IsOfAllowedTypes validator - compact', () => {
     expect(errors.length).toBeGreaterThan(0);
     expect(errors[0].constraints).toBeDefined();
     expect(errors[0].constraints!).toHaveProperty('isOfAllowedTypes');
-    expect(errors[0].constraints!['isOfAllowedTypes']).toContain('Custom error message');
+    expect(errors[0].constraints!['isOfAllowedTypes']).toContain(
+      'Custom error message',
+    );
   });
 });

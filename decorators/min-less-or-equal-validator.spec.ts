@@ -6,7 +6,9 @@ import { MinLessOrEqualMaxProperty } from './min-less-or-equal.validator';
 class MinMaxDto {
   min?: number;
   max?: number;
-  constructor(data: Partial<MinMaxDto>) { Object.assign(this, data); }
+  constructor(data: Partial<MinMaxDto>) {
+    Object.assign(this, data);
+  }
 }
 
 @MinLessOrEqualMaxProperty([
@@ -18,7 +20,9 @@ class MultiMinMaxDto {
   max1?: number;
   min2?: number;
   max2?: number;
-  constructor(data: Partial<MultiMinMaxDto>) { Object.assign(this, data); }
+  constructor(data: Partial<MultiMinMaxDto>) {
+    Object.assign(this, data);
+  }
 }
 
 describe('MinLessOrEqualMaxProperty', () => {
