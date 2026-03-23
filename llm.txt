@@ -69,6 +69,15 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### BaseInvoiceRequestDto
+**Description:** Request payload for calculating tax details. Contains company and customer location information for tax rate determination.
+
+**Source:** `dtos/invoice/requests/base-invoice-request.dto.ts`
+
+**Details:** See [llm/dtos/baseinvoicerequestdto.md](llm/dtos/baseinvoicerequestdto.md)
+
+---
+
 ### ClientDataDto
 **Description:** Defines the data structure for a client. This object is used to transfer client data between different parts of the application.
 

@@ -195,7 +195,7 @@ export class InvoiceContactData {
     description: 'Tax Identification Number (TIN/VAT number).',
     type: 'string',
   })
-  tin?: string;
+  TIN?: string;
 
   /** Tax office name or code */
   @IsString()

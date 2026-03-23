@@ -1,3 +1,14 @@
+# BaseInvoiceRequestDto
+
+**Description:** Request payload for calculating tax details. Contains company and customer location information for tax rate determination.
+
+**Source:** `dtos/invoice/requests/base-invoice-request.dto.ts`
+
+**Language:** typescript
+
+## Code
+
+```typescript
 import {
   IsArray,
   IsBoolean,
@@ -11,7 +22,6 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CountryEnum } from '../../../enums/country.enum';
-import { JSONSchema } from 'class-validator-jsonschema';
 import { CompanyDataDto } from '../../company-data.dto';
 import { InvoiceItemDataDto } from '../invoice-item-data.dto';
 import { TransactionData } from '../transaction-data.dto';
@@ -30,11 +40,6 @@ export abstract class BaseInvoiceRequestDto {
   @IsObject()
   @ValidateNested()
   @Type(() => CompanyDataDto)
-  @JSONSchema({
-    title: 'Company',
-    description: 'Company data.',
-    $ref: '#/components/schemas/CompanyDataDto',
-  })
   company!: CompanyDataDto;
 
   /**
@@ -44,21 +49,10 @@ export abstract class BaseInvoiceRequestDto {
   @IsObject()
   @ValidateNested()
   @Type(() => InvoiceContactData)
-  @JSONSchema({
-    title: 'Invoice Contact',
-    description: 'Invoice contact data (without invoiceContactId).',
-    $ref: '#/components/schemas/InvoiceContactData',
-  })
   invoiceContact!: Omit<InvoiceContactData, 'invoiceContactId'>;
 
   @IsDefined()
   @IsEnum(CurrencyEnum)
-  @JSONSchema({
-    title: 'Currency',
-    description: 'Currency of the invoice.',
-    type: 'string',
-    enum: Object.values(CurrencyEnum),
-  })
   currency!: CurrencyEnum;
 
   /** Line items included in the invoice */
@@ -66,12 +60,6 @@ export abstract class BaseInvoiceRequestDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => InvoiceItemDataDto)
-  @JSONSchema({
-    title: 'Items',
-    description: 'Line items included in the invoice.',
-    type: 'array',
-    items: { $ref: '#/components/schemas/InvoiceItemDataDto' },
-  })
   items!: InvoiceItemDataDto[];
 
   /** List of transactions associated with this invoice */
@@ -79,22 +67,11 @@ export abstract class BaseInvoiceRequestDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => TransactionData)
-  @JSONSchema({
-    title: 'Transactions',
-    description: 'List of transactions associated with this invoice.',
-    type: 'array',
-    items: { $ref: '#/components/schemas/TransactionData' },
-  })
   transactions!: TransactionData[];
 
   /** Total invoice amount */
   @IsDefined()
   @IsNumber()
-  @JSONSchema({
-    title: 'Total Amount',
-    description: 'Total invoice amount.',
-    type: 'number',
-  })
   totalAmount!: number;
 
   /**
@@ -102,10 +79,6 @@ export abstract class BaseInvoiceRequestDto {
    */
   @IsDefined()
   @IsNumber()
-  @JSONSchema({
-    title: 'Discount Amount',
-    description: 'Discount amount.',
-    type: 'number',
-  })
   discountAmount!: number;
 }
+```
