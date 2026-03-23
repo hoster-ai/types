@@ -738,12 +738,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### ProductItemActionsEnum
-**Description:** This file defines the ProductItemActionsEnum.
+### ProductActionsEnum
+**Description:** This file defines the ProductActionsEnum.
 
 **Source:** `enums/item-actions.enum.ts`
 
-**Details:** See [llm/enums/productitemactionsenum.md](llm/enums/productitemactionsenum.md)
+**Details:** See [llm/enums/productactionsenum.md](llm/enums/productactionsenum.md)
 
 ---
 

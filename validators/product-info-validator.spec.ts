@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 // import { ProductInfoDto } from '../dtos/product/product-info.dto';
-import { ProductItemActionsEnum } from '../enums/item-actions.enum';
+import { ProductActionsEnum } from '../enums/item-actions.enum';
 import { LanguageEnum } from '../enums/language.enum';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { validateProductInfoDto } from './product-info.validator';
@@ -32,7 +32,7 @@ describe('ProductInfoDto Validator', () => {
       description: 'should return no errors for valid DTO',
       dto: {
         title: 'Test',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
@@ -43,7 +43,7 @@ describe('ProductInfoDto Validator', () => {
       description: 'should return error for invalid required and hidden',
       dto: {
         title: 'Test',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         itemAttributes: [invalidField],
       },
@@ -53,7 +53,7 @@ describe('ProductInfoDto Validator', () => {
       description: 'should return error for invalid title',
       dto: {
         title: '',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
@@ -75,7 +75,7 @@ describe('ProductInfoDto Validator', () => {
       description: 'should return error for unsupported language',
       dto: {
         title: 'Test',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [],
         productAttributes: [field],
         itemAttributes: [field],
@@ -87,7 +87,7 @@ describe('ProductInfoDto Validator', () => {
         'should return no errors for valid DTO with adminPanel and clientPanel',
       dto: {
         title: 'Test',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
@@ -107,7 +107,7 @@ describe('ProductInfoDto Validator', () => {
         'should return error for invalid DTO with adminPanel and clientPanel',
       dto: {
         title: '',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
@@ -124,7 +124,7 @@ describe('ProductInfoDto Validator', () => {
       description: 'should return no errors for valid DTO with payPerUseUnits',
       dto: {
         title: 'Test',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
@@ -138,7 +138,7 @@ describe('ProductInfoDto Validator', () => {
       description: 'should return error for invalid DTO with payPerUseUnits',
       dto: {
         title: 'Test',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
@@ -161,7 +161,7 @@ describe('ProductInfoDto Validator', () => {
     {
       description: 'should return ValidationError for missing title',
       dto: {
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [field],
         itemAttributes: [field],
@@ -207,7 +207,7 @@ describe('ProductInfoDto Validator', () => {
 
       const dto = {
         title: 'Test',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [fieldWithOnlyMin],
       };
@@ -231,7 +231,7 @@ describe('ProductInfoDto Validator', () => {
 
       const dto = {
         title: 'Test',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         itemAttributes: [fieldWithOnlyMax],
       };
@@ -253,7 +253,7 @@ describe('ProductInfoDto Validator', () => {
 
       const dto = {
         title: 'Test',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         productAttributes: [fieldOk],
       };
@@ -277,7 +277,7 @@ describe('ProductInfoDto Validator', () => {
 
       const dto = {
         title: 'Test',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         itemAttributes: [fieldBad],
       };

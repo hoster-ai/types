@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { validateProductItemDataDto } from './product-item-data-validator';
-import { ProductItemActionsEnum } from '../enums/item-actions.enum';
+import { ProductActionsEnum } from '../enums/item-actions.enum';
 
 const baseValidDto = {
   productId: 'prod-123',
@@ -19,11 +19,11 @@ describe('ProductItemDataDto Validator', () => {
     });
 
     it('should return no errors with a valid action', () => {
-      const dto = { ...baseValidDto, action: ProductItemActionsEnum.CREATE };
+      const dto = { ...baseValidDto, action: ProductActionsEnum.CREATE };
       expect(validateProductItemDataDto(dto)).toHaveLength(0);
     });
 
-    it.each(Object.values(ProductItemActionsEnum))(
+    it.each(Object.values(ProductActionsEnum))(
       'should accept action %s',
       (action) => {
         const dto = { ...baseValidDto, action };
@@ -37,7 +37,7 @@ describe('ProductItemDataDto Validator', () => {
         itemId: 'item-456',
         price: 9.99,
         discountPrice: 7.99,
-        action: ProductItemActionsEnum.RENEW,
+        action: ProductActionsEnum.RENEW,
       };
       expect(validateProductItemDataDto(dto)).toHaveLength(0);
     });

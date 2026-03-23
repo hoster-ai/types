@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { UnitDto } from '../dtos/unit.dto';
 import { validateNotificationInfoDto } from './notification-info.validator';
 import { NotificationMessageTypeEnum } from '../enums/notification/notification-message-type.enum';
-import { ProductItemActionsEnum } from '../enums/item-actions.enum';
+import { ProductActionsEnum } from '../enums/item-actions.enum';
 import { LanguageEnum } from '../enums/language.enum';
 
 describe('NotificationInfoDto Validator', () => {
@@ -18,7 +18,7 @@ describe('NotificationInfoDto Validator', () => {
       dto: {
         type: NotificationMessageTypeEnum.EMAIL,
         title: 'Valid Title',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         payPerUseUnits: [validUnit],
       },
@@ -28,7 +28,7 @@ describe('NotificationInfoDto Validator', () => {
       description: 'should return error for missing type',
       dto: {
         title: 'Valid Title',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         payPerUseUnits: [validUnit],
       },
@@ -39,7 +39,7 @@ describe('NotificationInfoDto Validator', () => {
       dto: {
         type: NotificationMessageTypeEnum.EMAIL,
         title: 'Valid Title',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         payPerUseUnits: [
           { id: '', unitDescription: '', intervalDescription: '' },
@@ -61,7 +61,7 @@ describe('NotificationInfoDto Validator', () => {
       description: 'should return ValidationError for missing title',
       dto: {
         type: NotificationMessageTypeEnum.EMAIL,
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         payPerUseUnits: [validUnit],
       },
@@ -72,7 +72,7 @@ describe('NotificationInfoDto Validator', () => {
       dto: {
         type: NotificationMessageTypeEnum.EMAIL,
         title: 'Valid Title',
-        supportedActions: [ProductItemActionsEnum.CREATE],
+        supportedActions: [ProductActionsEnum.CREATE],
         supportedLanguages: [LanguageEnum.ENGLISH],
         payPerUseUnits: [
           { id: '', unitDescription: '', intervalDescription: '' },

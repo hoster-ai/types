@@ -2334,15 +2334,15 @@ export const ComponentsSchemas = {
       "supportedActions": {
         "items": {
           "enum": [
-            "create",
-            "renew",
-            "upgrade",
-            "downgrade",
-            "transfer",
-            "trade",
-            "suspend",
-            "unsuspend",
-            "delete"
+            "CREATE",
+            "RENEW",
+            "UPGRADE",
+            "DOWNGRADE",
+            "TRANSFER",
+            "TRADE",
+            "SUSPEND",
+            "UNSUSPEND",
+            "DELETE"
           ],
           "type": "string"
         },
