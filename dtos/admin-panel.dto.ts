@@ -163,8 +163,7 @@ export class AdminPanelDto {
   @JSONSchema({
     title: 'Tabs',
     description: 'Tab structure for Admin panel sections.',
-    type: 'object',
-    properties: { tabs: { $ref: '#/components/schemas/AdminPanelTabsDto' } },
+    $ref: '#/components/schemas/AdminPanelTabsDto',
   })
   tabs?: AdminPanelTabsDto;
 
@@ -177,10 +176,7 @@ export class AdminPanelDto {
   @JSONSchema({
     title: 'More Actions',
     description: 'Additional actions in Admin panel sections.',
-    type: 'object',
-    properties: {
-      moreActions: { $ref: '#/components/schemas/AdminPanelMoreActionsDto' },
-    },
+    $ref: '#/components/schemas/AdminPanelMoreActionsDto',
   })
   moreActions?: AdminPanelMoreActionsDto;
 

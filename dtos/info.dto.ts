@@ -130,7 +130,7 @@ export class InfoDto {
     title: 'Admin Panel',
     description:
       'Admin UI links, tabs, and actions provided by the integration.',
-    type: 'object',
+    $ref: '#/components/schemas/AdminPanelDto',
   })
   adminPanel?: AdminPanelDto;
 
@@ -145,7 +145,7 @@ export class InfoDto {
     title: 'Client Panel',
     description:
       'Client UI links, tabs, and actions provided by the integration.',
-    type: 'object',
+    $ref: '#/components/schemas/ClientPanelDto',
   })
   clientPanel?: ClientPanelDto;
 

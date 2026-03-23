@@ -2,11 +2,15 @@ import {
   IsBoolean,
   IsDefined,
   IsEnum,
+  IsObject,
   IsOptional,
   IsString,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import { CountryEnum } from '../../../enums/country.enum';
 import { JSONSchema } from 'class-validator-jsonschema';
+import { CompanyDataDto } from '../../company-data.dto';
 
 /**
  * Request payload for calculating tax details.
@@ -25,6 +29,20 @@ export abstract class BaseInvoiceRequestDto {
     enum: Object.values(CountryEnum),
   })
   companyCountry!: CountryEnum;
+
+  /**
+   * Company data
+   */
+  @IsDefined()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => CompanyDataDto)
+  @JSONSchema({
+    title: 'Company',
+    description: 'Company data.',
+    $ref: '#/components/schemas/CompanyDataDto',
+  })
+  company!: CompanyDataDto;
 
   /**
    * Country where the customer is located

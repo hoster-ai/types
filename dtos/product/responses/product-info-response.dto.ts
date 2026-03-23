@@ -18,7 +18,7 @@ export class ProductInfoResponseDto extends BaseResponse {
   @JSONSchema({
     title: 'Info',
     description: 'The detailed information of the product.',
-    type: 'object',
+    $ref: '#/components/schemas/ProductInfoDto',
   })
   info!: ProductInfoDto;
 }

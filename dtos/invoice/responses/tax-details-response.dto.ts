@@ -51,7 +51,7 @@ export class TaxDetailsResponseDto extends BaseResponse {
     title: 'Tax Details',
     description:
       'Detailed tax validation information including company details.',
-    type: 'object',
+    $ref: '#/components/schemas/TINValidationDetails',
   })
   taxDetails?: TINValidationDetails;
 }
