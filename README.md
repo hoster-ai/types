@@ -97,6 +97,10 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `requests/validate-attributes-request.dto.ts`: Defines the structure for validating product attributes.
 - `responses/validate-attributes-response.dto.ts`: Response from validating product attributes.
 
+**Tax Manager DTOs:**
+
+- `tax-manager/tax-details-request.dto.ts`: Request payload for calculating tax details.
+
 **Product DTOs:**
 
 - `product/product-info.dto.ts`: Contains detailed information about a product. Uses `AttributeFieldDto` for product/item attributes.
@@ -110,10 +114,10 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `invoice/invoice-item-data.dto.ts`: Extends `ItemDataDto` with invoice-specific action type.
 - `invoice/transaction-data.dto.ts`: Transaction details (ID, amount, payment method, date).
 - `invoice/tin-validation-details.dto.ts`: Tax Identification Number validation details.
+- `invoice/requests/base-invoice-request.dto.ts`: Base request payload with common invoice fields.
 - `invoice/requests/proforma-invoice-request.dto.ts`: Request payload for creating a proforma invoice.
 - `invoice/requests/invoice-request.dto.ts`: Request payload for creating a standard invoice.
 - `invoice/requests/credit-note-request.dto.ts`: Request payload for creating a credit note.
-- `invoice/requests/tax-details-request.dto.ts`: Request payload for calculating tax details.
 - `invoice/responses/proforma-invoice-response.dto.ts`: Response after creating a proforma invoice.
 - `invoice/responses/invoice-response.dto.ts`: Response after creating a standard invoice.
 - `invoice/responses/credit-note-response.dto.ts`: Response after creating a credit note.
