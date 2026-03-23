@@ -1,16 +1,12 @@
 import {
   IsArray,
-  IsBoolean,
   IsDefined,
   IsEnum,
   IsNumber,
   IsObject,
-  IsOptional,
-  IsString,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CountryEnum } from '../../../enums/country.enum';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { CompanyDataDto } from '../../company-data.dto';
 import { InvoiceItemDataDto } from '../invoice-item-data.dto';
