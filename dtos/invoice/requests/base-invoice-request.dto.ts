@@ -45,7 +45,7 @@ export abstract class BaseInvoiceRequestDto {
     description: 'Invoice contact data (without invoiceContactId).',
     $ref: '#/components/schemas/InvoiceContactData',
   })
-  invoiceContact!: Omit<InvoiceContactData, 'invoiceContactId'>;
+  invoiceContact!: InvoiceContactData;
 
   @IsDefined()
   @IsEnum(CurrencyEnum)
