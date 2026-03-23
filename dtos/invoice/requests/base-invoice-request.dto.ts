@@ -1,7 +1,9 @@
 import {
+  IsArray,
   IsBoolean,
   IsDefined,
   IsEnum,
+  IsNumber,
   IsObject,
   IsOptional,
   IsString,
@@ -11,25 +13,14 @@ import { Type } from 'class-transformer';
 import { CountryEnum } from '../../../enums/country.enum';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { CompanyDataDto } from '../../company-data.dto';
+import { InvoiceItemDataDto } from '../invoice-item-data.dto';
+import { TransactionData } from '../transaction-data.dto';
 
 /**
  * Request payload for calculating tax details.
  * Contains company and customer location information for tax rate determination.
  */
 export abstract class BaseInvoiceRequestDto {
-  /**
-   * Country where the company is registered
-   */
-  @IsDefined()
-  @IsEnum(CountryEnum)
-  @JSONSchema({
-    title: 'Company Country',
-    description: 'Country where the company is registered.',
-    type: 'string',
-    enum: Object.values(CountryEnum),
-  })
-  companyCountry!: CountryEnum;
-
   /**
    * Company data
    */
@@ -45,6 +36,18 @@ export abstract class BaseInvoiceRequestDto {
   company!: CompanyDataDto;
 
   /**
+   * Customer's Tax Identification Number
+   */
+  @IsDefined()
+  @IsString()
+  @JSONSchema({
+    title: 'Customer TIN',
+    description: "Customer's Tax Identification Number.",
+    type: 'string',
+  })
+  TIN!: string;
+
+  /**
    * Country where the customer is located
    */
   @IsDefined()
@@ -55,31 +58,7 @@ export abstract class BaseInvoiceRequestDto {
     type: 'string',
     enum: Object.values(CountryEnum),
   })
-  customerCountry!: CountryEnum;
-
-  /**
-   * Customer's Tax Identification Number
-   */
-  @IsDefined()
-  @IsString()
-  @JSONSchema({
-    title: 'Customer TIN',
-    description: "Customer's Tax Identification Number.",
-    type: 'string',
-  })
-  customerTIN!: string;
-
-  /**
-   * Customer's postal code
-   */
-  @IsOptional()
-  @IsString()
-  @JSONSchema({
-    title: 'Customer Postal Code',
-    description: "Customer's postal code.",
-    type: 'string',
-  })
-  customerPostalCode?: string;
+  country!: CountryEnum;
 
   /**
    * Customer's state or province
@@ -91,7 +70,19 @@ export abstract class BaseInvoiceRequestDto {
     description: "Customer's state or province.",
     type: 'string',
   })
-  customerState?: string;
+  state?: string;
+
+  /**
+   * Customer's postal code
+   */
+  @IsOptional()
+  @IsString()
+  @JSONSchema({
+    title: 'Customer Postal Code',
+    description: "Customer's postal code.",
+    type: 'string',
+  })
+  postalCode?: string;
 
   /**
    * Indicates whether the customer address has been validated
@@ -104,4 +95,40 @@ export abstract class BaseInvoiceRequestDto {
     type: 'boolean',
   })
   validatedAddress?: boolean;
+
+  /** Line items included in the invoice */
+  @IsDefined()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => InvoiceItemDataDto)
+  @JSONSchema({
+    title: 'Items',
+    description: 'Line items included in the invoice.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/InvoiceItemDataDto' },
+  })
+  items!: InvoiceItemDataDto[];
+
+  /** List of transactions associated with this invoice */
+  @IsDefined()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => TransactionData)
+  @JSONSchema({
+    title: 'Transactions',
+    description: 'List of transactions associated with this invoice.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/TransactionData' },
+  })
+  transactions!: TransactionData[];
+
+  /** Total invoice amount */
+  @IsDefined()
+  @IsNumber()
+  @JSONSchema({
+    title: 'Total Amount',
+    description: 'Total invoice amount.',
+    type: 'number',
+  })
+  totalAmount!: number;
 }

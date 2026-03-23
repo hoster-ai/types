@@ -229,4 +229,17 @@ export class CompanyDataDto {
     type: 'string',
   })
   taxOffice?: string;
+
+  /**
+   * The logo URL for the company (optional).
+   */
+  @IsString()
+  @IsOptional()
+  @JSONSchema({
+    title: 'Logo URL',
+    description: 'The logo URL for the company.',
+    type: 'string',
+    format: 'uri',
+  })
+  logoUrl?: string;
 }
