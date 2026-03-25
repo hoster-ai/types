@@ -5,6 +5,26 @@ description: Use when adding, updating, or removing entries from the project llm
 
 # LLM.txt Maintenance
 
+**REQUIRED WORKFLOW: You MUST dispatch to a swarm-worker subagent for all llm.txt maintenance tasks. Never do the edits yourself - always delegate to a subagent.**
+
+## When to Dispatch
+
+**ALWAYS dispatch to a subagent when asked to:**
+
+- Add new DTO/Enum/Decorator/Validator/Transformer to llm.txt
+- Update existing entries in llm.txt
+- Remove entries from llm.txt
+- Create or update corresponding llm/\*.md files
+- Sync llm.txt after code changes
+
+## How to Dispatch
+
+Use the Task tool with `subagent_type=swarm-worker` and pass:
+
+1. The task description
+2. This SKILL.md content for context
+3. The specific file(s) to modify
+
 ## Overview
 
 Maintains the `llm.txt` index file that serves as a reference guide to all project types (DTOs, Enums, Decorators, Validators, Transformers). Each entry links to detailed `.md` files in the `llm/` subdirectory.
@@ -78,27 +98,30 @@ Converting Source path to Details link:
 2. Insert in alphabetical order by name
 3. Follow exact formatting
 
-## Tasks
+## Tasks (Delegate to Subagent)
 
-### Adding a New Entry
+### Adding a New Entry → DISPATCH TO SUBAGENT
 
-1. Find correct section in `llm.txt`
-2. Insert entry in alphabetical order with exact format
-3. Create corresponding `llm/*.md` file with detailed documentation
-4. Follow the path conversion rules
+1. Dispatch to subagent with: "Add [DtoName] to llm.txt"
+2. Subagent finds correct section in `llm.txt`
+3. Subagent inserts entry in alphabetical order with exact format
+4. Subagent creates corresponding `llm/*.md` file with detailed documentation
+5. Subagent follows the path conversion rules
 
-### Updating an Entry
+### Updating an Entry → DISPATCH TO SUBAGENT
 
-1. Update description if behavior changed
-2. Update source path if file was moved
-3. Update Details link accordingly
-4. Update corresponding `llm/*.md` file
-5. Maintain alphabetical ordering
+1. Dispatch to subagent with: "Update [DtoName] in llm.txt"
+2. Subagent updates description if behavior changed
+3. Subagent updates source path if file was moved
+4. Subagent updates Details link accordingly
+5. Subagent updates corresponding `llm/*.md` file
+6. Subagent maintains alphabetical ordering
 
-### Removing an Entry
+### Removing an Entry → DISPATCH TO SUBAGENT
 
-1. Delete the entry block (from `### Name` to next `---`)
-2. Delete the corresponding `llm/*.md` file
+1. Dispatch to subagent with: "Remove [DtoName] from llm.txt"
+2. Subagent deletes the entry block (from `### Name` to next `---`)
+3. Subagent deletes the corresponding `llm/*.md` file
 
 ## Quick Reference
 
@@ -144,3 +167,36 @@ Adding `NewFeatureDto`:
 ```
 
 Also create `llm/dtos/newfeaturedto.md` with detailed documentation.
+
+## Subagent Prompt Template
+
+When dispatching to a subagent, use this template:
+
+```
+You are an expert at maintaining the llm.txt file in this project.
+
+## Your Task
+[TASK DESCRIPTION: e.g., "Add NewFeatureDto to llm.txt" or "Update ProductInfoDto entry after field X changed"]
+
+## Context
+The llm.txt is located at: /Users/thomaspapamichail/projects/hoster/core/types/llm.txt
+The llm/ directory is at: /Users/thomaspapamichail/projects/hoster/core/types/llm/
+
+## Key Rules
+1. Entry format:
+### DtoName
+**Description:** Brief description
+**Source:** `path/to/file.ts`
+**Details:** See [llm/path/filename.md](llm/path/filename.md)
+---
+2. ALWAYS maintain alphabetical order within each section
+3. Path conversion: dtos/action.dto.ts → llm/dtos/actiondto.md
+4. Sections in order: DTOS → ENUMS → DECORATORS → VALIDATORS → TRANSFORMERS
+
+## Deliverables
+1. Updated llm.txt with changes
+2. Created/updated llm/*.md file with detailed documentation
+3. Summary of what you changed
+
+Return a summary of what you changed when done.
+```
