@@ -9,10 +9,10 @@
 ## Code
 
 ```typescript
-import { IsEnum, IsOptional } from "class-validator";
+import { IsEnum, IsOptional } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { ProductItemActionsEnum } from "../../enums/item-actions.enum";
-import { ItemDataDto } from "../item-data.dto";
+import { ProductActionsEnum } from '../../enums/item-actions.enum';
+import { ItemDataDto } from '../item-data.dto';
 
 /**
  * Product item data sent to product integrations.
@@ -21,14 +21,13 @@ import { ItemDataDto } from "../item-data.dto";
 export class ProductItemDataDto extends ItemDataDto {
   /** Product-specific action type for this item */
   @IsOptional()
-  @IsEnum(ProductItemActionsEnum)
+  @IsEnum(ProductActionsEnum)
   @JSONSchema({
     title: 'Action',
     description: 'Product-specific action type for this item.',
     type: 'string',
-    enum: Object.values(ProductItemActionsEnum),
+    enum: Object.values(ProductActionsEnum),
   })
-  action?: ProductItemActionsEnum;
+  action?: ProductActionsEnum;
 }
 ```
-
