@@ -33,4 +33,3 @@ export enum DurationEnum {
   TEN_YEARS = '120',
 }
 ```
-

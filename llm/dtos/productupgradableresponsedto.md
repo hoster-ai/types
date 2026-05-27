@@ -53,4 +53,3 @@ export class ProductUpgradableResponseDto extends BaseResponse {
   data?: Record<string, unknown>;
 }
 ```
-

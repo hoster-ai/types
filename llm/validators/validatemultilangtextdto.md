@@ -26,4 +26,3 @@ export function validateMultilangTextDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

@@ -76,7 +76,7 @@ Conventional Commits, lower-case subjects. Common prefixes seen in `git log`:
 - `docs: ...`
 - `style: ...` — formatting only
 
-Subject describes *what changed* concretely (which DTO, which field). Body optional — used for multi-change refactors.
+Subject describes _what changed_ concretely (which DTO, which field). Body optional — used for multi-change refactors.
 
 ## Pre-push / pre-commit checklist
 

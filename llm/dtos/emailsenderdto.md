@@ -86,4 +86,3 @@ export class EmailSenderDto {
   attachments?: AttachmentDto[];
 }
 ```
-

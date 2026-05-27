@@ -23,7 +23,8 @@ export class ProductUnsuspendResponseDto extends BaseResponse {
    */
   @JSONSchema({
     title: 'Status',
-    description: 'The status of the response, indicating the outcome of the unsuspend operation.',
+    description:
+      'The status of the response, indicating the outcome of the unsuspend operation.',
     type: 'string',
     enum: Object.values(ResponseStatusEnum),
   })
@@ -34,7 +35,8 @@ export class ProductUnsuspendResponseDto extends BaseResponse {
    */
   @JSONSchema({
     title: 'Item ID',
-    description: 'The unique identifier of the product item that was unsuspended.',
+    description:
+      'The unique identifier of the product item that was unsuspended.',
     type: 'string',
   })
   itemId!: string;
@@ -52,4 +54,3 @@ export class ProductUnsuspendResponseDto extends BaseResponse {
   data?: Record<string, unknown>;
 }
 ```
-

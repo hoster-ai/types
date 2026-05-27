@@ -16,11 +16,20 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### AddonFieldDto
-**Description:** Fields defined by the seller for a product, requested during checkout setup. These fields contain information relevant only to the seller, not to the integration.
+**Description:** Fields defined by the seller for a product, requested during checkout setup. Wraps a concrete field DTO under .field (an AnyFieldDto).
 
 **Source:** `dtos/addon-field.dto.ts`
 
 **Details:** See [llm/dtos/addonfielddto.md](llm/dtos/addonfielddto.md)
+
+---
+
+### AnyFieldDto
+**Description:** Discriminated union of every concrete field DTO. Discriminator is the string-literal `type` property. Also exports FIELD_DTO_CLASSES runtime registry.
+
+**Source:** `dtos/fields/any-field.dto.ts`
+
+**Details:** See [llm/dtos/anyfielddto.md](llm/dtos/anyfielddto.md)
 
 ---
 
@@ -43,11 +52,20 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### AttributeFieldDto
-**Description:** Extends FieldDto with product-specific attributes (visibleInOrder, visibleInClientPanel, repeatableMin, repeatableMax). Uses @AllOrNoneProperty and @MinLessOrEqualMaxProperty decorators.
+**Description:** Wraps a concrete field DTO (.field: AnyFieldDto) with product-attribute-specific options (visibleInOrder, visibleInClientPanel, repeatableMin/repeatableMax). Uses @AllOrNoneProperty and @MinLessOrEqualMaxProperty.
 
 **Source:** `dtos/attribute-field.dto.ts`
 
 **Details:** See [llm/dtos/attributefielddto.md](llm/dtos/attributefielddto.md)
+
+---
+
+### BaseFieldDto
+**Description:** Abstract base for every concrete field DTO. Carries id, label, required, disabled, hidden, triggersRemoteValidation, remoteValidationErrorMessage, upgradable, downgradable.
+
+**Source:** `dtos/base-field.dto.ts`
+
+**Details:** See [llm/dtos/basefielddto.md](llm/dtos/basefielddto.md)
 
 ---
 
@@ -160,11 +178,128 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### FieldDto
-**Description:** Data Transfer Object for a form field. This class defines the structure and properties of a single field that can be used in a user interface form.
+**Description:** @deprecated Type alias for AnyFieldDto. Kept for one release; downstream migration tracked in hoster-ai/api issue #449.
 
 **Source:** `dtos/field.dto.ts`
 
 **Details:** See [llm/dtos/fielddto.md](llm/dtos/fielddto.md)
+
+---
+
+### BooleanFieldDto
+**Description:** Boolean field. Discriminator type='BOOLEAN'. Value is an optional boolean.
+
+**Source:** `dtos/fields/boolean-field.dto.ts`
+
+**Details:** See [llm/dtos/booleanfielddto.md](llm/dtos/booleanfielddto.md)
+
+---
+
+### TextFieldDto
+**Description:** Single-line text input field. Discriminator type='TEXT'. Optional minLength/maxLength/regexValidation.
+
+**Source:** `dtos/fields/text-field.dto.ts`
+
+**Details:** See [llm/dtos/textfielddto.md](llm/dtos/textfielddto.md)
+
+---
+
+### TextareaFieldDto
+**Description:** Multi-line text input field. Discriminator type='TEXTAREA'. Same options as TextFieldDto.
+
+**Source:** `dtos/fields/textarea-field.dto.ts`
+
+**Details:** See [llm/dtos/textareafielddto.md](llm/dtos/textareafielddto.md)
+
+---
+
+### NumberFieldDto
+**Description:** Numeric input field. Discriminator type='NUMBER'. Optional min/max (via @MinLessOrEqualMaxProperty) and integer flag.
+
+**Source:** `dtos/fields/number-field.dto.ts`
+
+**Details:** See [llm/dtos/numberfielddto.md](llm/dtos/numberfielddto.md)
+
+---
+
+### PhoneFieldDto
+**Description:** Phone number field. Discriminator type='PHONE'. Value must be in E.164 format (validated by @IsE164).
+
+**Source:** `dtos/fields/phone-field.dto.ts`
+
+**Details:** See [llm/dtos/phonefielddto.md](llm/dtos/phonefielddto.md)
+
+---
+
+### EmailFieldDto
+**Description:** Email input field. Discriminator type='EMAIL'. Value validated by @IsEmail.
+
+**Source:** `dtos/fields/email-field.dto.ts`
+
+**Details:** See [llm/dtos/emailfielddto.md](llm/dtos/emailfielddto.md)
+
+---
+
+### UrlFieldDto
+**Description:** URL input field. Discriminator type='URL'. Value validated by @IsUrl.
+
+**Source:** `dtos/fields/url-field.dto.ts`
+
+**Details:** See [llm/dtos/urlfielddto.md](llm/dtos/urlfielddto.md)
+
+---
+
+### CountriesFieldDto
+**Description:** Multi-country selection field. Discriminator type='COUNTRIES'. Value is an array of ISO 3166-1 alpha-2 codes (CountryEnum).
+
+**Source:** `dtos/fields/countries-field.dto.ts`
+
+**Details:** See [llm/dtos/countriesfielddto.md](llm/dtos/countriesfielddto.md)
+
+---
+
+### CurrencyFieldDto
+**Description:** Currency selection field. Discriminator type='CURRENCY'. Value is an ISO 4217 currency code (CurrencyEnum).
+
+**Source:** `dtos/fields/currency-field.dto.ts`
+
+**Details:** See [llm/dtos/currencyfielddto.md](llm/dtos/currencyfielddto.md)
+
+---
+
+### DateFieldDto
+**Description:** Date input field. Discriminator type='DATE'. Value is an ISO 8601 date or date-time string.
+
+**Source:** `dtos/fields/date-field.dto.ts`
+
+**Details:** See [llm/dtos/datefielddto.md](llm/dtos/datefielddto.md)
+
+---
+
+### PasswordFieldDto
+**Description:** Password input field. Discriminator type='PASSWORD'. String value with optional minLength. Does NOT enforce strength rules.
+
+**Source:** `dtos/fields/password-field.dto.ts`
+
+**Details:** See [llm/dtos/passwordfielddto.md](llm/dtos/passwordfielddto.md)
+
+---
+
+### SelectFieldDto
+**Description:** Single-choice select field. Discriminator type='SELECT'. Value is a FieldOptionDto.
+
+**Source:** `dtos/fields/select-field.dto.ts`
+
+**Details:** See [llm/dtos/selectfielddto.md](llm/dtos/selectfielddto.md)
+
+---
+
+### MultiSelectFieldDto
+**Description:** Multi-choice select field. Discriminator type='MULTI_SELECT'. Value is an array of FieldOptionDto.
+
+**Source:** `dtos/fields/multi-select-field.dto.ts`
+
+**Details:** See [llm/dtos/multiselectfielddto.md](llm/dtos/multiselectfielddto.md)
 
 ---
 
@@ -685,7 +820,7 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### FieldTypeEnum
-**Description:** This file defines the FieldTypeEnum.
+**Description:** @deprecated Use the string-literal `type` discriminator on each concrete field DTO instead. Kept for one release for BC.
 
 **Source:** `enums/field-type.enum.ts`
 
@@ -831,6 +966,15 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### IsE164
+**Description:** Custom class-validator decorator that validates a string is a phone number in E.164 format using libphonenumber-js.
+
+**Source:** `decorators/is-e164.validator.ts`
+
+**Details:** See [llm/decorators/ise164.md](llm/decorators/ise164.md)
+
+---
+
 ### IsRegex
 **Description:** Custom class-validator decorator that validates if a string is a valid regular expression.
 
@@ -871,11 +1015,20 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### validateAddonFieldDto
-**Description:** Validates an AddonFieldDto object. Since AddonFieldDto is an empty subclass of FieldDto, this delegates to validateFieldDto.
+**Description:** Validates an AddonFieldDto. The nested .field (a discriminated AnyFieldDto) is validated separately via validateAnyFieldDto and its errors merged under the 'field' property.
 
 **Source:** `validators/addon-field-validator.ts`
 
 **Details:** See [llm/validators/validateaddonfielddto.md](llm/validators/validateaddonfielddto.md)
+
+---
+
+### validateAnyFieldDto
+**Description:** Dispatcher that reads the string-literal `type` discriminator and routes to the matching concrete field DTO's validation. Returns a synthetic ValidationError on `type` if discriminator is missing/unknown.
+
+**Source:** `validators/any-field-validator.ts`
+
+**Details:** See [llm/validators/validateanyfielddto.md](llm/validators/validateanyfielddto.md)
 
 ---
 
@@ -916,7 +1069,7 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### validateAttributeFieldDto
-**Description:** Validates an AttributeFieldDto object using class-validator decorators.
+**Description:** Validates an AttributeFieldDto. The nested .field (a discriminated AnyFieldDto) is validated separately via validateAnyFieldDto and its errors merged under the 'field' property.
 
 **Source:** `validators/attribute-field-validator.ts`
 
@@ -979,11 +1132,128 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### validateFieldDto
-**Description:** Validates a FieldDto object using class-validator decorators.
+**Description:** @deprecated Delegates to validateAnyFieldDto. Use the dispatcher (or a concrete per-type validator) instead.
 
 **Source:** `validators/field-validator.ts`
 
 **Details:** See [llm/validators/validatefielddto.md](llm/validators/validatefielddto.md)
+
+---
+
+### validateBooleanFieldDto
+**Description:** Validates a BooleanFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/boolean-field-validator.ts`
+
+**Details:** See [llm/validators/validatebooleanfielddto.md](llm/validators/validatebooleanfielddto.md)
+
+---
+
+### validateTextFieldDto
+**Description:** Validates a TextFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/text-field-validator.ts`
+
+**Details:** See [llm/validators/validatetextfielddto.md](llm/validators/validatetextfielddto.md)
+
+---
+
+### validateTextareaFieldDto
+**Description:** Validates a TextareaFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/textarea-field-validator.ts`
+
+**Details:** See [llm/validators/validatetextareafielddto.md](llm/validators/validatetextareafielddto.md)
+
+---
+
+### validateNumberFieldDto
+**Description:** Validates a NumberFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/number-field-validator.ts`
+
+**Details:** See [llm/validators/validatenumberfielddto.md](llm/validators/validatenumberfielddto.md)
+
+---
+
+### validatePhoneFieldDto
+**Description:** Validates a PhoneFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/phone-field-validator.ts`
+
+**Details:** See [llm/validators/validatephonefielddto.md](llm/validators/validatephonefielddto.md)
+
+---
+
+### validateEmailFieldDto
+**Description:** Validates an EmailFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/email-field-validator.ts`
+
+**Details:** See [llm/validators/validateemailfielddto.md](llm/validators/validateemailfielddto.md)
+
+---
+
+### validateUrlFieldDto
+**Description:** Validates a UrlFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/url-field-validator.ts`
+
+**Details:** See [llm/validators/validateurlfielddto.md](llm/validators/validateurlfielddto.md)
+
+---
+
+### validateCountriesFieldDto
+**Description:** Validates a CountriesFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/countries-field-validator.ts`
+
+**Details:** See [llm/validators/validatecountriesfielddto.md](llm/validators/validatecountriesfielddto.md)
+
+---
+
+### validateCurrencyFieldDto
+**Description:** Validates a CurrencyFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/currency-field-validator.ts`
+
+**Details:** See [llm/validators/validatecurrencyfielddto.md](llm/validators/validatecurrencyfielddto.md)
+
+---
+
+### validateDateFieldDto
+**Description:** Validates a DateFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/date-field-validator.ts`
+
+**Details:** See [llm/validators/validatedatefielddto.md](llm/validators/validatedatefielddto.md)
+
+---
+
+### validatePasswordFieldDto
+**Description:** Validates a PasswordFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/password-field-validator.ts`
+
+**Details:** See [llm/validators/validatepasswordfielddto.md](llm/validators/validatepasswordfielddto.md)
+
+---
+
+### validateSelectFieldDto
+**Description:** Validates a SelectFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/select-field-validator.ts`
+
+**Details:** See [llm/validators/validateselectfielddto.md](llm/validators/validateselectfielddto.md)
+
+---
+
+### validateMultiSelectFieldDto
+**Description:** Validates a MultiSelectFieldDto object using class-validator decorators.
+
+**Source:** `validators/fields/multi-select-field-validator.ts`
+
+**Details:** See [llm/validators/validatemultiselectfielddto.md](llm/validators/validatemultiselectfielddto.md)
 
 ---
 

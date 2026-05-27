@@ -26,4 +26,3 @@ export function validateEmailReceiverDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

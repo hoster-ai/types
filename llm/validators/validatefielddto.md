@@ -1,6 +1,6 @@
 # validateFieldDto
 
-**Description:** Validates a FieldDto object using class-validator decorators.
+**Description:** @deprecated Delegates to validateAnyFieldDto. Use the dispatcher (or a concrete per-type validator) instead.
 
 **Source:** `validators/field-validator.ts`
 
@@ -9,21 +9,14 @@
 ## Code
 
 ```typescript
-import { validateSync, ValidationError } from 'class-validator';
-import { plainToInstance } from 'class-transformer';
-import { FieldDto } from '../dtos/field.dto';
+import { ValidationError } from 'class-validator';
+import { validateAnyFieldDto } from './any-field-validator';
 
 /**
- * Validates a FieldDto object using class-validator decorators.
- *
- * @param data The object to validate as a FieldDto.
- * @returns An array of validation errors, empty if validation succeeds.
+ * @deprecated Use `validateAnyFieldDto` (or a concrete per-type validator like
+ * `validateTextFieldDto`) instead. Kept for one release for backward compatibility.
  */
 export function validateFieldDto(data: object): ValidationError[] {
-  const dto = plainToInstance(FieldDto, data);
-  const errors = validateSync(dto);
-
-  return errors;
+  return validateAnyFieldDto(data);
 }
 ```
-

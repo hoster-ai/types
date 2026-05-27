@@ -23,10 +23,10 @@ export class FieldOptionDto {
    */
   @IsString()
   @IsDefined()
-  @JSONSchema({ 
-    title: 'Key', 
-    description: 'Internal key for the option.', 
-    type: 'string' 
+  @JSONSchema({
+    title: 'Key',
+    description: 'Internal key for the option.',
+    type: 'string',
   })
   key!: string;
 
@@ -35,10 +35,10 @@ export class FieldOptionDto {
    */
   @IsString()
   @IsDefined()
-  @JSONSchema({ 
-    title: 'Value', 
-    description: 'Display value for the option.', 
-    type: 'string' 
+  @JSONSchema({
+    title: 'Value',
+    description: 'Display value for the option.',
+    type: 'string',
   })
   value!: string;
 
@@ -47,12 +47,11 @@ export class FieldOptionDto {
    */
   @IsBoolean()
   @IsOptional()
-  @JSONSchema({ 
-    title: 'Disabled', 
-    description: 'Whether the option is disabled.', 
-    type: 'boolean' 
+  @JSONSchema({
+    title: 'Disabled',
+    description: 'Whether the option is disabled.',
+    type: 'boolean',
   })
   disabled?: boolean = false;
 }
 ```
-

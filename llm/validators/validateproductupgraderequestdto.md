@@ -26,4 +26,3 @@ export const validateProductUpgradeRequestDto = async (
   return await validate(request, { skipMissingProperties: true });
 };
 ```
-

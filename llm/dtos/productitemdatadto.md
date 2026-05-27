@@ -9,10 +9,10 @@
 ## Code
 
 ```typescript
-import { IsEnum, IsOptional } from "class-validator";
+import { IsEnum, IsOptional } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { ProductItemActionsEnum } from "../../enums/item-actions.enum";
-import { ItemDataDto } from "../item-data.dto";
+import { ProductItemActionsEnum } from '../../enums/item-actions.enum';
+import { ItemDataDto } from '../item-data.dto';
 
 /**
  * Product item data sent to product integrations.
@@ -31,4 +31,3 @@ export class ProductItemDataDto extends ItemDataDto {
   action?: ProductItemActionsEnum;
 }
 ```
-

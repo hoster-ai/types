@@ -9,9 +9,9 @@
 ## Code
 
 ```typescript
-import { IsOptional, IsString } from "class-validator";
+import { IsOptional, IsString } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { ProformaInvoiceRequestDto } from "./proforma-invoice-request.dto";
+import { ProformaInvoiceRequestDto } from './proforma-invoice-request.dto';
 
 /**
  * Request payload for creating a standard invoice.
@@ -29,4 +29,3 @@ export class InvoiceRequestDto extends ProformaInvoiceRequestDto {
   parentInvoiceId?: string;
 }
 ```
-

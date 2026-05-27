@@ -22,11 +22,7 @@ import { ValidateAttributesRequestDto } from '../dtos/requests/validate-attribut
 export const validateValidateAttributesRequestDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
-  const request = plainToInstance(
-    ValidateAttributesRequestDto,
-    plainObject,
-  );
+  const request = plainToInstance(ValidateAttributesRequestDto, plainObject);
   return await validate(request);
 };
 ```
-

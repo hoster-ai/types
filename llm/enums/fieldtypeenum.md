@@ -1,6 +1,6 @@
 # FieldTypeEnum
 
-**Description:** This file defines the FieldTypeEnum.
+**Description:** @deprecated Use the string-literal 'type' discriminator on each concrete field DTO (TextFieldDto, NumberFieldDto, ...) instead. Kept for one release for backward compatibility.
 
 **Source:** `enums/field-type.enum.ts`
 
@@ -9,16 +9,27 @@
 ## Code
 
 ```typescript
+/**
+ * @deprecated The mega `FieldDto` was split into one concrete DTO per field type.
+ * New code should use the string-literal `type` discriminator on each concrete DTO
+ * (e.g. `TextFieldDto`, `NumberFieldDto`) rather than referencing this enum.
+ *
+ * Kept for one release for backward compatibility; will be removed once consumer
+ * migration (hoster-ai/api issue #449) lands.
+ */
 export enum FieldTypeEnum {
-  //These are the enums for all possible types of action fields as they will be rendered on the hoster
-  TEXT_BOX = 'TEXT_BOX',
-  TEXT_AREA = 'TEXT_AREA',
+  BOOLEAN = 'BOOLEAN',
+  TEXT = 'TEXT',
+  TEXTAREA = 'TEXTAREA',
+  NUMBER = 'NUMBER',
+  PHONE = 'PHONE',
+  EMAIL = 'EMAIL',
+  URL = 'URL',
+  COUNTRIES = 'COUNTRIES',
+  CURRENCY = 'CURRENCY',
+  DATE = 'DATE',
+  PASSWORD = 'PASSWORD',
   SELECT = 'SELECT',
   MULTI_SELECT = 'MULTI_SELECT',
-  DESCRIPTION = 'DESCRIPTION',
-  RADIO_BOX = 'RADIO_BOX',
-  CHECKBOX = 'CHECKBOX',
-  SLIDER = 'SLIDER',
 }
 ```
-

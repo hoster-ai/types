@@ -40,6 +40,21 @@ import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import '../dtos/country.dto';
 import '../dtos/notification/notification-info.dto';
 import '../dtos/product/product-info.dto';
+// Concrete field DTOs (split from the deprecated mega FieldDto)
+import '../dtos/fields/boolean-field.dto';
+import '../dtos/fields/text-field.dto';
+import '../dtos/fields/textarea-field.dto';
+import '../dtos/fields/number-field.dto';
+import '../dtos/fields/phone-field.dto';
+import '../dtos/fields/email-field.dto';
+import '../dtos/fields/url-field.dto';
+import '../dtos/fields/countries-field.dto';
+import '../dtos/fields/currency-field.dto';
+import '../dtos/fields/date-field.dto';
+import '../dtos/fields/password-field.dto';
+import '../dtos/fields/select-field.dto';
+import '../dtos/fields/multi-select-field.dto';
+import { FIELD_DTO_CLASSES } from '../dtos/fields/any-field.dto';
 
 /**
  * Ensure an output directory exists.
@@ -161,6 +176,28 @@ function main() {
     string,
     unknown
   >;
+
+  // 4a) Manually inject `AnyFieldDto` as a discriminated `oneOf` of every concrete
+  //     field DTO. `class-validator-jsonschema` cannot derive this from a TS union
+  //     alias because there are no class-validator decorators attached to it.
+  const fieldOneOf = Object.values(FIELD_DTO_CLASSES).map((cls) => ({
+    $ref: `#/components/schemas/${cls.name}`,
+  }));
+  remappedComponents.AnyFieldDto = {
+    title: 'AnyFieldDto',
+    description:
+      'Discriminated union of every concrete field DTO. Discriminator is the string-literal `type` property.',
+    oneOf: fieldOneOf,
+    discriminator: {
+      propertyName: 'type',
+      mapping: Object.fromEntries(
+        Object.entries(FIELD_DTO_CLASSES).map(([literal, cls]) => [
+          literal,
+          `#/components/schemas/${cls.name}`,
+        ]),
+      ),
+    },
+  };
 
   // 5) Write the file with a typed `const` export for easy import/merge in the API app
   const componentsContent = `export const ComponentsSchemas = ${JSON.stringify(remappedComponents, null, 2)} as const;\n`;

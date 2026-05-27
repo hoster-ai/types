@@ -15,7 +15,17 @@ import { RolesEnum } from '../enums/roles.enum';
 // import { ActionDto } from './action.dto';
 // import { TabDto } from './tab.dto';
 // import { MenuDtoWithSubmenu, MenuDtoWithUrl } from './menu.dto';
-import { IsString, IsUrl, IsOptional, ValidateNested, IsArray, ArrayMinSize, IsEnum, IsNotEmpty, IsDefined } from 'class-validator';
+import {
+  IsString,
+  IsUrl,
+  IsOptional,
+  ValidateNested,
+  IsArray,
+  ArrayMinSize,
+  IsEnum,
+  IsNotEmpty,
+  IsDefined,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { AdminPanelDto } from './admin-panel.dto';
 import { ClientPanelDto } from './client-panel.dto';
@@ -40,7 +50,7 @@ export class InfoDto {
     title: 'Title',
     description: 'Integration display title.',
     type: 'string',
-    example: 'Example Product'
+    example: 'Example Product',
   })
   title!: string;
 
@@ -55,7 +65,7 @@ export class InfoDto {
     description: 'Public HTTPS URL for the integration logo.',
     type: 'string',
     format: 'uri',
-    example: 'https://cdn.example.com/logo.png'
+    example: 'https://cdn.example.com/logo.png',
   })
   logo?: string;
 
@@ -69,7 +79,7 @@ export class InfoDto {
     title: 'Description',
     description: 'Short description of the integration.',
     type: 'string',
-    example: 'An example product integration.'
+    example: 'An example product integration.',
   })
   description?: string;
 
@@ -85,7 +95,7 @@ export class InfoDto {
     description: 'Locales supported by the integration.',
     type: 'array',
     items: { type: 'string', enum: Object.values(LanguageEnum) },
-    example: ['EN']
+    example: ['EN'],
   })
   supportedLanguages!: LanguageEnum[];
 
@@ -101,7 +111,7 @@ export class InfoDto {
     title: 'Listen Events',
     description: 'Platform events the integration can subscribe to.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(EventsEnum) }
+    items: { type: 'string', enum: Object.values(EventsEnum) },
   })
   listenEvents?: EventsEnum[];
 
@@ -116,7 +126,7 @@ export class InfoDto {
     title: 'Required Roles',
     description: 'Roles required for this integration to operate.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(RolesEnum) }
+    items: { type: 'string', enum: Object.values(RolesEnum) },
   })
   requiredRoles?: RolesEnum[];
 
@@ -129,8 +139,9 @@ export class InfoDto {
   @Type(() => AdminPanelDto)
   @JSONSchema({
     title: 'Admin Panel',
-    description: 'Admin UI links, tabs, and actions provided by the integration.',
-    type: 'object'
+    description:
+      'Admin UI links, tabs, and actions provided by the integration.',
+    type: 'object',
   })
   adminPanel?: AdminPanelDto;
 
@@ -143,8 +154,9 @@ export class InfoDto {
   @Type(() => ClientPanelDto)
   @JSONSchema({
     title: 'Client Panel',
-    description: 'Client UI links, tabs, and actions provided by the integration.',
-    type: 'object'
+    description:
+      'Client UI links, tabs, and actions provided by the integration.',
+    type: 'object',
   })
   clientPanel?: ClientPanelDto;
 
@@ -159,10 +171,9 @@ export class InfoDto {
     description: 'URL to onboard/configure the integration.',
     type: 'string',
     format: 'uri',
-    example: 'https://example.com/onboarding'
+    example: 'https://example.com/onboarding',
   })
   onboardingUrl?: string;
-
 
   @IsOptional()
   @IsArray()
@@ -174,9 +185,8 @@ export class InfoDto {
     title: 'Setup Attributes',
     description: 'Configurable attributes that are used in the setup process.',
     type: 'array',
-    items: { $ref: '#/components/schemas/FieldDto' }
+    items: { $ref: '#/components/schemas/FieldDto' },
   })
   setupAttributes?: FieldDto[];
 }
 ```
-

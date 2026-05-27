@@ -82,7 +82,7 @@ export class CompanyDataDto {
   @IsUrl({ protocols: ['https'], require_protocol: true })
   @JSONSchema({
     title: 'Privacy Policy URL',
-    description: 'The URL for the company\'s privacy policy.',
+    description: "The URL for the company's privacy policy.",
     type: 'string',
     format: 'uri',
   })
@@ -142,7 +142,7 @@ export class CompanyDataDto {
   @IsString()
   @JSONSchema({
     title: 'Address Line 1',
-    description: 'The first line of the company\'s address.',
+    description: "The first line of the company's address.",
     type: 'string',
   })
   address1!: string;
@@ -154,7 +154,7 @@ export class CompanyDataDto {
   @IsOptional()
   @JSONSchema({
     title: 'Address Line 2',
-    description: 'The second line of the company\'s address.',
+    description: "The second line of the company's address.",
     type: 'string',
   })
   address2?: string;
@@ -166,7 +166,7 @@ export class CompanyDataDto {
   @IsOptional()
   @JSONSchema({
     title: 'Address Line 3',
-    description: 'The third line of the company\'s address.',
+    description: "The third line of the company's address.",
     type: 'string',
   })
   address3?: string;
@@ -177,7 +177,7 @@ export class CompanyDataDto {
   @IsString()
   @JSONSchema({
     title: 'Postcode',
-    description: 'The postal code for the company\'s address.',
+    description: "The postal code for the company's address.",
     type: 'string',
   })
   postcode!: string;
@@ -188,7 +188,7 @@ export class CompanyDataDto {
   @IsString()
   @JSONSchema({
     title: 'City',
-    description: 'The city for the company\'s address.',
+    description: "The city for the company's address.",
     type: 'string',
   })
   city!: string;
@@ -199,7 +199,7 @@ export class CompanyDataDto {
   @IsEnum(CountryEnum)
   @JSONSchema({
     title: 'Country',
-    description: 'The country for the company\'s address.',
+    description: "The country for the company's address.",
     type: 'string',
     enum: Object.values(CountryEnum),
   })
@@ -212,7 +212,7 @@ export class CompanyDataDto {
   @IsOptional()
   @JSONSchema({
     title: 'State',
-    description: 'The state or province for the company\'s address.',
+    description: "The state or province for the company's address.",
     type: 'string',
   })
   state?: string;
@@ -242,4 +242,3 @@ export class CompanyDataDto {
   taxOffice?: string;
 }
 ```
-

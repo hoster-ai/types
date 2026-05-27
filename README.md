@@ -165,6 +165,7 @@ This package includes validation functions that leverage `class-validator` to en
 **Available Validators:**
 
 **Core Validators:**
+
 - `validateActionDto`: Validates UI actions.
 - `validateClientDataDto`: Validates client data.
 - `validateCompanyDataDto`: Validates company data.
@@ -183,24 +184,28 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateInfoDto`: Validates integration info.
 
 **Panel Validators:**
+
 - `validateAdminPanelDto`: Validates admin panel configuration.
 - `validateAdminPanelTabsDto`: Validates admin panel tabs.
 - `validateAdminPanelMoreActionsDto`: Validates admin panel additional actions.
 - `validateClientPanelDto`: Validates client panel configuration.
 
 **Menu & Settings Validators:**
+
 - `validateMenuWithUrlDto`: Validates menu items with direct URLs.
 - `validateMenuWithSubmenuDto`: Validates menu items with submenus.
 - `validateSettingsWithUrlDto`: Validates settings with URL configuration.
 - `validateSettingsWithTabsDto`: Validates settings with tabs configuration.
 
 **Notification Validators:**
+
 - `validateNotificationRequestDto`: Validates the main notification request.
 - `validateNotificationInfoDto`: Validates notification information.
 - `validateEmailReceiverDto`, `validateSmsReceiverDto`, `validatePushReceiverDto`: Validators for notification receivers.
 - `validateEmailSenderDto`, `validateSmsSenderDto`, `validatePushSenderDto`: Validators for notification senders.
 
 **Invoice Validators:**
+
 - `validateInvoiceInfoDto`: Validates invoice integration info.
 - `validateInvoiceContactDataDto`: Validates invoice contact data.
 - `validateInvoiceItemDataDto`: Validates invoice item data.
@@ -208,6 +213,7 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateTransactionDataDto`: Validates transaction data.
 
 **Product Validators:**
+
 - `validateProductInfoDto`: Validates product information.
 - `validateProductCreateRequestDto`: Validates product creation requests.
 - `validateProductDeleteRequestDto`: Validates product deletion requests.
@@ -219,7 +225,6 @@ This package includes validation functions that leverage `class-validator` to en
 - `validateProductUpgradableRequestDto`: Validates product upgradability checks.
 - `validateProductDowngradableRequestDto`: Validates product downgradability checks.
 - `validateValidateAttributesRequestDto`: Validates attribute validation requests.
-
 
 ### Custom Decorators
 

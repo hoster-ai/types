@@ -6,20 +6,34 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
+/**
+ * Walk a dotted path (`'a.b.c'`) into an object. Returns undefined if any segment is missing
+ * or if a non-object is encountered before the leaf.
+ */
+function readPath(obj: unknown, path: string): unknown {
+  let current: unknown = obj;
+  for (const segment of path.split('.')) {
+    if (current === null || typeof current !== 'object') return undefined;
+    current = (current as Record<string, unknown>)[segment];
+  }
+  return current;
+}
+
 @ValidatorConstraint({ async: false })
 export class UniqueFieldInArrayConstraint
   implements ValidatorConstraintInterface
 {
   validate(value: any[], args: ValidationArguments) {
     if (!Array.isArray(value)) return true; // Let @IsArray handle wrong type
-    const field = args.constraints[0];
+    const path = args.constraints[0] as string;
     const seen = new Set();
     for (const obj of value) {
-      if (obj && typeof obj === 'object' && obj[field] !== undefined) {
-        if (seen.has(obj[field])) {
+      const fieldValue = readPath(obj, path);
+      if (fieldValue !== undefined) {
+        if (seen.has(fieldValue)) {
           return false;
         }
-        seen.add(obj[field]);
+        seen.add(fieldValue);
       }
     }
     return true;

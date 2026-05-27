@@ -26,4 +26,3 @@ export function validateInvoiceContactDataDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

@@ -23,7 +23,8 @@ export class ProductUpgradeResponseDto extends BaseResponse {
    */
   @JSONSchema({
     title: 'Status',
-    description: 'The status of the response, indicating the outcome of the upgrade.',
+    description:
+      'The status of the response, indicating the outcome of the upgrade.',
     type: 'string',
     enum: Object.values(ResponseStatusEnum),
   })
@@ -53,4 +54,3 @@ export class ProductUpgradeResponseDto extends BaseResponse {
   data?: Record<string, unknown>;
 }
 ```
-

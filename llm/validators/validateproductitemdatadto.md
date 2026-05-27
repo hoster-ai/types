@@ -26,4 +26,3 @@ export function validateProductItemDataDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

@@ -26,4 +26,3 @@ export const validateProductUnsuspendRequestDto = async (
   return await validate(request, { skipMissingProperties: true });
 };
 ```
-

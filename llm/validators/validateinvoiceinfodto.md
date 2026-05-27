@@ -26,4 +26,3 @@ export function validateInvoiceInfoDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

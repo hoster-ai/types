@@ -9,9 +9,16 @@
 ## Code
 
 ```typescript
-import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+import {
+  registerDecorator,
+  ValidationOptions,
+  ValidationArguments,
+} from 'class-validator';
 
-export function IsPropertyForbidden(property: string, validationOptions?: ValidationOptions) {
+export function IsPropertyForbidden(
+  property: string,
+  validationOptions?: ValidationOptions,
+) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
       name: 'isPropertyForbidden',
@@ -30,4 +37,3 @@ export function IsPropertyForbidden(property: string, validationOptions?: Valida
   };
 }
 ```
-

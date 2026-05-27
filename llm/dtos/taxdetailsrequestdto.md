@@ -9,7 +9,13 @@
 ## Code
 
 ```typescript
-import { IsBoolean, IsDefined, IsEnum, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDefined,
+  IsEnum,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { CountryEnum } from '../../../enums/country.enum';
 import { JSONSchema } from 'class-validator-jsonschema';
 
@@ -51,7 +57,7 @@ export class TaxDetailsRequestDto {
   @IsString()
   @JSONSchema({
     title: 'Customer TIN',
-    description: 'Customer\'s Tax Identification Number.',
+    description: "Customer's Tax Identification Number.",
     type: 'string',
   })
   customerTIN!: string;
@@ -63,7 +69,7 @@ export class TaxDetailsRequestDto {
   @IsString()
   @JSONSchema({
     title: 'Customer Postal Code',
-    description: 'Customer\'s postal code.',
+    description: "Customer's postal code.",
     type: 'string',
   })
   customerPostalCode?: string;
@@ -75,7 +81,7 @@ export class TaxDetailsRequestDto {
   @IsString()
   @JSONSchema({
     title: 'Customer State',
-    description: 'Customer\'s state or province.',
+    description: "Customer's state or province.",
     type: 'string',
   })
   customerState?: string;
@@ -93,4 +99,3 @@ export class TaxDetailsRequestDto {
   validatedAddress?: boolean;
 }
 ```
-

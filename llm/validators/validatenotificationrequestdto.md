@@ -28,4 +28,3 @@ export function validateNotificationRequestDto(
   return errors;
 }
 ```
-

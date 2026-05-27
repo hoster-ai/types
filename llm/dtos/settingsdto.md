@@ -95,4 +95,3 @@ export class SettingsWithTabsDto extends SettingsDto {
   url?: never;
 }
 ```
-

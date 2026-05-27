@@ -45,4 +45,3 @@ export class MultilangTextDto {
   text!: string;
 }
 ```
-

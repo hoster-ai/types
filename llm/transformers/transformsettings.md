@@ -22,4 +22,3 @@ export function transformSettings(value: any) {
   return value;
 }
 ```
-

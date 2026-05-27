@@ -20,6 +20,14 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["./dtos/**/*", "./enums/**/*", "./decorators/**/*", "./validators/**/*","./transformers/**/*", "./openapi/**/*", "index.ts"],
+  "include": [
+    "./dtos/**/*",
+    "./enums/**/*",
+    "./decorators/**/*",
+    "./validators/**/*",
+    "./transformers/**/*",
+    "./openapi/**/*",
+    "index.ts"
+  ],
   "exclude": ["node_modules", "**/*.test.ts", "generated/**/*"]
 }

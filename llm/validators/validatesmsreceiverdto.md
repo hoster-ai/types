@@ -26,4 +26,3 @@ export function validateSmsReceiverDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

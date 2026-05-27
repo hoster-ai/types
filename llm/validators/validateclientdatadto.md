@@ -26,4 +26,3 @@ export const validateClientDataDto = async (
   return await validate(clientData);
 };
 ```
-

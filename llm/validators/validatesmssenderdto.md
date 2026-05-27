@@ -26,4 +26,3 @@ export function validateSmsSenderDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

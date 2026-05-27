@@ -16,4 +16,3 @@ export enum OpenMethodEnum {
   LARGE_IFRAME = 'large_iframe',
 }
 ```
-
