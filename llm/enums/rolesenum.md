@@ -56,6 +56,8 @@ export enum RolesEnum {
   ITEMS_READ = 'ITEMS_READ',
   ITEMS_WRITE = 'ITEMS_WRITE',
 
+  ITEM_REFUND = 'ITEM_REFUND',
+
   ORDERS_READ = 'ORDERS_READ',
   ORDERS_WRITE = 'ORDERS_WRITE',
 
@@ -89,4 +91,3 @@ export enum RolesEnum {
   ACTION_LOGS_READ = 'ACTION_LOGS_READ',
 }
 ```
-
