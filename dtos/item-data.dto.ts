@@ -127,14 +127,50 @@ export class ItemDataDto {
   price?: number;
 
   /**
-   * The discount of the product item. The price after removing the discount
+   * The fee associated with the product item.
    */
   @IsOptional()
   @IsNumber()
   @JSONSchema({
-    title: 'Discount Price',
-    description: 'The price after removing the discount.',
+    title: 'Fee',
+    description: 'The fee associated with the product item.',
     type: 'number',
   })
-  discountPrice?: number;
+  fee?: number;
+
+  /**
+   * The coupon discount value applied to the product item.
+   */
+  @IsOptional()
+  @IsNumber()
+  @JSONSchema({
+    title: 'Coupon Discount Value',
+    description: 'The coupon discount value applied to the product item.',
+    type: 'number',
+  })
+  couponDiscountValue?: number;
+
+  /**
+   * The upgrade remainder value for the product item.
+   */
+  @IsOptional()
+  @IsNumber()
+  @JSONSchema({
+    title: 'Upgrade Remainder',
+    description: 'The upgrade remainder value for the product item.',
+    type: 'number',
+  })
+  upgradeRemainder?: number;
+
+  /**
+   * The subtotal of the product item before tax and after discounts.
+   */
+  @IsOptional()
+  @IsNumber()
+  @JSONSchema({
+    title: 'Subtotal',
+    description: 'The subtotal of the product item before tax and after discounts.',
+    type: 'number',
+  })
+  subTotal?: number;
 }
