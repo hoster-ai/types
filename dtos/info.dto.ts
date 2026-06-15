@@ -44,22 +44,6 @@ export class InfoDto {
   title!: string;
 
   /**
-   * The unique name of the integration.
-   * It must consist of only lowercase English letters, dash, and numbers.
-   * It must be unique across the entire HosterAI project.
-   * @example "example-product"
-   */
-  @IsString()
-  @IsNotEmpty()
-  @JSONSchema({
-    title: 'Unique Name',
-    description: 'Unique name of the integration.',
-    type: 'string',
-    example: 'example-product',
-  })
-  uniqueName!: string;
-
-  /**
    * The URL of the integration's logo.
    * @example "https://example.com/logo.png"
    */
