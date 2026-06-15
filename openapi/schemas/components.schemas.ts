@@ -1087,13 +1087,6 @@ export const ComponentsSchemas = {
         "description": "Integration display title.",
         "example": "Example Product"
       },
-      "uniqueName": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Unique Name",
-        "description": "Unique name of the integration.",
-        "example": "example-product"
-      },
       "logo": {
         "format": "uri",
         "type": "string",
@@ -1588,7 +1581,6 @@ export const ComponentsSchemas = {
     "type": "object",
     "required": [
       "title",
-      "uniqueName",
       "supportedLanguages"
     ]
   },
@@ -1657,13 +1649,6 @@ export const ComponentsSchemas = {
         "title": "Title",
         "description": "Integration display title.",
         "example": "Example Product"
-      },
-      "uniqueName": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Unique Name",
-        "description": "Unique name of the integration.",
-        "example": "example-product"
       },
       "logo": {
         "format": "uri",
@@ -2160,7 +2145,6 @@ export const ComponentsSchemas = {
     "required": [
       "type",
       "title",
-      "uniqueName",
       "supportedLanguages"
     ]
   },
@@ -2375,13 +2359,6 @@ export const ComponentsSchemas = {
         "title": "Title",
         "description": "Integration display title.",
         "example": "Example Product"
-      },
-      "uniqueName": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Unique Name",
-        "description": "Unique name of the integration.",
-        "example": "example-product"
       },
       "logo": {
         "format": "uri",
@@ -2878,7 +2855,6 @@ export const ComponentsSchemas = {
     "required": [
       "supportedActions",
       "title",
-      "uniqueName",
       "supportedLanguages"
     ]
   }
