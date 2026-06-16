@@ -36,7 +36,8 @@ describe('ProductItemDataDto Validator', () => {
         ...baseValidDto,
         itemId: 'item-456',
         price: 9.99,
-        discountPrice: 7.99,
+        fee: 2.99,
+        subTotal: 12.99,
         action: ProductActionsEnum.RENEW,
       };
       expect(validateProductItemDataDto(dto)).toHaveLength(0);

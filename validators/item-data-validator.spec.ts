@@ -23,7 +23,8 @@ describe('ItemDataDto Validator', () => {
         itemId: 'item-456',
         creationResponseData: { externalId: 'ext-1' },
         price: 9.99,
-        discountPrice: 7.99,
+        fee: 2.99,
+        subTotal: 12.99,
       };
       expect(validateItemDataDto(dto)).toHaveLength(0);
     });
@@ -88,10 +89,10 @@ describe('ItemDataDto Validator', () => {
       expect(errors.some((e) => e.property === 'price')).toBe(true);
     });
 
-    it('should return error for non-number discountPrice', () => {
-      const dto = { ...baseValidDto, discountPrice: 'half-off' };
+    it('should return error for non-number fee', () => {
+      const dto = { ...baseValidDto, fee: 'free-fee' };
       const errors = validateItemDataDto(dto);
-      expect(errors.some((e) => e.property === 'discountPrice')).toBe(true);
+      expect(errors.some((e) => e.property === 'fee')).toBe(true);
     });
   });
 });
