@@ -55,7 +55,7 @@ export class ActionDto {
   @JSONSchema({
     title: 'Open Method',
     description: "Method by which the action's URL should be opened.",
-    enum: Object.values(OpenMethodEnum),
+    $ref: '#/components/schemas/OpenMethodEnum',
   })
   openMethod!: OpenMethodEnum;
 

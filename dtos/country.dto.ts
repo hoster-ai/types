@@ -28,8 +28,7 @@ export class CountryDto {
   @JSONSchema({
     title: 'Code',
     description: 'Country code.',
-    type: 'string',
-    enum: Object.values(CountryEnum),
+    $ref: '#/components/schemas/CountryEnum',
   })
   code!: CountryEnum;
 
