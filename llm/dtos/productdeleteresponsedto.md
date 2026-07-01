@@ -23,7 +23,8 @@ export class ProductDeleteResponseDto extends BaseResponse {
    */
   @JSONSchema({
     title: 'Status',
-    description: 'The status of the response, indicating the outcome of the deletion.',
+    description:
+      'The status of the response, indicating the outcome of the deletion.',
     type: 'string',
     enum: Object.values(ResponseStatusEnum),
   })
@@ -38,6 +39,19 @@ export class ProductDeleteResponseDto extends BaseResponse {
     type: 'string',
   })
   itemId!: string;
+
+  /**
+   * The outbox action identifier, echoed verbatim from the `X-Idempotency-Key`
+   * header sent by the core. Used for correlation and anti-replay when the
+   * action completes synchronously or later via a pending hook.
+   */
+  @JSONSchema({
+    title: 'Outbox ID',
+    description:
+      'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+    type: 'string',
+  })
+  outboxId!: string;
 
   /**
    * Optional data associated with the deletion response.
