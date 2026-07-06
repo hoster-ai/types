@@ -1266,9 +1266,7 @@ export const ComponentsSchemas = {
   "RolesEnum": {
     "type": "string",
     "enum": [
-      "SIMPLE_USER",
       "FULL_ACCESS",
-      "SUPER_ADMIN",
       "ORDER_READ",
       "ORDER_WRITE",
       "ADDON_READ",
