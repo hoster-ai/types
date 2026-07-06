@@ -10,9 +10,7 @@
 
 ```typescript
 export enum RolesEnum {
-  SIMPLE_USER = 'SIMPLE_USER',
   FULL_ACCESS = 'FULL_ACCESS',
-  SUPER_ADMIN = 'SUPER_ADMIN',
 
   ORDER_READ = 'ORDER_READ',
   ORDER_WRITE = 'ORDER_WRITE',
