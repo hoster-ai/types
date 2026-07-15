@@ -151,6 +151,17 @@ export * from './validators/product-item-data-validator';
 export * from './validators/tin-validation-details-validator';
 export * from './validators/transaction-data-validator';
 
+// Decorators
+export * from './decorators/all-or-none.validator';
+export * from './decorators/at-least-one-non-empty.validator';
+export * from './decorators/is-of-allowed-types.validator';
+export * from './decorators/is-one-of.validator';
+export * from './decorators/is-plain-object.validator';
+export * from './decorators/is-property-forbidden.validator';
+export * from './decorators/is-regex.validator';
+export * from './decorators/min-less-or-equal.validator';
+export * from './decorators/unique-field-in-array.validator';
+
 // Interfaces
 export * from './dtos/product/product.interface';
 
