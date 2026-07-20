@@ -30,6 +30,19 @@ export class ProductUpgradeResponseDto extends BaseResponse {
   itemId!: string;
 
   /**
+   * The outbox action identifier, echoed verbatim from the `X-Idempotency-Key`
+   * header sent by the core. Used for correlation and anti-replay when the
+   * action completes synchronously or later via a pending hook.
+   */
+  @JSONSchema({
+    title: 'Outbox ID',
+    description:
+      'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+    type: 'string',
+  })
+  outboxId!: string;
+
+  /**
    * Optional data associated with the upgrade response.
    * This could include details about the new subscription or other relevant information.
    * @optional

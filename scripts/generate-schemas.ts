@@ -56,6 +56,38 @@ import '../dtos/fields/select-field.dto';
 import '../dtos/fields/multi-select-field.dto';
 import { FIELD_DTO_CLASSES } from '../dtos/fields/any-field.dto';
 
+// Named enums shared across DTOs. We emit these as standalone component
+// schemas so DTO properties can `$ref` them instead of inlining the enum.
+// This stops openapi-generator from minting one ad-hoc enum per property
+// (e.g. InfoDtoListenEventsEnum, ProductInfoDtoListenEventsEnum, ...) for
+// what is logically a single enum. Adding a future enum is one line here.
+import { EventsEnum } from '../enums/events.enum';
+import { RolesEnum } from '../enums/roles.enum';
+import { LanguageEnum } from '../enums/language.enum';
+import { CountryEnum } from '../enums/country.enum';
+import { FieldTypeEnum } from '../enums/field-type.enum';
+import { ProductActionsEnum } from '../enums/item-actions.enum';
+import { OpenMethodEnum } from '../enums/open-method.enum';
+import { NotificationMessageTypeEnum } from '../enums/notification/notification-message-type.enum';
+
+const ENUM_REGISTRY = {
+  EventsEnum,
+  RolesEnum,
+  LanguageEnum,
+  CountryEnum,
+  FieldTypeEnum,
+  ProductActionsEnum,
+  OpenMethodEnum,
+  NotificationMessageTypeEnum,
+};
+
+const enumSchemas = Object.fromEntries(
+  Object.entries(ENUM_REGISTRY).map(([name, e]) => [
+    name,
+    { type: 'string', enum: Object.values(e) },
+  ]),
+);
+
 /**
  * Ensure an output directory exists.
  */
@@ -69,9 +101,14 @@ function main() {
 
   // 1) Build schema map from class-validator metadata
   const storage = getMetadataStorage();
-  const schemas = validationMetadatasToSchemas({
+  const generatedSchemas = validationMetadatasToSchemas({
     classValidatorMetadataStorage: storage,
   });
+
+  // Merge the named enum schemas in BEFORE remap/sanitize so they go through
+  // the exact same passes as the generated DTO schemas. They carry both
+  // `type` and `enum`, so sanitization keeps them intact.
+  const schemas = { ...generatedSchemas, ...enumSchemas };
 
   /**
    * 2) Helper to remap refs for Swagger/OpenAPI (#/components/schemas/...)
@@ -169,13 +206,38 @@ function main() {
     return obj;
   };
 
+  /**
+   * 3b) Collapse `$ref` sibling keywords.
+   *  class-validator-jsonschema MERGES the schema derived from validation
+   *  decorators (e.g. `@IsEnum` -> `{ type, enum }`) with the object passed to
+   *  `@JSONSchema`. When a `@JSONSchema` provides a `$ref`, the auto-generated
+   *  `enum`/`type` survive as siblings of that `$ref`. In OpenAPI 3.0 any
+   *  sibling of `$ref` is ignored, but if we leave the inline `enum` in place
+   *  openapi-generator mints an ad-hoc per-property enum from it. So whenever a
+   *  node carries a `$ref`, reduce it to just `{ $ref }`. This makes every
+   *  named-enum reference a real reference to the shared enum schema.
+   */
+  const collapseRefSiblings = (obj: any): any => {
+    if (Array.isArray(obj)) return obj.map(collapseRefSiblings);
+    if (obj && typeof obj === 'object') {
+      if (typeof (obj as any).$ref === 'string') {
+        return { $ref: (obj as any).$ref };
+      }
+      const out: any = {};
+      for (const [k, v] of Object.entries(obj)) {
+        out[k] = collapseRefSiblings(v);
+      }
+      return out;
+    }
+    return obj;
+  };
+
   // 4) Emit full components map to be merged into an OpenAPI document
   const componentsOut = path.join(outDir, 'components.schemas.ts');
   // Remap and ensure required helper definitions exist
-  const remappedComponents = sanitizeSchema(remapRefs(schemas)) as Record<
-    string,
-    unknown
-  >;
+  const remappedComponents = collapseRefSiblings(
+    sanitizeSchema(remapRefs(schemas)),
+  ) as Record<string, unknown>;
 
   // 4a) Manually inject `AnyFieldDto` as a discriminated `oneOf` of every concrete
   //     field DTO. `class-validator-jsonschema` cannot derive this from a TS union

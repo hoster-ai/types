@@ -24,11 +24,11 @@ import { Type } from 'class-transformer';
 import { IsPlainObject } from '../../decorators/is-plain-object.validator';
 import { UniqueFieldInArray } from '../../decorators/unique-field-in-array.validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { ProductItemActionsEnum } from '../../enums/item-actions.enum';
+import { ProductActionsEnum } from '../../enums/item-actions.enum';
 
 /**
- * DTO for notification information.
- * Extends the base InfoDto to include the notification message type.
+ * DTO for product information.
+ * Extends the base InfoDto to include the product attributes, optional pay-per-use units, and response mapping.
  */
 export class ProductInfoDto extends InfoDto {
   /**
@@ -113,13 +113,13 @@ export class ProductInfoDto extends InfoDto {
    */
   @IsNotEmpty()
   @IsArray()
-  @IsEnum(ProductItemActionsEnum, { each: true })
+  @IsEnum(ProductActionsEnum, { each: true })
   @JSONSchema({
     title: 'Supported Actions',
     description: 'Actions supported by this integration.',
     type: 'array',
     items: { type: 'string', enum: Object.values(ProductItemActionsEnum) },
   })
-  supportedActions: ProductItemActionsEnum[] = [];
+  supportedActions: ProductActionsEnum[] = [];
 }
 ```

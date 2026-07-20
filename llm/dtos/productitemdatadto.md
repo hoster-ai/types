@@ -21,13 +21,13 @@ import { ItemDataDto } from '../item-data.dto';
 export class ProductItemDataDto extends ItemDataDto {
   /** Product-specific action type for this item */
   @IsOptional()
-  @IsEnum(ProductItemActionsEnum)
+  @IsEnum(ProductActionsEnum)
   @JSONSchema({
     title: 'Action',
     description: 'Product-specific action type for this item.',
     type: 'string',
-    enum: Object.values(ProductItemActionsEnum),
+    enum: Object.values(ProductActionsEnum),
   })
-  action?: ProductItemActionsEnum;
+  action?: ProductActionsEnum;
 }
 ```
