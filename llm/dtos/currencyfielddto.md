@@ -38,8 +38,7 @@ export class CurrencyFieldDto extends BaseFieldDto {
   @JSONSchema({
     title: 'Value',
     description: 'ISO 4217 currency code.',
-    type: 'string',
-    enum: Object.values(CurrencyEnum),
+    $ref: '#/components/schemas/CurrencyEnum',
   })
   value?: string;
 }

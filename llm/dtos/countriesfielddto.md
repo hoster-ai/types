@@ -40,7 +40,7 @@ export class CountriesFieldDto extends BaseFieldDto {
     title: 'Value',
     description: 'Array of ISO 3166-1 alpha-2 country codes.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(CountryEnum) },
+    items: { $ref: '#/components/schemas/CountryEnum' },
   })
   value?: string[];
 }

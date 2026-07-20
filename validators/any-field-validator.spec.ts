@@ -38,4 +38,28 @@ describe('AnyField dispatcher', () => {
     });
     expect(errors.some((e) => e.property === 'value')).toBe(true);
   });
+
+  // Regression: the discriminator lookup used `type in FIELD_DTO_CLASSES`, which
+  // walks the prototype chain. Inherited names resolved to built-ins such as
+  // Function.prototype.toString (no `.prototype`), so plainToInstance threw an
+  // uncaught TypeError instead of returning a validation error.
+  describe('inherited Object.prototype names are not valid discriminators', () => {
+    const inheritedNames = [
+      'constructor',
+      'toString',
+      'valueOf',
+      'hasOwnProperty',
+      'isPrototypeOf',
+      'propertyIsEnumerable',
+      'toLocaleString',
+      '__proto__',
+      '__defineGetter__',
+    ];
+
+    it.each(inheritedNames)('rejects type=%s without throwing', (type) => {
+      const run = () => validateAnyFieldDto({ ...minimalBase(type) });
+      expect(run).not.toThrow();
+      expect(run().some((e) => e.property === 'type')).toBe(true);
+    });
+  });
 });

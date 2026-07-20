@@ -65,6 +65,7 @@ import { EventsEnum } from '../enums/events.enum';
 import { RolesEnum } from '../enums/roles.enum';
 import { LanguageEnum } from '../enums/language.enum';
 import { CountryEnum } from '../enums/country.enum';
+import { CurrencyEnum } from '../enums/currency.enum';
 import { FieldTypeEnum } from '../enums/field-type.enum';
 import { ProductActionsEnum } from '../enums/item-actions.enum';
 import { OpenMethodEnum } from '../enums/open-method.enum';
@@ -75,6 +76,7 @@ const ENUM_REGISTRY = {
   RolesEnum,
   LanguageEnum,
   CountryEnum,
+  CurrencyEnum,
   FieldTypeEnum,
   ProductActionsEnum,
   OpenMethodEnum,

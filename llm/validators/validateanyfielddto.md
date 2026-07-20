@@ -24,7 +24,13 @@ import { FIELD_DTO_CLASSES } from '../dtos/fields/any-field.dto';
 export function validateAnyFieldDto(data: object): ValidationError[] {
   const type = (data as { type?: unknown })?.type;
 
-  if (typeof type !== 'string' || !(type in FIELD_DTO_CLASSES)) {
+  // Own-property check only: `in` would walk the prototype chain and let
+  // inherited names ('toString', '__proto__', ...) through to a bogus lookup.
+  const isKnownType =
+    typeof type === 'string' &&
+    Object.prototype.hasOwnProperty.call(FIELD_DTO_CLASSES, type);
+
+  if (!isKnownType) {
     const err = new ValidationError();
     err.property = 'type';
     err.value = type;
