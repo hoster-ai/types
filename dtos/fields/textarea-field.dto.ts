@@ -6,7 +6,6 @@ import {
   IsOptional,
   IsString,
   Min,
-  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -14,10 +13,12 @@ import { JSONSchema } from 'class-validator-jsonschema';
 import { BaseFieldDto } from '../base-field.dto';
 import { MultilangTextDto } from '../multilang-text.dto';
 import { IsRegex } from '../../decorators/is-regex.validator';
+import { MinLessOrEqualMaxProperty } from '../../decorators/min-less-or-equal.validator';
 
 /**
  * Multi-line text input field.
  */
+@MinLessOrEqualMaxProperty(['minLength', 'maxLength'])
 export class TextareaFieldDto extends BaseFieldDto {
   /**
    * Discriminator literal.
@@ -88,7 +89,6 @@ export class TextareaFieldDto extends BaseFieldDto {
   /**
    * Localized error message shown when regex validation fails.
    */
-  @ValidateIf((o) => !!o.regexValidation)
   @ValidateNested({ each: true })
   @Type(() => MultilangTextDto)
   @IsArray()

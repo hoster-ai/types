@@ -5,7 +5,6 @@ import {
   IsDefined,
   IsOptional,
   IsString,
-  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -38,6 +37,7 @@ export abstract class BaseFieldDto {
   @Type(() => MultilangTextDto)
   @IsArray()
   @ArrayMinSize(1)
+  @IsDefined()
   @JSONSchema({
     title: 'Label',
     description: 'Multilingual label for the field.',
@@ -56,7 +56,7 @@ export abstract class BaseFieldDto {
     description: 'Whether the field is required.',
     type: 'boolean',
   })
-  required?: boolean;
+  required!: boolean;
 
   /**
    * Whether the field is disabled.
@@ -68,7 +68,7 @@ export abstract class BaseFieldDto {
     description: 'Whether the field is disabled.',
     type: 'boolean',
   })
-  disabled?: boolean;
+  disabled!: boolean;
 
   /**
    * Whether the field is hidden.
@@ -98,7 +98,6 @@ export abstract class BaseFieldDto {
   /**
    * Localized error message shown when remote validation fails.
    */
-  @ValidateIf((o) => !!o.triggersRemoteValidation)
   @ValidateNested({ each: true })
   @Type(() => MultilangTextDto)
   @IsArray()
@@ -121,6 +120,7 @@ export abstract class BaseFieldDto {
     title: 'Upgradable',
     description: 'Whether the item attribute is upgradable by the user.',
     type: 'boolean',
+    default: false,
   })
   upgradable?: boolean = false;
 
@@ -133,6 +133,7 @@ export abstract class BaseFieldDto {
     title: 'Downgradable',
     description: 'Whether the item attribute is downgradable by the user.',
     type: 'boolean',
+    default: false,
   })
   downgradable?: boolean = false;
 }

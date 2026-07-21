@@ -295,7 +295,7 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### MultiSelectFieldDto
-**Description:** Multi-choice select field. Discriminator type='MULTI_SELECT'. Value is an array of FieldOptionDto.
+**Description:** Multi-choice select field. Discriminator type='MULTI_SELECT'. Value is an array of FieldOptionDto. Optional minSelections/maxSelections bounds.
 
 **Source:** `dtos/fields/multi-select-field.dto.ts`
 

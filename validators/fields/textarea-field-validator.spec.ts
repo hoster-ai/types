@@ -42,6 +42,25 @@ describe('TextareaFieldDto Validator', () => {
   });
 
   describe('Invalid field values', () => {
+    it('should return error when minLength exceeds maxLength', () => {
+      const errors = validateTextareaFieldDto({
+        ...baseValidDto,
+        minLength: 10,
+        maxLength: 5,
+      });
+      expect(errors.length).toBeGreaterThan(0);
+    });
+
+    it('should accept minLength equal to maxLength', () => {
+      expect(
+        validateTextareaFieldDto({
+          ...baseValidDto,
+          minLength: 5,
+          maxLength: 5,
+        }),
+      ).toHaveLength(0);
+    });
+
     it('should return error for wrong type literal', () => {
       const errors = validateTextareaFieldDto({
         ...baseValidDto,
@@ -53,6 +72,16 @@ describe('TextareaFieldDto Validator', () => {
     it('should return error for non-string value', () => {
       const errors = validateTextareaFieldDto({ ...baseValidDto, value: 42 });
       expect(errors.some((e) => e.property === 'value')).toBe(true);
+    });
+
+    it('should return error for malformed regexValidationErrorMessage without regexValidation', () => {
+      const errors = validateTextareaFieldDto({
+        ...baseValidDto,
+        regexValidationErrorMessage: 'not-an-array',
+      });
+      expect(
+        errors.some((e) => e.property === 'regexValidationErrorMessage'),
+      ).toBe(true);
     });
   });
 });

@@ -40,6 +40,7 @@ export class FieldOptionDto {
     title: 'Disabled',
     description: 'Whether the option is disabled.',
     type: 'boolean',
+    default: false,
   })
   disabled?: boolean = false;
 }

@@ -20,9 +20,7 @@ import {
 } from 'class-validator';
 
 @ValidatorConstraint({ async: false })
-export class UniqueFieldInArrayConstraint
-  implements ValidatorConstraintInterface
-{
+export class UniqueFieldInArrayConstraint implements ValidatorConstraintInterface {
   validate(value: any[], args: ValidationArguments) {
     if (!Array.isArray(value)) return true; // Let @IsArray handle wrong type
     const field = args.constraints[0];

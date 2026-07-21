@@ -1,6 +1,7 @@
 import { Equals, IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { BaseFieldDto } from '../base-field.dto';
+import { MinLessOrEqualMaxProperty } from '../../decorators/min-less-or-equal.validator';
 
 /**
  * Password input field.
@@ -8,6 +9,7 @@ import { BaseFieldDto } from '../base-field.dto';
  * This DTO intentionally does NOT enforce password strength rules — that is
  * the responsibility of the consuming application.
  */
+@MinLessOrEqualMaxProperty(['minLength', 'maxLength'])
 export class PasswordFieldDto extends BaseFieldDto {
   /**
    * Discriminator literal.
@@ -47,4 +49,18 @@ export class PasswordFieldDto extends BaseFieldDto {
     minimum: 0,
   })
   minLength?: number;
+
+  /**
+   * Maximum allowed length.
+   */
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  @JSONSchema({
+    title: 'Maximum Length',
+    description: 'Maximum allowed length.',
+    type: 'integer',
+    minimum: 0,
+  })
+  maxLength?: number;
 }

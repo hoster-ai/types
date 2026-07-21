@@ -41,6 +41,21 @@ describe('TextFieldDto Validator', () => {
   });
 
   describe('Invalid field values', () => {
+    it('should return error when minLength exceeds maxLength', () => {
+      const errors = validateTextFieldDto({
+        ...baseValidDto,
+        minLength: 10,
+        maxLength: 5,
+      });
+      expect(errors.length).toBeGreaterThan(0);
+    });
+
+    it('should accept minLength equal to maxLength', () => {
+      expect(
+        validateTextFieldDto({ ...baseValidDto, minLength: 5, maxLength: 5 }),
+      ).toHaveLength(0);
+    });
+
     it.each([
       [{ ...baseValidDto, type: 'TEXTAREA' }, 'type'],
       [{ ...baseValidDto, value: 123 }, 'value'],
@@ -51,6 +66,13 @@ describe('TextFieldDto Validator', () => {
         {
           ...baseValidDto,
           regexValidation: '^x$',
+          regexValidationErrorMessage: 'not-an-array',
+        },
+        'regexValidationErrorMessage',
+      ],
+      [
+        {
+          ...baseValidDto,
           regexValidationErrorMessage: 'not-an-array',
         },
         'regexValidationErrorMessage',

@@ -8,6 +8,10 @@ const baseValidDto = {
   type: 'SELECT',
   required: true,
   disabled: false,
+  options: [
+    { key: 'basic', value: 'Basic' },
+    { key: 'pro', value: 'Pro' },
+  ],
 };
 
 describe('SelectFieldDto Validator', () => {
@@ -29,7 +33,7 @@ describe('SelectFieldDto Validator', () => {
   describe('Missing required fields', () => {
     it('should return errors for all missing required fields', () => {
       const errors = validateSelectFieldDto({});
-      for (const prop of ['id', 'label', 'required', 'disabled']) {
+      for (const prop of ['id', 'label', 'required', 'disabled', 'options']) {
         expect(errors.some((e) => e.property === prop)).toBe(true);
       }
     });
@@ -39,6 +43,19 @@ describe('SelectFieldDto Validator', () => {
     it('should return error for wrong type literal', () => {
       const errors = validateSelectFieldDto({ ...baseValidDto, type: 'TEXT' });
       expect(errors.some((e) => e.property === 'type')).toBe(true);
+    });
+
+    it('should return error when options is an empty array', () => {
+      const errors = validateSelectFieldDto({ ...baseValidDto, options: [] });
+      expect(errors.some((e) => e.property === 'options')).toBe(true);
+    });
+
+    it('should return error when an option is missing its key', () => {
+      const errors = validateSelectFieldDto({
+        ...baseValidDto,
+        options: [{ value: 'No Key' }],
+      });
+      expect(errors.some((e) => e.property === 'options')).toBe(true);
     });
 
     it('should return error for option missing required key', () => {

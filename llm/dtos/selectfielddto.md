@@ -9,7 +9,14 @@
 ## Code
 
 ```typescript
-import { Equals, IsOptional, ValidateNested } from 'class-validator';
+import {
+  ArrayMinSize,
+  Equals,
+  IsArray,
+  IsDefined,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { BaseFieldDto } from '../base-field.dto';
@@ -30,6 +37,23 @@ export class SelectFieldDto extends BaseFieldDto {
     enum: ['SELECT'],
   })
   type: 'SELECT' = 'SELECT' as const;
+
+  /**
+   * The options the user can choose from.
+   */
+  @ValidateNested({ each: true })
+  @Type(() => FieldOptionDto)
+  @IsArray()
+  @ArrayMinSize(1)
+  @IsDefined()
+  @JSONSchema({
+    title: 'Options',
+    description: 'The options the user can choose from.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/FieldOptionDto' },
+    minItems: 1,
+  })
+  options!: FieldOptionDto[];
 
   /**
    * Value of the field — the selected option.
