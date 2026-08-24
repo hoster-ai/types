@@ -91,8 +91,7 @@ export class FieldDto {
   @JSONSchema({
     title: 'Field Type',
     description: 'Type of the field.',
-    type: 'string',
-    enum: Object.values(FieldTypeEnum),
+    $ref: '#/components/schemas/FieldTypeEnum',
   })
   type!: FieldTypeEnum;
 

@@ -83,7 +83,7 @@ export class InfoDto {
     title: 'Supported Languages',
     description: 'Locales supported by the integration.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(LanguageEnum) },
+    items: { $ref: '#/components/schemas/LanguageEnum' },
     example: ['EN'],
   })
   supportedLanguages!: LanguageEnum[];
@@ -100,7 +100,7 @@ export class InfoDto {
     title: 'Listen Events',
     description: 'Platform events the integration can subscribe to.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(EventsEnum) },
+    items: { $ref: '#/components/schemas/EventsEnum' },
   })
   listenEvents?: EventsEnum[];
 
@@ -115,7 +115,7 @@ export class InfoDto {
     title: 'Required Roles',
     description: 'Roles required for this integration to operate.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(RolesEnum) },
+    items: { $ref: '#/components/schemas/RolesEnum' },
   })
   requiredRoles?: RolesEnum[];
 

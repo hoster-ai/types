@@ -16,8 +16,7 @@ export class MultilangTextDto {
   @JSONSchema({
     title: 'Language',
     description: 'The language of the text.',
-    type: 'string',
-    enum: Object.values(LanguageEnum),
+    $ref: '#/components/schemas/LanguageEnum',
   })
   language!: LanguageEnum;
 

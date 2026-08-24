@@ -9,7 +9,14 @@
 ## Code
 
 ```typescript
-import { IsArray, IsOptional, ValidateNested, ArrayMinSize, IsEnum, IsNotEmpty } from 'class-validator';
+import {
+  IsArray,
+  IsOptional,
+  ValidateNested,
+  ArrayMinSize,
+  IsEnum,
+  IsNotEmpty,
+} from 'class-validator';
 import { AttributeFieldDto } from '../attribute-field.dto';
 import { InfoDto } from '../info.dto';
 import { UnitDto } from '../unit.dto';
@@ -17,14 +24,13 @@ import { Type } from 'class-transformer';
 import { IsPlainObject } from '../../decorators/is-plain-object.validator';
 import { UniqueFieldInArray } from '../../decorators/unique-field-in-array.validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { ProductItemActionsEnum } from '../../enums/item-actions.enum';
+import { ProductActionsEnum } from '../../enums/item-actions.enum';
 
 /**
- * DTO for notification information.
- * Extends the base InfoDto to include the notification message type.
+ * DTO for product information.
+ * Extends the base InfoDto to include the product attributes, optional pay-per-use units, and response mapping.
  */
 export class ProductInfoDto extends InfoDto {
-
   /**
    * Custom attributes that can be defined for products.
    * These attributes will be displayed in the product configuration section.
@@ -40,7 +46,7 @@ export class ProductInfoDto extends InfoDto {
     title: 'Product Attributes',
     description: 'Configurable attributes that apply at the product level.',
     type: 'array',
-    items: { $ref: '#/components/schemas/AttributeFieldDto' }
+    items: { $ref: '#/components/schemas/AttributeFieldDto' },
   })
   productAttributes?: AttributeFieldDto[];
 
@@ -58,7 +64,7 @@ export class ProductInfoDto extends InfoDto {
     title: 'Item Attributes',
     description: 'Configurable attributes that apply at the item level.',
     type: 'array',
-    items: { $ref: '#/components/schemas/AttributeFieldDto' }
+    items: { $ref: '#/components/schemas/AttributeFieldDto' },
   })
   itemAttributes?: AttributeFieldDto[];
 
@@ -77,7 +83,13 @@ export class ProductInfoDto extends InfoDto {
     description: 'Optional metering units for pay-per-use billing.',
     type: 'array',
     items: { $ref: '#/components/schemas/UnitDto' },
-    example: [{ id: 'requests', unitDescription: 'API request', intervalDescription: 'Per month' }]
+    example: [
+      {
+        id: 'requests',
+        unitDescription: 'API request',
+        intervalDescription: 'Per month',
+      },
+    ],
   })
   payPerUseUnits?: UnitDto[];
 
@@ -92,24 +104,22 @@ export class ProductInfoDto extends InfoDto {
     description: 'Mapping of field names used in provider responses.',
     type: 'object',
     additionalProperties: { type: 'string' },
-    example: { external_id: 'id', status_text: 'status' }
+    example: { external_id: 'id', status_text: 'status' },
   })
   responseDataFieldNames?: Record<string, unknown>;
-
 
   /**
    * A list of actions that are supported by this integration.
    */
   @IsNotEmpty()
   @IsArray()
-  @IsEnum(ProductItemActionsEnum, { each: true })
+  @IsEnum(ProductActionsEnum, { each: true })
   @JSONSchema({
     title: 'Supported Actions',
     description: 'Actions supported by this integration.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(ProductItemActionsEnum) }
+    items: { type: 'string', enum: Object.values(ProductActionsEnum) },
   })
-  supportedActions: ProductItemActionsEnum[] = [];
+  supportedActions: ProductActionsEnum[] = [];
 }
 ```
-

@@ -25,8 +25,7 @@ export class NotificationInfoDto extends InfoDto {
   @JSONSchema({
     title: 'Notification Type',
     description: 'Notification channel type.',
-    type: 'string',
-    enum: Object.values(NotificationMessageTypeEnum),
+    $ref: '#/components/schemas/NotificationMessageTypeEnum',
     example: Object.values(NotificationMessageTypeEnum)[0],
   })
   type!: NotificationMessageTypeEnum;
