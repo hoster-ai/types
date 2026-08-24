@@ -9,7 +9,7 @@
 ## Code
 
 ```typescript
-import { CountryDto } from "../dtos/country.dto";
+import { CountryDto } from '../dtos/country.dto';
 
 export enum CountryEnum {
   AFGHANISTAN = 'AF',
@@ -319,16 +319,31 @@ export const EUROZONE_COUNTRIES = new Set<CountryEnum>([
   CountryEnum.SPAIN,
 ]);
 
-export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: CountryEnum; isEurope?: boolean }> = {
-  [CountryEnum.AFGHANISTAN]: { name: 'Afghanistan', code: CountryEnum.AFGHANISTAN },
-  [CountryEnum.ALAND_ISLANDS]: { name: 'Åland Islands', code: CountryEnum.ALAND_ISLANDS },
+export const BASE_COUNTRY_DATA: Record<
+  CountryEnum,
+  { name: string; code: CountryEnum; isEurope?: boolean }
+> = {
+  [CountryEnum.AFGHANISTAN]: {
+    name: 'Afghanistan',
+    code: CountryEnum.AFGHANISTAN,
+  },
+  [CountryEnum.ALAND_ISLANDS]: {
+    name: 'Åland Islands',
+    code: CountryEnum.ALAND_ISLANDS,
+  },
   [CountryEnum.ALBANIA]: { name: 'Albania', code: CountryEnum.ALBANIA },
   [CountryEnum.ALGERIA]: { name: 'Algeria', code: CountryEnum.ALGERIA },
-  [CountryEnum.AMERICAN_SAMOA]: { name: 'American Samoa', code: CountryEnum.AMERICAN_SAMOA },
+  [CountryEnum.AMERICAN_SAMOA]: {
+    name: 'American Samoa',
+    code: CountryEnum.AMERICAN_SAMOA,
+  },
   [CountryEnum.ANDORRA]: { name: 'Andorra', code: CountryEnum.ANDORRA },
   [CountryEnum.ANGOLA]: { name: 'Angola', code: CountryEnum.ANGOLA },
   [CountryEnum.ANGUILLA]: { name: 'Anguilla', code: CountryEnum.ANGUILLA },
-  [CountryEnum.ANTARCTICA]: { name: 'Antarctica', code: CountryEnum.ANTARCTICA },
+  [CountryEnum.ANTARCTICA]: {
+    name: 'Antarctica',
+    code: CountryEnum.ANTARCTICA,
+  },
   [CountryEnum.ANTIGUA_AND_BARBUDA]: {
     name: 'Antigua and Barbuda',
     code: CountryEnum.ANTIGUA_AND_BARBUDA,
@@ -342,10 +357,16 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
     code: CountryEnum.AUSTRIA,
     isEurope: true,
   },
-  [CountryEnum.AZERBAIJAN]: { name: 'Azerbaijan', code: CountryEnum.AZERBAIJAN },
+  [CountryEnum.AZERBAIJAN]: {
+    name: 'Azerbaijan',
+    code: CountryEnum.AZERBAIJAN,
+  },
   [CountryEnum.BAHAMAS]: { name: 'Bahamas', code: CountryEnum.BAHAMAS },
   [CountryEnum.BAHRAIN]: { name: 'Bahrain', code: CountryEnum.BAHRAIN },
-  [CountryEnum.BANGLADESH]: { name: 'Bangladesh', code: CountryEnum.BANGLADESH },
+  [CountryEnum.BANGLADESH]: {
+    name: 'Bangladesh',
+    code: CountryEnum.BANGLADESH,
+  },
   [CountryEnum.BARBADOS]: { name: 'Barbados', code: CountryEnum.BARBADOS },
   [CountryEnum.BELARUS]: { name: 'Belarus', code: CountryEnum.BELARUS },
   [CountryEnum.BELGIUM]: {
@@ -357,7 +378,10 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
   [CountryEnum.BENIN]: { name: 'Benin', code: CountryEnum.BENIN },
   [CountryEnum.BERMUDA]: { name: 'Bermuda', code: CountryEnum.BERMUDA },
   [CountryEnum.BHUTAN]: { name: 'Bhutan', code: CountryEnum.BHUTAN },
-  [CountryEnum.BOLIVIA_PLURINATIONAL_STATE_OF]: { name: 'Bolivia', code: CountryEnum.BOLIVIA_PLURINATIONAL_STATE_OF },
+  [CountryEnum.BOLIVIA_PLURINATIONAL_STATE_OF]: {
+    name: 'Bolivia',
+    code: CountryEnum.BOLIVIA_PLURINATIONAL_STATE_OF,
+  },
   [CountryEnum.BONAIRE_SINT_EUSTATIUS_AND_SABA]: {
     name: 'Bonaire, Sint Eustatius and Saba',
     code: CountryEnum.BONAIRE_SINT_EUSTATIUS_AND_SABA,
@@ -367,25 +391,40 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
     code: CountryEnum.BOSNIA_AND_HERZEGOVINA,
   },
   [CountryEnum.BOTSWANA]: { name: 'Botswana', code: CountryEnum.BOTSWANA },
-  [CountryEnum.BOUVET_ISLAND]: { name: 'Bouvet Island', code: CountryEnum.BOUVET_ISLAND },
+  [CountryEnum.BOUVET_ISLAND]: {
+    name: 'Bouvet Island',
+    code: CountryEnum.BOUVET_ISLAND,
+  },
   [CountryEnum.BRAZIL]: { name: 'Brazil', code: CountryEnum.BRAZIL },
   [CountryEnum.BRITISH_INDIAN_OCEAN_TERRITORY]: {
     name: 'British Indian Ocean Territory',
     code: CountryEnum.BRITISH_INDIAN_OCEAN_TERRITORY,
   },
-  [CountryEnum.BRUNEI_DARUSSALAM]: { name: 'Brunei', code: CountryEnum.BRUNEI_DARUSSALAM },
+  [CountryEnum.BRUNEI_DARUSSALAM]: {
+    name: 'Brunei',
+    code: CountryEnum.BRUNEI_DARUSSALAM,
+  },
   [CountryEnum.BULGARIA]: {
     name: 'Bulgaria',
     code: CountryEnum.BULGARIA,
     isEurope: true,
   },
-  [CountryEnum.BURKINA_FASO]: { name: 'Burkina Faso', code: CountryEnum.BURKINA_FASO },
+  [CountryEnum.BURKINA_FASO]: {
+    name: 'Burkina Faso',
+    code: CountryEnum.BURKINA_FASO,
+  },
   [CountryEnum.BURUNDI]: { name: 'Burundi', code: CountryEnum.BURUNDI },
   [CountryEnum.CAMBODIA]: { name: 'Cambodia', code: CountryEnum.CAMBODIA },
   [CountryEnum.CAMEROON]: { name: 'Cameroon', code: CountryEnum.CAMEROON },
   [CountryEnum.CANADA]: { name: 'Canada', code: CountryEnum.CANADA },
-  [CountryEnum.CAPE_VERDE]: { name: 'Cape Verde', code: CountryEnum.CAPE_VERDE },
-  [CountryEnum.CAYMAN_ISLANDS]: { name: 'Cayman Islands', code: CountryEnum.CAYMAN_ISLANDS },
+  [CountryEnum.CAPE_VERDE]: {
+    name: 'Cape Verde',
+    code: CountryEnum.CAPE_VERDE,
+  },
+  [CountryEnum.CAYMAN_ISLANDS]: {
+    name: 'Cayman Islands',
+    code: CountryEnum.CAYMAN_ISLANDS,
+  },
   [CountryEnum.CENTRAL_AFRICAN_REPUBLIC]: {
     name: 'Central African Republic',
     code: CountryEnum.CENTRAL_AFRICAN_REPUBLIC,
@@ -393,8 +432,14 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
   [CountryEnum.CHAD]: { name: 'Chad', code: CountryEnum.CHAD },
   [CountryEnum.CHILE]: { name: 'Chile', code: CountryEnum.CHILE },
   [CountryEnum.CHINA]: { name: 'China', code: CountryEnum.CHINA },
-  [CountryEnum.CHRISTMAS_ISLAND]: { name: 'Christmas Island', code: CountryEnum.CHRISTMAS_ISLAND },
-  [CountryEnum.COCOS_KEELING_ISLANDS]: { name: 'Cocos (Keeling) Islands', code: CountryEnum.COCOS_KEELING_ISLANDS },
+  [CountryEnum.CHRISTMAS_ISLAND]: {
+    name: 'Christmas Island',
+    code: CountryEnum.CHRISTMAS_ISLAND,
+  },
+  [CountryEnum.COCOS_KEELING_ISLANDS]: {
+    name: 'Cocos (Keeling) Islands',
+    code: CountryEnum.COCOS_KEELING_ISLANDS,
+  },
   [CountryEnum.COLOMBIA]: { name: 'Colombia', code: CountryEnum.COLOMBIA },
   [CountryEnum.COMOROS]: { name: 'Comoros', code: CountryEnum.COMOROS },
   [CountryEnum.CONGO]: { name: 'Congo', code: CountryEnum.CONGO },
@@ -402,9 +447,18 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
     name: 'Congo, Democratic Republic of the',
     code: CountryEnum.CONGO_THE_DEMOCRATIC_REPUBLIC_OF_THE,
   },
-  [CountryEnum.COOK_ISLANDS]: { name: 'Cook Islands', code: CountryEnum.COOK_ISLANDS },
-  [CountryEnum.COSTA_RICA]: { name: 'Costa Rica', code: CountryEnum.COSTA_RICA },
-  [CountryEnum.CN_TE_D_IVOIR]: { name: "Côte d'Ivoire", code: CountryEnum.CN_TE_D_IVOIR },
+  [CountryEnum.COOK_ISLANDS]: {
+    name: 'Cook Islands',
+    code: CountryEnum.COOK_ISLANDS,
+  },
+  [CountryEnum.COSTA_RICA]: {
+    name: 'Costa Rica',
+    code: CountryEnum.COSTA_RICA,
+  },
+  [CountryEnum.CN_TE_D_IVOIR]: {
+    name: "Côte d'Ivoire",
+    code: CountryEnum.CN_TE_D_IVOIR,
+  },
   [CountryEnum.CROATIA]: {
     name: 'Croatia',
     code: CountryEnum.CROATIA,
@@ -429,11 +483,20 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
   },
   [CountryEnum.DJIBOUTI]: { name: 'Djibouti', code: CountryEnum.DJIBOUTI },
   [CountryEnum.DOMINICA]: { name: 'Dominica', code: CountryEnum.DOMINICA },
-  [CountryEnum.DOMINICAN_REPUBLIC]: { name: 'Dominican Republic', code: CountryEnum.DOMINICAN_REPUBLIC },
+  [CountryEnum.DOMINICAN_REPUBLIC]: {
+    name: 'Dominican Republic',
+    code: CountryEnum.DOMINICAN_REPUBLIC,
+  },
   [CountryEnum.ECUADOR]: { name: 'Ecuador', code: CountryEnum.ECUADOR },
   [CountryEnum.EGYPT]: { name: 'Egypt', code: CountryEnum.EGYPT },
-  [CountryEnum.EL_SALVADOR]: { name: 'El Salvador', code: CountryEnum.EL_SALVADOR },
-  [CountryEnum.EQUATORIAL_GUINEA]: { name: 'Equatorial Guinea', code: CountryEnum.EQUATORIAL_GUINEA },
+  [CountryEnum.EL_SALVADOR]: {
+    name: 'El Salvador',
+    code: CountryEnum.EL_SALVADOR,
+  },
+  [CountryEnum.EQUATORIAL_GUINEA]: {
+    name: 'Equatorial Guinea',
+    code: CountryEnum.EQUATORIAL_GUINEA,
+  },
   [CountryEnum.ERITREA]: { name: 'Eritrea', code: CountryEnum.ERITREA },
   [CountryEnum.ESTONIA]: {
     name: 'Estonia',
@@ -445,7 +508,10 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
     name: 'Falkland Islands (Malvinas)',
     code: CountryEnum.FALKLAND_ISLANDS_MALVINAS,
   },
-  [CountryEnum.FARO_ISLANDS]: { name: 'Faroe Islands', code: CountryEnum.FARO_ISLANDS },
+  [CountryEnum.FARO_ISLANDS]: {
+    name: 'Faroe Islands',
+    code: CountryEnum.FARO_ISLANDS,
+  },
   [CountryEnum.FIJI]: { name: 'Fiji', code: CountryEnum.FIJI },
   [CountryEnum.FINLAND]: {
     name: 'Finland',
@@ -457,8 +523,14 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
     code: CountryEnum.FRANCE,
     isEurope: true,
   },
-  [CountryEnum.FRENCH_GUIANA]: { name: 'French Guiana', code: CountryEnum.FRENCH_GUIANA },
-  [CountryEnum.FRENCH_POLYNESIA]: { name: 'French Polynesia', code: CountryEnum.FRENCH_POLYNESIA },
+  [CountryEnum.FRENCH_GUIANA]: {
+    name: 'French Guiana',
+    code: CountryEnum.FRENCH_GUIANA,
+  },
+  [CountryEnum.FRENCH_POLYNESIA]: {
+    name: 'French Polynesia',
+    code: CountryEnum.FRENCH_POLYNESIA,
+  },
   [CountryEnum.FRENCH_SOUTHERN_TERRITORIES]: {
     name: 'French Southern Territories',
     code: CountryEnum.FRENCH_SOUTHERN_TERRITORIES,
@@ -480,12 +552,18 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
   },
   [CountryEnum.GREENLAND]: { name: 'Greenland', code: CountryEnum.GREENLAND },
   [CountryEnum.GRENADA]: { name: 'Grenada', code: CountryEnum.GRENADA },
-  [CountryEnum.GUADELOUPE]: { name: 'Guadeloupe', code: CountryEnum.GUADELOUPE },
+  [CountryEnum.GUADELOUPE]: {
+    name: 'Guadeloupe',
+    code: CountryEnum.GUADELOUPE,
+  },
   [CountryEnum.GUAM]: { name: 'Guam', code: CountryEnum.GUAM },
   [CountryEnum.GUATEMALA]: { name: 'Guatemala', code: CountryEnum.GUATEMALA },
   [CountryEnum.GUERNSEY]: { name: 'Guernsey', code: CountryEnum.GUERNSEY },
   [CountryEnum.GUINEA]: { name: 'Guinea', code: CountryEnum.GUINEA },
-  [CountryEnum.GUINEA_BISSAU]: { name: 'Guinea-Bissau', code: CountryEnum.GUINEA_BISSAU },
+  [CountryEnum.GUINEA_BISSAU]: {
+    name: 'Guinea-Bissau',
+    code: CountryEnum.GUINEA_BISSAU,
+  },
   [CountryEnum.GUYANA]: { name: 'Guyana', code: CountryEnum.GUYANA },
   [CountryEnum.HAITI]: { name: 'Haiti', code: CountryEnum.HAITI },
   [CountryEnum.HEARD_ISLAND_AND_MCDONALD_ISLANDS]: {
@@ -510,14 +588,20 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
   },
   [CountryEnum.INDIA]: { name: 'India', code: CountryEnum.INDIA },
   [CountryEnum.INDONESIA]: { name: 'Indonesia', code: CountryEnum.INDONESIA },
-  [CountryEnum.IRAN_ISLAMIC_REPUBLIC_OF]: { name: 'Iran', code: CountryEnum.IRAN_ISLAMIC_REPUBLIC_OF },
+  [CountryEnum.IRAN_ISLAMIC_REPUBLIC_OF]: {
+    name: 'Iran',
+    code: CountryEnum.IRAN_ISLAMIC_REPUBLIC_OF,
+  },
   [CountryEnum.IRAQ]: { name: 'Iraq', code: CountryEnum.IRAQ },
   [CountryEnum.IRELAND]: {
     name: 'Ireland',
     code: CountryEnum.IRELAND,
     isEurope: true,
   },
-  [CountryEnum.ISLE_OF_MAN]: { name: 'Isle of Man', code: CountryEnum.ISLE_OF_MAN },
+  [CountryEnum.ISLE_OF_MAN]: {
+    name: 'Isle of Man',
+    code: CountryEnum.ISLE_OF_MAN,
+  },
   [CountryEnum.ISRAEL]: { name: 'Israel', code: CountryEnum.ISRAEL },
   [CountryEnum.ITALY]: {
     name: 'Italy',
@@ -528,17 +612,29 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
   [CountryEnum.JAPAN]: { name: 'Japan', code: CountryEnum.JAPAN },
   [CountryEnum.JERSEY]: { name: 'Jersey', code: CountryEnum.JERSEY },
   [CountryEnum.JORDAN]: { name: 'Jordan', code: CountryEnum.JORDAN },
-  [CountryEnum.KAZAKHSTAN]: { name: 'Kazakhstan', code: CountryEnum.KAZAKHSTAN },
+  [CountryEnum.KAZAKHSTAN]: {
+    name: 'Kazakhstan',
+    code: CountryEnum.KAZAKHSTAN,
+  },
   [CountryEnum.KENYA]: { name: 'Kenya', code: CountryEnum.KENYA },
   [CountryEnum.KIRIBATI]: { name: 'Kiribati', code: CountryEnum.KIRIBATI },
   [CountryEnum.KOREA_DEMOCRATIC_PEOPLES_REPUBLIC_OF]: {
     name: 'North Korea',
     code: CountryEnum.KOREA_DEMOCRATIC_PEOPLES_REPUBLIC_OF,
   },
-  [CountryEnum.KOREA_REPUBLIC_OF]: { name: 'South Korea', code: CountryEnum.KOREA_REPUBLIC_OF },
+  [CountryEnum.KOREA_REPUBLIC_OF]: {
+    name: 'South Korea',
+    code: CountryEnum.KOREA_REPUBLIC_OF,
+  },
   [CountryEnum.KUWAIT]: { name: 'Kuwait', code: CountryEnum.KUWAIT },
-  [CountryEnum.KYRGYZSTAN]: { name: 'Kyrgyzstan', code: CountryEnum.KYRGYZSTAN },
-  [CountryEnum.LAO_PEOPLES_DEMOCRATIC_REPUBLIC]: { name: 'Laos', code: CountryEnum.LAO_PEOPLES_DEMOCRATIC_REPUBLIC },
+  [CountryEnum.KYRGYZSTAN]: {
+    name: 'Kyrgyzstan',
+    code: CountryEnum.KYRGYZSTAN,
+  },
+  [CountryEnum.LAO_PEOPLES_DEMOCRATIC_REPUBLIC]: {
+    name: 'Laos',
+    code: CountryEnum.LAO_PEOPLES_DEMOCRATIC_REPUBLIC,
+  },
   [CountryEnum.LATVIA]: {
     name: 'Latvia',
     code: CountryEnum.LATVIA,
@@ -565,7 +661,10 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
   },
   [CountryEnum.MACAO]: { name: 'Macao', code: CountryEnum.MACAO },
   [CountryEnum.SKOPJE]: { name: 'North Macedonia', code: CountryEnum.SKOPJE },
-  [CountryEnum.MADAGASCAR]: { name: 'Madagascar', code: CountryEnum.MADAGASCAR },
+  [CountryEnum.MADAGASCAR]: {
+    name: 'Madagascar',
+    code: CountryEnum.MADAGASCAR,
+  },
   [CountryEnum.MALAWI]: { name: 'Malawi', code: CountryEnum.MALAWI },
   [CountryEnum.MALAYSIA]: { name: 'Malaysia', code: CountryEnum.MALAYSIA },
   [CountryEnum.MALDIVES]: { name: 'Maldives', code: CountryEnum.MALDIVES },
@@ -575,13 +674,25 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
     code: CountryEnum.MALTA,
     isEurope: true,
   },
-  [CountryEnum.MARSHALL_ISLANDS]: { name: 'Marshall Islands', code: CountryEnum.MARSHALL_ISLANDS },
-  [CountryEnum.MARTINIQUE]: { name: 'Martinique', code: CountryEnum.MARTINIQUE },
-  [CountryEnum.MAURITANIA]: { name: 'Mauritania', code: CountryEnum.MAURITANIA },
+  [CountryEnum.MARSHALL_ISLANDS]: {
+    name: 'Marshall Islands',
+    code: CountryEnum.MARSHALL_ISLANDS,
+  },
+  [CountryEnum.MARTINIQUE]: {
+    name: 'Martinique',
+    code: CountryEnum.MARTINIQUE,
+  },
+  [CountryEnum.MAURITANIA]: {
+    name: 'Mauritania',
+    code: CountryEnum.MAURITANIA,
+  },
   [CountryEnum.MAURITIUS]: { name: 'Mauritius', code: CountryEnum.MAURITIUS },
   [CountryEnum.TUNISIA]: { name: 'Tunisia', code: CountryEnum.TUNISIA },
   [CountryEnum.TURKEY]: { name: 'Turkey', code: CountryEnum.TURKEY },
-  [CountryEnum.TURKMENISTAN]: { name: 'Turkmenistan', code: CountryEnum.TURKMENISTAN },
+  [CountryEnum.TURKMENISTAN]: {
+    name: 'Turkmenistan',
+    code: CountryEnum.TURKMENISTAN,
+  },
   [CountryEnum.TURKS_AND_CAICOS_ISLANDS]: {
     name: 'Turks and Caicos Islands',
     code: CountryEnum.TURKS_AND_CAICOS_ISLANDS,
@@ -589,38 +700,77 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
   [CountryEnum.TUVALU]: { name: 'Tuvalu', code: CountryEnum.TUVALU },
   [CountryEnum.UGANDA]: { name: 'Uganda', code: CountryEnum.UGANDA },
   [CountryEnum.UKRAINE]: { name: 'Ukraine', code: CountryEnum.UKRAINE },
-  [CountryEnum.UNITED_ARAB_EMIRATES]: { name: 'United Arab Emirates', code: CountryEnum.UNITED_ARAB_EMIRATES },
-  [CountryEnum.UNITED_KINGDOM]: { name: 'United Kingdom', code: CountryEnum.UNITED_KINGDOM },
-  [CountryEnum.UNITED_STATES]: { name: 'United States', code: CountryEnum.UNITED_STATES },
+  [CountryEnum.UNITED_ARAB_EMIRATES]: {
+    name: 'United Arab Emirates',
+    code: CountryEnum.UNITED_ARAB_EMIRATES,
+  },
+  [CountryEnum.UNITED_KINGDOM]: {
+    name: 'United Kingdom',
+    code: CountryEnum.UNITED_KINGDOM,
+  },
+  [CountryEnum.UNITED_STATES]: {
+    name: 'United States',
+    code: CountryEnum.UNITED_STATES,
+  },
   [CountryEnum.UNITED_STATES_MINOR_OUTLYING_ISLANDS]: {
     name: 'United States Minor Outlying Islands',
     code: CountryEnum.UNITED_STATES_MINOR_OUTLYING_ISLANDS,
   },
   [CountryEnum.URUGUAY]: { name: 'Uruguay', code: CountryEnum.URUGUAY },
-  [CountryEnum.UZBEKISTAN]: { name: 'Uzbekistan', code: CountryEnum.UZBEKISTAN },
+  [CountryEnum.UZBEKISTAN]: {
+    name: 'Uzbekistan',
+    code: CountryEnum.UZBEKISTAN,
+  },
   [CountryEnum.VANUATU]: { name: 'Vanuatu', code: CountryEnum.VANUATU },
-  [CountryEnum.VENEZUELA_BOLIVARIAN_REPUBLIC_OF]: { name: 'Venezuela', code: CountryEnum.VENEZUELA_BOLIVARIAN_REPUBLIC_OF },
+  [CountryEnum.VENEZUELA_BOLIVARIAN_REPUBLIC_OF]: {
+    name: 'Venezuela',
+    code: CountryEnum.VENEZUELA_BOLIVARIAN_REPUBLIC_OF,
+  },
   [CountryEnum.VIET_NAM]: { name: 'Vietnam', code: CountryEnum.VIET_NAM },
   [CountryEnum.VIRGIN_ISLANDS_BRITISH]: {
     name: 'Virgin Islands (British)',
     code: CountryEnum.VIRGIN_ISLANDS_BRITISH,
   },
-  [CountryEnum.VIRGIN_ISLANDS_US]: { name: 'Virgin Islands (U.S.)', code: CountryEnum.VIRGIN_ISLANDS_US },
-  [CountryEnum.WALLIS_AND_FUTUNA]: { name: 'Wallis and Futuna', code: CountryEnum.WALLIS_AND_FUTUNA },
-  [CountryEnum.WESTERN_SAHARA]: { name: 'Western Sahara', code: CountryEnum.WESTERN_SAHARA },
+  [CountryEnum.VIRGIN_ISLANDS_US]: {
+    name: 'Virgin Islands (U.S.)',
+    code: CountryEnum.VIRGIN_ISLANDS_US,
+  },
+  [CountryEnum.WALLIS_AND_FUTUNA]: {
+    name: 'Wallis and Futuna',
+    code: CountryEnum.WALLIS_AND_FUTUNA,
+  },
+  [CountryEnum.WESTERN_SAHARA]: {
+    name: 'Western Sahara',
+    code: CountryEnum.WESTERN_SAHARA,
+  },
   [CountryEnum.YEMEN]: { name: 'Yemen', code: CountryEnum.YEMEN },
   [CountryEnum.ZAMBIA]: { name: 'Zambia', code: CountryEnum.ZAMBIA },
   [CountryEnum.ZIMBABWE]: { name: 'Zimbabwe', code: CountryEnum.ZIMBABWE },
   [CountryEnum.MAYOTTE]: { name: 'Mayotte', code: CountryEnum.MAYOTTE },
   [CountryEnum.MEXICO]: { name: 'Mexico', code: CountryEnum.MEXICO },
-  [CountryEnum.MICRONESIA_FEDERATED_STATES_OF]: { name: 'Micronesia', code: CountryEnum.MICRONESIA_FEDERATED_STATES_OF },
-  [CountryEnum.MOLDOVA_REPUBLIC_OF]: { name: 'Moldova', code: CountryEnum.MOLDOVA_REPUBLIC_OF },
+  [CountryEnum.MICRONESIA_FEDERATED_STATES_OF]: {
+    name: 'Micronesia',
+    code: CountryEnum.MICRONESIA_FEDERATED_STATES_OF,
+  },
+  [CountryEnum.MOLDOVA_REPUBLIC_OF]: {
+    name: 'Moldova',
+    code: CountryEnum.MOLDOVA_REPUBLIC_OF,
+  },
   [CountryEnum.MONACO]: { name: 'Monaco', code: CountryEnum.MONACO },
   [CountryEnum.MONGOLIA]: { name: 'Mongolia', code: CountryEnum.MONGOLIA },
-  [CountryEnum.MONTENEGRO]: { name: 'Montenegro', code: CountryEnum.MONTENEGRO },
-  [CountryEnum.MONTSERRAT]: { name: 'Montserrat', code: CountryEnum.MONTSERRAT },
+  [CountryEnum.MONTENEGRO]: {
+    name: 'Montenegro',
+    code: CountryEnum.MONTENEGRO,
+  },
+  [CountryEnum.MONTSERRAT]: {
+    name: 'Montserrat',
+    code: CountryEnum.MONTSERRAT,
+  },
   [CountryEnum.MOROCCO]: { name: 'Morocco', code: CountryEnum.MOROCCO },
-  [CountryEnum.MOZAMBIQUE]: { name: 'Mozambique', code: CountryEnum.MOZAMBIQUE },
+  [CountryEnum.MOZAMBIQUE]: {
+    name: 'Mozambique',
+    code: CountryEnum.MOZAMBIQUE,
+  },
   [CountryEnum.MYANMAR]: { name: 'Myanmar', code: CountryEnum.MYANMAR },
   [CountryEnum.NAMIBIA]: { name: 'Namibia', code: CountryEnum.NAMIBIA },
   [CountryEnum.NAURU]: { name: 'Nauru', code: CountryEnum.NAURU },
@@ -630,13 +780,22 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
     code: CountryEnum.NETHERLANDS,
     isEurope: true,
   },
-  [CountryEnum.NEW_CALEDONIA]: { name: 'New Caledonia', code: CountryEnum.NEW_CALEDONIA },
-  [CountryEnum.NEW_ZEALAND]: { name: 'New Zealand', code: CountryEnum.NEW_ZEALAND },
+  [CountryEnum.NEW_CALEDONIA]: {
+    name: 'New Caledonia',
+    code: CountryEnum.NEW_CALEDONIA,
+  },
+  [CountryEnum.NEW_ZEALAND]: {
+    name: 'New Zealand',
+    code: CountryEnum.NEW_ZEALAND,
+  },
   [CountryEnum.NICARAGUA]: { name: 'Nicaragua', code: CountryEnum.NICARAGUA },
   [CountryEnum.NIGER]: { name: 'Niger', code: CountryEnum.NIGER },
   [CountryEnum.NIGERIA]: { name: 'Nigeria', code: CountryEnum.NIGERIA },
   [CountryEnum.NIUE]: { name: 'Niue', code: CountryEnum.NIUE },
-  [CountryEnum.NORFOLK_ISLAND]: { name: 'Norfolk Island', code: CountryEnum.NORFOLK_ISLAND },
+  [CountryEnum.NORFOLK_ISLAND]: {
+    name: 'Norfolk Island',
+    code: CountryEnum.NORFOLK_ISLAND,
+  },
   [CountryEnum.NORTHERN_MARIANA_ISLANDS]: {
     name: 'Northern Mariana Islands',
     code: CountryEnum.NORTHERN_MARIANA_ISLANDS,
@@ -649,12 +808,21 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
   [CountryEnum.OMAN]: { name: 'Oman', code: CountryEnum.OMAN },
   [CountryEnum.PAKISTAN]: { name: 'Pakistan', code: CountryEnum.PAKISTAN },
   [CountryEnum.PALAU]: { name: 'Palau', code: CountryEnum.PALAU },
-  [CountryEnum.PALESTINE_STATE_OF]: { name: 'Palestine', code: CountryEnum.PALESTINE_STATE_OF },
+  [CountryEnum.PALESTINE_STATE_OF]: {
+    name: 'Palestine',
+    code: CountryEnum.PALESTINE_STATE_OF,
+  },
   [CountryEnum.PANAMA]: { name: 'Panama', code: CountryEnum.PANAMA },
-  [CountryEnum.PAPUA_NEW_GUINEA]: { name: 'Papua New Guinea', code: CountryEnum.PAPUA_NEW_GUINEA },
+  [CountryEnum.PAPUA_NEW_GUINEA]: {
+    name: 'Papua New Guinea',
+    code: CountryEnum.PAPUA_NEW_GUINEA,
+  },
   [CountryEnum.PARAGUAY]: { name: 'Paraguay', code: CountryEnum.PARAGUAY },
   [CountryEnum.PERU]: { name: 'Peru', code: CountryEnum.PERU },
-  [CountryEnum.PHILIPPINES]: { name: 'Philippines', code: CountryEnum.PHILIPPINES },
+  [CountryEnum.PHILIPPINES]: {
+    name: 'Philippines',
+    code: CountryEnum.PHILIPPINES,
+  },
   [CountryEnum.PITCAIRN]: { name: 'Pitcairn', code: CountryEnum.PITCAIRN },
   [CountryEnum.POLAND]: {
     name: 'Poland',
@@ -666,7 +834,10 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
     code: CountryEnum.PORTUGAL,
     isEurope: true,
   },
-  [CountryEnum.PUERTO_RICO]: { name: 'Puerto Rico', code: CountryEnum.PUERTO_RICO },
+  [CountryEnum.PUERTO_RICO]: {
+    name: 'Puerto Rico',
+    code: CountryEnum.PUERTO_RICO,
+  },
   [CountryEnum.QATAR]: { name: 'Qatar', code: CountryEnum.QATAR },
   [CountryEnum.RN_UNIO]: { name: 'Réunion', code: CountryEnum.RN_UNIO },
   [CountryEnum.ROMANIA]: {
@@ -674,16 +845,31 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
     code: CountryEnum.ROMANIA,
     isEurope: true,
   },
-  [CountryEnum.RUSSIAN_FEDERATION]: { name: 'Russia', code: CountryEnum.RUSSIAN_FEDERATION },
+  [CountryEnum.RUSSIAN_FEDERATION]: {
+    name: 'Russia',
+    code: CountryEnum.RUSSIAN_FEDERATION,
+  },
   [CountryEnum.RWANDA]: { name: 'Rwanda', code: CountryEnum.RWANDA },
-  [CountryEnum.SAINT_BARTHN_LEM]: { name: 'Saint Barthélemy', code: CountryEnum.SAINT_BARTHN_LEM },
+  [CountryEnum.SAINT_BARTHN_LEM]: {
+    name: 'Saint Barthélemy',
+    code: CountryEnum.SAINT_BARTHN_LEM,
+  },
   [CountryEnum.SAINT_HELENA_ASCENSION_AND_TRISTAN_DA_CUNHA]: {
     name: 'Saint Helena, Ascension and Tristan da Cunha',
     code: CountryEnum.SAINT_HELENA_ASCENSION_AND_TRISTAN_DA_CUNHA,
   },
-  [CountryEnum.SAINT_KITTS_AND_NEVIS]: { name: 'Saint Kitts and Nevis', code: CountryEnum.SAINT_KITTS_AND_NEVIS },
-  [CountryEnum.SAINT_LUCIA]: { name: 'Saint Lucia', code: CountryEnum.SAINT_LUCIA },
-  [CountryEnum.SAINT_MARTIN]: { name: 'Saint Martin (French part)', code: CountryEnum.SAINT_MARTIN },
+  [CountryEnum.SAINT_KITTS_AND_NEVIS]: {
+    name: 'Saint Kitts and Nevis',
+    code: CountryEnum.SAINT_KITTS_AND_NEVIS,
+  },
+  [CountryEnum.SAINT_LUCIA]: {
+    name: 'Saint Lucia',
+    code: CountryEnum.SAINT_LUCIA,
+  },
+  [CountryEnum.SAINT_MARTIN]: {
+    name: 'Saint Martin (French part)',
+    code: CountryEnum.SAINT_MARTIN,
+  },
   [CountryEnum.SAINT_PIERRE_AND_MIQUELON]: {
     name: 'Saint Pierre and Miquelon',
     code: CountryEnum.SAINT_PIERRE_AND_MIQUELON,
@@ -693,15 +879,33 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
     code: CountryEnum.SAINT_VINCENT_AND_THE_GRENADINES,
   },
   [CountryEnum.SAMOA]: { name: 'Samoa', code: CountryEnum.SAMOA },
-  [CountryEnum.SAN_MARINO]: { name: 'San Marino', code: CountryEnum.SAN_MARINO },
-  [CountryEnum.SAO_TOME_AND_PRINCIPE]: { name: 'Sao Tome and Principe', code: CountryEnum.SAO_TOME_AND_PRINCIPE },
-  [CountryEnum.SAUDI_ARABIA]: { name: 'Saudi Arabia', code: CountryEnum.SAUDI_ARABIA },
+  [CountryEnum.SAN_MARINO]: {
+    name: 'San Marino',
+    code: CountryEnum.SAN_MARINO,
+  },
+  [CountryEnum.SAO_TOME_AND_PRINCIPE]: {
+    name: 'Sao Tome and Principe',
+    code: CountryEnum.SAO_TOME_AND_PRINCIPE,
+  },
+  [CountryEnum.SAUDI_ARABIA]: {
+    name: 'Saudi Arabia',
+    code: CountryEnum.SAUDI_ARABIA,
+  },
   [CountryEnum.SENEGAL]: { name: 'Senegal', code: CountryEnum.SENEGAL },
   [CountryEnum.SERBIA]: { name: 'Serbia', code: CountryEnum.SERBIA },
-  [CountryEnum.SEYCHELLES]: { name: 'Seychelles', code: CountryEnum.SEYCHELLES },
-  [CountryEnum.SIERRA_LEONE]: { name: 'Sierra Leone', code: CountryEnum.SIERRA_LEONE },
+  [CountryEnum.SEYCHELLES]: {
+    name: 'Seychelles',
+    code: CountryEnum.SEYCHELLES,
+  },
+  [CountryEnum.SIERRA_LEONE]: {
+    name: 'Sierra Leone',
+    code: CountryEnum.SIERRA_LEONE,
+  },
   [CountryEnum.SINGAPORE]: { name: 'Singapore', code: CountryEnum.SINGAPORE },
-  [CountryEnum.SINT_MAARTEN]: { name: 'Sint Maarten (Dutch part)', code: CountryEnum.SINT_MAARTEN },
+  [CountryEnum.SINT_MAARTEN]: {
+    name: 'Sint Maarten (Dutch part)',
+    code: CountryEnum.SINT_MAARTEN,
+  },
   [CountryEnum.SLOVAKIA]: {
     name: 'Slovakia',
     code: CountryEnum.SLOVAKIA,
@@ -712,14 +916,23 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
     code: CountryEnum.SLOVENIA,
     isEurope: true,
   },
-  [CountryEnum.SOLOMON_ISLANDS]: { name: 'Solomon Islands', code: CountryEnum.SOLOMON_ISLANDS },
+  [CountryEnum.SOLOMON_ISLANDS]: {
+    name: 'Solomon Islands',
+    code: CountryEnum.SOLOMON_ISLANDS,
+  },
   [CountryEnum.SOMALIA]: { name: 'Somalia', code: CountryEnum.SOMALIA },
-  [CountryEnum.SOUTH_AFRICA]: { name: 'South Africa', code: CountryEnum.SOUTH_AFRICA },
+  [CountryEnum.SOUTH_AFRICA]: {
+    name: 'South Africa',
+    code: CountryEnum.SOUTH_AFRICA,
+  },
   [CountryEnum.SOUTH_GEORGIA_AND_THE_SOUTH_SANDWICH_ISLANDS]: {
     name: 'South Georgia and the South Sandwich Islands',
     code: CountryEnum.SOUTH_GEORGIA_AND_THE_SOUTH_SANDWICH_ISLANDS,
   },
-  [CountryEnum.SOUTH_SUDAN]: { name: 'South Sudan', code: CountryEnum.SOUTH_SUDAN },
+  [CountryEnum.SOUTH_SUDAN]: {
+    name: 'South Sudan',
+    code: CountryEnum.SOUTH_SUDAN,
+  },
   [CountryEnum.SPAIN]: {
     name: 'Spain',
     code: CountryEnum.SPAIN,
@@ -728,27 +941,53 @@ export const BASE_COUNTRY_DATA: Record<CountryEnum, { name: string; code: Countr
   [CountryEnum.SRI_LANKA]: { name: 'Sri Lanka', code: CountryEnum.SRI_LANKA },
   [CountryEnum.SUDAN]: { name: 'Sudan', code: CountryEnum.SUDAN },
   [CountryEnum.SURINAME]: { name: 'Suriname', code: CountryEnum.SURINAME },
-  [CountryEnum.SVALBARD_AND_JAN_MAYEN]: { name: 'Svalbard and Jan Mayen', code: CountryEnum.SVALBARD_AND_JAN_MAYEN },
+  [CountryEnum.SVALBARD_AND_JAN_MAYEN]: {
+    name: 'Svalbard and Jan Mayen',
+    code: CountryEnum.SVALBARD_AND_JAN_MAYEN,
+  },
   [CountryEnum.SWAZILAND]: { name: 'Eswatini', code: CountryEnum.SWAZILAND },
   [CountryEnum.SWEDEN]: {
     name: 'Sweden',
     code: CountryEnum.SWEDEN,
     isEurope: true,
   },
-  [CountryEnum.SWITZERLAND]: { name: 'Switzerland', code: CountryEnum.SWITZERLAND },
-  [CountryEnum.SYRIAN_ARAB_REPUBLIC]: { name: 'Syria', code: CountryEnum.SYRIAN_ARAB_REPUBLIC },
-  [CountryEnum.TAIWAN_PROVINCE_OF_CHINA]: { name: 'Taiwan', code: CountryEnum.TAIWAN_PROVINCE_OF_CHINA },
-  [CountryEnum.TAJIKISTAN]: { name: 'Tajikistan', code: CountryEnum.TAJIKISTAN },
-  [CountryEnum.TANZANIA_UNITED_REPUBLIC_OF]: { name: 'Tanzania', code: CountryEnum.TANZANIA_UNITED_REPUBLIC_OF },
+  [CountryEnum.SWITZERLAND]: {
+    name: 'Switzerland',
+    code: CountryEnum.SWITZERLAND,
+  },
+  [CountryEnum.SYRIAN_ARAB_REPUBLIC]: {
+    name: 'Syria',
+    code: CountryEnum.SYRIAN_ARAB_REPUBLIC,
+  },
+  [CountryEnum.TAIWAN_PROVINCE_OF_CHINA]: {
+    name: 'Taiwan',
+    code: CountryEnum.TAIWAN_PROVINCE_OF_CHINA,
+  },
+  [CountryEnum.TAJIKISTAN]: {
+    name: 'Tajikistan',
+    code: CountryEnum.TAJIKISTAN,
+  },
+  [CountryEnum.TANZANIA_UNITED_REPUBLIC_OF]: {
+    name: 'Tanzania',
+    code: CountryEnum.TANZANIA_UNITED_REPUBLIC_OF,
+  },
   [CountryEnum.THAILAND]: { name: 'Thailand', code: CountryEnum.THAILAND },
-  [CountryEnum.TIMOR_LESTE]: { name: 'Timor-Leste', code: CountryEnum.TIMOR_LESTE },
+  [CountryEnum.TIMOR_LESTE]: {
+    name: 'Timor-Leste',
+    code: CountryEnum.TIMOR_LESTE,
+  },
   [CountryEnum.TOGO]: { name: 'Togo', code: CountryEnum.TOGO },
   [CountryEnum.TOKELAU]: { name: 'Tokelau', code: CountryEnum.TOKELAU },
   [CountryEnum.TONGA]: { name: 'Tonga', code: CountryEnum.TONGA },
-  [CountryEnum.TRINIDAD_AND_TOBAGO]: { name: 'Trinidad and Tobago', code: CountryEnum.TRINIDAD_AND_TOBAGO },
+  [CountryEnum.TRINIDAD_AND_TOBAGO]: {
+    name: 'Trinidad and Tobago',
+    code: CountryEnum.TRINIDAD_AND_TOBAGO,
+  },
 };
 
-export const COUNTRY_DATA: Record<CountryEnum, CountryDto> = Object.values(CountryEnum).reduce(
+export const COUNTRY_DATA: Record<CountryEnum, CountryDto> = Object.values(
+  CountryEnum,
+).reduce(
   (acc, code) => {
     const countryCode = code as CountryEnum;
     const base = BASE_COUNTRY_DATA[countryCode];
@@ -761,4 +1000,3 @@ export const COUNTRY_DATA: Record<CountryEnum, CountryDto> = Object.values(Count
   {} as Record<CountryEnum, CountryDto>,
 );
 ```
-

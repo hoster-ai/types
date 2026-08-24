@@ -9,7 +9,13 @@
 ## Code
 
 ```typescript
-import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { CountryEnum } from '../enums/country.enum';
 import { JSONSchema } from 'class-validator-jsonschema';
 
@@ -49,4 +55,3 @@ export class CountryDto {
   isEurope?: boolean;
 }
 ```
-

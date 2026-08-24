@@ -30,6 +30,7 @@ llm/
 ## Code
 
 \`\`\`typescript
+
 <source contents, with @JSONSchema decorators AND their imports stripped>
 \`\`\`
 ```
@@ -46,6 +47,7 @@ llm/
 
 ```markdown
 ### <ExportedName>
+
 **Description:** <same one-paragraph description>
 
 **Source:** `<path>`

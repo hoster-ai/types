@@ -52,7 +52,7 @@ describe('FooDto Validator', () => {
     });
 
     it('should return no errors with all optional fields set', () => {
-      const dto = { ...baseValidDto, /* every optional field */ };
+      const dto = { ...baseValidDto /* every optional field */ };
       expect(validateFooDto(dto)).toHaveLength(0);
     });
   });
@@ -60,7 +60,7 @@ describe('FooDto Validator', () => {
   describe('Missing required fields', () => {
     it('should return errors when all fields are missing', () => {
       const errors = validateFooDto({});
-      const requiredProps = ['field1', 'field2', /* ... */];
+      const requiredProps = ['field1', 'field2' /* ... */];
       for (const prop of requiredProps) {
         expect(errors.some((e) => e.property === prop)).toBe(true);
       }

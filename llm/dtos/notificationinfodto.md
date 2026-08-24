@@ -67,4 +67,3 @@ export class NotificationInfoDto extends InfoDto {
   payPerUseUnits?: UnitDto[];
 }
 ```
-

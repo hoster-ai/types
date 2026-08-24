@@ -21,7 +21,11 @@ import {
 class AllOrNoneConstraint implements ValidatorConstraintInterface {
   validate(_: any, args: ValidationArguments) {
     const object = args.object as Record<string, any>;
-    const input = args.constraints[0] as [string, string] | [string, string][] | string[] | string[][];
+    const input = args.constraints[0] as
+      | [string, string]
+      | [string, string][]
+      | string[]
+      | string[][];
 
     // Normalize to an array of groups, each group being string[] (length >= 2 preferred)
     let groups: string[][] = [];
@@ -47,7 +51,11 @@ class AllOrNoneConstraint implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments) {
-    const input = args.constraints[0] as [string, string] | [string, string][] | string[] | string[][];
+    const input = args.constraints[0] as
+      | [string, string]
+      | [string, string][]
+      | string[]
+      | string[][];
     let groups: string[][] = [];
     if (Array.isArray(input)) {
       if (input.length > 0 && typeof (input as any)[0] === 'string') {
@@ -84,4 +92,3 @@ export function AllOrNoneProperty(
   };
 }
 ```
-

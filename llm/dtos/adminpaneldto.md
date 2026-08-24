@@ -28,7 +28,6 @@ import { IsOneOf } from '../decorators/is-one-of.validator';
 import { AtLeastOneNonEmptyProperty } from '../decorators/at-least-one-non-empty.validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 
-
 @AtLeastOneNonEmptyProperty(['product', 'item', 'client', 'user', 'order'])
 export class AdminPanelTabsDto {
   @ValidateNested({ each: true })
@@ -37,10 +36,10 @@ export class AdminPanelTabsDto {
   @IsArray()
   @ArrayMinSize(1)
   @JSONSchema({
-    title: 'Product Tabs', 
+    title: 'Product Tabs',
     description: 'Tabs shown on the product detail page in Admin panel.',
     type: 'array',
-    items: { $ref: '#/components/schemas/TabDto' }
+    items: { $ref: '#/components/schemas/TabDto' },
   })
   product?: TabDto[];
 
@@ -50,10 +49,10 @@ export class AdminPanelTabsDto {
   @IsArray()
   @ArrayMinSize(1)
   @JSONSchema({
-    title: 'Item Tabs', 
+    title: 'Item Tabs',
     description: 'Tabs shown on the item detail page in Admin panel.',
     type: 'array',
-    items: { $ref: '#/components/schemas/TabDto' }
+    items: { $ref: '#/components/schemas/TabDto' },
   })
   item?: TabDto[];
 
@@ -63,10 +62,10 @@ export class AdminPanelTabsDto {
   @IsArray()
   @ArrayMinSize(1)
   @JSONSchema({
-    title: 'Client Tabs', 
+    title: 'Client Tabs',
     description: 'Tabs shown on the client profile page in Admin panel.',
     type: 'array',
-    items: { $ref: '#/components/schemas/TabDto' }
+    items: { $ref: '#/components/schemas/TabDto' },
   })
   client?: TabDto[];
 
@@ -76,10 +75,10 @@ export class AdminPanelTabsDto {
   @IsArray()
   @ArrayMinSize(1)
   @JSONSchema({
-    title: 'User Tabs', 
+    title: 'User Tabs',
     description: 'Tabs shown on the user page in Admin panel.',
     type: 'array',
-    items: { $ref: '#/components/schemas/TabDto' }
+    items: { $ref: '#/components/schemas/TabDto' },
   })
   user?: TabDto[];
 
@@ -89,10 +88,10 @@ export class AdminPanelTabsDto {
   @IsArray()
   @ArrayMinSize(1)
   @JSONSchema({
-    title: 'Order Tabs', 
+    title: 'Order Tabs',
     description: 'Tabs shown on the order page in Admin panel.',
     type: 'array',
-    items: { $ref: '#/components/schemas/TabDto' }
+    items: { $ref: '#/components/schemas/TabDto' },
   })
   order?: TabDto[];
 }
@@ -105,10 +104,10 @@ export class AdminPanelMoreActionsDto {
   @ValidateNested({ each: true })
   @Type(() => ActionDto)
   @JSONSchema({
-    title: 'Client Actions', 
+    title: 'Client Actions',
     description: 'Additional actions available on the client page.',
     type: 'array',
-    items: { $ref: '#/components/schemas/ActionDto' }
+    items: { $ref: '#/components/schemas/ActionDto' },
   })
   client?: ActionDto[];
 
@@ -118,10 +117,10 @@ export class AdminPanelMoreActionsDto {
   @ValidateNested({ each: true })
   @Type(() => ActionDto)
   @JSONSchema({
-    title: 'Item Actions', 
+    title: 'Item Actions',
     description: 'Additional actions available on the item page.',
     type: 'array',
-    items: { $ref: '#/components/schemas/ActionDto' }
+    items: { $ref: '#/components/schemas/ActionDto' },
   })
   item?: ActionDto[];
 
@@ -131,10 +130,10 @@ export class AdminPanelMoreActionsDto {
   @ValidateNested({ each: true })
   @Type(() => ActionDto)
   @JSONSchema({
-    title: 'Invoice Actions', 
+    title: 'Invoice Actions',
     description: 'Additional actions available on the invoice page.',
     type: 'array',
-    items: { $ref: '#/components/schemas/ActionDto' }
+    items: { $ref: '#/components/schemas/ActionDto' },
   })
   invoice?: ActionDto[];
 
@@ -144,10 +143,10 @@ export class AdminPanelMoreActionsDto {
   @ValidateNested({ each: true })
   @Type(() => ActionDto)
   @JSONSchema({
-    title: 'User Actions', 
+    title: 'User Actions',
     description: 'Additional actions available on the user page.',
     type: 'array',
-    items: { $ref: '#/components/schemas/ActionDto' }
+    items: { $ref: '#/components/schemas/ActionDto' },
   })
   user?: ActionDto[];
 
@@ -157,16 +156,16 @@ export class AdminPanelMoreActionsDto {
   @ValidateNested({ each: true })
   @Type(() => ActionDto)
   @JSONSchema({
-    title: 'Order Actions', 
+    title: 'Order Actions',
     description: 'Additional actions available on the order page.',
     type: 'array',
-    items: { $ref: '#/components/schemas/ActionDto' }
+    items: { $ref: '#/components/schemas/ActionDto' },
   })
   order?: ActionDto[];
 }
 
 @AtLeastOneNonEmptyProperty(['tabs', 'moreActions', 'menu', 'settings'])
-export class  AdminPanelDto {
+export class AdminPanelDto {
   /**
    * Defines the tab structure for different sections of the admin panel.
    * Each property represents a section (e.g., product, item) and contains an array of TabDto objects.
@@ -175,10 +174,10 @@ export class  AdminPanelDto {
   @ValidateNested()
   @Type(() => AdminPanelTabsDto)
   @JSONSchema({
-    title: 'Tabs', 
+    title: 'Tabs',
     description: 'Tab structure for Admin panel sections.',
     type: 'object',
-    properties: { tabs: { $ref: '#/components/schemas/AdminPanelTabsDto' } }
+    properties: { tabs: { $ref: '#/components/schemas/AdminPanelTabsDto' } },
   })
   tabs?: AdminPanelTabsDto;
 
@@ -189,10 +188,12 @@ export class  AdminPanelDto {
   @ValidateNested()
   @Type(() => AdminPanelMoreActionsDto)
   @JSONSchema({
-    title: 'More Actions', 
+    title: 'More Actions',
     description: 'Additional actions in Admin panel sections.',
     type: 'object',
-    properties: { moreActions: { $ref: '#/components/schemas/AdminPanelMoreActionsDto' } }
+    properties: {
+      moreActions: { $ref: '#/components/schemas/AdminPanelMoreActionsDto' },
+    },
   })
   moreActions?: AdminPanelMoreActionsDto;
 
@@ -207,13 +208,13 @@ export class  AdminPanelDto {
     message: 'menu must be MenuDtoWithUrl or MenuDtoWithSubmenu',
   })
   @JSONSchema({
-    title: 'Menu', 
+    title: 'Menu',
     description: 'Admin panel main menu (URL or submenu variant).',
     type: 'object',
     oneOf: [
       { $ref: '#/components/schemas/MenuDtoWithSubmenu' },
-      { $ref: '#/components/schemas/MenuDtoWithUrl' }
-    ]
+      { $ref: '#/components/schemas/MenuDtoWithUrl' },
+    ],
   })
   menu?: MenuDtoWithSubmenu | MenuDtoWithUrl;
 
@@ -227,15 +228,14 @@ export class  AdminPanelDto {
     message: 'settings must be SettingsWithUrlDto or SettingsWithTabsDto',
   })
   @JSONSchema({
-    title: 'Settings', 
+    title: 'Settings',
     description: 'Admin panel settings page configuration.',
     type: 'object',
     oneOf: [
       { $ref: '#/components/schemas/SettingsWithUrlDto' },
-      { $ref: '#/components/schemas/SettingsWithTabsDto' }
-    ]
+      { $ref: '#/components/schemas/SettingsWithTabsDto' },
+    ],
   })
   settings?: SettingsWithUrlDto | SettingsWithTabsDto;
 }
 ```
-

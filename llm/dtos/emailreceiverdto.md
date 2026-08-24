@@ -69,4 +69,3 @@ export class EmailReceiverDto {
   bcc?: string[];
 }
 ```
-

@@ -20,9 +20,8 @@ import { NotificationInfoDto } from '../dtos/notification/notification-info.dto'
  * @returns An array of validation errors, if any.
  */
 export function validateNotificationInfoDto(dto: object): ValidationError[] {
-    const notificationInfoDto = plainToInstance(NotificationInfoDto, dto);
-    const errors = validateSync(notificationInfoDto);
-    return errors;
+  const notificationInfoDto = plainToInstance(NotificationInfoDto, dto);
+  const errors = validateSync(notificationInfoDto);
+  return errors;
 }
 ```
-

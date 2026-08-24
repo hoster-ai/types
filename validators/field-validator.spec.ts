@@ -1,109 +1,42 @@
 import 'reflect-metadata';
 import { validateFieldDto } from './field-validator';
-import { FieldTypeEnum } from '../enums/field-type.enum';
 import { LanguageEnum } from '../enums/language.enum';
 
 const baseValidDto = {
   id: 'test-id',
   label: [{ language: LanguageEnum.ENGLISH, text: 'Test Label' }],
-  value: 'test-value',
-  type: FieldTypeEnum.TEXT_BOX,
+  type: 'TEXT',
   required: true,
   disabled: false,
-  upgradable: false,
 };
 
-describe('FieldDto Validator', () => {
+describe('Deprecated validateFieldDto (dispatcher delegate)', () => {
   describe('Valid cases', () => {
-    it('should return no errors for a valid DTO', () => {
+    it('routes a TEXT payload', () => {
       expect(validateFieldDto(baseValidDto)).toHaveLength(0);
     });
 
-    it('should return no errors for a valid DTO with optional error messages', () => {
-      const dto = {
-        ...baseValidDto,
-        regexValidationErrorMessage: [
-          { language: LanguageEnum.ENGLISH, text: 'Invalid format' },
-        ],
-        remoteValidationErrorMessage: [
-          { language: LanguageEnum.ENGLISH, text: 'Invalid value' },
-        ],
-      };
-      expect(validateFieldDto(dto)).toHaveLength(0);
-    });
-  });
-
-  describe('Missing required fields', () => {
-    it('should return errors for all missing required fields (except upgradable)', () => {
-      const errors = validateFieldDto({});
-      const requiredProps = [
-        'id',
-        'label',
-        'value',
-        'type',
-        'required',
-        'disabled',
-      ];
-      for (const prop of requiredProps) {
-        expect(errors.some((e) => e.property === prop)).toBe(true);
-      }
-    });
-
-    it('should return error if value is missing', () => {
-      const dto = { ...baseValidDto };
-      delete (dto as any).value;
-      const errors = validateFieldDto(dto);
-      expect(errors.some((e) => e.property === 'value')).toBe(true);
+    it('routes a NUMBER payload', () => {
+      expect(
+        validateFieldDto({ ...baseValidDto, type: 'NUMBER', value: 1 }),
+      ).toHaveLength(0);
     });
   });
 
   describe('Invalid field values', () => {
-    it.each([
-      [{ ...baseValidDto, type: 'not-a-valid-type' }, 'type'],
-      [{}, 'id'],
-      [
-        {
-          ...baseValidDto,
-          regexValidation: 'regex',
-          regexValidationErrorMessage: 'not-an-array',
-        },
-        'regexValidationErrorMessage',
-      ],
-      [
-        {
-          ...baseValidDto,
-          triggersRemoteValidation: true,
-          remoteValidationErrorMessage: 'not-an-array',
-        },
-        'remoteValidationErrorMessage',
-      ],
-    ])('should return error for invalid %s', (dto, expectedProp) => {
-      const errors = validateFieldDto(dto);
-      expect(errors.length).toBeGreaterThan(0);
-      expect(errors.some((e) => e.property === expectedProp)).toBe(true);
+    it('returns a synthetic type error when discriminator is unknown', () => {
+      const errors = validateFieldDto({
+        ...baseValidDto,
+        type: 'not-a-valid-type',
+      });
+      expect(errors.some((e) => e.property === 'type')).toBe(true);
     });
-  });
 
-  describe('Invalid `value` field', () => {
-    it.each([
-      [true, 'boolean'],
-      [null, 'null'],
-      [undefined, 'undefined'],
-      [{}, 'object'],
-      [[], 'array'],
-    ])(
-      'should return error if value is invalid type (%s)',
-      (invalidValue, _label) => {
-        const dto = { ...baseValidDto, value: invalidValue };
-        const errors = validateFieldDto(dto);
-        expect(errors.some((e) => e.property === 'value')).toBe(true);
-      },
-    );
-
-    it('should return error if value is empty string when required', () => {
-      const dto = { ...baseValidDto, value: '' };
-      const errors = validateFieldDto(dto);
-      expect(errors.some((e) => e.property === 'value')).toBe(true);
+    it('returns errors for missing required base fields after routing', () => {
+      const errors = validateFieldDto({ type: 'TEXT' });
+      for (const prop of ['id', 'label', 'required', 'disabled']) {
+        expect(errors.some((e) => e.property === prop)).toBe(true);
+      }
     });
   });
 });

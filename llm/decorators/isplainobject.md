@@ -9,7 +9,11 @@
 ## Code
 
 ```typescript
-import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+import {
+  registerDecorator,
+  ValidationOptions,
+  ValidationArguments,
+} from 'class-validator';
 
 export function IsPlainObject(validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
@@ -20,7 +24,11 @@ export function IsPlainObject(validationOptions?: ValidationOptions) {
       options: validationOptions,
       validator: {
         validate(value: any, _args: ValidationArguments) {
-          if (value === null || typeof value !== 'object' || value.constructor !== Object) {
+          if (
+            value === null ||
+            typeof value !== 'object' ||
+            value.constructor !== Object
+          ) {
             return false;
           }
           for (const key in value) {
@@ -38,4 +46,3 @@ export function IsPlainObject(validationOptions?: ValidationOptions) {
   };
 }
 ```
-

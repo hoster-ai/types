@@ -25,7 +25,7 @@ export class SmsSenderDto {
   @IsPhoneNumber()
   @JSONSchema({
     title: 'Sender Phone',
-    description: 'Sender\'s phone number.',
+    description: "Sender's phone number.",
     type: 'string',
   })
   senderPhone!: string;
@@ -43,4 +43,3 @@ export class SmsSenderDto {
   message!: string;
 }
 ```
-

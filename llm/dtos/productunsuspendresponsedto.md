@@ -67,4 +67,3 @@ export class ProductUnsuspendResponseDto extends BaseResponse {
   data?: Record<string, unknown>;
 }
 ```
-

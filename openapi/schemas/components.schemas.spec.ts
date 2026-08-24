@@ -19,6 +19,7 @@ const NAMED_ENUMS = [
   'RolesEnum',
   'LanguageEnum',
   'CountryEnum',
+  'CurrencyEnum',
   'FieldTypeEnum',
   'ProductActionsEnum',
   'OpenMethodEnum',
@@ -92,8 +93,12 @@ describe('ComponentsSchemas - enum properties are $refs (no inline enums)', () =
       node: () => Schemas.ActionDto.properties.openMethod,
     },
     {
-      label: 'FieldDto.type',
-      node: () => Schemas.FieldDto.properties.type,
+      label: 'CountriesFieldDto.value.items',
+      node: () => Schemas.CountriesFieldDto.properties.value.items,
+    },
+    {
+      label: 'CurrencyFieldDto.value',
+      node: () => Schemas.CurrencyFieldDto.properties.value,
     },
   ];
 

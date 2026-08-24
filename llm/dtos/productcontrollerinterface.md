@@ -91,4 +91,3 @@ export interface ProductControllerInterface {
   uninstall(requestBody: JwtDto): Promise<null | ErrorResponseDto>;
 }
 ```
-

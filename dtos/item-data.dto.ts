@@ -169,7 +169,8 @@ export class ItemDataDto {
   @IsNumber()
   @JSONSchema({
     title: 'Subtotal',
-    description: 'The subtotal of the product item before tax and after discounts.',
+    description:
+      'The subtotal of the product item before tax and after discounts.',
     type: 'number',
   })
   subTotal?: number;

@@ -17,4 +17,3 @@ import { TabDto } from './tab.dto';
  */
 export class SubmenuDto extends TabDto {}
 ```
-

@@ -9,7 +9,13 @@
 ## Code
 
 ```typescript
-import { IsDefined, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsDefined,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
@@ -174,10 +180,10 @@ export class ItemDataDto {
   @IsNumber()
   @JSONSchema({
     title: 'Subtotal',
-    description: 'The subtotal of the product item before tax and after discounts.',
+    description:
+      'The subtotal of the product item before tax and after discounts.',
     type: 'number',
   })
   subTotal?: number;
 }
 ```
-

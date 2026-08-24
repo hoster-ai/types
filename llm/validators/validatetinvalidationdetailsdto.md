@@ -19,11 +19,12 @@ import { TINValidationDetails } from '../dtos/invoice/tin-validation-details.dto
  * @param data The object to validate as a TINValidationDetails.
  * @returns An array of validation errors, empty if validation succeeds.
  */
-export function validateTINValidationDetailsDto(data: object): ValidationError[] {
+export function validateTINValidationDetailsDto(
+  data: object,
+): ValidationError[] {
   const dto = plainToInstance(TINValidationDetails, data);
   const errors = validateSync(dto);
 
   return errors;
 }
 ```
-

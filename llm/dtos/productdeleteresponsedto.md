@@ -66,4 +66,3 @@ export class ProductDeleteResponseDto extends BaseResponse {
   data?: Record<string, unknown>;
 }
 ```
-
