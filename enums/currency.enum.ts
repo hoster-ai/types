@@ -40,6 +40,7 @@ export enum CurrencyEnum {
   IDR = 'IDR',
   PHP = 'PHP',
   VND = 'VND',
+  // ISO 4217 currencies added to cover Core API's persisted CurrencyCodeEnum (issue #22)
   AFN = 'AFN',
   ALL = 'ALL',
   AMD = 'AMD',
@@ -59,6 +60,7 @@ export enum CurrencyEnum {
   DJF = 'DJF',
   DOP = 'DOP',
   DZD = 'DZD',
+  EEK = 'EEK',
   EGP = 'EGP',
   ERN = 'ERN',
   ETB = 'ETB',
@@ -67,6 +69,7 @@ export enum CurrencyEnum {
   GNF = 'GNF',
   GTQ = 'GTQ',
   HNL = 'HNL',
+  HRK = 'HRK',
   IQD = 'IQD',
   IRR = 'IRR',
   ISK = 'ISK',
@@ -79,6 +82,8 @@ export enum CurrencyEnum {
   KZT = 'KZT',
   LBP = 'LBP',
   LKR = 'LKR',
+  LTL = 'LTL',
+  LVL = 'LVL',
   LYD = 'LYD',
   MAD = 'MAD',
   MDL = 'MDL',
@@ -109,11 +114,15 @@ export enum CurrencyEnum {
   UAH = 'UAH',
   UGX = 'UGX',
   UZS = 'UZS',
+  // VEF (pre-2018) kept alongside the existing VES for historical data
+  VEF = 'VEF',
   XAF = 'XAF',
   XOF = 'XOF',
   YER = 'YER',
+  ZMK = 'ZMK',
   ZMW = 'ZMW',
   ZWG = 'ZWG',
+  ZWL = 'ZWL',
 }
 
 /**
@@ -199,6 +208,7 @@ const BASE_CURRENCY_DATA: Record<
   [CurrencyEnum.DJF]: { name: 'Djiboutian Franc', symbol: 'Fdj' },
   [CurrencyEnum.DOP]: { name: 'Dominican Peso', symbol: 'RD$' },
   [CurrencyEnum.DZD]: { name: 'Algerian Dinar', symbol: 'د.ج' },
+  [CurrencyEnum.EEK]: { name: 'Estonian Kroon', symbol: 'kr' },
   [CurrencyEnum.EGP]: { name: 'Egyptian Pound', symbol: 'E£' },
   [CurrencyEnum.ERN]: { name: 'Eritrean Nakfa', symbol: 'Nfk' },
   [CurrencyEnum.ETB]: { name: 'Ethiopian Birr', symbol: 'Br' },
@@ -207,6 +217,7 @@ const BASE_CURRENCY_DATA: Record<
   [CurrencyEnum.GNF]: { name: 'Guinean Franc', symbol: 'FG' },
   [CurrencyEnum.GTQ]: { name: 'Guatemalan Quetzal', symbol: 'Q' },
   [CurrencyEnum.HNL]: { name: 'Honduran Lempira', symbol: 'L' },
+  [CurrencyEnum.HRK]: { name: 'Croatian Kuna', symbol: 'kn' },
   [CurrencyEnum.IQD]: { name: 'Iraqi Dinar', symbol: 'ع.د' },
   [CurrencyEnum.IRR]: { name: 'Iranian Rial', symbol: '﷼' },
   [CurrencyEnum.ISK]: { name: 'Icelandic Króna', symbol: 'kr' },
@@ -219,6 +230,8 @@ const BASE_CURRENCY_DATA: Record<
   [CurrencyEnum.KZT]: { name: 'Kazakhstani Tenge', symbol: '₸' },
   [CurrencyEnum.LBP]: { name: 'Lebanese Pound', symbol: 'ل.ل' },
   [CurrencyEnum.LKR]: { name: 'Sri Lankan Rupee', symbol: 'Rs' },
+  [CurrencyEnum.LTL]: { name: 'Lithuanian Litas', symbol: 'Lt' },
+  [CurrencyEnum.LVL]: { name: 'Latvian Lats', symbol: 'Ls' },
   [CurrencyEnum.LYD]: { name: 'Libyan Dinar', symbol: 'ل.د' },
   [CurrencyEnum.MAD]: { name: 'Moroccan Dirham', symbol: 'د.م.' },
   [CurrencyEnum.MDL]: { name: 'Moldovan Leu', symbol: 'L' },
@@ -249,11 +262,14 @@ const BASE_CURRENCY_DATA: Record<
   [CurrencyEnum.UAH]: { name: 'Ukrainian Hryvnia', symbol: '₴' },
   [CurrencyEnum.UGX]: { name: 'Ugandan Shilling', symbol: 'USh' },
   [CurrencyEnum.UZS]: { name: 'Uzbekistani Som', symbol: 'soʻm' },
+  [CurrencyEnum.VEF]: { name: 'Venezuelan Bolívar (2008–2018)', symbol: 'Bs.F' },
   [CurrencyEnum.XAF]: { name: 'Central African CFA Franc', symbol: 'FCFA' },
   [CurrencyEnum.XOF]: { name: 'West African CFA Franc', symbol: 'CFA' },
   [CurrencyEnum.YER]: { name: 'Yemeni Rial', symbol: '﷼' },
+  [CurrencyEnum.ZMK]: { name: 'Zambian Kwacha (pre-2013)', symbol: 'ZK' },
   [CurrencyEnum.ZMW]: { name: 'Zambian Kwacha', symbol: 'ZK' },
   [CurrencyEnum.ZWG]: { name: 'Zimbabwe Gold', symbol: 'ZiG' },
+  [CurrencyEnum.ZWL]: { name: 'Zimbabwean Dollar (pre-2024)', symbol: 'Z$' },
 };
 
 /**
@@ -261,9 +277,9 @@ const BASE_CURRENCY_DATA: Record<
  *
  * @description - Keyed by {@link CurrencyEnum}, so the compiler rejects both a missing
  *                and an unknown key. Adding a code to the enum therefore breaks the build
- *                until its name/symbol are supplied here. Only active ISO 4217 codes are
- *                listed; retired codes (EEK, LTL, LVL, HRK, VEF, ZMK, ZWL) were dropped in
- *                favour of their successors (EUR, VES, ZMW, ZWG).
+ *                until its name/symbol are supplied here. Retired codes (EEK, LTL, LVL,
+ *                HRK, VEF, ZMK, ZWL) are listed alongside their successors (EUR, VES, ZMW,
+ *                ZWG) because Core API still persists them (issue #22).
  *                The `code` is derived from the key, so the two can never drift apart.
  */
 export const CURRENCY_CATALOG: Record<CurrencyEnum, CurrencyMetadata> =
