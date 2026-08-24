@@ -29,5 +29,5 @@
     "./openapi/**/*",
     "index.ts"
   ],
-  "exclude": ["node_modules", "**/*.test.ts", "generated/**/*"]
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.spec.ts", "generated/**/*"]
 }
