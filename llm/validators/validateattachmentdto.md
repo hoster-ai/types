@@ -26,4 +26,3 @@ export function validateAttachmentDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

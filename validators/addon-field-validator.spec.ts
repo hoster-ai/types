@@ -1,16 +1,18 @@
 import 'reflect-metadata';
 import { validateAddonFieldDto } from './addon-field-validator';
-import { FieldTypeEnum } from '../enums/field-type.enum';
 import { LanguageEnum } from '../enums/language.enum';
 
-const baseValidDto = {
+const validField = {
   id: 'addon-1',
   label: [{ language: LanguageEnum.ENGLISH, text: 'Addon Field' }],
-  value: 'test-value',
-  type: FieldTypeEnum.TEXT_BOX,
+  type: 'TEXT',
   required: true,
   disabled: false,
-  upgradable: false,
+  value: 'test-value',
+};
+
+const baseValidDto = {
+  field: validField,
 };
 
 describe('AddonFieldDto Validator', () => {
@@ -21,27 +23,19 @@ describe('AddonFieldDto Validator', () => {
   });
 
   describe('Missing required fields', () => {
-    it('should return errors when all fields are missing', () => {
+    it('should return error when the nested `field` is missing', () => {
       const errors = validateAddonFieldDto({});
-      const requiredProps = [
-        'id',
-        'label',
-        'value',
-        'type',
-        'required',
-        'disabled',
-      ];
-      for (const prop of requiredProps) {
-        expect(errors.some((e) => e.property === prop)).toBe(true);
-      }
+      expect(errors.some((e) => e.property === 'field')).toBe(true);
     });
   });
 
   describe('Invalid field values', () => {
-    it('should return error for invalid type enum', () => {
-      const dto = { ...baseValidDto, type: 'not-a-valid-type' };
-      const errors = validateAddonFieldDto(dto);
-      expect(errors.some((e) => e.property === 'type')).toBe(true);
+    it('should surface errors from the nested field validator under `field`', () => {
+      const errors = validateAddonFieldDto({
+        field: { ...validField, type: 'NOT_REAL' },
+      });
+      const fieldErr = errors.find((e) => e.property === 'field');
+      expect(fieldErr?.children?.some((c) => c.property === 'type')).toBe(true);
     });
   });
 });

@@ -19,7 +19,7 @@ import { Type } from 'class-transformer';
 import { AdminPanelDto } from './admin-panel.dto';
 import { ClientPanelDto } from './client-panel.dto';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { FieldDto } from './field.dto';
+import { AnyFieldDto } from './fields/any-field.dto';
 import { UniqueFieldInArray } from '../decorators/unique-field-in-array.validator';
 
 /**
@@ -167,14 +167,13 @@ export class InfoDto {
   @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
-  @ValidateNested({ each: true })
-  @Type(() => FieldDto)
   @UniqueFieldInArray('id')
   @JSONSchema({
     title: 'Setup Attributes',
-    description: 'Configurable attributes that are used in the setup process.',
+    description:
+      'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
     type: 'array',
-    items: { $ref: '#/components/schemas/FieldDto' },
+    items: { $ref: '#/components/schemas/AnyFieldDto' },
   })
-  setupAttributes?: FieldDto[];
+  setupAttributes?: AnyFieldDto[];
 }

@@ -31,4 +31,3 @@ export class SetupStatusResponseDto extends BaseResponse {
   status!: SetupStatusEnum;
 }
 ```
-

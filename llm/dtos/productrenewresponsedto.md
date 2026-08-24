@@ -66,4 +66,3 @@ export class ProductRenewResponseDto extends BaseResponse {
   data?: Record<string, unknown>;
 }
 ```
-

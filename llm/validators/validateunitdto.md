@@ -20,4 +20,3 @@ export function validateUnitDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

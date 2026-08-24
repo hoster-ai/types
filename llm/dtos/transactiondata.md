@@ -62,4 +62,3 @@ export class TransactionData {
   date!: Date;
 }
 ```
-

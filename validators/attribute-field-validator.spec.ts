@@ -1,21 +1,23 @@
 import 'reflect-metadata';
 import { validateAttributeFieldDto } from './attribute-field-validator';
-import { FieldTypeEnum } from '../enums/field-type.enum';
 import { LanguageEnum } from '../enums/language.enum';
 
-const baseValidDto = {
+const validField = {
   id: 'attr-1',
   label: [{ language: LanguageEnum.ENGLISH, text: 'CPU Cores' }],
-  value: '4',
-  type: FieldTypeEnum.TEXT_BOX,
+  type: 'NUMBER',
   required: true,
   disabled: false,
-  upgradable: false,
+  value: 4,
+};
+
+const baseValidDto = {
+  field: validField,
 };
 
 describe('AttributeFieldDto Validator', () => {
   describe('Valid cases', () => {
-    it('should return no errors for a valid DTO (inherited fields only)', () => {
+    it('should return no errors for a valid DTO with only field', () => {
       expect(validateAttributeFieldDto(baseValidDto)).toHaveLength(0);
     });
 
@@ -36,6 +38,13 @@ describe('AttributeFieldDto Validator', () => {
     it('should return no errors when repeatableMin equals repeatableMax', () => {
       const dto = { ...baseValidDto, repeatableMin: 3, repeatableMax: 3 };
       expect(validateAttributeFieldDto(dto)).toHaveLength(0);
+    });
+  });
+
+  describe('Missing required fields', () => {
+    it('should return error when the nested `field` is missing', () => {
+      const errors = validateAttributeFieldDto({});
+      expect(errors.some((e) => e.property === 'field')).toBe(true);
     });
   });
 
@@ -89,20 +98,24 @@ describe('AttributeFieldDto Validator', () => {
     });
   });
 
-  describe('Inherited FieldDto validation', () => {
-    it('should return errors when inherited required fields are missing', () => {
-      const errors = validateAttributeFieldDto({});
-      const requiredProps = [
-        'id',
-        'label',
-        'value',
-        'type',
-        'required',
-        'disabled',
-      ];
-      for (const prop of requiredProps) {
-        expect(errors.some((e) => e.property === prop)).toBe(true);
-      }
+  describe('Nested field validation', () => {
+    it('should surface errors from the nested field validator under `field`', () => {
+      const errors = validateAttributeFieldDto({
+        field: { ...validField, type: 'NUMBER', value: 'four' },
+      });
+      const fieldErr = errors.find((e) => e.property === 'field');
+      expect(fieldErr).toBeDefined();
+      expect(fieldErr?.children?.some((c) => c.property === 'value')).toBe(
+        true,
+      );
+    });
+
+    it('should surface a type error when nested type literal is unknown', () => {
+      const errors = validateAttributeFieldDto({
+        field: { ...validField, type: 'NOT_REAL' },
+      });
+      const fieldErr = errors.find((e) => e.property === 'field');
+      expect(fieldErr?.children?.some((c) => c.property === 'type')).toBe(true);
     });
   });
 });

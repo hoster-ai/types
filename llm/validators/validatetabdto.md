@@ -26,4 +26,3 @@ export function validateTabDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

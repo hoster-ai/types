@@ -10,7 +10,14 @@
 
 ```typescript
 import { Type } from 'class-transformer';
-import { IsBoolean, IsDefined, IsNumber, IsObject, IsOptional, ValidateNested } from 'class-validator';
+import {
+  IsBoolean,
+  IsDefined,
+  IsNumber,
+  IsObject,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { BaseResponse } from '../../base-response.dto';
 import { TINValidationDetails } from '../tin-validation-details.dto';
@@ -53,10 +60,10 @@ export class TaxDetailsResponseDto extends BaseResponse {
   @Type(() => TINValidationDetails)
   @JSONSchema({
     title: 'Tax Details',
-    description: 'Detailed tax validation information including company details.',
+    description:
+      'Detailed tax validation information including company details.',
     type: 'object',
   })
   taxDetails?: TINValidationDetails;
 }
 ```
-

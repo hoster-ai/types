@@ -9,7 +9,7 @@
 ## Code
 
 ```typescript
-import { IsNotEmpty, IsString, IsUrl } from "class-validator";
+import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
@@ -26,7 +26,7 @@ export class ProformaInvoiceResponseDto {
     type: 'string',
     format: 'uri',
   })
-  invoiceUrl!:string;
+  invoiceUrl!: string;
 
   /** Invoice number assigned by the integration */
   @IsString()
@@ -36,7 +36,7 @@ export class ProformaInvoiceResponseDto {
     description: 'Invoice number assigned by the integration.',
     type: 'string',
   })
-  invoiceNumber!:string;
+  invoiceNumber!: string;
 
   /** Unique identifier for the invoice in the integration system */
   @IsString()
@@ -46,7 +46,6 @@ export class ProformaInvoiceResponseDto {
     description: 'Unique identifier for the invoice in the integration system.',
     type: 'string',
   })
-  invoiceId!:string;
+  invoiceId!: string;
 }
 ```
-

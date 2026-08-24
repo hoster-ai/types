@@ -26,4 +26,3 @@ export function validateCountryDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

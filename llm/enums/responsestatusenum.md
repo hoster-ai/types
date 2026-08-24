@@ -15,4 +15,3 @@ export enum ResponseStatusEnum {
   PENDING = 'pending',
 }
 ```
-

@@ -12,13 +12,15 @@ const RETIRED_CURRENCY_CODES = [
   'VEF',
   'ZMK',
   'ZWL',
+  'ANG',
+  'SLL',
 ];
 
 describe('currency.enum', () => {
   const allCodes = Object.values(CurrencyEnum);
 
-  it('περιέχει το πλήρες ενεργό σετ ISO 4217 (115 κωδικοί)', () => {
-    expect(Object.keys(CurrencyEnum)).toHaveLength(115);
+  it('περιέχει όλα τα ενεργά ISO 4217 νομίσματα (χωρίς fund/metal codes)', () => {
+    expect(Object.keys(CurrencyEnum)).toHaveLength(149);
   });
 
   it('κάθε member έχει τιμή ίδια με το όνομά του', () => {

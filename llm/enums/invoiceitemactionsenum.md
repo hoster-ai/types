@@ -18,4 +18,3 @@ export enum InvoiceItemActionsEnum {
   TRADE = 'trade',
 }
 ```
-

@@ -26,4 +26,3 @@ export function validatePushReceiverDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

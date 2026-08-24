@@ -26,4 +26,3 @@ export const validateProductDeleteRequestDto = async (
   return await validate(request, { skipMissingProperties: true });
 };
 ```
-

@@ -27,4 +27,19 @@ describe('UniqueFieldInArray', () => {
     const errors: ValidationError[] = validateSync(dto);
     expect(errors.length).toBe(0);
   });
+
+  it('should support dotted paths for nested fields', () => {
+    class NestedDto {
+      @UniqueFieldInArray('nested.id')
+      items!: Array<{ nested: { id: number } }>;
+    }
+
+    const ok = new NestedDto();
+    ok.items = [{ nested: { id: 1 } }, { nested: { id: 2 } }];
+    expect(validateSync(ok).length).toBe(0);
+
+    const bad = new NestedDto();
+    bad.items = [{ nested: { id: 1 } }, { nested: { id: 1 } }];
+    expect(validateSync(bad).length).toBeGreaterThan(0);
+  });
 });

@@ -26,4 +26,3 @@ export function validatePushSenderDto(data: object): ValidationError[] {
   return errors;
 }
 ```
-

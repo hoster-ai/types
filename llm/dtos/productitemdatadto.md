@@ -11,7 +11,7 @@
 ```typescript
 import { IsEnum, IsOptional } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { ProductActionsEnum } from '../../enums/item-actions.enum';
+import { ProductItemActionsEnum } from '../../enums/item-actions.enum';
 import { ItemDataDto } from '../item-data.dto';
 
 /**

@@ -225,4 +225,3 @@ export class ClientDataDto {
   taxOffice?: string;
 }
 ```
-

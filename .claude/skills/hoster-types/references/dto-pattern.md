@@ -6,9 +6,20 @@ DTOs combine `class-validator` decorators (runtime validation) + `@JSONSchema` d
 
 ```ts
 import {
-  IsString, IsBoolean, IsEnum, IsOptional, IsNotEmpty, IsDefined,
-  IsArray, IsObject, IsNumber, IsEmail, IsPhoneNumber,
-  ValidateNested, MaxLength, MinLength,
+  IsString,
+  IsBoolean,
+  IsEnum,
+  IsOptional,
+  IsNotEmpty,
+  IsDefined,
+  IsArray,
+  IsObject,
+  IsNumber,
+  IsEmail,
+  IsPhoneNumber,
+  ValidateNested,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { JSONSchema } from 'class-validator-jsonschema';
@@ -58,6 +69,7 @@ export class FooDto {
 ## Common decorator combos
 
 ### Enum field
+
 ```ts
 @IsEnum(CountryEnum)
 @IsNotEmpty()
@@ -71,6 +83,7 @@ country!: CountryEnum;
 ```
 
 ### Nested DTO (single)
+
 ```ts
 @IsDefined()
 @IsObject()
@@ -85,6 +98,7 @@ company!: CompanyDataDto;
 ```
 
 ### Array of nested DTOs
+
 ```ts
 @IsDefined()
 @IsArray()
@@ -100,6 +114,7 @@ items!: InvoiceItemDataDto[];
 ```
 
 ### String with length bounds
+
 ```ts
 @IsString()
 @IsNotEmpty()
@@ -116,6 +131,7 @@ city!: string;
 ```
 
 ### Email / phone
+
 ```ts
 @IsEmail()
 @IsNotEmpty()

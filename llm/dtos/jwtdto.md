@@ -47,7 +47,8 @@ class JwtPayloadDto {
   @IsOptional()
   @JSONSchema({
     title: 'User ID',
-    description: 'The unique identifier for the user who triggered the API call.',
+    description:
+      'The unique identifier for the user who triggered the API call.',
     type: 'string',
   })
   userId?: string;
@@ -97,4 +98,3 @@ export class JwtDto {
   jwt!: JwtPayloadDto;
 }
 ```
-

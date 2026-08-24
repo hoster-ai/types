@@ -47,4 +47,3 @@ export class ValidateAttributesRequestDto {
   attributeValues!: Record<string, unknown>;
 }
 ```
-

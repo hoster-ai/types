@@ -34,4 +34,3 @@ export class ProductInfoResponseDto extends BaseResponse {
   info!: ProductInfoDto;
 }
 ```
-

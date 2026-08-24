@@ -118,7 +118,7 @@ export class ProductInfoDto extends InfoDto {
     title: 'Supported Actions',
     description: 'Actions supported by this integration.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(ProductActionsEnum) },
+    items: { type: 'string', enum: Object.values(ProductItemActionsEnum) },
   })
   supportedActions: ProductActionsEnum[] = [];
 }
