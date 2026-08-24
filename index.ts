@@ -100,6 +100,7 @@ export * from './enums/invoice/invoice-types.enum';
 
 // Helpers
 export * from './helpers/country.helper';
+export * from './helpers/currency.helper';
 
 // Validators
 export * from './validators/action-validator';
