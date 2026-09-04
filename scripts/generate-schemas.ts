@@ -40,6 +40,7 @@ import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import '../dtos/country.dto';
 import '../dtos/notification/notification-info.dto';
 import '../dtos/product/product-info.dto';
+import '../dtos/proxy-action-task.dto';
 // Concrete field DTOs (split from the deprecated mega FieldDto)
 import '../dtos/fields/boolean-field.dto';
 import '../dtos/fields/text-field.dto';

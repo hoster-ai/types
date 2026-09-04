@@ -1,4 +1,10 @@
-import { IsEnum, IsNotEmpty, IsString, IsUrl } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+  IsUrl,
+  ValidateIf,
+} from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { ResponseStatusEnum } from '../../../enums/response-status.enum';
 import { BaseResponse } from '../../base-response.dto';
@@ -45,7 +51,14 @@ export class ProformaInvoiceResponseDto extends BaseResponse {
   })
   outboxId!: string;
 
-  /** URL to access the generated invoice document */
+  /**
+   * URL to access the generated invoice document. The three document fields below exist
+   * only on a SUCCESS: a `failure` or `pending` report has no document to describe.
+   */
+  @ValidateIf(
+    (response: ProformaInvoiceResponseDto) =>
+      response.status === ResponseStatusEnum.SUCCESS,
+  )
   @IsUrl()
   @IsNotEmpty()
   @JSONSchema({
@@ -54,9 +67,13 @@ export class ProformaInvoiceResponseDto extends BaseResponse {
     type: 'string',
     format: 'uri',
   })
-  invoiceUrl!: string;
+  invoiceUrl?: string;
 
   /** Invoice number assigned by the integration */
+  @ValidateIf(
+    (response: ProformaInvoiceResponseDto) =>
+      response.status === ResponseStatusEnum.SUCCESS,
+  )
   @IsString()
   @IsNotEmpty()
   @JSONSchema({
@@ -64,9 +81,13 @@ export class ProformaInvoiceResponseDto extends BaseResponse {
     description: 'Invoice number assigned by the integration.',
     type: 'string',
   })
-  invoiceNumber!: string;
+  invoiceNumber?: string;
 
   /** Unique identifier for the invoice in the integration system */
+  @ValidateIf(
+    (response: ProformaInvoiceResponseDto) =>
+      response.status === ResponseStatusEnum.SUCCESS,
+  )
   @IsString()
   @IsNotEmpty()
   @JSONSchema({
@@ -74,5 +95,5 @@ export class ProformaInvoiceResponseDto extends BaseResponse {
     description: 'Unique identifier for the invoice in the integration system.',
     type: 'string',
   })
-  invoiceId!: string;
+  invoiceId?: string;
 }

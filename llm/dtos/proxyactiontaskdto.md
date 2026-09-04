@@ -1,3 +1,14 @@
+# ProxyActionTaskDto
+
+**Description:** The body of an ACTION Cloud Task. The task targets the PROXY WORKER, not the integration: the proxy makes the onward call, answers the task, and reports what the integration said on `hookUrl`. Everything the proxy needs travels here — it holds no state and reads no database.
+
+**Source:** `dtos/proxy-action-task.dto.ts`
+
+**Language:** typescript
+
+## Code
+
+```typescript
 import {
   IsMongoId,
   IsNotEmpty,
@@ -26,7 +37,7 @@ export class ProxyActionTaskDto {
   /**
    * Absolute target of the onward call, action route included (`${integration.url}/${action}`).
    */
-  @IsUrl({ require_tld: false, require_protocol: true })
+  @IsUrl({ require_tld: false })
   @JSONSchema({
     title: 'Integration URL',
     description: 'Absolute URL the proxy calls, action included.',
@@ -49,7 +60,7 @@ export class ProxyActionTaskDto {
    * Where the proxy reports what the integration answered. The integration's own deferred
    * report needs no url: its hooks are public, well-known routes per action.
    */
-  @IsUrl({ require_tld: false, require_protocol: true })
+  @IsUrl({ require_tld: false })
   @JSONSchema({
     title: 'Hook URL',
     description: "The core's proxy hook for this action.",
@@ -77,3 +88,4 @@ export class ProxyActionTaskDto {
   })
   payload!: Record<string, unknown>;
 }
+```

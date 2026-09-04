@@ -1,3073 +1,2963 @@
 export const ComponentsSchemas = {
-  "CountryDto": {
-    "properties": {
-      "name": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Name",
-        "description": "Country name."
+  CountryDto: {
+    properties: {
+      name: {
+        minLength: 1,
+        type: 'string',
+        title: 'Name',
+        description: 'Country name.',
       },
-      "code": {
-        "$ref": "#/components/schemas/CountryEnum"
+      code: {
+        $ref: '#/components/schemas/CountryEnum',
       },
-      "isEurope": {
-        "type": "boolean",
-        "title": "Is Europe",
-        "description": "Whether the country is in Europe."
-      }
+      isEurope: {
+        type: 'boolean',
+        title: 'Is Europe',
+        description: 'Whether the country is in Europe.',
+      },
     },
-    "type": "object",
-    "required": [
-      "name",
-      "code"
-    ]
+    type: 'object',
+    required: ['name', 'code'],
   },
-  "TabDto": {
-    "properties": {
-      "label": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Label",
-        "description": "Text label for the tab."
+  TabDto: {
+    properties: {
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Text label for the tab.',
       },
-      "url": {
-        "minLength": 1,
-        "type": "string",
-        "format": "uri",
-        "title": "URL",
-        "description": "URL associated with the tab."
-      }
+      url: {
+        minLength: 1,
+        type: 'string',
+        format: 'uri',
+        title: 'URL',
+        description: 'URL associated with the tab.',
+      },
     },
-    "type": "object",
-    "required": [
-      "label",
-      "url"
-    ]
+    type: 'object',
+    required: ['label', 'url'],
   },
-  "ActionDto": {
-    "properties": {
-      "icon": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Icon",
-        "description": "Name of the icon to display for the action."
+  ActionDto: {
+    properties: {
+      icon: {
+        minLength: 1,
+        type: 'string',
+        title: 'Icon',
+        description: 'Name of the icon to display for the action.',
       },
-      "label": {
-        "type": "string",
-        "title": "Label",
-        "description": "Text label for the action."
+      label: {
+        type: 'string',
+        title: 'Label',
+        description: 'Text label for the action.',
       },
-      "openMethod": {
-        "$ref": "#/components/schemas/OpenMethodEnum"
+      openMethod: {
+        $ref: '#/components/schemas/OpenMethodEnum',
       },
-      "url": {
-        "minLength": 1,
-        "type": "string",
-        "format": "url",
-        "title": "URL",
-        "description": "URL to navigate to when the action is triggered."
-      }
+      url: {
+        minLength: 1,
+        type: 'string',
+        format: 'url',
+        title: 'URL',
+        description: 'URL to navigate to when the action is triggered.',
+      },
     },
-    "type": "object",
-    "required": [
-      "icon",
-      "openMethod",
-      "url"
-    ]
+    type: 'object',
+    required: ['icon', 'openMethod', 'url'],
   },
-  "BaseMenuDto": {
-    "properties": {
-      "icon": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Icon",
-        "description": "Icon for the menu item."
+  BaseMenuDto: {
+    properties: {
+      icon: {
+        minLength: 1,
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon for the menu item.',
       },
-      "label": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Label",
-        "description": "Label for the menu item."
-      }
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label for the menu item.',
+      },
     },
-    "type": "object",
-    "required": [
-      "icon",
-      "label"
-    ]
+    type: 'object',
+    required: ['icon', 'label'],
   },
-  "MenuDtoWithUrl": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "only-url"
-        ],
-        "minLength": 1,
-        "title": "Type",
-        "description": "Type of the menu item."
+  MenuDtoWithUrl: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['only-url'],
+        minLength: 1,
+        title: 'Type',
+        description: 'Type of the menu item.',
       },
-      "url": {
-        "minLength": 1,
-        "type": "string",
-        "format": "uri",
-        "title": "URL",
-        "description": "URL associated with the menu item."
+      url: {
+        minLength: 1,
+        type: 'string',
+        format: 'uri',
+        title: 'URL',
+        description: 'URL associated with the menu item.',
       },
-      "icon": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Icon",
-        "description": "Icon for the menu item."
+      icon: {
+        minLength: 1,
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon for the menu item.',
       },
-      "label": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Label",
-        "description": "Label for the menu item."
-      }
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label for the menu item.',
+      },
     },
-    "type": "object",
-    "required": [
-      "type",
-      "url",
-      "submenu",
-      "icon",
-      "label"
-    ]
+    type: 'object',
+    required: ['type', 'url', 'submenu', 'icon', 'label'],
   },
-  "MenuDtoWithSubmenu": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "with-submenu"
-        ],
-        "minLength": 1,
-        "title": "Type",
-        "description": "Type of the menu item."
+  MenuDtoWithSubmenu: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['with-submenu'],
+        minLength: 1,
+        title: 'Type',
+        description: 'Type of the menu item.',
       },
-      "submenu": {
-        "items": {
-          "$ref": "#/components/schemas/TabDto"
+      submenu: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
         },
-        "type": "array",
-        "title": "Submenu",
-        "description": "List of tabs that will appear in the submenu."
+        type: 'array',
+        title: 'Submenu',
+        description: 'List of tabs that will appear in the submenu.',
       },
-      "icon": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Icon",
-        "description": "Icon for the menu item."
+      icon: {
+        minLength: 1,
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon for the menu item.',
       },
-      "label": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Label",
-        "description": "Label for the menu item."
-      }
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label for the menu item.',
+      },
     },
-    "type": "object",
-    "required": [
-      "type",
-      "url",
-      "submenu",
-      "icon",
-      "label"
-    ]
+    type: 'object',
+    required: ['type', 'url', 'submenu', 'icon', 'label'],
   },
-  "SettingsDto": {
-    "properties": {
-      "label": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Label",
-        "description": "Label of the settings page."
+  SettingsDto: {
+    properties: {
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label of the settings page.',
       },
-      "icon": {
-        "type": "string",
-        "title": "Icon",
-        "description": "Icon of the settings page."
+      icon: {
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon of the settings page.',
       },
-      "description": {
-        "type": "string",
-        "title": "Description",
-        "description": "Description of the settings page."
-      }
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Description of the settings page.',
+      },
     },
-    "type": "object",
-    "required": [
-      "label",
-      "icon",
-      "description"
-    ]
+    type: 'object',
+    required: ['label', 'icon', 'description'],
   },
-  "SettingsWithUrlDto": {
-    "properties": {
-      "url": {
-        "format": "url",
-        "type": "string",
-        "title": "URL",
-        "description": "URL to the settings page."
+  SettingsWithUrlDto: {
+    properties: {
+      url: {
+        format: 'url',
+        type: 'string',
+        title: 'URL',
+        description: 'URL to the settings page.',
       },
-      "label": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Label",
-        "description": "Label of the settings page."
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label of the settings page.',
       },
-      "icon": {
-        "type": "string",
-        "title": "Icon",
-        "description": "Icon of the settings page."
+      icon: {
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon of the settings page.',
       },
-      "description": {
-        "type": "string",
-        "title": "Description",
-        "description": "Description of the settings page."
-      }
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Description of the settings page.',
+      },
     },
-    "type": "object",
-    "required": [
-      "url",
-      "tabs",
-      "label",
-      "icon",
-      "description"
-    ]
+    type: 'object',
+    required: ['url', 'tabs', 'label', 'icon', 'description'],
   },
-  "SettingsWithTabsDto": {
-    "properties": {
-      "tabs": {
-        "items": {
-          "$ref": "#/components/schemas/TabDto"
+  SettingsWithTabsDto: {
+    properties: {
+      tabs: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
         },
-        "type": "array",
-        "title": "Tabs",
-        "description": "List of tabs for the settings page."
+        type: 'array',
+        title: 'Tabs',
+        description: 'List of tabs for the settings page.',
       },
-      "label": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Label",
-        "description": "Label of the settings page."
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label of the settings page.',
       },
-      "icon": {
-        "type": "string",
-        "title": "Icon",
-        "description": "Icon of the settings page."
+      icon: {
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon of the settings page.',
       },
-      "description": {
-        "type": "string",
-        "title": "Description",
-        "description": "Description of the settings page."
-      }
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Description of the settings page.',
+      },
     },
-    "type": "object",
-    "required": [
-      "tabs",
-      "url",
-      "label",
-      "icon",
-      "description"
-    ]
+    type: 'object',
+    required: ['tabs', 'url', 'label', 'icon', 'description'],
   },
-  "AdminPanelTabsDto": {
-    "properties": {
-      "product": {
-        "items": {
-          "$ref": "#/components/schemas/TabDto"
+  AdminPanelTabsDto: {
+    properties: {
+      product: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
         },
-        "minItems": 1,
-        "type": "array",
-        "title": "Product Tabs",
-        "description": "Tabs shown on the product detail page in Admin panel."
+        minItems: 1,
+        type: 'array',
+        title: 'Product Tabs',
+        description: 'Tabs shown on the product detail page in Admin panel.',
       },
-      "item": {
-        "items": {
-          "$ref": "#/components/schemas/TabDto"
+      item: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
         },
-        "minItems": 1,
-        "type": "array",
-        "title": "Item Tabs",
-        "description": "Tabs shown on the item detail page in Admin panel."
+        minItems: 1,
+        type: 'array',
+        title: 'Item Tabs',
+        description: 'Tabs shown on the item detail page in Admin panel.',
       },
-      "client": {
-        "items": {
-          "$ref": "#/components/schemas/TabDto"
+      client: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
         },
-        "minItems": 1,
-        "type": "array",
-        "title": "Client Tabs",
-        "description": "Tabs shown on the client profile page in Admin panel."
+        minItems: 1,
+        type: 'array',
+        title: 'Client Tabs',
+        description: 'Tabs shown on the client profile page in Admin panel.',
       },
-      "user": {
-        "items": {
-          "$ref": "#/components/schemas/TabDto"
+      user: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
         },
-        "minItems": 1,
-        "type": "array",
-        "title": "User Tabs",
-        "description": "Tabs shown on the user page in Admin panel."
+        minItems: 1,
+        type: 'array',
+        title: 'User Tabs',
+        description: 'Tabs shown on the user page in Admin panel.',
       },
-      "order": {
-        "items": {
-          "$ref": "#/components/schemas/TabDto"
+      order: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
         },
-        "minItems": 1,
-        "type": "array",
-        "title": "Order Tabs",
-        "description": "Tabs shown on the order page in Admin panel."
-      }
+        minItems: 1,
+        type: 'array',
+        title: 'Order Tabs',
+        description: 'Tabs shown on the order page in Admin panel.',
+      },
     },
-    "type": "object"
+    type: 'object',
   },
-  "AdminPanelMoreActionsDto": {
-    "properties": {
-      "client": {
-        "items": {
-          "$ref": "#/components/schemas/ActionDto"
+  AdminPanelMoreActionsDto: {
+    properties: {
+      client: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
         },
-        "type": "array",
-        "minItems": 1,
-        "title": "Client Actions",
-        "description": "Additional actions available on the client page."
+        type: 'array',
+        minItems: 1,
+        title: 'Client Actions',
+        description: 'Additional actions available on the client page.',
       },
-      "item": {
-        "items": {
-          "$ref": "#/components/schemas/ActionDto"
+      item: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
         },
-        "type": "array",
-        "minItems": 1,
-        "title": "Item Actions",
-        "description": "Additional actions available on the item page."
+        type: 'array',
+        minItems: 1,
+        title: 'Item Actions',
+        description: 'Additional actions available on the item page.',
       },
-      "invoice": {
-        "items": {
-          "$ref": "#/components/schemas/ActionDto"
+      invoice: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
         },
-        "type": "array",
-        "minItems": 1,
-        "title": "Invoice Actions",
-        "description": "Additional actions available on the invoice page."
+        type: 'array',
+        minItems: 1,
+        title: 'Invoice Actions',
+        description: 'Additional actions available on the invoice page.',
       },
-      "user": {
-        "items": {
-          "$ref": "#/components/schemas/ActionDto"
+      user: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
         },
-        "type": "array",
-        "minItems": 1,
-        "title": "User Actions",
-        "description": "Additional actions available on the user page."
+        type: 'array',
+        minItems: 1,
+        title: 'User Actions',
+        description: 'Additional actions available on the user page.',
       },
-      "order": {
-        "items": {
-          "$ref": "#/components/schemas/ActionDto"
+      order: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
         },
-        "type": "array",
-        "minItems": 1,
-        "title": "Order Actions",
-        "description": "Additional actions available on the order page."
-      }
+        type: 'array',
+        minItems: 1,
+        title: 'Order Actions',
+        description: 'Additional actions available on the order page.',
+      },
     },
-    "type": "object"
+    type: 'object',
   },
-  "AdminPanelDto": {
-    "properties": {
-      "tabs": {
-        "$ref": "#/components/schemas/AdminPanelTabsDto"
+  AdminPanelDto: {
+    properties: {
+      tabs: {
+        $ref: '#/components/schemas/AdminPanelTabsDto',
       },
-      "moreActions": {
-        "$ref": "#/components/schemas/AdminPanelMoreActionsDto"
+      moreActions: {
+        $ref: '#/components/schemas/AdminPanelMoreActionsDto',
       },
-      "menu": {
-        "title": "Menu",
-        "description": "Admin panel main menu (URL or submenu variant).",
-        "type": "object",
-        "oneOf": [
+      menu: {
+        title: 'Menu',
+        description: 'Admin panel main menu (URL or submenu variant).',
+        type: 'object',
+        oneOf: [
           {
-            "$ref": "#/components/schemas/MenuDtoWithSubmenu"
+            $ref: '#/components/schemas/MenuDtoWithSubmenu',
           },
           {
-            "$ref": "#/components/schemas/MenuDtoWithUrl"
-          }
-        ]
+            $ref: '#/components/schemas/MenuDtoWithUrl',
+          },
+        ],
       },
-      "settings": {
-        "title": "Settings",
-        "description": "Admin panel settings page configuration.",
-        "type": "object",
-        "oneOf": [
+      settings: {
+        title: 'Settings',
+        description: 'Admin panel settings page configuration.',
+        type: 'object',
+        oneOf: [
           {
-            "$ref": "#/components/schemas/SettingsWithUrlDto"
+            $ref: '#/components/schemas/SettingsWithUrlDto',
           },
           {
-            "$ref": "#/components/schemas/SettingsWithTabsDto"
-          }
-        ]
-      }
-    },
-    "type": "object"
-  },
-  "ClientPanelTabsDto": {
-    "properties": {
-      "item": {
-        "items": {
-          "$ref": "#/components/schemas/TabDto"
-        },
-        "type": "array",
-        "minItems": 1,
-        "title": "Item Tabs",
-        "description": "Tabs shown on the item page in Client panel."
-      }
-    },
-    "type": "object"
-  },
-  "ClientPanelMoreActionsDto": {
-    "properties": {
-      "item": {
-        "items": {
-          "$ref": "#/components/schemas/ActionDto"
-        },
-        "type": "array",
-        "minItems": 1,
-        "title": "Item Actions",
-        "description": "Additional actions available on the item page in Client panel."
-      }
-    },
-    "type": "object"
-  },
-  "ClientPanelDto": {
-    "properties": {
-      "tabs": {
-        "$ref": "#/components/schemas/ClientPanelTabsDto"
+            $ref: '#/components/schemas/SettingsWithTabsDto',
+          },
+        ],
       },
-      "moreActions": {
-        "$ref": "#/components/schemas/ClientPanelMoreActionsDto"
+    },
+    type: 'object',
+  },
+  ClientPanelTabsDto: {
+    properties: {
+      item: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Item Tabs',
+        description: 'Tabs shown on the item page in Client panel.',
       },
-      "menu": {
-        "title": "Menu",
-        "description": "Client panel main menu (URL or submenu variant).",
-        "oneOf": [
+    },
+    type: 'object',
+  },
+  ClientPanelMoreActionsDto: {
+    properties: {
+      item: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Item Actions',
+        description:
+          'Additional actions available on the item page in Client panel.',
+      },
+    },
+    type: 'object',
+  },
+  ClientPanelDto: {
+    properties: {
+      tabs: {
+        $ref: '#/components/schemas/ClientPanelTabsDto',
+      },
+      moreActions: {
+        $ref: '#/components/schemas/ClientPanelMoreActionsDto',
+      },
+      menu: {
+        title: 'Menu',
+        description: 'Client panel main menu (URL or submenu variant).',
+        oneOf: [
           {
-            "$ref": "#/components/schemas/MenuDtoWithSubmenu"
+            $ref: '#/components/schemas/MenuDtoWithSubmenu',
           },
           {
-            "$ref": "#/components/schemas/MenuDtoWithUrl"
-          }
-        ]
-      }
-    },
-    "type": "object"
-  },
-  "InfoDto": {
-    "properties": {
-      "title": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Title",
-        "description": "Integration display title.",
-        "example": "Example Product"
-      },
-      "logo": {
-        "format": "uri",
-        "type": "string",
-        "title": "Logo URL",
-        "description": "Public HTTPS URL for the integration logo.",
-        "example": "https://cdn.example.com/logo.png"
-      },
-      "description": {
-        "type": "string",
-        "title": "Description",
-        "description": "Short description of the integration.",
-        "example": "An example product integration."
-      },
-      "supportedLanguages": {
-        "items": {
-          "$ref": "#/components/schemas/LanguageEnum"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Supported Languages",
-        "description": "Locales supported by the integration.",
-        "example": [
-          "EN"
-        ]
-      },
-      "listenEvents": {
-        "items": {
-          "$ref": "#/components/schemas/EventsEnum"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Listen Events",
-        "description": "Platform events the integration can subscribe to."
-      },
-      "requiredRoles": {
-        "items": {
-          "$ref": "#/components/schemas/RolesEnum"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Required Roles",
-        "description": "Roles required for this integration to operate."
-      },
-      "adminPanel": {
-        "$ref": "#/components/schemas/AdminPanelDto"
-      },
-      "clientPanel": {
-        "$ref": "#/components/schemas/ClientPanelDto"
-      },
-      "onboardingUrl": {
-        "format": "uri",
-        "type": "string",
-        "title": "Onboarding URL",
-        "description": "URL to onboard/configure the integration.",
-        "example": "https://example.com/onboarding"
-      },
-      "setupAttributes": {
-        "items": {
-          "$ref": "#/components/schemas/AnyFieldDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Setup Attributes",
-        "description": "Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal."
-      }
-    },
-    "type": "object",
-    "required": [
-      "title",
-      "supportedLanguages"
-    ]
-  },
-  "UnitDto": {
-    "properties": {
-      "id": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Unit ID",
-        "description": "Unit identifier.",
-        "example": "messages"
-      },
-      "unitDescription": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Unit Description",
-        "description": "What is measured.",
-        "example": "Message sent"
-      },
-      "intervalDescription": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Interval Description",
-        "description": "Billing interval.",
-        "example": "Per month"
-      }
-    },
-    "type": "object",
-    "required": [
-      "id",
-      "unitDescription",
-      "intervalDescription"
-    ]
-  },
-  "NotificationInfoDto": {
-    "properties": {
-      "type": {
-        "$ref": "#/components/schemas/NotificationMessageTypeEnum"
-      },
-      "payPerUseUnits": {
-        "items": {
-          "$ref": "#/components/schemas/UnitDto"
-        },
-        "type": "array",
-        "title": "Pay-Per-Use Units",
-        "description": "Optional metering units for pay-per-use billing.",
-        "example": [
-          {
-            "id": "messages",
-            "unitDescription": "Message sent",
-            "intervalDescription": "Per month"
-          }
-        ]
-      },
-      "title": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Title",
-        "description": "Integration display title.",
-        "example": "Example Product"
-      },
-      "logo": {
-        "format": "uri",
-        "type": "string",
-        "title": "Logo URL",
-        "description": "Public HTTPS URL for the integration logo.",
-        "example": "https://cdn.example.com/logo.png"
-      },
-      "description": {
-        "type": "string",
-        "title": "Description",
-        "description": "Short description of the integration.",
-        "example": "An example product integration."
-      },
-      "supportedLanguages": {
-        "items": {
-          "$ref": "#/components/schemas/LanguageEnum"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Supported Languages",
-        "description": "Locales supported by the integration.",
-        "example": [
-          "EN"
-        ]
-      },
-      "listenEvents": {
-        "items": {
-          "$ref": "#/components/schemas/EventsEnum"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Listen Events",
-        "description": "Platform events the integration can subscribe to."
-      },
-      "requiredRoles": {
-        "items": {
-          "$ref": "#/components/schemas/RolesEnum"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Required Roles",
-        "description": "Roles required for this integration to operate."
-      },
-      "adminPanel": {
-        "$ref": "#/components/schemas/AdminPanelDto"
-      },
-      "clientPanel": {
-        "$ref": "#/components/schemas/ClientPanelDto"
-      },
-      "onboardingUrl": {
-        "format": "uri",
-        "type": "string",
-        "title": "Onboarding URL",
-        "description": "URL to onboard/configure the integration.",
-        "example": "https://example.com/onboarding"
-      },
-      "setupAttributes": {
-        "items": {
-          "$ref": "#/components/schemas/AnyFieldDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Setup Attributes",
-        "description": "Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal."
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "title",
-      "supportedLanguages"
-    ]
-  },
-  "AttributeFieldDto": {
-    "properties": {
-      "field": {
-        "$ref": "#/components/schemas/AnyFieldDto"
-      },
-      "visibleInOrder": {
-        "type": "boolean",
-        "title": "Visible In Order",
-        "description": "Whether the field is visible in order view."
-      },
-      "visibleInClientPanel": {
-        "type": "boolean",
-        "title": "Visible In Client Panel",
-        "description": "Whether the field is visible in the client panel."
-      },
-      "repeatableMin": {
-        "type": "number",
-        "title": "Repeatable Min",
-        "description": "Minimum repeats for repeatable fields."
-      },
-      "repeatableMax": {
-        "type": "number",
-        "title": "Repeatable Max",
-        "description": "Maximum repeats for repeatable fields."
-      }
-    },
-    "type": "object",
-    "required": [
-      "field"
-    ]
-  },
-  "ProductInfoDto": {
-    "properties": {
-      "productAttributes": {
-        "items": {
-          "$ref": "#/components/schemas/AttributeFieldDto"
-        },
-        "type": "array",
-        "minItems": 1,
-        "title": "Product Attributes",
-        "description": "Configurable attributes that apply at the product level."
-      },
-      "itemAttributes": {
-        "items": {
-          "$ref": "#/components/schemas/AttributeFieldDto"
-        },
-        "type": "array",
-        "minItems": 1,
-        "title": "Item Attributes",
-        "description": "Configurable attributes that apply at the item level."
-      },
-      "payPerUseUnits": {
-        "items": {
-          "$ref": "#/components/schemas/UnitDto"
-        },
-        "type": "array",
-        "minItems": 1,
-        "title": "Pay-Per-Use Units",
-        "description": "Optional metering units for pay-per-use billing.",
-        "example": [
-          {
-            "id": "requests",
-            "unitDescription": "API request",
-            "intervalDescription": "Per month"
-          }
-        ]
-      },
-      "responseDataFieldNames": {
-        "title": "Response Data Field Names",
-        "description": "Mapping of field names used in provider responses.",
-        "type": "object",
-        "additionalProperties": {
-          "type": "string"
-        },
-        "example": {
-          "external_id": "id",
-          "status_text": "status"
-        }
-      },
-      "supportedActions": {
-        "items": {
-          "$ref": "#/components/schemas/ProductActionsEnum"
-        },
-        "type": "array",
-        "minLength": 1,
-        "title": "Supported Actions",
-        "description": "Actions supported by this integration."
-      },
-      "title": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Title",
-        "description": "Integration display title.",
-        "example": "Example Product"
-      },
-      "logo": {
-        "format": "uri",
-        "type": "string",
-        "title": "Logo URL",
-        "description": "Public HTTPS URL for the integration logo.",
-        "example": "https://cdn.example.com/logo.png"
-      },
-      "description": {
-        "type": "string",
-        "title": "Description",
-        "description": "Short description of the integration.",
-        "example": "An example product integration."
-      },
-      "supportedLanguages": {
-        "items": {
-          "$ref": "#/components/schemas/LanguageEnum"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Supported Languages",
-        "description": "Locales supported by the integration.",
-        "example": [
-          "EN"
-        ]
-      },
-      "listenEvents": {
-        "items": {
-          "$ref": "#/components/schemas/EventsEnum"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Listen Events",
-        "description": "Platform events the integration can subscribe to."
-      },
-      "requiredRoles": {
-        "items": {
-          "$ref": "#/components/schemas/RolesEnum"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Required Roles",
-        "description": "Roles required for this integration to operate."
-      },
-      "adminPanel": {
-        "$ref": "#/components/schemas/AdminPanelDto"
-      },
-      "clientPanel": {
-        "$ref": "#/components/schemas/ClientPanelDto"
-      },
-      "onboardingUrl": {
-        "format": "uri",
-        "type": "string",
-        "title": "Onboarding URL",
-        "description": "URL to onboard/configure the integration.",
-        "example": "https://example.com/onboarding"
-      },
-      "setupAttributes": {
-        "items": {
-          "$ref": "#/components/schemas/AnyFieldDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Setup Attributes",
-        "description": "Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal."
-      }
-    },
-    "type": "object",
-    "required": [
-      "supportedActions",
-      "title",
-      "supportedLanguages"
-    ]
-  },
-  "MultilangTextDto": {
-    "properties": {
-      "language": {
-        "$ref": "#/components/schemas/LanguageEnum"
-      },
-      "text": {
-        "minLength": 1,
-        "type": "string",
-        "title": "Text",
-        "description": "The text content in the specified language."
-      }
-    },
-    "type": "object",
-    "required": [
-      "language",
-      "text"
-    ]
-  },
-  "BaseFieldDto": {
-    "properties": {
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "BooleanFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "BOOLEAN"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'BOOLEAN' for this DTO."
-      },
-      "value": {
-        "type": "boolean",
-        "title": "Value",
-        "description": "Boolean value of the field."
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "TextFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "TEXT"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'TEXT' for this DTO."
-      },
-      "value": {
-        "type": "string",
-        "title": "Value",
-        "description": "Text value of the field."
-      },
-      "minLength": {
-        "minimum": 0,
-        "type": "integer",
-        "title": "Minimum Length",
-        "description": "Minimum allowed character length."
-      },
-      "maxLength": {
-        "minimum": 0,
-        "type": "integer",
-        "title": "Maximum Length",
-        "description": "Maximum allowed character length."
-      },
-      "regexValidation": {
-        "type": "string",
-        "title": "Regex Validation",
-        "description": "Optional regex to validate input.",
-        "example": "^[A-Za-z0-9_-]+$"
-      },
-      "regexValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Regex Validation Error Message",
-        "description": "Localized error message shown when regex validation fails."
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "TextareaFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "TEXTAREA"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'TEXTAREA' for this DTO."
-      },
-      "value": {
-        "type": "string",
-        "title": "Value",
-        "description": "Text value of the field."
-      },
-      "minLength": {
-        "minimum": 0,
-        "type": "integer",
-        "title": "Minimum Length",
-        "description": "Minimum allowed character length."
-      },
-      "maxLength": {
-        "minimum": 0,
-        "type": "integer",
-        "title": "Maximum Length",
-        "description": "Maximum allowed character length."
-      },
-      "regexValidation": {
-        "type": "string",
-        "title": "Regex Validation",
-        "description": "Optional regex to validate input.",
-        "example": "^[A-Za-z0-9_-]+$"
-      },
-      "regexValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Regex Validation Error Message",
-        "description": "Localized error message shown when regex validation fails."
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "NumberFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "NUMBER"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'NUMBER' for this DTO."
-      },
-      "value": {
-        "type": "number",
-        "title": "Value",
-        "description": "Numeric value of the field."
-      },
-      "min": {
-        "type": "number",
-        "title": "Minimum",
-        "description": "Minimum allowed value."
-      },
-      "max": {
-        "type": "number",
-        "title": "Maximum",
-        "description": "Maximum allowed value."
-      },
-      "integer": {
-        "type": "boolean",
-        "title": "Integer Only",
-        "description": "When true, only integer values are allowed."
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "PhoneFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "PHONE"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'PHONE' for this DTO."
-      },
-      "value": {
-        "type": "string",
-        "title": "Value",
-        "description": "Phone number in E.164 format (e.g. +14155552671).",
-        "example": "+14155552671"
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "EmailFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "EMAIL"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'EMAIL' for this DTO."
-      },
-      "value": {
-        "format": "email",
-        "type": "string",
-        "title": "Value",
-        "description": "Email address."
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "UrlFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "URL"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'URL' for this DTO."
-      },
-      "value": {
-        "format": "uri",
-        "type": "string",
-        "title": "Value",
-        "description": "URL."
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "CountriesFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "COUNTRIES"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'COUNTRIES' for this DTO."
-      },
-      "value": {
-        "items": {
-          "$ref": "#/components/schemas/CountryEnum"
-        },
-        "type": "array",
-        "title": "Value",
-        "description": "Array of ISO 3166-1 alpha-2 country codes."
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "CurrencyFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "CURRENCY"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'CURRENCY' for this DTO."
-      },
-      "value": {
-        "$ref": "#/components/schemas/CurrencyEnum"
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "DateFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "DATE"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'DATE' for this DTO."
-      },
-      "value": {
-        "oneOf": [
-          {
-            "format": "date",
-            "type": "string"
+            $ref: '#/components/schemas/MenuDtoWithUrl',
           },
+        ],
+      },
+    },
+    type: 'object',
+  },
+  InfoDto: {
+    properties: {
+      title: {
+        minLength: 1,
+        type: 'string',
+        title: 'Title',
+        description: 'Integration display title.',
+        example: 'Example Product',
+      },
+      logo: {
+        format: 'uri',
+        type: 'string',
+        title: 'Logo URL',
+        description: 'Public HTTPS URL for the integration logo.',
+        example: 'https://cdn.example.com/logo.png',
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Short description of the integration.',
+        example: 'An example product integration.',
+      },
+      supportedLanguages: {
+        items: {
+          $ref: '#/components/schemas/LanguageEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Supported Languages',
+        description: 'Locales supported by the integration.',
+        example: ['EN'],
+      },
+      listenEvents: {
+        items: {
+          $ref: '#/components/schemas/EventsEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Listen Events',
+        description: 'Platform events the integration can subscribe to.',
+      },
+      requiredRoles: {
+        items: {
+          $ref: '#/components/schemas/RolesEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Required Roles',
+        description: 'Roles required for this integration to operate.',
+      },
+      adminPanel: {
+        $ref: '#/components/schemas/AdminPanelDto',
+      },
+      clientPanel: {
+        $ref: '#/components/schemas/ClientPanelDto',
+      },
+      onboardingUrl: {
+        format: 'uri',
+        type: 'string',
+        title: 'Onboarding URL',
+        description: 'URL to onboard/configure the integration.',
+        example: 'https://example.com/onboarding',
+      },
+      setupAttributes: {
+        items: {
+          $ref: '#/components/schemas/AnyFieldDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Setup Attributes',
+        description:
+          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
+      },
+    },
+    type: 'object',
+    required: ['title', 'supportedLanguages'],
+  },
+  UnitDto: {
+    properties: {
+      id: {
+        minLength: 1,
+        type: 'string',
+        title: 'Unit ID',
+        description: 'Unit identifier.',
+        example: 'messages',
+      },
+      unitDescription: {
+        minLength: 1,
+        type: 'string',
+        title: 'Unit Description',
+        description: 'What is measured.',
+        example: 'Message sent',
+      },
+      intervalDescription: {
+        minLength: 1,
+        type: 'string',
+        title: 'Interval Description',
+        description: 'Billing interval.',
+        example: 'Per month',
+      },
+    },
+    type: 'object',
+    required: ['id', 'unitDescription', 'intervalDescription'],
+  },
+  NotificationInfoDto: {
+    properties: {
+      type: {
+        $ref: '#/components/schemas/NotificationMessageTypeEnum',
+      },
+      payPerUseUnits: {
+        items: {
+          $ref: '#/components/schemas/UnitDto',
+        },
+        type: 'array',
+        title: 'Pay-Per-Use Units',
+        description: 'Optional metering units for pay-per-use billing.',
+        example: [
           {
-            "format": "date-time",
-            "type": "string"
-          }
+            id: 'messages',
+            unitDescription: 'Message sent',
+            intervalDescription: 'Per month',
+          },
         ],
-        "title": "Value",
-        "description": "ISO 8601 date or date-time string.",
-        "type": "string",
-        "format": "date-time"
       },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
+      title: {
+        minLength: 1,
+        type: 'string',
+        title: 'Title',
+        description: 'Integration display title.',
+        example: 'Example Product',
       },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
+      logo: {
+        format: 'uri',
+        type: 'string',
+        title: 'Logo URL',
+        description: 'Public HTTPS URL for the integration logo.',
+        example: 'https://cdn.example.com/logo.png',
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Short description of the integration.',
+        example: 'An example product integration.',
+      },
+      supportedLanguages: {
+        items: {
+          $ref: '#/components/schemas/LanguageEnum',
         },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
+        minItems: 1,
+        type: 'array',
+        title: 'Supported Languages',
+        description: 'Locales supported by the integration.',
+        example: ['EN'],
       },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
+      listenEvents: {
+        items: {
+          $ref: '#/components/schemas/EventsEnum',
         },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
+        minItems: 1,
+        type: 'array',
+        title: 'Listen Events',
+        description: 'Platform events the integration can subscribe to.',
       },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
+      requiredRoles: {
+        items: {
+          $ref: '#/components/schemas/RolesEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Required Roles',
+        description: 'Roles required for this integration to operate.',
       },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
+      adminPanel: {
+        $ref: '#/components/schemas/AdminPanelDto',
+      },
+      clientPanel: {
+        $ref: '#/components/schemas/ClientPanelDto',
+      },
+      onboardingUrl: {
+        format: 'uri',
+        type: 'string',
+        title: 'Onboarding URL',
+        description: 'URL to onboard/configure the integration.',
+        example: 'https://example.com/onboarding',
+      },
+      setupAttributes: {
+        items: {
+          $ref: '#/components/schemas/AnyFieldDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Setup Attributes',
+        description:
+          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
+      },
     },
-    "type": "object",
-    "required": [
-      "type",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
+    type: 'object',
+    required: ['type', 'title', 'supportedLanguages'],
   },
-  "PasswordFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "PASSWORD"
+  AttributeFieldDto: {
+    properties: {
+      field: {
+        $ref: '#/components/schemas/AnyFieldDto',
+      },
+      visibleInOrder: {
+        type: 'boolean',
+        title: 'Visible In Order',
+        description: 'Whether the field is visible in order view.',
+      },
+      visibleInClientPanel: {
+        type: 'boolean',
+        title: 'Visible In Client Panel',
+        description: 'Whether the field is visible in the client panel.',
+      },
+      repeatableMin: {
+        type: 'number',
+        title: 'Repeatable Min',
+        description: 'Minimum repeats for repeatable fields.',
+      },
+      repeatableMax: {
+        type: 'number',
+        title: 'Repeatable Max',
+        description: 'Maximum repeats for repeatable fields.',
+      },
+    },
+    type: 'object',
+    required: ['field'],
+  },
+  ProductInfoDto: {
+    properties: {
+      productAttributes: {
+        items: {
+          $ref: '#/components/schemas/AttributeFieldDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Product Attributes',
+        description: 'Configurable attributes that apply at the product level.',
+      },
+      itemAttributes: {
+        items: {
+          $ref: '#/components/schemas/AttributeFieldDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Item Attributes',
+        description: 'Configurable attributes that apply at the item level.',
+      },
+      payPerUseUnits: {
+        items: {
+          $ref: '#/components/schemas/UnitDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Pay-Per-Use Units',
+        description: 'Optional metering units for pay-per-use billing.',
+        example: [
+          {
+            id: 'requests',
+            unitDescription: 'API request',
+            intervalDescription: 'Per month',
+          },
         ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'PASSWORD' for this DTO."
       },
-      "value": {
-        "type": "string",
-        "title": "Value",
-        "description": "Password value.",
-        "format": "password"
-      },
-      "minLength": {
-        "minimum": 0,
-        "type": "integer",
-        "title": "Minimum Length",
-        "description": "Minimum allowed length."
-      },
-      "maxLength": {
-        "minimum": 0,
-        "type": "integer",
-        "title": "Maximum Length",
-        "description": "Maximum allowed length."
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
+      responseDataFieldNames: {
+        title: 'Response Data Field Names',
+        description: 'Mapping of field names used in provider responses.',
+        type: 'object',
+        additionalProperties: {
+          type: 'string',
         },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
+        example: {
+          external_id: 'id',
+          status_text: 'status',
         },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
       },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
+      supportedActions: {
+        items: {
+          $ref: '#/components/schemas/ProductActionsEnum',
+        },
+        type: 'array',
+        minLength: 1,
+        title: 'Supported Actions',
+        description: 'Actions supported by this integration.',
       },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
+      title: {
+        minLength: 1,
+        type: 'string',
+        title: 'Title',
+        description: 'Integration display title.',
+        example: 'Example Product',
+      },
+      logo: {
+        format: 'uri',
+        type: 'string',
+        title: 'Logo URL',
+        description: 'Public HTTPS URL for the integration logo.',
+        example: 'https://cdn.example.com/logo.png',
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Short description of the integration.',
+        example: 'An example product integration.',
+      },
+      supportedLanguages: {
+        items: {
+          $ref: '#/components/schemas/LanguageEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Supported Languages',
+        description: 'Locales supported by the integration.',
+        example: ['EN'],
+      },
+      listenEvents: {
+        items: {
+          $ref: '#/components/schemas/EventsEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Listen Events',
+        description: 'Platform events the integration can subscribe to.',
+      },
+      requiredRoles: {
+        items: {
+          $ref: '#/components/schemas/RolesEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Required Roles',
+        description: 'Roles required for this integration to operate.',
+      },
+      adminPanel: {
+        $ref: '#/components/schemas/AdminPanelDto',
+      },
+      clientPanel: {
+        $ref: '#/components/schemas/ClientPanelDto',
+      },
+      onboardingUrl: {
+        format: 'uri',
+        type: 'string',
+        title: 'Onboarding URL',
+        description: 'URL to onboard/configure the integration.',
+        example: 'https://example.com/onboarding',
+      },
+      setupAttributes: {
+        items: {
+          $ref: '#/components/schemas/AnyFieldDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Setup Attributes',
+        description:
+          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
+      },
     },
-    "type": "object",
-    "required": [
-      "type",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
+    type: 'object',
+    required: ['supportedActions', 'title', 'supportedLanguages'],
   },
-  "FieldOptionDto": {
-    "properties": {
-      "key": {
-        "type": "string",
-        "title": "Key",
-        "description": "Internal key for the option."
+  ProxyActionTaskDto: {
+    properties: {
+      outboxId: {
+        pattern: '^[0-9a-fA-F]{24}$',
+        type: 'string',
+        title: 'Outbox Id',
+        description: "The core's outbox row this task delivers.",
       },
-      "value": {
-        "type": "string",
-        "title": "Value",
-        "description": "Display value for the option."
+      integrationUrl: {
+        format: 'url',
+        type: 'string',
+        title: 'Integration URL',
+        description: 'Absolute URL the proxy calls, action included.',
       },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the option is disabled.",
-        "default": false
-      }
+      integrationToken: {
+        minLength: 1,
+        type: 'string',
+        title: 'Integration Token',
+        description: 'Bearer for the onward call to the integration.',
+      },
+      hookUrl: {
+        format: 'url',
+        type: 'string',
+        title: 'Hook URL',
+        description: "The core's proxy hook for this action.",
+      },
+      deadLetterQueue: {
+        minLength: 1,
+        type: 'string',
+        title: 'Dead Letter Queue',
+        description: 'Topic for a task that exhausted its retries.',
+      },
+      payload: {
+        type: 'object',
+        title: 'Payload',
+        description: 'The integration request, forwarded untouched.',
+      },
     },
-    "type": "object",
-    "required": [
-      "key",
-      "value"
-    ]
-  },
-  "SelectFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "SELECT"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'SELECT' for this DTO."
-      },
-      "options": {
-        "items": {
-          "$ref": "#/components/schemas/FieldOptionDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Options",
-        "description": "The options the user can choose from."
-      },
-      "value": {
-        "$ref": "#/components/schemas/FieldOptionDto"
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "options",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "MultiSelectFieldDto": {
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "MULTI_SELECT"
-        ],
-        "title": "Field Type",
-        "description": "Discriminator literal — always 'MULTI_SELECT' for this DTO."
-      },
-      "options": {
-        "items": {
-          "$ref": "#/components/schemas/FieldOptionDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Options",
-        "description": "The options the user can choose from."
-      },
-      "minSelections": {
-        "minimum": 0,
-        "type": "integer",
-        "title": "Minimum Selections",
-        "description": "Minimum number of options that must be selected."
-      },
-      "maxSelections": {
-        "minimum": 0,
-        "type": "integer",
-        "title": "Maximum Selections",
-        "description": "Maximum number of options that may be selected."
-      },
-      "value": {
-        "items": {
-          "$ref": "#/components/schemas/FieldOptionDto"
-        },
-        "type": "array",
-        "title": "Value",
-        "description": "Array of selected options."
-      },
-      "id": {
-        "type": "string",
-        "title": "ID",
-        "description": "Unique identifier for the field."
-      },
-      "label": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Label",
-        "description": "Multilingual label for the field."
-      },
-      "required": {
-        "type": "boolean",
-        "title": "Required",
-        "description": "Whether the field is required."
-      },
-      "disabled": {
-        "type": "boolean",
-        "title": "Disabled",
-        "description": "Whether the field is disabled."
-      },
-      "hidden": {
-        "type": "boolean",
-        "title": "Hidden",
-        "description": "Whether the field is hidden."
-      },
-      "triggersRemoteValidation": {
-        "type": "boolean",
-        "title": "Triggers Remote Validation",
-        "description": "Whether remote validation should be triggered for this field."
-      },
-      "remoteValidationErrorMessage": {
-        "items": {
-          "$ref": "#/components/schemas/MultilangTextDto"
-        },
-        "minItems": 1,
-        "type": "array",
-        "title": "Remote Validation Error Message",
-        "description": "Localized error message shown when remote validation fails."
-      },
-      "upgradable": {
-        "type": "boolean",
-        "title": "Upgradable",
-        "description": "Whether the item attribute is upgradable by the user.",
-        "default": false
-      },
-      "downgradable": {
-        "type": "boolean",
-        "title": "Downgradable",
-        "description": "Whether the item attribute is downgradable by the user.",
-        "default": false
-      }
-    },
-    "type": "object",
-    "required": [
-      "type",
-      "options",
-      "id",
-      "label",
-      "required",
-      "disabled"
-    ]
-  },
-  "EventsEnum": {
-    "type": "string",
-    "enum": [
-      "user/created",
-      "user/updated",
-      "user/deleted",
-      "user/banned",
-      "user/unbanned",
-      "user/company/access/added",
-      "user/company/access/removed",
-      "user/locked",
-      "user/credit-balance/updated",
-      "user/unlocked",
-      "user/password/updated",
-      "user/email/updated",
-      "user/currency/updated",
-      "user/invoice-contact/updated",
-      "user/policy/updated",
-      "user/languages/updated",
-      "user/custom-price-policies/updated",
-      "user/custom-addon-price-policies/updated",
-      "user/custom-affiliate/added",
-      "user/custom-affiliate/removed",
-      "user/invoice-interval/updated",
-      "user/additional-notification-email/removed",
-      "user/additional-notification-email/added",
-      "user/comment/added",
-      "user/comment/removed",
-      "user/comment/updated",
-      "user/tags/updated",
-      "user/setting/added",
-      "user/setting/removed",
-      "user/setting/updated",
-      "user/start-selling",
-      "user/roles/updated",
-      "user/roles/added",
-      "user/roles/deleted",
-      "message/created",
-      "message/updated",
-      "message/deleted",
-      "notification/sent",
-      "policy/created",
-      "policy/updated",
-      "policy/deleted",
-      "product-category/created",
-      "product-category/updated",
-      "product-category/deleted",
-      "invoice-contact/created",
-      "invoice-contact/updated",
-      "invoice-contact/deleted",
-      "invoice/created",
-      "invoice/updated",
-      "invoice/deleted",
-      "currency/created",
-      "currency/updated",
-      "currency/deleted",
-      "affiliate/created",
-      "affiliate/updated",
-      "affiliate/deleted",
-      "company/created",
-      "company/updated",
-      "company/deleted",
-      "organization/integration/attached",
-      "organization/integration/detached",
-      "tld/created",
-      "tld/updated",
-      "tld/deleted",
-      "integration/created",
-      "integration/updated",
-      "integration/deleted",
-      "integration/installed",
-      "integration/uninstalled",
-      "integration/activated",
-      "integration/deactivated",
-      "integration/maintenance-started",
-      "integration/maintenance-finished",
-      "domain-contact/created",
-      "domain-contact/updated",
-      "domain-contact/deleted",
-      "domain-category/created",
-      "domain-category/updated",
-      "domain-category/deleted",
-      "addon/created",
-      "addon/updated",
-      "addon/deleted",
-      "transaction/created",
-      "transaction/canceled",
-      "transaction/failed",
-      "transaction/subscribed",
-      "transaction/unsubscribed",
-      "transaction/updated",
-      "transaction/deleted",
-      "transaction/completed",
-      "transaction/refunded",
-      "template/created",
-      "template/updated",
-      "template/deleted",
-      "coupon/created",
-      "coupon/updated",
-      "coupon/deleted",
-      "template-integration/created",
-      "template-integration/updated",
-      "template-integration/deleted",
-      "order/created",
-      "order/status/in-progress",
-      "order/status/completed",
-      "order/status/canceled",
-      "order/status/pending",
-      "order/status/archived",
-      "order/insufficient-balance",
-      "order/item-detached",
-      "order/invoice-contact-changed",
-      "order/updated",
-      "order/deleted",
-      "setting/created",
-      "setting/updated",
-      "setting/deleted",
-      "issue/created",
-      "issue/updated",
-      "issue/deleted",
-      "task/created",
-      "task/updated",
-      "task/deleted",
-      "task/canceled",
-      "task/in-progress",
-      "task/completed",
-      "task/percentage/updated",
-      "product/created",
-      "product/updated",
-      "product/deleted",
-      "product/auto-renew/updated",
-      "product/enabled",
-      "product/disabled",
-      "product/version-created",
-      "ip-group/created",
-      "ip-group/updated",
-      "ip-group/deleted",
-      "ip/created",
-      "ip/updated",
-      "ip/deleted",
-      "domain-name/created",
-      "domain-name/updated",
-      "domain-name/deleted",
-      "domain-name/locked",
-      "domain-name/unlocked",
-      "domain-name/idshield-activated",
-      "domain-name/idshield-deactivated",
-      "domain-name/bundle-added",
-      "domain-name/bundle-removed",
-      "domain-name/registrant-updated",
-      "domain-name/admin-updated",
-      "domain-name/tech-updated",
-      "domain-name/billing-updated",
-      "domain-name/additional-updated",
-      "item/created",
-      "item/updated",
-      "item/deleted",
-      "item/renewed",
-      "item/upgraded",
-      "item/downgraded",
-      "item/ip-attached",
-      "item/ip-detached",
-      "item/detached-from-order",
-      "item/postponed",
-      "item/transferred-in",
-      "item/canceled",
-      "item/suspended",
-      "item/unsuspended",
-      "item/affiliate/added",
-      "item/bundle/attached",
-      "item/bundle/detached",
-      "item/activated",
-      "item/set-inactive",
-      "item/processed",
-      "item/refund-requested",
-      "item/refund-accepted",
-      "item/refund-rejected",
-      "order/paid",
-      "test",
-      "dead-lettering",
-      "core-queue"
-    ]
-  },
-  "RolesEnum": {
-    "type": "string",
-    "enum": [
-      "FULL_ACCESS",
-      "ORDER_READ",
-      "ORDER_WRITE",
-      "ADDON_READ",
-      "ADDON_WRITE",
-      "AFFILIATE_READ",
-      "AFFILIATE_WRITE",
-      "COMPANY_READ",
-      "COMPANY_WRITE",
-      "TEMPLATE_READ",
-      "TEMPLATE_WRITE",
-      "COUPON_READ",
-      "COUPON_WRITE",
-      "DOMAIN_CATEGORY_READ",
-      "DOMAIN_CATEGORY_WRITE",
-      "DOMAIN_CONTACT_READ",
-      "DOMAIN_CONTACT_WRITE",
-      "DOMAIN_NAME_READ",
-      "DOMAIN_NAME_WRITE",
-      "INVOICE_CONTACT_READ",
-      "INVOICE_CONTACT_WRITE",
-      "INVOICE_READ",
-      "INVOICE_WRITE",
-      "IP_GROUPS_READ",
-      "IP_GROUPS_WRITE",
-      "IPS_READ",
-      "IPS_WRITE",
-      "ITEMS_READ",
-      "ITEMS_WRITE",
-      "ITEM_REFUND",
-      "ORDERS_READ",
-      "ORDERS_WRITE",
-      "TRANSACTIONS_READ",
-      "TRANSACTIONS_WRITE",
-      "POLICIES_READ",
-      "POLICIES_WRITE",
-      "PRODUCT_CATEGORIES_READ",
-      "PRODUCT_CATEGORIES_WRITE",
-      "PRODUCTS_READ",
-      "PRODUCTS_WRITE",
-      "SETTINGS_READ",
-      "SETTINGS_WRITE",
-      "INTEGRATIONS_READ",
-      "INTEGRATIONS_WRITE",
-      "TAG_READ",
-      "TAG_WRITE",
-      "TLDS_READ",
-      "TLDS_WRITE",
-      "USERS_READ",
-      "USERS_WRITE",
-      "ISSUES_WRITE",
-      "ISSUES_READ",
-      "ACTION_LOGS_READ"
-    ]
-  },
-  "LanguageEnum": {
-    "type": "string",
-    "enum": [
-      "AB",
-      "AA",
-      "AF",
-      "AK",
-      "SQ",
-      "AM",
-      "AR",
-      "AN",
-      "HY",
-      "AS",
-      "AV",
-      "AE",
-      "AY",
-      "AZ",
-      "BM",
-      "BA",
-      "EU",
-      "BE",
-      "BN",
-      "BI",
-      "BS",
-      "BR",
-      "BG",
-      "MY",
-      "CA",
-      "KM",
-      "CH",
-      "CE",
-      "NY",
-      "ZH",
-      "CU",
-      "CV",
-      "KW",
-      "CO",
-      "CR",
-      "HR",
-      "CS",
-      "DA",
-      "DV",
-      "NL",
-      "DZ",
-      "EN",
-      "EO",
-      "ET",
-      "EE",
-      "FO",
-      "FJ",
-      "FI",
-      "FR",
-      "FF",
-      "GL",
-      "LG",
-      "KA",
-      "DE",
-      "EL",
-      "GN",
-      "GU",
-      "HT",
-      "HA",
-      "HE",
-      "HZ",
-      "HI",
-      "HO",
-      "HU",
-      "IS",
-      "IO",
-      "IG",
-      "ID",
-      "IA",
-      "IE",
-      "IU",
-      "IK",
-      "GA",
-      "IT",
-      "JA",
-      "JV",
-      "KL",
-      "KN",
-      "KR",
-      "KS",
-      "KK",
-      "KI",
-      "RW",
-      "KY",
-      "KV",
-      "KG",
-      "KO",
-      "KJ",
-      "KU",
-      "LO",
-      "LA",
-      "LV",
-      "LI",
-      "LN",
-      "LT",
-      "LU",
-      "LB",
-      "MK",
-      "MG",
-      "MS",
-      "ML",
-      "MT",
-      "GV",
-      "MI",
-      "MR",
-      "MH",
-      "MN",
-      "NA",
-      "NV",
-      "ND",
-      "NR",
-      "NG",
-      "NE",
-      "SE",
-      "NO",
-      "NB",
-      "NN",
-      "II",
-      "OC",
-      "OJ",
-      "OR",
-      "OM",
-      "OS",
-      "PI",
-      "PS",
-      "FA",
-      "PL",
-      "PT",
-      "PA",
-      "QU",
-      "RO",
-      "RM",
-      "RN",
-      "RU",
-      "SM",
-      "SG",
-      "SA",
-      "SC",
-      "GD",
-      "SR",
-      "SN",
-      "II",
-      "SD",
-      "SI",
-      "SK",
-      "SL",
-      "SO",
-      "ST",
-      "ES",
-      "SU",
-      "SW",
-      "SS",
-      "SV",
-      "TL",
-      "TY",
-      "TG",
-      "TA",
-      "TT",
-      "TE",
-      "TH",
-      "BO",
-      "TI",
-      "TO",
-      "TS",
-      "TN",
-      "TR",
-      "TK",
-      "TW",
-      "UG",
-      "UK",
-      "UR",
-      "UZ",
-      "VE",
-      "VI",
-      "VO",
-      "WA",
-      "CY",
-      "FY",
-      "WO",
-      "XH",
-      "YI",
-      "YO",
-      "ZA",
-      "ZU"
-    ]
-  },
-  "CountryEnum": {
-    "type": "string",
-    "enum": [
-      "AF",
-      "AX",
-      "AL",
-      "DZ",
-      "AS",
-      "AD",
-      "AO",
-      "AI",
-      "AQ",
-      "AG",
-      "AR",
-      "AM",
-      "AW",
-      "AU",
-      "AT",
-      "AZ",
-      "BS",
-      "BH",
-      "BD",
-      "BB",
-      "BY",
-      "BE",
-      "BZ",
-      "BJ",
-      "BM",
-      "BT",
-      "BO",
-      "BQ",
-      "BA",
-      "BW",
-      "BV",
-      "BR",
-      "IO",
-      "BN",
-      "BG",
-      "BF",
-      "BI",
-      "KH",
-      "CM",
-      "CA",
-      "CV",
-      "KY",
-      "CF",
-      "TD",
-      "CL",
-      "CN",
-      "CX",
-      "CC",
-      "CO",
-      "KM",
-      "CG",
-      "CD",
-      "CK",
-      "CR",
-      "CI",
-      "HR",
-      "CU",
-      "CW",
-      "CY",
-      "CZ",
-      "DK",
-      "DJ",
-      "DM",
-      "DO",
-      "EC",
-      "EG",
-      "SV",
-      "GQ",
-      "ER",
-      "EE",
-      "ET",
-      "FK",
-      "FO",
-      "FJ",
-      "FI",
-      "FR",
-      "GF",
-      "PF",
-      "TF",
-      "GA",
-      "GM",
-      "GE",
-      "DE",
-      "GH",
-      "GI",
-      "GR",
-      "GL",
-      "GD",
-      "GP",
-      "GU",
-      "GT",
-      "GG",
-      "GN",
-      "GW",
-      "GY",
-      "HT",
-      "HM",
-      "VA",
-      "HN",
-      "HK",
-      "HU",
-      "IS",
-      "IN",
-      "ID",
-      "IR",
-      "IQ",
-      "IE",
-      "IM",
-      "IL",
-      "IT",
-      "JM",
-      "JP",
-      "JE",
-      "JO",
-      "KZ",
-      "KE",
-      "KI",
-      "KP",
-      "KR",
-      "KW",
-      "KG",
-      "LA",
-      "LV",
-      "LB",
-      "LS",
-      "LR",
-      "LY",
-      "LI",
-      "LT",
-      "LU",
-      "MO",
-      "MK",
-      "MG",
-      "MW",
-      "MY",
-      "MV",
-      "ML",
-      "MT",
-      "MH",
-      "MQ",
-      "MR",
-      "MU",
-      "TN",
-      "TR",
-      "TM",
-      "TC",
-      "TV",
-      "UG",
-      "UA",
-      "AE",
-      "GB",
-      "US",
-      "UM",
-      "UY",
-      "UZ",
-      "VU",
-      "VE",
-      "VN",
-      "VG",
-      "VI",
-      "WF",
-      "EH",
-      "YE",
-      "ZM",
-      "ZW",
-      "YT",
-      "MX",
-      "FM",
-      "MD",
-      "MC",
-      "MN",
-      "ME",
-      "MS",
-      "MA",
-      "MZ",
-      "MM",
-      "NA",
-      "NR",
-      "NP",
-      "NL",
-      "NC",
-      "NZ",
-      "NI",
-      "NE",
-      "NG",
-      "NU",
-      "NF",
-      "MP",
-      "NO",
-      "OM",
-      "PK",
-      "PW",
-      "PS",
-      "PA",
-      "PG",
-      "PY",
-      "PE",
-      "PH",
-      "PN",
-      "PL",
-      "PT",
-      "PR",
-      "QA",
-      "RE",
-      "RO",
-      "RU",
-      "RW",
-      "BL",
-      "SH",
-      "KN",
-      "LC",
-      "MF",
-      "PM",
-      "VC",
-      "WS",
-      "SM",
-      "ST",
-      "SA",
-      "SN",
-      "RS",
-      "SC",
-      "SL",
-      "SG",
-      "SX",
-      "SK",
-      "SI",
-      "SB",
-      "SO",
-      "ZA",
-      "GS",
-      "SS",
-      "ES",
-      "LK",
-      "SD",
-      "SR",
-      "SJ",
-      "SZ",
-      "SE",
-      "CH",
-      "SY",
-      "TW",
-      "TJ",
-      "TZ",
-      "TH",
-      "TL",
-      "TG",
-      "TK",
-      "TO",
-      "TT"
-    ]
-  },
-  "CurrencyEnum": {
-    "type": "string",
-    "enum": [
-      "EUR",
-      "USD",
-      "GBP",
-      "CHF",
-      "SEK",
-      "NOK",
-      "DKK",
-      "PLN",
-      "CZK",
-      "HUF",
-      "RON",
-      "BGN",
-      "TRY",
-      "RUB",
-      "JPY",
-      "CNY",
-      "AUD",
-      "NZD",
-      "CAD",
-      "ZAR",
-      "INR",
-      "MXN",
-      "BRL",
-      "ARS",
-      "CLP",
-      "COP",
-      "PEN",
-      "UYU",
-      "VES",
-      "ILS",
-      "AED",
-      "SAR",
-      "KRW",
-      "SGD",
-      "HKD",
-      "TWD",
-      "THB",
-      "MYR",
-      "IDR",
-      "PHP",
-      "VND",
-      "AFN",
-      "ALL",
-      "AMD",
-      "AOA",
-      "AWG",
-      "AZN",
-      "BAM",
-      "BBD",
-      "BDT",
-      "BHD",
-      "BIF",
-      "BMD",
-      "BND",
-      "BOB",
-      "BSD",
-      "BTN",
-      "BWP",
-      "BYN",
-      "BZD",
-      "CDF",
-      "CRC",
-      "CUP",
-      "CVE",
-      "DJF",
-      "DOP",
-      "DZD",
-      "EGP",
-      "ERN",
-      "ETB",
-      "FJD",
-      "GEL",
-      "GHS",
-      "GMD",
-      "GNF",
-      "GTQ",
-      "GYD",
-      "HNL",
-      "HTG",
-      "IQD",
-      "IRR",
-      "ISK",
-      "JMD",
-      "JOD",
-      "KES",
-      "KGS",
-      "KHR",
-      "KMF",
-      "KWD",
-      "KYD",
-      "KZT",
-      "LAK",
-      "LBP",
-      "LKR",
-      "LRD",
-      "LSL",
-      "LYD",
-      "MAD",
-      "MDL",
-      "MGA",
-      "MKD",
-      "MMK",
-      "MNT",
-      "MOP",
-      "MUR",
-      "MVR",
-      "MWK",
-      "MZN",
-      "NAD",
-      "NGN",
-      "NIO",
-      "NPR",
-      "OMR",
-      "PAB",
-      "PGK",
-      "PKR",
-      "PYG",
-      "QAR",
-      "RSD",
-      "RWF",
-      "SBD",
-      "SDG",
-      "SLE",
-      "SOS",
-      "SRD",
-      "SSP",
-      "STN",
-      "SYP",
-      "SZL",
-      "TJS",
-      "TMT",
-      "TND",
-      "TOP",
-      "TTD",
-      "TZS",
-      "UAH",
-      "UGX",
-      "UZS",
-      "VED",
-      "VUV",
-      "WST",
-      "XAF",
-      "XCD",
-      "XCG",
-      "XOF",
-      "XPF",
-      "YER",
-      "ZMW",
-      "ZWG"
-    ]
-  },
-  "FieldTypeEnum": {
-    "type": "string",
-    "enum": [
-      "BOOLEAN",
-      "TEXT",
-      "TEXTAREA",
-      "NUMBER",
-      "PHONE",
-      "EMAIL",
-      "URL",
-      "COUNTRIES",
-      "CURRENCY",
-      "DATE",
-      "PASSWORD",
-      "SELECT",
-      "MULTI_SELECT"
-    ]
-  },
-  "ProductActionsEnum": {
-    "type": "string",
-    "enum": [
-      "CREATE",
-      "RENEW",
-      "UPGRADE",
-      "DOWNGRADE",
-      "TRANSFER",
-      "TRADE",
-      "SUSPEND",
-      "UNSUSPEND",
-      "DELETE"
-    ]
-  },
-  "OpenMethodEnum": {
-    "type": "string",
-    "enum": [
-      "ajax_call",
-      "small_iframe",
-      "medium_iframe",
-      "large_iframe"
-    ]
-  },
-  "NotificationMessageTypeEnum": {
-    "type": "string",
-    "enum": [
-      "email",
-      "sms",
-      "push"
-    ]
-  },
-  "AnyFieldDto": {
-    "title": "AnyFieldDto",
-    "description": "Discriminated union of every concrete field DTO. Discriminator is the string-literal `type` property.",
-    "oneOf": [
-      {
-        "$ref": "#/components/schemas/BooleanFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/TextFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/TextareaFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/NumberFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/PhoneFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/EmailFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/UrlFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/CountriesFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/CurrencyFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/DateFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/PasswordFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/SelectFieldDto"
-      },
-      {
-        "$ref": "#/components/schemas/MultiSelectFieldDto"
-      }
+    type: 'object',
+    required: [
+      'outboxId',
+      'integrationUrl',
+      'integrationToken',
+      'hookUrl',
+      'deadLetterQueue',
+      'payload',
     ],
-    "discriminator": {
-      "propertyName": "type",
-      "mapping": {
-        "BOOLEAN": "#/components/schemas/BooleanFieldDto",
-        "TEXT": "#/components/schemas/TextFieldDto",
-        "TEXTAREA": "#/components/schemas/TextareaFieldDto",
-        "NUMBER": "#/components/schemas/NumberFieldDto",
-        "PHONE": "#/components/schemas/PhoneFieldDto",
-        "EMAIL": "#/components/schemas/EmailFieldDto",
-        "URL": "#/components/schemas/UrlFieldDto",
-        "COUNTRIES": "#/components/schemas/CountriesFieldDto",
-        "CURRENCY": "#/components/schemas/CurrencyFieldDto",
-        "DATE": "#/components/schemas/DateFieldDto",
-        "PASSWORD": "#/components/schemas/PasswordFieldDto",
-        "SELECT": "#/components/schemas/SelectFieldDto",
-        "MULTI_SELECT": "#/components/schemas/MultiSelectFieldDto"
-      }
-    }
-  }
+  },
+  MultilangTextDto: {
+    properties: {
+      language: {
+        $ref: '#/components/schemas/LanguageEnum',
+      },
+      text: {
+        minLength: 1,
+        type: 'string',
+        title: 'Text',
+        description: 'The text content in the specified language.',
+      },
+    },
+    type: 'object',
+    required: ['language', 'text'],
+  },
+  BaseFieldDto: {
+    properties: {
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['id', 'label', 'required', 'disabled'],
+  },
+  BooleanFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['BOOLEAN'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'BOOLEAN' for this DTO.",
+      },
+      value: {
+        type: 'boolean',
+        title: 'Value',
+        description: 'Boolean value of the field.',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'id', 'label', 'required', 'disabled'],
+  },
+  TextFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['TEXT'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'TEXT' for this DTO.",
+      },
+      value: {
+        type: 'string',
+        title: 'Value',
+        description: 'Text value of the field.',
+      },
+      minLength: {
+        minimum: 0,
+        type: 'integer',
+        title: 'Minimum Length',
+        description: 'Minimum allowed character length.',
+      },
+      maxLength: {
+        minimum: 0,
+        type: 'integer',
+        title: 'Maximum Length',
+        description: 'Maximum allowed character length.',
+      },
+      regexValidation: {
+        type: 'string',
+        title: 'Regex Validation',
+        description: 'Optional regex to validate input.',
+        example: '^[A-Za-z0-9_-]+$',
+      },
+      regexValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Regex Validation Error Message',
+        description:
+          'Localized error message shown when regex validation fails.',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'id', 'label', 'required', 'disabled'],
+  },
+  TextareaFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['TEXTAREA'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'TEXTAREA' for this DTO.",
+      },
+      value: {
+        type: 'string',
+        title: 'Value',
+        description: 'Text value of the field.',
+      },
+      minLength: {
+        minimum: 0,
+        type: 'integer',
+        title: 'Minimum Length',
+        description: 'Minimum allowed character length.',
+      },
+      maxLength: {
+        minimum: 0,
+        type: 'integer',
+        title: 'Maximum Length',
+        description: 'Maximum allowed character length.',
+      },
+      regexValidation: {
+        type: 'string',
+        title: 'Regex Validation',
+        description: 'Optional regex to validate input.',
+        example: '^[A-Za-z0-9_-]+$',
+      },
+      regexValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Regex Validation Error Message',
+        description:
+          'Localized error message shown when regex validation fails.',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'id', 'label', 'required', 'disabled'],
+  },
+  NumberFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['NUMBER'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'NUMBER' for this DTO.",
+      },
+      value: {
+        type: 'number',
+        title: 'Value',
+        description: 'Numeric value of the field.',
+      },
+      min: {
+        type: 'number',
+        title: 'Minimum',
+        description: 'Minimum allowed value.',
+      },
+      max: {
+        type: 'number',
+        title: 'Maximum',
+        description: 'Maximum allowed value.',
+      },
+      integer: {
+        type: 'boolean',
+        title: 'Integer Only',
+        description: 'When true, only integer values are allowed.',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'id', 'label', 'required', 'disabled'],
+  },
+  PhoneFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['PHONE'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'PHONE' for this DTO.",
+      },
+      value: {
+        type: 'string',
+        title: 'Value',
+        description: 'Phone number in E.164 format (e.g. +14155552671).',
+        example: '+14155552671',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'id', 'label', 'required', 'disabled'],
+  },
+  EmailFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['EMAIL'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'EMAIL' for this DTO.",
+      },
+      value: {
+        format: 'email',
+        type: 'string',
+        title: 'Value',
+        description: 'Email address.',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'id', 'label', 'required', 'disabled'],
+  },
+  UrlFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['URL'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'URL' for this DTO.",
+      },
+      value: {
+        format: 'uri',
+        type: 'string',
+        title: 'Value',
+        description: 'URL.',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'id', 'label', 'required', 'disabled'],
+  },
+  CountriesFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['COUNTRIES'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'COUNTRIES' for this DTO.",
+      },
+      value: {
+        items: {
+          $ref: '#/components/schemas/CountryEnum',
+        },
+        type: 'array',
+        title: 'Value',
+        description: 'Array of ISO 3166-1 alpha-2 country codes.',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'id', 'label', 'required', 'disabled'],
+  },
+  CurrencyFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['CURRENCY'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'CURRENCY' for this DTO.",
+      },
+      value: {
+        $ref: '#/components/schemas/CurrencyEnum',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'id', 'label', 'required', 'disabled'],
+  },
+  DateFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['DATE'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'DATE' for this DTO.",
+      },
+      value: {
+        oneOf: [
+          {
+            format: 'date',
+            type: 'string',
+          },
+          {
+            format: 'date-time',
+            type: 'string',
+          },
+        ],
+        title: 'Value',
+        description: 'ISO 8601 date or date-time string.',
+        type: 'string',
+        format: 'date-time',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'id', 'label', 'required', 'disabled'],
+  },
+  PasswordFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['PASSWORD'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'PASSWORD' for this DTO.",
+      },
+      value: {
+        type: 'string',
+        title: 'Value',
+        description: 'Password value.',
+        format: 'password',
+      },
+      minLength: {
+        minimum: 0,
+        type: 'integer',
+        title: 'Minimum Length',
+        description: 'Minimum allowed length.',
+      },
+      maxLength: {
+        minimum: 0,
+        type: 'integer',
+        title: 'Maximum Length',
+        description: 'Maximum allowed length.',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'id', 'label', 'required', 'disabled'],
+  },
+  FieldOptionDto: {
+    properties: {
+      key: {
+        type: 'string',
+        title: 'Key',
+        description: 'Internal key for the option.',
+      },
+      value: {
+        type: 'string',
+        title: 'Value',
+        description: 'Display value for the option.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the option is disabled.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['key', 'value'],
+  },
+  SelectFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['SELECT'],
+        title: 'Field Type',
+        description: "Discriminator literal — always 'SELECT' for this DTO.",
+      },
+      options: {
+        items: {
+          $ref: '#/components/schemas/FieldOptionDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Options',
+        description: 'The options the user can choose from.',
+      },
+      value: {
+        $ref: '#/components/schemas/FieldOptionDto',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'options', 'id', 'label', 'required', 'disabled'],
+  },
+  MultiSelectFieldDto: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['MULTI_SELECT'],
+        title: 'Field Type',
+        description:
+          "Discriminator literal — always 'MULTI_SELECT' for this DTO.",
+      },
+      options: {
+        items: {
+          $ref: '#/components/schemas/FieldOptionDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Options',
+        description: 'The options the user can choose from.',
+      },
+      minSelections: {
+        minimum: 0,
+        type: 'integer',
+        title: 'Minimum Selections',
+        description: 'Minimum number of options that must be selected.',
+      },
+      maxSelections: {
+        minimum: 0,
+        type: 'integer',
+        title: 'Maximum Selections',
+        description: 'Maximum number of options that may be selected.',
+      },
+      value: {
+        items: {
+          $ref: '#/components/schemas/FieldOptionDto',
+        },
+        type: 'array',
+        title: 'Value',
+        description: 'Array of selected options.',
+      },
+      id: {
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for the field.',
+      },
+      label: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Label',
+        description: 'Multilingual label for the field.',
+      },
+      required: {
+        type: 'boolean',
+        title: 'Required',
+        description: 'Whether the field is required.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the field is disabled.',
+      },
+      hidden: {
+        type: 'boolean',
+        title: 'Hidden',
+        description: 'Whether the field is hidden.',
+      },
+      triggersRemoteValidation: {
+        type: 'boolean',
+        title: 'Triggers Remote Validation',
+        description:
+          'Whether remote validation should be triggered for this field.',
+      },
+      remoteValidationErrorMessage: {
+        items: {
+          $ref: '#/components/schemas/MultilangTextDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Remote Validation Error Message',
+        description:
+          'Localized error message shown when remote validation fails.',
+      },
+      upgradable: {
+        type: 'boolean',
+        title: 'Upgradable',
+        description: 'Whether the item attribute is upgradable by the user.',
+        default: false,
+      },
+      downgradable: {
+        type: 'boolean',
+        title: 'Downgradable',
+        description: 'Whether the item attribute is downgradable by the user.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['type', 'options', 'id', 'label', 'required', 'disabled'],
+  },
+  EventsEnum: {
+    type: 'string',
+    enum: [
+      'user/created',
+      'user/updated',
+      'user/deleted',
+      'user/banned',
+      'user/unbanned',
+      'user/company/access/added',
+      'user/company/access/removed',
+      'user/locked',
+      'user/credit-balance/updated',
+      'user/unlocked',
+      'user/password/updated',
+      'user/email/updated',
+      'user/currency/updated',
+      'user/invoice-contact/updated',
+      'user/policy/updated',
+      'user/languages/updated',
+      'user/custom-price-policies/updated',
+      'user/custom-addon-price-policies/updated',
+      'user/custom-affiliate/added',
+      'user/custom-affiliate/removed',
+      'user/invoice-interval/updated',
+      'user/additional-notification-email/removed',
+      'user/additional-notification-email/added',
+      'user/comment/added',
+      'user/comment/removed',
+      'user/comment/updated',
+      'user/tags/updated',
+      'user/setting/added',
+      'user/setting/removed',
+      'user/setting/updated',
+      'user/start-selling',
+      'user/roles/updated',
+      'user/roles/added',
+      'user/roles/deleted',
+      'message/created',
+      'message/updated',
+      'message/deleted',
+      'notification/sent',
+      'policy/created',
+      'policy/updated',
+      'policy/deleted',
+      'product-category/created',
+      'product-category/updated',
+      'product-category/deleted',
+      'invoice-contact/created',
+      'invoice-contact/updated',
+      'invoice-contact/deleted',
+      'invoice/created',
+      'invoice/updated',
+      'invoice/deleted',
+      'currency/created',
+      'currency/updated',
+      'currency/deleted',
+      'affiliate/created',
+      'affiliate/updated',
+      'affiliate/deleted',
+      'company/created',
+      'company/updated',
+      'company/deleted',
+      'organization/integration/attached',
+      'organization/integration/detached',
+      'tld/created',
+      'tld/updated',
+      'tld/deleted',
+      'integration/created',
+      'integration/updated',
+      'integration/deleted',
+      'integration/installed',
+      'integration/uninstalled',
+      'integration/activated',
+      'integration/deactivated',
+      'integration/maintenance-started',
+      'integration/maintenance-finished',
+      'domain-contact/created',
+      'domain-contact/updated',
+      'domain-contact/deleted',
+      'domain-category/created',
+      'domain-category/updated',
+      'domain-category/deleted',
+      'addon/created',
+      'addon/updated',
+      'addon/deleted',
+      'transaction/created',
+      'transaction/canceled',
+      'transaction/failed',
+      'transaction/subscribed',
+      'transaction/unsubscribed',
+      'transaction/updated',
+      'transaction/deleted',
+      'transaction/completed',
+      'transaction/refunded',
+      'template/created',
+      'template/updated',
+      'template/deleted',
+      'coupon/created',
+      'coupon/updated',
+      'coupon/deleted',
+      'template-integration/created',
+      'template-integration/updated',
+      'template-integration/deleted',
+      'order/created',
+      'order/status/in-progress',
+      'order/status/completed',
+      'order/status/canceled',
+      'order/status/pending',
+      'order/status/archived',
+      'order/insufficient-balance',
+      'order/item-detached',
+      'order/invoice-contact-changed',
+      'order/updated',
+      'order/deleted',
+      'setting/created',
+      'setting/updated',
+      'setting/deleted',
+      'issue/created',
+      'issue/updated',
+      'issue/deleted',
+      'task/created',
+      'task/updated',
+      'task/deleted',
+      'task/canceled',
+      'task/in-progress',
+      'task/completed',
+      'task/percentage/updated',
+      'product/created',
+      'product/updated',
+      'product/deleted',
+      'product/auto-renew/updated',
+      'product/enabled',
+      'product/disabled',
+      'product/version-created',
+      'ip-group/created',
+      'ip-group/updated',
+      'ip-group/deleted',
+      'ip/created',
+      'ip/updated',
+      'ip/deleted',
+      'domain-name/created',
+      'domain-name/updated',
+      'domain-name/deleted',
+      'domain-name/locked',
+      'domain-name/unlocked',
+      'domain-name/idshield-activated',
+      'domain-name/idshield-deactivated',
+      'domain-name/bundle-added',
+      'domain-name/bundle-removed',
+      'domain-name/registrant-updated',
+      'domain-name/admin-updated',
+      'domain-name/tech-updated',
+      'domain-name/billing-updated',
+      'domain-name/additional-updated',
+      'item/created',
+      'item/updated',
+      'item/deleted',
+      'item/renewed',
+      'item/upgraded',
+      'item/downgraded',
+      'item/ip-attached',
+      'item/ip-detached',
+      'item/detached-from-order',
+      'item/postponed',
+      'item/transferred-in',
+      'item/canceled',
+      'item/suspended',
+      'item/unsuspended',
+      'item/affiliate/added',
+      'item/bundle/attached',
+      'item/bundle/detached',
+      'item/activated',
+      'item/set-inactive',
+      'item/processed',
+      'item/refund-requested',
+      'item/refund-accepted',
+      'item/refund-rejected',
+      'order/paid',
+      'test',
+      'dead-lettering',
+      'core-queue',
+    ],
+  },
+  RolesEnum: {
+    type: 'string',
+    enum: [
+      'FULL_ACCESS',
+      'ORDER_READ',
+      'ORDER_WRITE',
+      'ADDON_READ',
+      'ADDON_WRITE',
+      'AFFILIATE_READ',
+      'AFFILIATE_WRITE',
+      'COMPANY_READ',
+      'COMPANY_WRITE',
+      'TEMPLATE_READ',
+      'TEMPLATE_WRITE',
+      'COUPON_READ',
+      'COUPON_WRITE',
+      'DOMAIN_CATEGORY_READ',
+      'DOMAIN_CATEGORY_WRITE',
+      'DOMAIN_CONTACT_READ',
+      'DOMAIN_CONTACT_WRITE',
+      'DOMAIN_NAME_READ',
+      'DOMAIN_NAME_WRITE',
+      'INVOICE_CONTACT_READ',
+      'INVOICE_CONTACT_WRITE',
+      'INVOICE_READ',
+      'INVOICE_WRITE',
+      'IP_GROUPS_READ',
+      'IP_GROUPS_WRITE',
+      'IPS_READ',
+      'IPS_WRITE',
+      'ITEMS_READ',
+      'ITEMS_WRITE',
+      'ITEM_REFUND',
+      'ORDERS_READ',
+      'ORDERS_WRITE',
+      'TRANSACTIONS_READ',
+      'TRANSACTIONS_WRITE',
+      'POLICIES_READ',
+      'POLICIES_WRITE',
+      'PRODUCT_CATEGORIES_READ',
+      'PRODUCT_CATEGORIES_WRITE',
+      'PRODUCTS_READ',
+      'PRODUCTS_WRITE',
+      'SETTINGS_READ',
+      'SETTINGS_WRITE',
+      'INTEGRATIONS_READ',
+      'INTEGRATIONS_WRITE',
+      'TAG_READ',
+      'TAG_WRITE',
+      'TLDS_READ',
+      'TLDS_WRITE',
+      'USERS_READ',
+      'USERS_WRITE',
+      'ISSUES_WRITE',
+      'ISSUES_READ',
+      'ACTION_LOGS_READ',
+    ],
+  },
+  LanguageEnum: {
+    type: 'string',
+    enum: [
+      'AB',
+      'AA',
+      'AF',
+      'AK',
+      'SQ',
+      'AM',
+      'AR',
+      'AN',
+      'HY',
+      'AS',
+      'AV',
+      'AE',
+      'AY',
+      'AZ',
+      'BM',
+      'BA',
+      'EU',
+      'BE',
+      'BN',
+      'BI',
+      'BS',
+      'BR',
+      'BG',
+      'MY',
+      'CA',
+      'KM',
+      'CH',
+      'CE',
+      'NY',
+      'ZH',
+      'CU',
+      'CV',
+      'KW',
+      'CO',
+      'CR',
+      'HR',
+      'CS',
+      'DA',
+      'DV',
+      'NL',
+      'DZ',
+      'EN',
+      'EO',
+      'ET',
+      'EE',
+      'FO',
+      'FJ',
+      'FI',
+      'FR',
+      'FF',
+      'GL',
+      'LG',
+      'KA',
+      'DE',
+      'EL',
+      'GN',
+      'GU',
+      'HT',
+      'HA',
+      'HE',
+      'HZ',
+      'HI',
+      'HO',
+      'HU',
+      'IS',
+      'IO',
+      'IG',
+      'ID',
+      'IA',
+      'IE',
+      'IU',
+      'IK',
+      'GA',
+      'IT',
+      'JA',
+      'JV',
+      'KL',
+      'KN',
+      'KR',
+      'KS',
+      'KK',
+      'KI',
+      'RW',
+      'KY',
+      'KV',
+      'KG',
+      'KO',
+      'KJ',
+      'KU',
+      'LO',
+      'LA',
+      'LV',
+      'LI',
+      'LN',
+      'LT',
+      'LU',
+      'LB',
+      'MK',
+      'MG',
+      'MS',
+      'ML',
+      'MT',
+      'GV',
+      'MI',
+      'MR',
+      'MH',
+      'MN',
+      'NA',
+      'NV',
+      'ND',
+      'NR',
+      'NG',
+      'NE',
+      'SE',
+      'NO',
+      'NB',
+      'NN',
+      'II',
+      'OC',
+      'OJ',
+      'OR',
+      'OM',
+      'OS',
+      'PI',
+      'PS',
+      'FA',
+      'PL',
+      'PT',
+      'PA',
+      'QU',
+      'RO',
+      'RM',
+      'RN',
+      'RU',
+      'SM',
+      'SG',
+      'SA',
+      'SC',
+      'GD',
+      'SR',
+      'SN',
+      'II',
+      'SD',
+      'SI',
+      'SK',
+      'SL',
+      'SO',
+      'ST',
+      'ES',
+      'SU',
+      'SW',
+      'SS',
+      'SV',
+      'TL',
+      'TY',
+      'TG',
+      'TA',
+      'TT',
+      'TE',
+      'TH',
+      'BO',
+      'TI',
+      'TO',
+      'TS',
+      'TN',
+      'TR',
+      'TK',
+      'TW',
+      'UG',
+      'UK',
+      'UR',
+      'UZ',
+      'VE',
+      'VI',
+      'VO',
+      'WA',
+      'CY',
+      'FY',
+      'WO',
+      'XH',
+      'YI',
+      'YO',
+      'ZA',
+      'ZU',
+    ],
+  },
+  CountryEnum: {
+    type: 'string',
+    enum: [
+      'AF',
+      'AX',
+      'AL',
+      'DZ',
+      'AS',
+      'AD',
+      'AO',
+      'AI',
+      'AQ',
+      'AG',
+      'AR',
+      'AM',
+      'AW',
+      'AU',
+      'AT',
+      'AZ',
+      'BS',
+      'BH',
+      'BD',
+      'BB',
+      'BY',
+      'BE',
+      'BZ',
+      'BJ',
+      'BM',
+      'BT',
+      'BO',
+      'BQ',
+      'BA',
+      'BW',
+      'BV',
+      'BR',
+      'IO',
+      'BN',
+      'BG',
+      'BF',
+      'BI',
+      'KH',
+      'CM',
+      'CA',
+      'CV',
+      'KY',
+      'CF',
+      'TD',
+      'CL',
+      'CN',
+      'CX',
+      'CC',
+      'CO',
+      'KM',
+      'CG',
+      'CD',
+      'CK',
+      'CR',
+      'CI',
+      'HR',
+      'CU',
+      'CW',
+      'CY',
+      'CZ',
+      'DK',
+      'DJ',
+      'DM',
+      'DO',
+      'EC',
+      'EG',
+      'SV',
+      'GQ',
+      'ER',
+      'EE',
+      'ET',
+      'FK',
+      'FO',
+      'FJ',
+      'FI',
+      'FR',
+      'GF',
+      'PF',
+      'TF',
+      'GA',
+      'GM',
+      'GE',
+      'DE',
+      'GH',
+      'GI',
+      'GR',
+      'GL',
+      'GD',
+      'GP',
+      'GU',
+      'GT',
+      'GG',
+      'GN',
+      'GW',
+      'GY',
+      'HT',
+      'HM',
+      'VA',
+      'HN',
+      'HK',
+      'HU',
+      'IS',
+      'IN',
+      'ID',
+      'IR',
+      'IQ',
+      'IE',
+      'IM',
+      'IL',
+      'IT',
+      'JM',
+      'JP',
+      'JE',
+      'JO',
+      'KZ',
+      'KE',
+      'KI',
+      'KP',
+      'KR',
+      'KW',
+      'KG',
+      'LA',
+      'LV',
+      'LB',
+      'LS',
+      'LR',
+      'LY',
+      'LI',
+      'LT',
+      'LU',
+      'MO',
+      'MK',
+      'MG',
+      'MW',
+      'MY',
+      'MV',
+      'ML',
+      'MT',
+      'MH',
+      'MQ',
+      'MR',
+      'MU',
+      'TN',
+      'TR',
+      'TM',
+      'TC',
+      'TV',
+      'UG',
+      'UA',
+      'AE',
+      'GB',
+      'US',
+      'UM',
+      'UY',
+      'UZ',
+      'VU',
+      'VE',
+      'VN',
+      'VG',
+      'VI',
+      'WF',
+      'EH',
+      'YE',
+      'ZM',
+      'ZW',
+      'YT',
+      'MX',
+      'FM',
+      'MD',
+      'MC',
+      'MN',
+      'ME',
+      'MS',
+      'MA',
+      'MZ',
+      'MM',
+      'NA',
+      'NR',
+      'NP',
+      'NL',
+      'NC',
+      'NZ',
+      'NI',
+      'NE',
+      'NG',
+      'NU',
+      'NF',
+      'MP',
+      'NO',
+      'OM',
+      'PK',
+      'PW',
+      'PS',
+      'PA',
+      'PG',
+      'PY',
+      'PE',
+      'PH',
+      'PN',
+      'PL',
+      'PT',
+      'PR',
+      'QA',
+      'RE',
+      'RO',
+      'RU',
+      'RW',
+      'BL',
+      'SH',
+      'KN',
+      'LC',
+      'MF',
+      'PM',
+      'VC',
+      'WS',
+      'SM',
+      'ST',
+      'SA',
+      'SN',
+      'RS',
+      'SC',
+      'SL',
+      'SG',
+      'SX',
+      'SK',
+      'SI',
+      'SB',
+      'SO',
+      'ZA',
+      'GS',
+      'SS',
+      'ES',
+      'LK',
+      'SD',
+      'SR',
+      'SJ',
+      'SZ',
+      'SE',
+      'CH',
+      'SY',
+      'TW',
+      'TJ',
+      'TZ',
+      'TH',
+      'TL',
+      'TG',
+      'TK',
+      'TO',
+      'TT',
+    ],
+  },
+  CurrencyEnum: {
+    type: 'string',
+    enum: [
+      'EUR',
+      'USD',
+      'GBP',
+      'CHF',
+      'SEK',
+      'NOK',
+      'DKK',
+      'PLN',
+      'CZK',
+      'HUF',
+      'RON',
+      'BGN',
+      'TRY',
+      'RUB',
+      'JPY',
+      'CNY',
+      'AUD',
+      'NZD',
+      'CAD',
+      'ZAR',
+      'INR',
+      'MXN',
+      'BRL',
+      'ARS',
+      'CLP',
+      'COP',
+      'PEN',
+      'UYU',
+      'VES',
+      'ILS',
+      'AED',
+      'SAR',
+      'KRW',
+      'SGD',
+      'HKD',
+      'TWD',
+      'THB',
+      'MYR',
+      'IDR',
+      'PHP',
+      'VND',
+      'AFN',
+      'ALL',
+      'AMD',
+      'AOA',
+      'AWG',
+      'AZN',
+      'BAM',
+      'BBD',
+      'BDT',
+      'BHD',
+      'BIF',
+      'BMD',
+      'BND',
+      'BOB',
+      'BSD',
+      'BTN',
+      'BWP',
+      'BYN',
+      'BZD',
+      'CDF',
+      'CRC',
+      'CUP',
+      'CVE',
+      'DJF',
+      'DOP',
+      'DZD',
+      'EGP',
+      'ERN',
+      'ETB',
+      'FJD',
+      'GEL',
+      'GHS',
+      'GMD',
+      'GNF',
+      'GTQ',
+      'GYD',
+      'HNL',
+      'HTG',
+      'IQD',
+      'IRR',
+      'ISK',
+      'JMD',
+      'JOD',
+      'KES',
+      'KGS',
+      'KHR',
+      'KMF',
+      'KWD',
+      'KYD',
+      'KZT',
+      'LAK',
+      'LBP',
+      'LKR',
+      'LRD',
+      'LSL',
+      'LYD',
+      'MAD',
+      'MDL',
+      'MGA',
+      'MKD',
+      'MMK',
+      'MNT',
+      'MOP',
+      'MUR',
+      'MVR',
+      'MWK',
+      'MZN',
+      'NAD',
+      'NGN',
+      'NIO',
+      'NPR',
+      'OMR',
+      'PAB',
+      'PGK',
+      'PKR',
+      'PYG',
+      'QAR',
+      'RSD',
+      'RWF',
+      'SBD',
+      'SDG',
+      'SLE',
+      'SOS',
+      'SRD',
+      'SSP',
+      'STN',
+      'SYP',
+      'SZL',
+      'TJS',
+      'TMT',
+      'TND',
+      'TOP',
+      'TTD',
+      'TZS',
+      'UAH',
+      'UGX',
+      'UZS',
+      'VED',
+      'VUV',
+      'WST',
+      'XAF',
+      'XCD',
+      'XCG',
+      'XOF',
+      'XPF',
+      'YER',
+      'ZMW',
+      'ZWG',
+    ],
+  },
+  FieldTypeEnum: {
+    type: 'string',
+    enum: [
+      'BOOLEAN',
+      'TEXT',
+      'TEXTAREA',
+      'NUMBER',
+      'PHONE',
+      'EMAIL',
+      'URL',
+      'COUNTRIES',
+      'CURRENCY',
+      'DATE',
+      'PASSWORD',
+      'SELECT',
+      'MULTI_SELECT',
+    ],
+  },
+  ProductActionsEnum: {
+    type: 'string',
+    enum: [
+      'CREATE',
+      'RENEW',
+      'UPGRADE',
+      'DOWNGRADE',
+      'TRANSFER',
+      'TRADE',
+      'SUSPEND',
+      'UNSUSPEND',
+      'DELETE',
+    ],
+  },
+  OpenMethodEnum: {
+    type: 'string',
+    enum: ['ajax_call', 'small_iframe', 'medium_iframe', 'large_iframe'],
+  },
+  NotificationMessageTypeEnum: {
+    type: 'string',
+    enum: ['email', 'sms', 'push'],
+  },
+  AnyFieldDto: {
+    title: 'AnyFieldDto',
+    description:
+      'Discriminated union of every concrete field DTO. Discriminator is the string-literal `type` property.',
+    oneOf: [
+      {
+        $ref: '#/components/schemas/BooleanFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/TextFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/TextareaFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/NumberFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/PhoneFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/EmailFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/UrlFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/CountriesFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/CurrencyFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/DateFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/PasswordFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/SelectFieldDto',
+      },
+      {
+        $ref: '#/components/schemas/MultiSelectFieldDto',
+      },
+    ],
+    discriminator: {
+      propertyName: 'type',
+      mapping: {
+        BOOLEAN: '#/components/schemas/BooleanFieldDto',
+        TEXT: '#/components/schemas/TextFieldDto',
+        TEXTAREA: '#/components/schemas/TextareaFieldDto',
+        NUMBER: '#/components/schemas/NumberFieldDto',
+        PHONE: '#/components/schemas/PhoneFieldDto',
+        EMAIL: '#/components/schemas/EmailFieldDto',
+        URL: '#/components/schemas/UrlFieldDto',
+        COUNTRIES: '#/components/schemas/CountriesFieldDto',
+        CURRENCY: '#/components/schemas/CurrencyFieldDto',
+        DATE: '#/components/schemas/DateFieldDto',
+        PASSWORD: '#/components/schemas/PasswordFieldDto',
+        SELECT: '#/components/schemas/SelectFieldDto',
+        MULTI_SELECT: '#/components/schemas/MultiSelectFieldDto',
+      },
+    },
+  },
 } as const;
