@@ -36,6 +36,7 @@ export * from './dtos/submenu.dto';
 export * from './dtos/tab.dto';
 export * from './dtos/unit.dto';
 export * from './dtos/admin-panel.dto';
+export * from './dtos/proxy-action-task.dto';
 export * from './dtos/client-panel.dto';
 export * from './dtos/info.dto';
 export * from './dtos/invoice-contact-data.dto';
@@ -112,10 +113,12 @@ export * from './enums/roles.enum';
 export * from './enums/setup-status.enum';
 export * from './enums/invoice/invoice-item-actions.enum';
 export * from './enums/invoice/invoice-types.enum';
+export * from './enums/invoice/invoice-actions.enum';
 
 // Helpers
 export * from './helpers/country.helper';
 export * from './helpers/currency.helper';
+export * from './helpers/action-hooks.helper';
 
 // Validators
 export * from './validators/action-validator';
@@ -142,6 +145,7 @@ export * from './validators/fields/password-field-validator';
 export * from './validators/fields/select-field-validator';
 export * from './validators/fields/multi-select-field-validator';
 export * from './validators/jwt-validator';
+export * from './validators/proxy-action-task-validator';
 export * from './validators/menu-with-submenu.validator';
 export * from './validators/menu-with-url.validator';
 export * from './validators/multilang-text-validator';
