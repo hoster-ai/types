@@ -6,8 +6,8 @@ import { ProductDowngradeResponseDto } from '../dtos/product/responses/product-d
  * Validates a product downgrade response object.
  *
  * The core needs this for the deferred hook: that hook's request body IS this
- * response DTO, and a NestJS ValidationPipe cannot validate it (the fields carry
- * only `@JSONSchema`). Issue #27.
+ * response DTO. Nothing is skipped: `status` and `outboxId` are what let the core settle and
+ * correlate the report, so a report without them is unusable. Issue #27.
  *
  * @param {Record<string, unknown>} plainObject - The plain object to validate.
  * @returns {Promise<ValidationError[]>} - A promise that resolves with an array of validation errors.
@@ -16,5 +16,5 @@ export const validateProductDowngradeResponseDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const response = plainToInstance(ProductDowngradeResponseDto, plainObject);
-  return await validate(response, { skipMissingProperties: true });
+  return await validate(response);
 };

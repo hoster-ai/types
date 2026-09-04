@@ -1,3 +1,14 @@
+# validateProformaInvoiceResponseDto
+
+**Description:** Validates a proforma invoice response object.
+
+**Source:** `validators/proforma-invoice-response-validator.ts`
+
+**Language:** typescript
+
+## Code
+
+```typescript
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { ProformaInvoiceResponseDto } from '../dtos/invoice/responses/proforma-invoice-response.dto';
@@ -18,3 +29,4 @@ export const validateProformaInvoiceResponseDto = async (
   const response = plainToInstance(ProformaInvoiceResponseDto, plainObject);
   return await validate(response);
 };
+```
