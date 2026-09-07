@@ -1,6 +1,6 @@
 # BaseInvoiceRequestDto
 
-**Description:** Request payload for calculating tax details. Contains company and customer location information for tax rate determination.
+**Description:** This file defines BaseInvoiceRequestDto.
 
 **Source:** `dtos/invoice/requests/base-invoice-request.dto.ts`
 
@@ -15,6 +15,8 @@ import {
   IsEnum,
   IsNumber,
   IsObject,
+  IsOptional,
+  IsString,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -30,6 +32,24 @@ import { CurrencyEnum } from '../../../enums/currency.enum';
  * Contains company and customer location information for tax rate determination.
  */
 export abstract class BaseInvoiceRequestDto {
+  /**
+   * The core's identifier for the document being issued.
+   *
+   * Optional, and echoed back by the integration only as context — the core uses it
+   * as the write target when the outcome arrives, exactly as `ItemDataDto.itemId`
+   * works for product actions. Without it the core has to smuggle its own id
+   * alongside the contract payload (issue #27). NOT the same as `parentInvoiceId`,
+   * which refers to the invoice being credited.
+   */
+  @IsOptional()
+  @IsString()
+  @JSONSchema({
+    title: 'Invoice ID',
+    description: "The core's identifier for the document being issued.",
+    type: 'string',
+  })
+  invoiceId?: string;
+
   /**
    * Company data
    */

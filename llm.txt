@@ -789,6 +789,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### ProxyActionTaskDto
+**Description:** The body of an ACTION Cloud Task. The task targets the PROXY WORKER, not the integration: the proxy makes the onward call, answers the task, and reports what the integration said on `hookUrl`. Everything the proxy needs travels here — it holds no state and reads no database.
+
+**Source:** `dtos/proxy-action-task.dto.ts`
+
+**Details:** See [llm/dtos/proxyactiontaskdto.md](llm/dtos/proxyactiontaskdto.md)
 
 ## ENUMS
 
@@ -909,6 +915,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### InvoiceActionsEnum
+**Description:** The actions an INVOICE integration is called for. Each value is the route the core calls on the integration (`${integration.url}/${action}`), one per issued document type.
+
+**Source:** `enums/invoice/invoice-actions.enum.ts`
+
+**Details:** See [llm/enums/invoiceactionsenum.md](llm/enums/invoiceactionsenum.md)
 
 ## DECORATORS
 
@@ -1563,6 +1575,82 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### validateCreditNoteResponseDto
+**Description:** Validates a credit note response object.
+
+**Source:** `validators/credit-note-response-validator.ts`
+
+**Details:** See [llm/validators/validatecreditnoteresponsedto.md](llm/validators/validatecreditnoteresponsedto.md)
+
+### validateInvoiceResponseDto
+**Description:** Validates an invoice response object.
+
+**Source:** `validators/invoice-response-validator.ts`
+
+**Details:** See [llm/validators/validateinvoiceresponsedto.md](llm/validators/validateinvoiceresponsedto.md)
+
+### validateProductCreateResponseDto
+**Description:** Validates a product create response object.
+
+**Source:** `validators/product-create-response-validator.ts`
+
+**Details:** See [llm/validators/validateproductcreateresponsedto.md](llm/validators/validateproductcreateresponsedto.md)
+
+### validateProductDeleteResponseDto
+**Description:** Validates a product delete response object.
+
+**Source:** `validators/product-delete-response-validator.ts`
+
+**Details:** See [llm/validators/validateproductdeleteresponsedto.md](llm/validators/validateproductdeleteresponsedto.md)
+
+### validateProductDowngradeResponseDto
+**Description:** Validates a product downgrade response object.
+
+**Source:** `validators/product-downgrade-response-validator.ts`
+
+**Details:** See [llm/validators/validateproductdowngraderesponsedto.md](llm/validators/validateproductdowngraderesponsedto.md)
+
+### validateProductRenewResponseDto
+**Description:** Validates a product renew response object.
+
+**Source:** `validators/product-renew-response-validator.ts`
+
+**Details:** See [llm/validators/validateproductrenewresponsedto.md](llm/validators/validateproductrenewresponsedto.md)
+
+### validateProductSuspendResponseDto
+**Description:** Validates a product suspend response object.
+
+**Source:** `validators/product-suspend-response-validator.ts`
+
+**Details:** See [llm/validators/validateproductsuspendresponsedto.md](llm/validators/validateproductsuspendresponsedto.md)
+
+### validateProductUnsuspendResponseDto
+**Description:** Validates a product unsuspend response object.
+
+**Source:** `validators/product-unsuspend-response-validator.ts`
+
+**Details:** See [llm/validators/validateproductunsuspendresponsedto.md](llm/validators/validateproductunsuspendresponsedto.md)
+
+### validateProductUpgradeResponseDto
+**Description:** Validates a product upgrade response object.
+
+**Source:** `validators/product-upgrade-response-validator.ts`
+
+**Details:** See [llm/validators/validateproductupgraderesponsedto.md](llm/validators/validateproductupgraderesponsedto.md)
+
+### validateProformaInvoiceResponseDto
+**Description:** Validates a proforma invoice response object.
+
+**Source:** `validators/proforma-invoice-response-validator.ts`
+
+**Details:** See [llm/validators/validateproformainvoiceresponsedto.md](llm/validators/validateproformainvoiceresponsedto.md)
+
+### validateProxyActionTaskDto
+**Description:** Validates the body of an ACTION Cloud Task, as the proxy worker receives it.
+
+**Source:** `validators/proxy-action-task-validator.ts`
+
+**Details:** See [llm/validators/validateproxyactiontaskdto.md](llm/validators/validateproxyactiontaskdto.md)
 
 ## TRANSFORMERS
 
