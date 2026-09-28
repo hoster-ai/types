@@ -250,11 +250,51 @@ function main() {
     return obj;
   };
 
+  /**
+   * 3c) Strip validator-derived keywords next to `oneOf`/`anyOf` (issue #36).
+   *  A `@JSONSchema` `oneOf` already describes every allowed shape, but the
+   *  keywords derived from the validation decorators (`@IsNotEmpty` ->
+   *  `minLength`, `@IsDateString` -> `format`, `@IsArray` -> `type`/`items`)
+   *  are merged in as siblings. Siblings are AND-ed with the `oneOf`, so the
+   *  result contradicts it (e.g. `type: 'string'` next to a oneOf of objects).
+   *  Keep only annotations (title, description, example, discriminator, ...).
+   */
+  const SHAPE_KEYWORDS = [
+    'type',
+    'items',
+    'format',
+    'enum',
+    'pattern',
+    'minLength',
+    'maxLength',
+    'minItems',
+    'maxItems',
+    'minimum',
+    'maximum',
+    'properties',
+    'additionalProperties',
+  ];
+  const collapseCompositionSiblings = (obj: unknown): unknown => {
+    if (Array.isArray(obj)) return obj.map(collapseCompositionSiblings);
+    if (obj && typeof obj === 'object') {
+      const node = obj as Record<string, unknown>;
+      const isComposition =
+        Array.isArray(node.oneOf) || Array.isArray(node.anyOf);
+      const out: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(node)) {
+        if (isComposition && SHAPE_KEYWORDS.includes(k)) continue;
+        out[k] = collapseCompositionSiblings(v);
+      }
+      return out;
+    }
+    return obj;
+  };
+
   // 4) Emit full components map to be merged into an OpenAPI document
   const componentsOut = path.join(outDir, 'components.schemas.ts');
   // Remap and ensure required helper definitions exist
-  const remappedComponents = collapseRefSiblings(
-    sanitizeSchema(remapRefs(schemas)),
+  const remappedComponents = collapseCompositionSiblings(
+    collapseRefSiblings(sanitizeSchema(remapRefs(schemas))),
   ) as Record<string, unknown>;
 
   // 4a) Manually inject `AnyFieldDto` as a discriminated `oneOf` of every concrete

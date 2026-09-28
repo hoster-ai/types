@@ -281,3 +281,27 @@ describe('ComponentsSchemas - contract coverage', () => {
     expect([...unresolved]).toEqual([]);
   });
 });
+
+describe('ComponentsSchemas - oneOf/anyOf carry no contradicting siblings (#36)', () => {
+  it('has no shape keyword next to a oneOf/anyOf', () => {
+    const shapeKeywords = ['type', 'items', 'format', 'minLength', 'enum'];
+    const offenders: string[] = [];
+    const walk = (node: unknown, path: string): void => {
+      if (Array.isArray(node)) {
+        node.forEach((child, i) => walk(child, `${path}[${i}]`));
+        return;
+      }
+      if (node && typeof node === 'object') {
+        const obj = node as Record<string, unknown>;
+        if (Array.isArray(obj.oneOf) || Array.isArray(obj.anyOf)) {
+          for (const k of shapeKeywords) {
+            if (k in obj) offenders.push(`${path}.${k}`);
+          }
+        }
+        for (const [k, v] of Object.entries(obj)) walk(v, `${path}.${k}`);
+      }
+    };
+    walk(Schemas, 'ComponentsSchemas');
+    expect(offenders).toEqual([]);
+  });
+});

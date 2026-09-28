@@ -53,7 +53,6 @@ export const ComponentsSchemas = {
   BaseResponse: {
     properties: {
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -310,18 +309,13 @@ export const ComponentsSchemas = {
   ErrorResponseDto: {
     properties: {
       code: {
-        minLength: 1,
-        type: 'number',
+        type: 'integer',
         title: 'Code',
         description:
           'A unique and specific error code for programmatic error handling.',
         example: 400,
       },
       errors: {
-        items: {
-          type: 'string',
-        },
-        type: 'array',
         title: 'Errors',
         description:
           'A developer-friendly error message or an array of messages.',
@@ -1241,8 +1235,6 @@ export const ComponentsSchemas = {
         ],
         title: 'Value',
         description: 'ISO 8601 date or date-time string.',
-        type: 'string',
-        format: 'date-time',
       },
       id: {
         type: 'string',
@@ -1721,7 +1713,6 @@ export const ComponentsSchemas = {
         $ref: '#/components/schemas/SetupStatusEnum',
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -1954,7 +1945,6 @@ export const ComponentsSchemas = {
       menu: {
         title: 'Menu',
         description: 'Admin panel main menu (URL or submenu variant).',
-        type: 'object',
         oneOf: [
           {
             $ref: '#/components/schemas/MenuDtoWithSubmenu',
@@ -1967,7 +1957,6 @@ export const ComponentsSchemas = {
       settings: {
         title: 'Settings',
         description: 'Admin panel settings page configuration.',
-        type: 'object',
         oneOf: [
           {
             $ref: '#/components/schemas/SettingsWithUrlDto',
@@ -2401,7 +2390,6 @@ export const ComponentsSchemas = {
           'Array of concrete field DTOs (each discriminated by its `type` literal).',
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -2676,8 +2664,6 @@ export const ComponentsSchemas = {
         description: 'Unique identifier for the notification.',
       },
       sender: {
-        type: 'string',
-        minLength: 1,
         title: 'Sender',
         description:
           'Sender details (type depends on integration: email, push, or SMS).',
@@ -2694,8 +2680,6 @@ export const ComponentsSchemas = {
         ],
       },
       receiver: {
-        type: 'string',
-        minLength: 1,
         title: 'Receiver',
         description:
           'Recipient details (type depends on integration: email, push, or SMS).',
@@ -2932,8 +2916,6 @@ export const ComponentsSchemas = {
         description: 'Payment method used for the transaction.',
       },
       date: {
-        minLength: 1,
-        type: 'string',
         oneOf: [
           {
             format: 'date',
@@ -2946,7 +2928,6 @@ export const ComponentsSchemas = {
         ],
         title: 'Date',
         description: 'Transaction date.',
-        format: 'date-time',
       },
     },
     type: 'object',
@@ -3189,7 +3170,6 @@ export const ComponentsSchemas = {
           'Unique identifier for the invoice in the integration system.',
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -3302,7 +3282,6 @@ export const ComponentsSchemas = {
         $ref: '#/components/schemas/TINValidationDetails',
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -3685,7 +3664,6 @@ export const ComponentsSchemas = {
         additionalProperties: true,
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -3725,7 +3703,6 @@ export const ComponentsSchemas = {
         additionalProperties: true,
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -3765,7 +3742,6 @@ export const ComponentsSchemas = {
         additionalProperties: true,
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -3797,7 +3773,6 @@ export const ComponentsSchemas = {
         additionalProperties: true,
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -3818,7 +3793,6 @@ export const ComponentsSchemas = {
         $ref: '#/components/schemas/ProductInfoDto',
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -3858,7 +3832,6 @@ export const ComponentsSchemas = {
         additionalProperties: true,
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -3898,7 +3871,6 @@ export const ComponentsSchemas = {
         additionalProperties: true,
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -3938,7 +3910,6 @@ export const ComponentsSchemas = {
         additionalProperties: true,
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -3978,7 +3949,6 @@ export const ComponentsSchemas = {
         additionalProperties: true,
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -4010,7 +3980,6 @@ export const ComponentsSchemas = {
         additionalProperties: true,
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -4131,7 +4100,6 @@ export const ComponentsSchemas = {
           'Unique identifier for the invoice in the integration system.',
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
@@ -4179,7 +4147,6 @@ export const ComponentsSchemas = {
           'Unique identifier for the invoice in the integration system.',
       },
       code: {
-        minLength: 1,
         type: 'number',
         title: 'Code',
         description: 'Response code.',
