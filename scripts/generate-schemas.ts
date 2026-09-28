@@ -23,7 +23,9 @@
  *     - Strip placeholder `$ref`s to Array/Object (Swagger shouldn’t resolve those).
  *     - Remove empty property names and empty strings in `required` arrays.
  *     - Drop properties that resolve to an "empty" schema (e.g., forbidden/never fields).
- *  5) Write `components.schemas.ts` with a typed `const` export.
+ *     - Collapse keywords next to `$ref` / `oneOf` (`schema-passes.ts`).
+ *  5) `buildComponentsSchemas()` returns the map in memory; `write-schemas.ts`
+ *     (`npm run build:schemas`) writes it to `components.schemas.ts`.
  *
  * Notes
  *  - A DTO appears in the output only if it is exported from `index.ts`
@@ -33,13 +35,16 @@
  *    the per-target write logic that was removed for simplicity.
  */
 import 'reflect-metadata';
-import path from 'node:path';
-import fs from 'node:fs';
 import { getMetadataStorage } from 'class-validator';
 import {
   targetConstructorToSchema,
   validationMetadatasToSchemas,
 } from 'class-validator-jsonschema';
+import {
+  collapseCompositionSiblings,
+  collapseRefSiblings,
+  mapComponents,
+} from './schema-passes';
 
 // Load the WHOLE public barrel so every DTO module the package exports
 // registers its decorators. One import instead of a hand-kept list, so a new
@@ -90,16 +95,10 @@ const enumSchemas = Object.fromEntries(
 );
 
 /**
- * Ensure an output directory exists.
+ * Build the full components map in memory (no file I/O), so the spec can
+ * compare it against the committed `ComponentsSchemas`.
  */
-function ensureDir(dir: string) {
-  fs.mkdirSync(dir, { recursive: true });
-}
-
-function main() {
-  const outDir = path.resolve(__dirname, '../openapi/schemas');
-  ensureDir(outDir);
-
+export function buildComponentsSchemas(): Record<string, unknown> {
   // 1) Build schema map from class-validator metadata
   const storage = getMetadataStorage();
   const generatedSchemas: Record<string, unknown> =
@@ -224,78 +223,11 @@ function main() {
     return obj;
   };
 
-  /**
-   * 3b) Collapse `$ref` sibling keywords.
-   *  class-validator-jsonschema MERGES the schema derived from validation
-   *  decorators (e.g. `@IsEnum` -> `{ type, enum }`) with the object passed to
-   *  `@JSONSchema`. When a `@JSONSchema` provides a `$ref`, the auto-generated
-   *  `enum`/`type` survive as siblings of that `$ref`. In OpenAPI 3.0 any
-   *  sibling of `$ref` is ignored, but if we leave the inline `enum` in place
-   *  openapi-generator mints an ad-hoc per-property enum from it. So whenever a
-   *  node carries a `$ref`, reduce it to just `{ $ref }`. This makes every
-   *  named-enum reference a real reference to the shared enum schema.
-   */
-  const collapseRefSiblings = (obj: any): any => {
-    if (Array.isArray(obj)) return obj.map(collapseRefSiblings);
-    if (obj && typeof obj === 'object') {
-      if (typeof (obj as any).$ref === 'string') {
-        return { $ref: (obj as any).$ref };
-      }
-      const out: any = {};
-      for (const [k, v] of Object.entries(obj)) {
-        out[k] = collapseRefSiblings(v);
-      }
-      return out;
-    }
-    return obj;
-  };
-
-  /**
-   * 3c) Strip validator-derived keywords next to `oneOf`/`anyOf` (issue #36).
-   *  A `@JSONSchema` `oneOf` already describes every allowed shape, but the
-   *  keywords derived from the validation decorators (`@IsNotEmpty` ->
-   *  `minLength`, `@IsDateString` -> `format`, `@IsArray` -> `type`/`items`)
-   *  are merged in as siblings. Siblings are AND-ed with the `oneOf`, so the
-   *  result contradicts it (e.g. `type: 'string'` next to a oneOf of objects).
-   *  Keep only annotations (title, description, example, discriminator, ...).
-   */
-  const SHAPE_KEYWORDS = [
-    'type',
-    'items',
-    'format',
-    'enum',
-    'pattern',
-    'minLength',
-    'maxLength',
-    'minItems',
-    'maxItems',
-    'minimum',
-    'maximum',
-    'properties',
-    'additionalProperties',
-  ];
-  const collapseCompositionSiblings = (obj: unknown): unknown => {
-    if (Array.isArray(obj)) return obj.map(collapseCompositionSiblings);
-    if (obj && typeof obj === 'object') {
-      const node = obj as Record<string, unknown>;
-      const isComposition =
-        Array.isArray(node.oneOf) || Array.isArray(node.anyOf);
-      const out: Record<string, unknown> = {};
-      for (const [k, v] of Object.entries(node)) {
-        if (isComposition && SHAPE_KEYWORDS.includes(k)) continue;
-        out[k] = collapseCompositionSiblings(v);
-      }
-      return out;
-    }
-    return obj;
-  };
-
-  // 4) Emit full components map to be merged into an OpenAPI document
-  const componentsOut = path.join(outDir, 'components.schemas.ts');
-  // Remap and ensure required helper definitions exist
-  const remappedComponents = collapseCompositionSiblings(
-    collapseRefSiblings(sanitizeSchema(remapRefs(schemas))),
-  ) as Record<string, unknown>;
+  // 3b/3c) Collapse keywords next to `$ref` / `oneOf` (see schema-passes.ts)
+  const remappedComponents = mapComponents(
+    sanitizeSchema(remapRefs(schemas)),
+    (schema) => collapseCompositionSiblings(collapseRefSiblings(schema)),
+  );
 
   // 4a) Manually inject `AnyFieldDto` as a discriminated `oneOf` of every concrete
   //     field DTO. `class-validator-jsonschema` cannot derive this from a TS union
@@ -319,10 +251,5 @@ function main() {
     },
   };
 
-  // 5) Write the file with a typed `const` export for easy import/merge in the API app
-  const componentsContent = `export const ComponentsSchemas = ${JSON.stringify(remappedComponents, null, 2)} as const;\n`;
-  fs.writeFileSync(componentsOut, componentsContent, 'utf8');
-  console.log(`Generated: ${path.relative(process.cwd(), componentsOut)}`);
+  return remappedComponents;
 }
-
-main();

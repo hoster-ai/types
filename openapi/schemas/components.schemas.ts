@@ -14,6 +14,8 @@ export const ComponentsSchemas = {
       },
       openMethod: {
         $ref: '#/components/schemas/OpenMethodEnum',
+        title: 'Open Method',
+        description: "Method by which the action's URL should be opened.",
       },
       url: {
         minLength: 1,
@@ -133,6 +135,8 @@ export const ComponentsSchemas = {
       },
       country: {
         $ref: '#/components/schemas/CountryEnum',
+        title: 'Country',
+        description: 'Country code of the user.',
       },
       state: {
         maxLength: 250,
@@ -201,6 +205,8 @@ export const ComponentsSchemas = {
       },
       defaultLanguage: {
         $ref: '#/components/schemas/LanguageEnum',
+        title: 'Default Language',
+        description: 'The default language for the company.',
       },
       languages: {
         items: {
@@ -247,6 +253,8 @@ export const ComponentsSchemas = {
       },
       country: {
         $ref: '#/components/schemas/CountryEnum',
+        title: 'Country',
+        description: "The country for the company's address.",
       },
       state: {
         type: 'string',
@@ -296,6 +304,8 @@ export const ComponentsSchemas = {
       },
       code: {
         $ref: '#/components/schemas/CountryEnum',
+        title: 'Code',
+        description: 'Country code.',
       },
       isEurope: {
         type: 'boolean',
@@ -339,6 +349,9 @@ export const ComponentsSchemas = {
     properties: {
       field: {
         $ref: '#/components/schemas/AnyFieldDto',
+        title: 'Field',
+        description:
+          'The concrete field DTO (discriminated by its `type` literal).',
       },
       visibleInOrder: {
         type: 'boolean',
@@ -368,6 +381,9 @@ export const ComponentsSchemas = {
     properties: {
       field: {
         $ref: '#/components/schemas/AnyFieldDto',
+        title: 'Field',
+        description:
+          'The concrete field DTO (discriminated by its `type` literal).',
       },
     },
     type: 'object',
@@ -377,6 +393,8 @@ export const ComponentsSchemas = {
     properties: {
       language: {
         $ref: '#/components/schemas/LanguageEnum',
+        title: 'Language',
+        description: 'The language of the text.',
       },
       text: {
         minLength: 1,
@@ -1152,6 +1170,8 @@ export const ComponentsSchemas = {
       },
       value: {
         $ref: '#/components/schemas/CurrencyEnum',
+        title: 'Value',
+        description: 'ISO 4217 currency code.',
       },
       id: {
         type: 'string',
@@ -1403,6 +1423,8 @@ export const ComponentsSchemas = {
       },
       value: {
         $ref: '#/components/schemas/FieldOptionDto',
+        title: 'Value',
+        description: 'Selected option.',
       },
       id: {
         type: 'string',
@@ -1600,6 +1622,8 @@ export const ComponentsSchemas = {
     properties: {
       jwt: {
         $ref: '#/components/schemas/JwtPayloadDto',
+        title: 'JWT',
+        description: 'The JWT payload containing user and company information.',
       },
     },
     type: 'object',
@@ -1711,6 +1735,8 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/SetupStatusEnum',
+        title: 'Status',
+        description: 'The status of the setup process.',
       },
       code: {
         type: 'number',
@@ -1938,9 +1964,13 @@ export const ComponentsSchemas = {
     properties: {
       tabs: {
         $ref: '#/components/schemas/AdminPanelTabsDto',
+        title: 'Tabs',
+        description: 'Tab structure for Admin panel sections.',
       },
       moreActions: {
         $ref: '#/components/schemas/AdminPanelMoreActionsDto',
+        title: 'More Actions',
+        description: 'Additional actions in Admin panel sections.',
       },
       menu: {
         title: 'Menu',
@@ -2050,9 +2080,13 @@ export const ComponentsSchemas = {
     properties: {
       tabs: {
         $ref: '#/components/schemas/ClientPanelTabsDto',
+        title: 'Tabs',
+        description: 'Tab structure for Client panel.',
       },
       moreActions: {
         $ref: '#/components/schemas/ClientPanelMoreActionsDto',
+        title: 'More Actions',
+        description: 'Additional actions in Client panel.',
       },
       menu: {
         title: 'Menu',
@@ -2121,9 +2155,15 @@ export const ComponentsSchemas = {
       },
       adminPanel: {
         $ref: '#/components/schemas/AdminPanelDto',
+        title: 'Admin Panel',
+        description:
+          'Admin UI links, tabs, and actions provided by the integration.',
       },
       clientPanel: {
         $ref: '#/components/schemas/ClientPanelDto',
+        title: 'Client Panel',
+        description:
+          'Client UI links, tabs, and actions provided by the integration.',
       },
       onboardingUrl: {
         format: 'uri',
@@ -2230,6 +2270,8 @@ export const ComponentsSchemas = {
       },
       country: {
         $ref: '#/components/schemas/CountryEnum',
+        title: 'Country',
+        description: 'Country code.',
       },
       state: {
         maxLength: 250,
@@ -2408,6 +2450,9 @@ export const ComponentsSchemas = {
     properties: {
       type: {
         $ref: '#/components/schemas/NotificationMessageTypeEnum',
+        title: 'Notification Type',
+        description: 'Notification channel type.',
+        example: 'email',
       },
       payPerUseUnits: {
         items: {
@@ -2474,9 +2519,15 @@ export const ComponentsSchemas = {
       },
       adminPanel: {
         $ref: '#/components/schemas/AdminPanelDto',
+        title: 'Admin Panel',
+        description:
+          'Admin UI links, tabs, and actions provided by the integration.',
       },
       clientPanel: {
         $ref: '#/components/schemas/ClientPanelDto',
+        title: 'Client Panel',
+        description:
+          'Client UI links, tabs, and actions provided by the integration.',
       },
       onboardingUrl: {
         format: 'uri',
@@ -2772,9 +2823,15 @@ export const ComponentsSchemas = {
       },
       adminPanel: {
         $ref: '#/components/schemas/AdminPanelDto',
+        title: 'Admin Panel',
+        description:
+          'Admin UI links, tabs, and actions provided by the integration.',
       },
       clientPanel: {
         $ref: '#/components/schemas/ClientPanelDto',
+        title: 'Client Panel',
+        description:
+          'Client UI links, tabs, and actions provided by the integration.',
       },
       onboardingUrl: {
         format: 'uri',
@@ -2801,6 +2858,8 @@ export const ComponentsSchemas = {
     properties: {
       action: {
         $ref: '#/components/schemas/InvoiceItemActionsEnum',
+        title: 'Action',
+        description: 'Invoice-specific action type for this item.',
       },
       itemId: {
         type: 'string',
@@ -2942,12 +3001,18 @@ export const ComponentsSchemas = {
       },
       company: {
         $ref: '#/components/schemas/CompanyDataDto',
+        title: 'Company',
+        description: 'Company data.',
       },
       invoiceContact: {
         $ref: '#/components/schemas/InvoiceContactData',
+        title: 'Invoice Contact',
+        description: 'Invoice contact data (without invoiceContactId).',
       },
       currency: {
         $ref: '#/components/schemas/CurrencyEnum',
+        title: 'Currency',
+        description: 'Currency of the invoice.',
       },
       items: {
         items: {
@@ -3001,12 +3066,18 @@ export const ComponentsSchemas = {
       },
       company: {
         $ref: '#/components/schemas/CompanyDataDto',
+        title: 'Company',
+        description: 'Company data.',
       },
       invoiceContact: {
         $ref: '#/components/schemas/InvoiceContactData',
+        title: 'Invoice Contact',
+        description: 'Invoice contact data (without invoiceContactId).',
       },
       currency: {
         $ref: '#/components/schemas/CurrencyEnum',
+        title: 'Currency',
+        description: 'Currency of the invoice.',
       },
       items: {
         items: {
@@ -3060,12 +3131,18 @@ export const ComponentsSchemas = {
       },
       company: {
         $ref: '#/components/schemas/CompanyDataDto',
+        title: 'Company',
+        description: 'Company data.',
       },
       invoiceContact: {
         $ref: '#/components/schemas/InvoiceContactData',
+        title: 'Invoice Contact',
+        description: 'Invoice contact data (without invoiceContactId).',
       },
       currency: {
         $ref: '#/components/schemas/CurrencyEnum',
+        title: 'Currency',
+        description: 'Currency of the invoice.',
       },
       items: {
         items: {
@@ -3109,9 +3186,13 @@ export const ComponentsSchemas = {
     properties: {
       companyCountry: {
         $ref: '#/components/schemas/CountryEnum',
+        title: 'Company Country',
+        description: 'Country where the company is registered.',
       },
       customerCountry: {
         $ref: '#/components/schemas/CountryEnum',
+        title: 'Customer Country',
+        description: 'Country where the customer is located.',
       },
       customerTIN: {
         type: 'string',
@@ -3141,6 +3222,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating the outcome of the issuance.',
       },
       outboxId: {
         minLength: 1,
@@ -3229,6 +3313,8 @@ export const ComponentsSchemas = {
       },
       country: {
         $ref: '#/components/schemas/CountryEnum',
+        title: 'Country',
+        description: 'Country code.',
       },
       state: {
         maxLength: 250,
@@ -3280,6 +3366,9 @@ export const ComponentsSchemas = {
       },
       taxDetails: {
         $ref: '#/components/schemas/TINValidationDetails',
+        title: 'Tax Details',
+        description:
+          'Detailed tax validation information including company details.',
       },
       code: {
         type: 'number',
@@ -3403,9 +3492,15 @@ export const ComponentsSchemas = {
       },
       adminPanel: {
         $ref: '#/components/schemas/AdminPanelDto',
+        title: 'Admin Panel',
+        description:
+          'Admin UI links, tabs, and actions provided by the integration.',
       },
       clientPanel: {
         $ref: '#/components/schemas/ClientPanelDto',
+        title: 'Client Panel',
+        description:
+          'Client UI links, tabs, and actions provided by the integration.',
       },
       onboardingUrl: {
         format: 'uri',
@@ -3432,6 +3527,8 @@ export const ComponentsSchemas = {
     properties: {
       action: {
         $ref: '#/components/schemas/ProductActionsEnum',
+        title: 'Action',
+        description: 'Product-specific action type for this item.',
       },
       itemId: {
         type: 'string',
@@ -3529,9 +3626,13 @@ export const ComponentsSchemas = {
     properties: {
       clientData: {
         $ref: '#/components/schemas/ClientDataDto',
+        title: 'Client Data',
+        description: "The client's data for the request.",
       },
       itemData: {
         $ref: '#/components/schemas/ProductItemDataDto',
+        title: 'Item Data',
+        description: 'The data for the new product item to be created.',
       },
     },
     type: 'object',
@@ -3541,9 +3642,13 @@ export const ComponentsSchemas = {
     properties: {
       clientData: {
         $ref: '#/components/schemas/ClientDataDto',
+        title: 'Client Data',
+        description: "The client's data initiating the request.",
       },
       itemData: {
         $ref: '#/components/schemas/ProductItemDataDto',
+        title: 'Item Data',
+        description: 'The data of the product item to be deleted.',
       },
     },
     type: 'object',
@@ -3553,12 +3658,18 @@ export const ComponentsSchemas = {
     properties: {
       clientData: {
         $ref: '#/components/schemas/ClientDataDto',
+        title: 'Client Data',
+        description: "The client's data for the request.",
       },
       itemData: {
         $ref: '#/components/schemas/ProductItemDataDto',
+        title: 'Item Data',
+        description: 'The data of the product item to be downgraded.',
       },
       previousItemData: {
         $ref: '#/components/schemas/ProductItemDataDto',
+        title: 'Previous Item Data',
+        description: 'The data of the product item before the downgrade.',
       },
     },
     type: 'object',
@@ -3568,9 +3679,13 @@ export const ComponentsSchemas = {
     properties: {
       clientData: {
         $ref: '#/components/schemas/ClientDataDto',
+        title: 'Client Data',
+        description: "The client's data for the request.",
       },
       itemData: {
         $ref: '#/components/schemas/ProductItemDataDto',
+        title: 'Item Data',
+        description: 'The data of the product item to be checked.',
       },
     },
     type: 'object',
@@ -3580,9 +3695,13 @@ export const ComponentsSchemas = {
     properties: {
       clientData: {
         $ref: '#/components/schemas/ClientDataDto',
+        title: 'Client Data',
+        description: "The client's data for the request.",
       },
       itemData: {
         $ref: '#/components/schemas/ProductItemDataDto',
+        title: 'Item Data',
+        description: 'The data of the product item to be renewed.',
       },
     },
     type: 'object',
@@ -3592,9 +3711,13 @@ export const ComponentsSchemas = {
     properties: {
       clientData: {
         $ref: '#/components/schemas/ClientDataDto',
+        title: 'Client Data',
+        description: "The client's data for the request.",
       },
       itemData: {
         $ref: '#/components/schemas/ProductItemDataDto',
+        title: 'Item Data',
+        description: 'The data of the product item to be suspended.',
       },
     },
     type: 'object',
@@ -3604,9 +3727,13 @@ export const ComponentsSchemas = {
     properties: {
       clientData: {
         $ref: '#/components/schemas/ClientDataDto',
+        title: 'Client Data',
+        description: "The client's data for the request.",
       },
       itemData: {
         $ref: '#/components/schemas/ProductItemDataDto',
+        title: 'Item Data',
+        description: 'The data of the product item to be unsuspended.',
       },
     },
     type: 'object',
@@ -3616,12 +3743,18 @@ export const ComponentsSchemas = {
     properties: {
       clientData: {
         $ref: '#/components/schemas/ClientDataDto',
+        title: 'Client Data',
+        description: "The client's data for the request.",
       },
       itemData: {
         $ref: '#/components/schemas/ProductItemDataDto',
+        title: 'Item Data',
+        description: 'The data of the product item to be upgraded.',
       },
       previousItemData: {
         $ref: '#/components/schemas/ProductItemDataDto',
+        title: 'Previous Item Data',
+        description: 'The data of the product item before the upgrade.',
       },
     },
     type: 'object',
@@ -3631,9 +3764,13 @@ export const ComponentsSchemas = {
     properties: {
       clientData: {
         $ref: '#/components/schemas/ClientDataDto',
+        title: 'Client Data',
+        description: "The client's data for the request.",
       },
       itemData: {
         $ref: '#/components/schemas/ProductItemDataDto',
+        title: 'Item Data',
+        description: 'The data of the product item to be checked.',
       },
     },
     type: 'object',
@@ -3643,6 +3780,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating the outcome of the creation.',
       },
       itemId: {
         type: 'string',
@@ -3682,6 +3822,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating the outcome of the deletion.',
       },
       itemId: {
         type: 'string',
@@ -3721,6 +3864,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating the outcome of the downgrade.',
       },
       itemId: {
         type: 'string',
@@ -3760,6 +3906,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating success or failure.',
       },
       itemId: {
         type: 'string',
@@ -3791,6 +3940,8 @@ export const ComponentsSchemas = {
     properties: {
       info: {
         $ref: '#/components/schemas/ProductInfoDto',
+        title: 'Info',
+        description: 'The detailed information of the product.',
       },
       code: {
         type: 'number',
@@ -3811,6 +3962,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating the outcome of the renewal.',
       },
       itemId: {
         type: 'string',
@@ -3850,6 +4004,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating the outcome of the suspend operation.',
       },
       itemId: {
         type: 'string',
@@ -3889,6 +4046,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating the outcome of the unsuspend operation.',
       },
       itemId: {
         type: 'string',
@@ -3928,6 +4088,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating the outcome of the upgrade.',
       },
       itemId: {
         type: 'string',
@@ -3967,6 +4130,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating success or failure.',
       },
       itemId: {
         type: 'string',
@@ -4022,12 +4188,18 @@ export const ComponentsSchemas = {
       },
       company: {
         $ref: '#/components/schemas/CompanyDataDto',
+        title: 'Company',
+        description: 'Company data.',
       },
       invoiceContact: {
         $ref: '#/components/schemas/InvoiceContactData',
+        title: 'Invoice Contact',
+        description: 'Invoice contact data (without invoiceContactId).',
       },
       currency: {
         $ref: '#/components/schemas/CurrencyEnum',
+        title: 'Currency',
+        description: 'Currency of the invoice.',
       },
       items: {
         items: {
@@ -4071,6 +4243,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating the outcome of the issuance.',
       },
       outboxId: {
         minLength: 1,
@@ -4118,6 +4293,9 @@ export const ComponentsSchemas = {
     properties: {
       status: {
         $ref: '#/components/schemas/ResponseStatusEnum',
+        title: 'Status',
+        description:
+          'The status of the response, indicating the outcome of the issuance.',
       },
       outboxId: {
         minLength: 1,
