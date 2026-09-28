@@ -63,7 +63,7 @@ class JwtPayloadDto {
     title: 'Accepted Roles',
     description: 'The roles accepted by the company for this integration.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(RolesEnum) },
+    items: { $ref: '#/components/schemas/RolesEnum' },
   })
   acceptedRoles!: RolesEnum[];
 }

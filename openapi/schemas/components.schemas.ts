@@ -1,43 +1,4 @@
 export const ComponentsSchemas = {
-  CountryDto: {
-    properties: {
-      name: {
-        minLength: 1,
-        type: 'string',
-        title: 'Name',
-        description: 'Country name.',
-      },
-      code: {
-        $ref: '#/components/schemas/CountryEnum',
-      },
-      isEurope: {
-        type: 'boolean',
-        title: 'Is Europe',
-        description: 'Whether the country is in Europe.',
-      },
-    },
-    type: 'object',
-    required: ['name', 'code'],
-  },
-  TabDto: {
-    properties: {
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Text label for the tab.',
-      },
-      url: {
-        minLength: 1,
-        type: 'string',
-        format: 'uri',
-        title: 'URL',
-        description: 'URL associated with the tab.',
-      },
-    },
-    type: 'object',
-    required: ['label', 'url'],
-  },
   ActionDto: {
     properties: {
       icon: {
@@ -65,556 +26,320 @@ export const ComponentsSchemas = {
     type: 'object',
     required: ['icon', 'openMethod', 'url'],
   },
-  BaseMenuDto: {
+  AttachmentDto: {
     properties: {
-      icon: {
-        minLength: 1,
+      filename: {
         type: 'string',
-        title: 'Icon',
-        description: 'Icon for the menu item.',
+        minLength: 1,
+        title: 'Filename',
+        description: 'The name of the attached file.',
       },
-      label: {
-        minLength: 1,
+      content: {
+        format: 'byte',
         type: 'string',
-        title: 'Label',
-        description: 'Label for the menu item.',
+        minLength: 1,
+        title: 'Content',
+        description: 'The content of the file in Base64 encoding.',
+      },
+      contentType: {
+        type: 'string',
+        title: 'Content Type',
+        description: 'The content type of the file (MIME type).',
       },
     },
     type: 'object',
-    required: ['icon', 'label'],
+    required: ['filename', 'content'],
   },
-  MenuDtoWithUrl: {
+  BaseResponse: {
     properties: {
-      type: {
-        type: 'string',
-        enum: ['only-url'],
+      code: {
         minLength: 1,
-        title: 'Type',
-        description: 'Type of the menu item.',
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
       },
-      url: {
-        minLength: 1,
-        type: 'string',
-        format: 'uri',
-        title: 'URL',
-        description: 'URL associated with the menu item.',
-      },
-      icon: {
+      message: {
         minLength: 1,
         type: 'string',
-        title: 'Icon',
-        description: 'Icon for the menu item.',
+        title: 'Message',
+        description: 'Response message.',
       },
-      label: {
+    },
+    type: 'object',
+    required: ['code', 'message'],
+  },
+  ClientDataDto: {
+    properties: {
+      email: {
+        format: 'email',
+        type: 'string',
+        title: 'Email',
+        description: 'Email of the user.',
+      },
+      firstName: {
+        type: 'string',
+        title: 'First Name',
+        description: 'First name of the user.',
+      },
+      lastName: {
+        type: 'string',
+        title: 'Last Name',
+        description: 'Last name of the user.',
+      },
+      telephone: {
+        type: 'string',
         minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Label for the menu item.',
+        title: 'Telephone',
+        description: 'Telephone number of the user.',
       },
-    },
-    type: 'object',
-    required: ['type', 'url', 'submenu', 'icon', 'label'],
-  },
-  MenuDtoWithSubmenu: {
-    properties: {
-      type: {
+      mobile: {
         type: 'string',
-        enum: ['with-submenu'],
+        title: 'Mobile',
+        description: 'Mobile number of the user.',
+      },
+      address1: {
+        maxLength: 250,
+        type: 'string',
         minLength: 1,
-        title: 'Type',
-        description: 'Type of the menu item.',
+        title: 'Address Line 1',
+        description: 'Address line 1 of the user.',
       },
-      submenu: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        type: 'array',
-        title: 'Submenu',
-        description: 'List of tabs that will appear in the submenu.',
+      address2: {
+        maxLength: 250,
+        type: 'string',
+        minLength: 0,
+        title: 'Address Line 2',
+        description: 'Address line 2 of the user.',
       },
-      icon: {
+      address3: {
+        maxLength: 250,
+        type: 'string',
+        minLength: 0,
+        title: 'Address Line 3',
+        description: 'Address line 3 of the user.',
+      },
+      postcode: {
+        maxLength: 16,
+        type: 'string',
         minLength: 1,
-        type: 'string',
-        title: 'Icon',
-        description: 'Icon for the menu item.',
+        title: 'Postcode',
+        description: 'Postal code of the user.',
       },
-      label: {
+      city: {
+        maxLength: 250,
+        type: 'string',
         minLength: 1,
+        title: 'City',
+        description: 'City of the user.',
+      },
+      country: {
+        $ref: '#/components/schemas/CountryEnum',
+      },
+      state: {
+        maxLength: 250,
         type: 'string',
-        title: 'Label',
-        description: 'Label for the menu item.',
+        minLength: 0,
+        title: 'State',
+        description: 'State of the user.',
+      },
+      vat: {
+        type: 'string',
+        title: 'VAT',
+        description: 'VAT number of the user.',
+      },
+      taxOffice: {
+        type: 'string',
+        title: 'Tax Office',
+        description: 'Tax office of the user.',
       },
     },
     type: 'object',
-    required: ['type', 'url', 'submenu', 'icon', 'label'],
+    required: [
+      'email',
+      'firstName',
+      'lastName',
+      'telephone',
+      'address1',
+      'postcode',
+      'city',
+      'country',
+    ],
   },
-  SettingsDto: {
-    properties: {
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Label of the settings page.',
-      },
-      icon: {
-        type: 'string',
-        title: 'Icon',
-        description: 'Icon of the settings page.',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Description of the settings page.',
-      },
-    },
-    type: 'object',
-    required: ['label', 'icon', 'description'],
-  },
-  SettingsWithUrlDto: {
-    properties: {
-      url: {
-        format: 'url',
-        type: 'string',
-        title: 'URL',
-        description: 'URL to the settings page.',
-      },
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Label of the settings page.',
-      },
-      icon: {
-        type: 'string',
-        title: 'Icon',
-        description: 'Icon of the settings page.',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Description of the settings page.',
-      },
-    },
-    type: 'object',
-    required: ['url', 'tabs', 'label', 'icon', 'description'],
-  },
-  SettingsWithTabsDto: {
-    properties: {
-      tabs: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        type: 'array',
-        title: 'Tabs',
-        description: 'List of tabs for the settings page.',
-      },
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Label of the settings page.',
-      },
-      icon: {
-        type: 'string',
-        title: 'Icon',
-        description: 'Icon of the settings page.',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Description of the settings page.',
-      },
-    },
-    type: 'object',
-    required: ['tabs', 'url', 'label', 'icon', 'description'],
-  },
-  AdminPanelTabsDto: {
-    properties: {
-      product: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Product Tabs',
-        description: 'Tabs shown on the product detail page in Admin panel.',
-      },
-      item: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Item Tabs',
-        description: 'Tabs shown on the item detail page in Admin panel.',
-      },
-      client: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Client Tabs',
-        description: 'Tabs shown on the client profile page in Admin panel.',
-      },
-      user: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'User Tabs',
-        description: 'Tabs shown on the user page in Admin panel.',
-      },
-      order: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Order Tabs',
-        description: 'Tabs shown on the order page in Admin panel.',
-      },
-    },
-    type: 'object',
-  },
-  AdminPanelMoreActionsDto: {
-    properties: {
-      client: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Client Actions',
-        description: 'Additional actions available on the client page.',
-      },
-      item: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Item Actions',
-        description: 'Additional actions available on the item page.',
-      },
-      invoice: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Invoice Actions',
-        description: 'Additional actions available on the invoice page.',
-      },
-      user: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'User Actions',
-        description: 'Additional actions available on the user page.',
-      },
-      order: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Order Actions',
-        description: 'Additional actions available on the order page.',
-      },
-    },
-    type: 'object',
-  },
-  AdminPanelDto: {
-    properties: {
-      tabs: {
-        $ref: '#/components/schemas/AdminPanelTabsDto',
-      },
-      moreActions: {
-        $ref: '#/components/schemas/AdminPanelMoreActionsDto',
-      },
-      menu: {
-        title: 'Menu',
-        description: 'Admin panel main menu (URL or submenu variant).',
-        type: 'object',
-        oneOf: [
-          {
-            $ref: '#/components/schemas/MenuDtoWithSubmenu',
-          },
-          {
-            $ref: '#/components/schemas/MenuDtoWithUrl',
-          },
-        ],
-      },
-      settings: {
-        title: 'Settings',
-        description: 'Admin panel settings page configuration.',
-        type: 'object',
-        oneOf: [
-          {
-            $ref: '#/components/schemas/SettingsWithUrlDto',
-          },
-          {
-            $ref: '#/components/schemas/SettingsWithTabsDto',
-          },
-        ],
-      },
-    },
-    type: 'object',
-  },
-  ClientPanelTabsDto: {
-    properties: {
-      item: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Item Tabs',
-        description: 'Tabs shown on the item page in Client panel.',
-      },
-    },
-    type: 'object',
-  },
-  ClientPanelMoreActionsDto: {
-    properties: {
-      item: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Item Actions',
-        description:
-          'Additional actions available on the item page in Client panel.',
-      },
-    },
-    type: 'object',
-  },
-  ClientPanelDto: {
-    properties: {
-      tabs: {
-        $ref: '#/components/schemas/ClientPanelTabsDto',
-      },
-      moreActions: {
-        $ref: '#/components/schemas/ClientPanelMoreActionsDto',
-      },
-      menu: {
-        title: 'Menu',
-        description: 'Client panel main menu (URL or submenu variant).',
-        oneOf: [
-          {
-            $ref: '#/components/schemas/MenuDtoWithSubmenu',
-          },
-          {
-            $ref: '#/components/schemas/MenuDtoWithUrl',
-          },
-        ],
-      },
-    },
-    type: 'object',
-  },
-  InfoDto: {
-    properties: {
-      title: {
-        minLength: 1,
-        type: 'string',
-        title: 'Title',
-        description: 'Integration display title.',
-        example: 'Example Product',
-      },
-      logo: {
-        format: 'uri',
-        type: 'string',
-        title: 'Logo URL',
-        description: 'Public HTTPS URL for the integration logo.',
-        example: 'https://cdn.example.com/logo.png',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Short description of the integration.',
-        example: 'An example product integration.',
-      },
-      supportedLanguages: {
-        items: {
-          $ref: '#/components/schemas/LanguageEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Supported Languages',
-        description: 'Locales supported by the integration.',
-        example: ['EN'],
-      },
-      listenEvents: {
-        items: {
-          $ref: '#/components/schemas/EventsEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Listen Events',
-        description: 'Platform events the integration can subscribe to.',
-      },
-      requiredRoles: {
-        items: {
-          $ref: '#/components/schemas/RolesEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Required Roles',
-        description: 'Roles required for this integration to operate.',
-      },
-      adminPanel: {
-        $ref: '#/components/schemas/AdminPanelDto',
-      },
-      clientPanel: {
-        $ref: '#/components/schemas/ClientPanelDto',
-      },
-      onboardingUrl: {
-        format: 'uri',
-        type: 'string',
-        title: 'Onboarding URL',
-        description: 'URL to onboard/configure the integration.',
-        example: 'https://example.com/onboarding',
-      },
-      setupAttributes: {
-        items: {
-          $ref: '#/components/schemas/AnyFieldDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Setup Attributes',
-        description:
-          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
-      },
-    },
-    type: 'object',
-    required: ['title', 'supportedLanguages'],
-  },
-  UnitDto: {
+  CompanyDataDto: {
     properties: {
       id: {
         minLength: 1,
         type: 'string',
-        title: 'Unit ID',
-        description: 'Unit identifier.',
-        example: 'messages',
+        title: 'ID',
+        description: 'The unique identifier for the company.',
       },
-      unitDescription: {
+      name: {
         minLength: 1,
         type: 'string',
-        title: 'Unit Description',
-        description: 'What is measured.',
-        example: 'Message sent',
+        title: 'Name',
+        description: 'The name of the company.',
       },
-      intervalDescription: {
-        minLength: 1,
-        type: 'string',
-        title: 'Interval Description',
-        description: 'Billing interval.',
-        example: 'Per month',
-      },
-    },
-    type: 'object',
-    required: ['id', 'unitDescription', 'intervalDescription'],
-  },
-  NotificationInfoDto: {
-    properties: {
-      type: {
-        $ref: '#/components/schemas/NotificationMessageTypeEnum',
-      },
-      payPerUseUnits: {
+      emails: {
         items: {
-          $ref: '#/components/schemas/UnitDto',
+          format: 'email',
+          type: 'string',
         },
         type: 'array',
-        title: 'Pay-Per-Use Units',
-        description: 'Optional metering units for pay-per-use billing.',
-        example: [
-          {
-            id: 'messages',
-            unitDescription: 'Message sent',
-            intervalDescription: 'Per month',
-          },
-        ],
+        title: 'Emails',
+        description: 'Email addresses associated with the company.',
       },
-      title: {
-        minLength: 1,
+      invoiceEmail: {
+        format: 'email',
         type: 'string',
-        title: 'Title',
-        description: 'Integration display title.',
-        example: 'Example Product',
+        title: 'Invoice Email',
+        description: 'The email address used for invoicing.',
       },
-      logo: {
+      privacyPolicyUrl: {
         format: 'uri',
         type: 'string',
-        title: 'Logo URL',
-        description: 'Public HTTPS URL for the integration logo.',
-        example: 'https://cdn.example.com/logo.png',
+        title: 'Privacy Policy URL',
+        description: "The URL for the company's privacy policy.",
       },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Short description of the integration.',
-        example: 'An example product integration.',
+      defaultLanguage: {
+        $ref: '#/components/schemas/LanguageEnum',
       },
-      supportedLanguages: {
+      languages: {
         items: {
           $ref: '#/components/schemas/LanguageEnum',
         },
-        minItems: 1,
         type: 'array',
-        title: 'Supported Languages',
-        description: 'Locales supported by the integration.',
-        example: ['EN'],
+        title: 'Languages',
+        description: 'Supported languages for the company.',
       },
-      listenEvents: {
-        items: {
-          $ref: '#/components/schemas/EventsEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Listen Events',
-        description: 'Platform events the integration can subscribe to.',
-      },
-      requiredRoles: {
-        items: {
-          $ref: '#/components/schemas/RolesEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Required Roles',
-        description: 'Roles required for this integration to operate.',
-      },
-      adminPanel: {
-        $ref: '#/components/schemas/AdminPanelDto',
-      },
-      clientPanel: {
-        $ref: '#/components/schemas/ClientPanelDto',
-      },
-      onboardingUrl: {
-        format: 'uri',
+      telephone: {
         type: 'string',
-        title: 'Onboarding URL',
-        description: 'URL to onboard/configure the integration.',
-        example: 'https://example.com/onboarding',
+        title: 'Telephone',
+        description: 'The primary telephone number for the company.',
       },
-      setupAttributes: {
-        items: {
-          $ref: '#/components/schemas/AnyFieldDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Setup Attributes',
-        description:
-          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
+      mobile: {
+        type: 'string',
+        title: 'Mobile',
+        description: 'The mobile phone number for the company.',
+      },
+      address1: {
+        type: 'string',
+        title: 'Address Line 1',
+        description: "The first line of the company's address.",
+      },
+      address2: {
+        type: 'string',
+        title: 'Address Line 2',
+        description: "The second line of the company's address.",
+      },
+      address3: {
+        type: 'string',
+        title: 'Address Line 3',
+        description: "The third line of the company's address.",
+      },
+      postcode: {
+        type: 'string',
+        title: 'Postcode',
+        description: "The postal code for the company's address.",
+      },
+      city: {
+        type: 'string',
+        title: 'City',
+        description: "The city for the company's address.",
+      },
+      country: {
+        $ref: '#/components/schemas/CountryEnum',
+      },
+      state: {
+        type: 'string',
+        title: 'State',
+        description: "The state or province for the company's address.",
+      },
+      vat: {
+        type: 'string',
+        title: 'VAT',
+        description: 'The VAT number for the company.',
+      },
+      taxOffice: {
+        type: 'string',
+        title: 'Tax Office',
+        description: 'The tax office for the company.',
+      },
+      logoUrl: {
+        type: 'string',
+        title: 'Logo URL',
+        description: 'The logo URL for the company.',
+        format: 'uri',
       },
     },
     type: 'object',
-    required: ['type', 'title', 'supportedLanguages'],
+    required: [
+      'id',
+      'name',
+      'emails',
+      'invoiceEmail',
+      'privacyPolicyUrl',
+      'defaultLanguage',
+      'languages',
+      'telephone',
+      'address1',
+      'postcode',
+      'city',
+      'country',
+    ],
+  },
+  CountryDto: {
+    properties: {
+      name: {
+        minLength: 1,
+        type: 'string',
+        title: 'Name',
+        description: 'Country name.',
+      },
+      code: {
+        $ref: '#/components/schemas/CountryEnum',
+      },
+      isEurope: {
+        type: 'boolean',
+        title: 'Is Europe',
+        description: 'Whether the country is in Europe.',
+      },
+    },
+    type: 'object',
+    required: ['name', 'code'],
+  },
+  ErrorResponseDto: {
+    properties: {
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description:
+          'A unique and specific error code for programmatic error handling.',
+        example: 400,
+      },
+      errors: {
+        items: {
+          type: 'string',
+        },
+        type: 'array',
+        title: 'Errors',
+        description:
+          'A developer-friendly error message or an array of messages.',
+        oneOf: [
+          {
+            type: 'string',
+          },
+          {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        ],
+      },
+    },
+    type: 'object',
+    required: ['code'],
   },
   AttributeFieldDto: {
     properties: {
@@ -645,185 +370,14 @@ export const ComponentsSchemas = {
     type: 'object',
     required: ['field'],
   },
-  ProductInfoDto: {
+  AddonFieldDto: {
     properties: {
-      productAttributes: {
-        items: {
-          $ref: '#/components/schemas/AttributeFieldDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Product Attributes',
-        description: 'Configurable attributes that apply at the product level.',
-      },
-      itemAttributes: {
-        items: {
-          $ref: '#/components/schemas/AttributeFieldDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Item Attributes',
-        description: 'Configurable attributes that apply at the item level.',
-      },
-      payPerUseUnits: {
-        items: {
-          $ref: '#/components/schemas/UnitDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Pay-Per-Use Units',
-        description: 'Optional metering units for pay-per-use billing.',
-        example: [
-          {
-            id: 'requests',
-            unitDescription: 'API request',
-            intervalDescription: 'Per month',
-          },
-        ],
-      },
-      responseDataFieldNames: {
-        title: 'Response Data Field Names',
-        description: 'Mapping of field names used in provider responses.',
-        type: 'object',
-        additionalProperties: {
-          type: 'string',
-        },
-        example: {
-          external_id: 'id',
-          status_text: 'status',
-        },
-      },
-      supportedActions: {
-        items: {
-          $ref: '#/components/schemas/ProductActionsEnum',
-        },
-        type: 'array',
-        minLength: 1,
-        title: 'Supported Actions',
-        description: 'Actions supported by this integration.',
-      },
-      title: {
-        minLength: 1,
-        type: 'string',
-        title: 'Title',
-        description: 'Integration display title.',
-        example: 'Example Product',
-      },
-      logo: {
-        format: 'uri',
-        type: 'string',
-        title: 'Logo URL',
-        description: 'Public HTTPS URL for the integration logo.',
-        example: 'https://cdn.example.com/logo.png',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Short description of the integration.',
-        example: 'An example product integration.',
-      },
-      supportedLanguages: {
-        items: {
-          $ref: '#/components/schemas/LanguageEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Supported Languages',
-        description: 'Locales supported by the integration.',
-        example: ['EN'],
-      },
-      listenEvents: {
-        items: {
-          $ref: '#/components/schemas/EventsEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Listen Events',
-        description: 'Platform events the integration can subscribe to.',
-      },
-      requiredRoles: {
-        items: {
-          $ref: '#/components/schemas/RolesEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Required Roles',
-        description: 'Roles required for this integration to operate.',
-      },
-      adminPanel: {
-        $ref: '#/components/schemas/AdminPanelDto',
-      },
-      clientPanel: {
-        $ref: '#/components/schemas/ClientPanelDto',
-      },
-      onboardingUrl: {
-        format: 'uri',
-        type: 'string',
-        title: 'Onboarding URL',
-        description: 'URL to onboard/configure the integration.',
-        example: 'https://example.com/onboarding',
-      },
-      setupAttributes: {
-        items: {
-          $ref: '#/components/schemas/AnyFieldDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Setup Attributes',
-        description:
-          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
+      field: {
+        $ref: '#/components/schemas/AnyFieldDto',
       },
     },
     type: 'object',
-    required: ['supportedActions', 'title', 'supportedLanguages'],
-  },
-  ProxyActionTaskDto: {
-    properties: {
-      outboxId: {
-        pattern: '^[0-9a-fA-F]{24}$',
-        type: 'string',
-        title: 'Outbox Id',
-        description: "The core's outbox row this task delivers.",
-      },
-      integrationUrl: {
-        format: 'url',
-        type: 'string',
-        title: 'Integration URL',
-        description: 'Absolute URL the proxy calls, action included.',
-      },
-      integrationToken: {
-        minLength: 1,
-        type: 'string',
-        title: 'Integration Token',
-        description: 'Bearer for the onward call to the integration.',
-      },
-      hookUrl: {
-        format: 'url',
-        type: 'string',
-        title: 'Hook URL',
-        description: "The core's proxy hook for this action.",
-      },
-      deadLetterQueue: {
-        minLength: 1,
-        type: 'string',
-        title: 'Dead Letter Queue',
-        description: 'Topic for a task that exhausted its retries.',
-      },
-      payload: {
-        type: 'object',
-        title: 'Payload',
-        description: 'The integration request, forwarded untouched.',
-      },
-    },
-    type: 'object',
-    required: [
-      'outboxId',
-      'integrationUrl',
-      'integrationToken',
-      'hookUrl',
-      'deadLetterQueue',
-      'payload',
-    ],
+    required: ['field'],
   },
   MultilangTextDto: {
     properties: {
@@ -902,6 +456,28 @@ export const ComponentsSchemas = {
     },
     type: 'object',
     required: ['id', 'label', 'required', 'disabled'],
+  },
+  FieldOptionDto: {
+    properties: {
+      key: {
+        type: 'string',
+        title: 'Key',
+        description: 'Internal key for the option.',
+      },
+      value: {
+        type: 'string',
+        title: 'Value',
+        description: 'Display value for the option.',
+      },
+      disabled: {
+        type: 'boolean',
+        title: 'Disabled',
+        description: 'Whether the option is disabled.',
+        default: false,
+      },
+    },
+    type: 'object',
+    required: ['key', 'value'],
   },
   BooleanFieldDto: {
     properties: {
@@ -1816,28 +1392,6 @@ export const ComponentsSchemas = {
     type: 'object',
     required: ['type', 'id', 'label', 'required', 'disabled'],
   },
-  FieldOptionDto: {
-    properties: {
-      key: {
-        type: 'string',
-        title: 'Key',
-        description: 'Internal key for the option.',
-      },
-      value: {
-        type: 'string',
-        title: 'Value',
-        description: 'Display value for the option.',
-      },
-      disabled: {
-        type: 'boolean',
-        title: 'Disabled',
-        description: 'Whether the option is disabled.',
-        default: false,
-      },
-    },
-    type: 'object',
-    required: ['key', 'value'],
-  },
   SelectFieldDto: {
     properties: {
       type: {
@@ -2017,6 +1571,2628 @@ export const ComponentsSchemas = {
     },
     type: 'object',
     required: ['type', 'options', 'id', 'label', 'required', 'disabled'],
+  },
+  JwtPayloadDto: {
+    properties: {
+      integrationId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Integration ID',
+        description: 'The unique identifier for the integration.',
+      },
+      userId: {
+        type: 'string',
+        title: 'User ID',
+        description:
+          'The unique identifier for the user who triggered the API call.',
+      },
+      companyId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Company ID',
+        description: 'The unique identifier for the company.',
+      },
+      acceptedRoles: {
+        items: {
+          $ref: '#/components/schemas/RolesEnum',
+        },
+        type: 'array',
+        title: 'Accepted Roles',
+        description: 'The roles accepted by the company for this integration.',
+      },
+    },
+    type: 'object',
+    required: ['integrationId', 'companyId', 'acceptedRoles'],
+  },
+  JwtDto: {
+    properties: {
+      jwt: {
+        $ref: '#/components/schemas/JwtPayloadDto',
+      },
+    },
+    type: 'object',
+    required: ['jwt'],
+  },
+  TabDto: {
+    properties: {
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Text label for the tab.',
+      },
+      url: {
+        minLength: 1,
+        type: 'string',
+        format: 'uri',
+        title: 'URL',
+        description: 'URL associated with the tab.',
+      },
+    },
+    type: 'object',
+    required: ['label', 'url'],
+  },
+  BaseMenuDto: {
+    properties: {
+      icon: {
+        minLength: 1,
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon for the menu item.',
+      },
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label for the menu item.',
+      },
+    },
+    type: 'object',
+    required: ['icon', 'label'],
+  },
+  MenuDtoWithUrl: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['only-url'],
+        minLength: 1,
+        title: 'Type',
+        description: 'Type of the menu item.',
+      },
+      url: {
+        minLength: 1,
+        type: 'string',
+        format: 'uri',
+        title: 'URL',
+        description: 'URL associated with the menu item.',
+      },
+      icon: {
+        minLength: 1,
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon for the menu item.',
+      },
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label for the menu item.',
+      },
+    },
+    type: 'object',
+    required: ['type', 'url', 'submenu', 'icon', 'label'],
+  },
+  MenuDtoWithSubmenu: {
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['with-submenu'],
+        minLength: 1,
+        title: 'Type',
+        description: 'Type of the menu item.',
+      },
+      submenu: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
+        },
+        type: 'array',
+        title: 'Submenu',
+        description: 'List of tabs that will appear in the submenu.',
+      },
+      icon: {
+        minLength: 1,
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon for the menu item.',
+      },
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label for the menu item.',
+      },
+    },
+    type: 'object',
+    required: ['type', 'url', 'submenu', 'icon', 'label'],
+  },
+  SetupStatusResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/SetupStatusEnum',
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'code', 'message'],
+  },
+  UnitDto: {
+    properties: {
+      id: {
+        minLength: 1,
+        type: 'string',
+        title: 'Unit ID',
+        description: 'Unit identifier.',
+        example: 'messages',
+      },
+      unitDescription: {
+        minLength: 1,
+        type: 'string',
+        title: 'Unit Description',
+        description: 'What is measured.',
+        example: 'Message sent',
+      },
+      intervalDescription: {
+        minLength: 1,
+        type: 'string',
+        title: 'Interval Description',
+        description: 'Billing interval.',
+        example: 'Per month',
+      },
+    },
+    type: 'object',
+    required: ['id', 'unitDescription', 'intervalDescription'],
+  },
+  SettingsDto: {
+    properties: {
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label of the settings page.',
+      },
+      icon: {
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon of the settings page.',
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Description of the settings page.',
+      },
+    },
+    type: 'object',
+    required: ['label', 'icon', 'description'],
+  },
+  SettingsWithUrlDto: {
+    properties: {
+      url: {
+        format: 'url',
+        type: 'string',
+        title: 'URL',
+        description: 'URL to the settings page.',
+      },
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label of the settings page.',
+      },
+      icon: {
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon of the settings page.',
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Description of the settings page.',
+      },
+    },
+    type: 'object',
+    required: ['url', 'tabs', 'label', 'icon', 'description'],
+  },
+  SettingsWithTabsDto: {
+    properties: {
+      tabs: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
+        },
+        type: 'array',
+        title: 'Tabs',
+        description: 'List of tabs for the settings page.',
+      },
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Label of the settings page.',
+      },
+      icon: {
+        type: 'string',
+        title: 'Icon',
+        description: 'Icon of the settings page.',
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Description of the settings page.',
+      },
+    },
+    type: 'object',
+    required: ['tabs', 'url', 'label', 'icon', 'description'],
+  },
+  AdminPanelTabsDto: {
+    properties: {
+      product: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Product Tabs',
+        description: 'Tabs shown on the product detail page in Admin panel.',
+      },
+      item: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Item Tabs',
+        description: 'Tabs shown on the item detail page in Admin panel.',
+      },
+      client: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Client Tabs',
+        description: 'Tabs shown on the client profile page in Admin panel.',
+      },
+      user: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'User Tabs',
+        description: 'Tabs shown on the user page in Admin panel.',
+      },
+      order: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Order Tabs',
+        description: 'Tabs shown on the order page in Admin panel.',
+      },
+    },
+    type: 'object',
+  },
+  AdminPanelMoreActionsDto: {
+    properties: {
+      client: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Client Actions',
+        description: 'Additional actions available on the client page.',
+      },
+      item: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Item Actions',
+        description: 'Additional actions available on the item page.',
+      },
+      invoice: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Invoice Actions',
+        description: 'Additional actions available on the invoice page.',
+      },
+      user: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'User Actions',
+        description: 'Additional actions available on the user page.',
+      },
+      order: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Order Actions',
+        description: 'Additional actions available on the order page.',
+      },
+    },
+    type: 'object',
+  },
+  AdminPanelDto: {
+    properties: {
+      tabs: {
+        $ref: '#/components/schemas/AdminPanelTabsDto',
+      },
+      moreActions: {
+        $ref: '#/components/schemas/AdminPanelMoreActionsDto',
+      },
+      menu: {
+        title: 'Menu',
+        description: 'Admin panel main menu (URL or submenu variant).',
+        type: 'object',
+        oneOf: [
+          {
+            $ref: '#/components/schemas/MenuDtoWithSubmenu',
+          },
+          {
+            $ref: '#/components/schemas/MenuDtoWithUrl',
+          },
+        ],
+      },
+      settings: {
+        title: 'Settings',
+        description: 'Admin panel settings page configuration.',
+        type: 'object',
+        oneOf: [
+          {
+            $ref: '#/components/schemas/SettingsWithUrlDto',
+          },
+          {
+            $ref: '#/components/schemas/SettingsWithTabsDto',
+          },
+        ],
+      },
+    },
+    type: 'object',
+  },
+  ProxyActionTaskDto: {
+    properties: {
+      outboxId: {
+        pattern: '^[0-9a-fA-F]{24}$',
+        type: 'string',
+        title: 'Outbox Id',
+        description: "The core's outbox row this task delivers.",
+      },
+      integrationUrl: {
+        format: 'url',
+        type: 'string',
+        title: 'Integration URL',
+        description: 'Absolute URL the proxy calls, action included.',
+      },
+      integrationToken: {
+        minLength: 1,
+        type: 'string',
+        title: 'Integration Token',
+        description: 'Bearer for the onward call to the integration.',
+      },
+      hookUrl: {
+        format: 'url',
+        type: 'string',
+        title: 'Hook URL',
+        description: "The core's proxy hook for this action.",
+      },
+      deadLetterQueue: {
+        minLength: 1,
+        type: 'string',
+        title: 'Dead Letter Queue',
+        description: 'Topic for a task that exhausted its retries.',
+      },
+      payload: {
+        type: 'object',
+        title: 'Payload',
+        description: 'The integration request, forwarded untouched.',
+      },
+    },
+    type: 'object',
+    required: [
+      'outboxId',
+      'integrationUrl',
+      'integrationToken',
+      'hookUrl',
+      'deadLetterQueue',
+      'payload',
+    ],
+  },
+  ClientPanelTabsDto: {
+    properties: {
+      item: {
+        items: {
+          $ref: '#/components/schemas/TabDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Item Tabs',
+        description: 'Tabs shown on the item page in Client panel.',
+      },
+    },
+    type: 'object',
+  },
+  ClientPanelMoreActionsDto: {
+    properties: {
+      item: {
+        items: {
+          $ref: '#/components/schemas/ActionDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Item Actions',
+        description:
+          'Additional actions available on the item page in Client panel.',
+      },
+    },
+    type: 'object',
+  },
+  ClientPanelDto: {
+    properties: {
+      tabs: {
+        $ref: '#/components/schemas/ClientPanelTabsDto',
+      },
+      moreActions: {
+        $ref: '#/components/schemas/ClientPanelMoreActionsDto',
+      },
+      menu: {
+        title: 'Menu',
+        description: 'Client panel main menu (URL or submenu variant).',
+        oneOf: [
+          {
+            $ref: '#/components/schemas/MenuDtoWithSubmenu',
+          },
+          {
+            $ref: '#/components/schemas/MenuDtoWithUrl',
+          },
+        ],
+      },
+    },
+    type: 'object',
+  },
+  InfoDto: {
+    properties: {
+      title: {
+        minLength: 1,
+        type: 'string',
+        title: 'Title',
+        description: 'Integration display title.',
+        example: 'Example Product',
+      },
+      logo: {
+        format: 'uri',
+        type: 'string',
+        title: 'Logo URL',
+        description: 'Public HTTPS URL for the integration logo.',
+        example: 'https://cdn.example.com/logo.png',
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Short description of the integration.',
+        example: 'An example product integration.',
+      },
+      supportedLanguages: {
+        items: {
+          $ref: '#/components/schemas/LanguageEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Supported Languages',
+        description: 'Locales supported by the integration.',
+        example: ['EN'],
+      },
+      listenEvents: {
+        items: {
+          $ref: '#/components/schemas/EventsEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Listen Events',
+        description: 'Platform events the integration can subscribe to.',
+      },
+      requiredRoles: {
+        items: {
+          $ref: '#/components/schemas/RolesEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Required Roles',
+        description: 'Roles required for this integration to operate.',
+      },
+      adminPanel: {
+        $ref: '#/components/schemas/AdminPanelDto',
+      },
+      clientPanel: {
+        $ref: '#/components/schemas/ClientPanelDto',
+      },
+      onboardingUrl: {
+        format: 'uri',
+        type: 'string',
+        title: 'Onboarding URL',
+        description: 'URL to onboard/configure the integration.',
+        example: 'https://example.com/onboarding',
+      },
+      setupAttributes: {
+        items: {
+          $ref: '#/components/schemas/AnyFieldDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Setup Attributes',
+        description:
+          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
+      },
+    },
+    type: 'object',
+    required: ['title', 'supportedLanguages'],
+  },
+  InvoiceContactData: {
+    properties: {
+      invoiceContactId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Invoice Contact ID',
+        description: 'Unique identifier for the invoice contact.',
+      },
+      isBusinessContact: {
+        minLength: 1,
+        type: 'boolean',
+        title: 'Is Business Contact',
+        description: 'Whether this is a business contact or individual person.',
+      },
+      firstName: {
+        minLength: 1,
+        type: 'string',
+        title: 'First Name',
+        description: "Contact's first name.",
+      },
+      lastName: {
+        minLength: 1,
+        type: 'string',
+        title: 'Last Name',
+        description: "Contact's last name.",
+      },
+      businessName: {
+        type: 'string',
+        title: 'Business Name',
+        description: 'Business name (required when isBusinessContact is true).',
+      },
+      email: {
+        minLength: 1,
+        type: 'string',
+        format: 'email',
+        title: 'Email',
+        description: "Contact's email address.",
+      },
+      telephone: {
+        minLength: 1,
+        type: 'string',
+        title: 'Telephone',
+        description: 'Primary telephone number in international format.',
+      },
+      mobile: {
+        type: 'string',
+        title: 'Mobile',
+        description: 'Mobile phone number in international format.',
+      },
+      address1: {
+        maxLength: 250,
+        type: 'string',
+        minLength: 1,
+        title: 'Address Line 1',
+        description: 'Primary address line (street, number).',
+      },
+      address2: {
+        maxLength: 250,
+        type: 'string',
+        title: 'Address Line 2',
+        description: 'Secondary address line (building, floor, apartment).',
+      },
+      address3: {
+        maxLength: 250,
+        type: 'string',
+        title: 'Address Line 3',
+        description: 'Additional address information.',
+      },
+      postcode: {
+        maxLength: 16,
+        type: 'string',
+        minLength: 1,
+        title: 'Postcode',
+        description: 'Postal/ZIP code.',
+      },
+      city: {
+        maxLength: 250,
+        type: 'string',
+        minLength: 1,
+        title: 'City',
+        description: 'City name.',
+      },
+      country: {
+        $ref: '#/components/schemas/CountryEnum',
+      },
+      state: {
+        maxLength: 250,
+        type: 'string',
+        title: 'State',
+        description: 'State/province/region.',
+      },
+      TIN: {
+        type: 'string',
+        title: 'TIN',
+        description: 'Tax Identification Number (TIN/VAT number).',
+      },
+      taxOffice: {
+        type: 'string',
+        title: 'Tax Office',
+        description: 'Tax office name or code.',
+      },
+      profession: {
+        type: 'string',
+        title: 'Profession',
+        description: "Contact's profession or business activity.",
+      },
+    },
+    type: 'object',
+    required: [
+      'invoiceContactId',
+      'isBusinessContact',
+      'firstName',
+      'lastName',
+      'email',
+      'telephone',
+      'address1',
+      'postcode',
+      'city',
+      'country',
+    ],
+  },
+  ItemDataDto: {
+    properties: {
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description: 'The unique identifier for the product item.',
+      },
+      productId: {
+        type: 'string',
+        minLength: 1,
+        title: 'Product ID',
+        description: 'Unique identifier for the product.',
+      },
+      productName: {
+        type: 'string',
+        minLength: 1,
+        title: 'Product Name',
+        description: 'Name of the product.',
+      },
+      resourceName: {
+        type: 'string',
+        minLength: 1,
+        title: 'Resource Name',
+        description: 'Resource name associated with the product.',
+      },
+      productAttributes: {
+        title: 'Product Attributes',
+        description: 'Product-level attributes defined for the product type.',
+        type: 'object',
+        additionalProperties: true,
+      },
+      itemAttributes: {
+        title: 'Item Attributes',
+        description:
+          'Item-specific attributes unique to this product instance.',
+        type: 'object',
+        additionalProperties: true,
+      },
+      creationResponseData: {
+        title: 'Creation Response Data',
+        description: 'Data returned from the creation response.',
+        type: 'object',
+        additionalProperties: true,
+      },
+      startDate: {
+        type: 'string',
+        minLength: 1,
+        title: 'Start Date',
+        description: 'Start date of the product item.',
+      },
+      endDate: {
+        type: 'string',
+        minLength: 1,
+        title: 'End Date',
+        description: 'End date of the product item.',
+      },
+      price: {
+        type: 'number',
+        title: 'Price',
+        description: 'The price of the product item without tax and discount.',
+      },
+      fee: {
+        type: 'number',
+        title: 'Fee',
+        description: 'The fee associated with the product item.',
+      },
+      couponDiscountValue: {
+        type: 'number',
+        title: 'Coupon Discount Value',
+        description: 'The coupon discount value applied to the product item.',
+      },
+      upgradeRemainder: {
+        type: 'number',
+        title: 'Upgrade Remainder',
+        description: 'The upgrade remainder value for the product item.',
+      },
+      subTotal: {
+        type: 'number',
+        title: 'Subtotal',
+        description:
+          'The subtotal of the product item before tax and after discounts.',
+      },
+    },
+    type: 'object',
+    required: [
+      'productId',
+      'productName',
+      'resourceName',
+      'productAttributes',
+      'itemAttributes',
+      'startDate',
+      'endDate',
+    ],
+  },
+  ValidateAttributesRequestDto: {
+    properties: {
+      triggeredByKey: {
+        type: 'string',
+        title: 'Triggered By Key',
+        description: 'The key of the attribute that triggered the validation.',
+      },
+      attributeValues: {
+        type: 'object',
+        title: 'Attribute Values',
+        description: 'A record of attribute values to be validated.',
+        additionalProperties: true,
+      },
+    },
+    type: 'object',
+    required: ['triggeredByKey', 'attributeValues'],
+  },
+  ValidateAttributesResponseDto: {
+    properties: {
+      validatedAttributes: {
+        items: {
+          $ref: '#/components/schemas/AnyFieldDto',
+        },
+        type: 'array',
+        title: 'Validated Attributes',
+        description:
+          'Array of concrete field DTOs (each discriminated by its `type` literal).',
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['validatedAttributes', 'code', 'message'],
+  },
+  NotificationInfoDto: {
+    properties: {
+      type: {
+        $ref: '#/components/schemas/NotificationMessageTypeEnum',
+      },
+      payPerUseUnits: {
+        items: {
+          $ref: '#/components/schemas/UnitDto',
+        },
+        type: 'array',
+        title: 'Pay-Per-Use Units',
+        description: 'Optional metering units for pay-per-use billing.',
+        example: [
+          {
+            id: 'messages',
+            unitDescription: 'Message sent',
+            intervalDescription: 'Per month',
+          },
+        ],
+      },
+      title: {
+        minLength: 1,
+        type: 'string',
+        title: 'Title',
+        description: 'Integration display title.',
+        example: 'Example Product',
+      },
+      logo: {
+        format: 'uri',
+        type: 'string',
+        title: 'Logo URL',
+        description: 'Public HTTPS URL for the integration logo.',
+        example: 'https://cdn.example.com/logo.png',
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Short description of the integration.',
+        example: 'An example product integration.',
+      },
+      supportedLanguages: {
+        items: {
+          $ref: '#/components/schemas/LanguageEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Supported Languages',
+        description: 'Locales supported by the integration.',
+        example: ['EN'],
+      },
+      listenEvents: {
+        items: {
+          $ref: '#/components/schemas/EventsEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Listen Events',
+        description: 'Platform events the integration can subscribe to.',
+      },
+      requiredRoles: {
+        items: {
+          $ref: '#/components/schemas/RolesEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Required Roles',
+        description: 'Roles required for this integration to operate.',
+      },
+      adminPanel: {
+        $ref: '#/components/schemas/AdminPanelDto',
+      },
+      clientPanel: {
+        $ref: '#/components/schemas/ClientPanelDto',
+      },
+      onboardingUrl: {
+        format: 'uri',
+        type: 'string',
+        title: 'Onboarding URL',
+        description: 'URL to onboard/configure the integration.',
+        example: 'https://example.com/onboarding',
+      },
+      setupAttributes: {
+        items: {
+          $ref: '#/components/schemas/AnyFieldDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Setup Attributes',
+        description:
+          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
+      },
+    },
+    type: 'object',
+    required: ['type', 'title', 'supportedLanguages'],
+  },
+  EmailSenderDto: {
+    properties: {
+      fullName: {
+        type: 'string',
+        minLength: 1,
+        title: 'Full Name',
+        description: 'The full name of the sender.',
+      },
+      subject: {
+        minLength: 1,
+        maxLength: 500,
+        type: 'string',
+        title: 'Subject',
+        description: 'The email subject.',
+      },
+      message: {
+        minLength: 1,
+        maxLength: 50000,
+        type: 'string',
+        title: 'Message',
+        description: 'The message content.',
+      },
+      attachments: {
+        items: {
+          $ref: '#/components/schemas/AttachmentDto',
+        },
+        type: 'array',
+        title: 'Attachments',
+        description: 'File attachments.',
+      },
+    },
+    type: 'object',
+    required: ['fullName', 'subject', 'message'],
+  },
+  PushSenderDto: {
+    properties: {
+      messageId: {
+        minLength: 1,
+        maxLength: 255,
+        type: 'string',
+        title: 'Message ID',
+        description: 'Unique identifier of the message.',
+      },
+      userId: {
+        minLength: 1,
+        maxLength: 255,
+        type: 'string',
+        title: 'User ID',
+        description: 'The user ID that will receive the push notification.',
+      },
+      title: {
+        minLength: 1,
+        maxLength: 255,
+        type: 'string',
+        title: 'Title',
+        description: 'The title of the push notification.',
+      },
+      message: {
+        minLength: 1,
+        maxLength: 1000,
+        type: 'string',
+        title: 'Message',
+        description: 'The content of the push notification.',
+      },
+      subtitle: {
+        minLength: 1,
+        maxLength: 255,
+        type: 'string',
+        title: 'Subtitle',
+        description: 'The subtitle of the push notification.',
+      },
+    },
+    type: 'object',
+    required: ['messageId', 'userId', 'title', 'message'],
+  },
+  SmsSenderDto: {
+    properties: {
+      senderPhone: {
+        type: 'string',
+        minLength: 1,
+        title: 'Sender Phone',
+        description: "Sender's phone number.",
+      },
+      message: {
+        type: 'string',
+        minLength: 1,
+        title: 'Message',
+        description: 'The content of the SMS message.',
+      },
+    },
+    type: 'object',
+    required: ['senderPhone', 'message'],
+  },
+  EmailReceiverDto: {
+    properties: {
+      to: {
+        format: 'email',
+        type: 'string',
+        minLength: 1,
+        title: 'To',
+        description: 'The main email address.',
+      },
+      cc: {
+        items: {
+          format: 'email',
+          type: 'string',
+        },
+        type: 'array',
+        uniqueItems: true,
+        title: 'CC',
+        description: 'List of email addresses for carbon copy.',
+      },
+      bcc: {
+        items: {
+          format: 'email',
+          type: 'string',
+        },
+        type: 'array',
+        uniqueItems: true,
+        title: 'BCC',
+        description: 'List of email addresses for blind carbon copy.',
+      },
+    },
+    type: 'object',
+    required: ['to'],
+  },
+  PushReceiverDto: {
+    properties: {
+      userId: {
+        type: 'string',
+        minLength: 1,
+      },
+      deviceTokens: {
+        items: {},
+        minItems: 1,
+        type: 'array',
+      },
+    },
+    type: 'object',
+    required: ['userId', 'deviceTokens'],
+  },
+  SmsReceiverDto: {
+    properties: {
+      receiverPhones: {
+        items: {
+          type: 'string',
+        },
+        type: 'array',
+        uniqueItems: true,
+        title: 'Receiver Phones',
+        description: 'List of recipient phone numbers.',
+      },
+    },
+    type: 'object',
+    required: ['receiverPhones'],
+  },
+  NotificationSendRequestDto: {
+    properties: {
+      notificationId: {
+        type: 'string',
+        minLength: 1,
+        title: 'Notification ID',
+        description: 'Unique identifier for the notification.',
+      },
+      sender: {
+        type: 'string',
+        minLength: 1,
+        title: 'Sender',
+        description:
+          'Sender details (type depends on integration: email, push, or SMS).',
+        oneOf: [
+          {
+            $ref: '#/components/schemas/EmailSenderDto',
+          },
+          {
+            $ref: '#/components/schemas/PushSenderDto',
+          },
+          {
+            $ref: '#/components/schemas/SmsSenderDto',
+          },
+        ],
+      },
+      receiver: {
+        type: 'string',
+        minLength: 1,
+        title: 'Receiver',
+        description:
+          'Recipient details (type depends on integration: email, push, or SMS).',
+        oneOf: [
+          {
+            $ref: '#/components/schemas/EmailReceiverDto',
+          },
+          {
+            $ref: '#/components/schemas/PushReceiverDto',
+          },
+          {
+            $ref: '#/components/schemas/SmsReceiverDto',
+          },
+        ],
+      },
+    },
+    type: 'object',
+    required: ['notificationId', 'sender', 'receiver'],
+  },
+  NotificationSendResponseDto: {
+    properties: {
+      notificationId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Notification ID',
+        description: 'Unique identifier for the sent notification.',
+      },
+    },
+    type: 'object',
+    required: ['notificationId'],
+  },
+  InvoiceInfoDto: {
+    properties: {
+      supportedTypes: {
+        items: {
+          $ref: '#/components/schemas/InvoiceTypesEnum',
+        },
+        type: 'array',
+        minLength: 1,
+        title: 'Supported Types',
+        description: 'Types of invoice supported by this integration.',
+      },
+      title: {
+        minLength: 1,
+        type: 'string',
+        title: 'Title',
+        description: 'Integration display title.',
+        example: 'Example Product',
+      },
+      logo: {
+        format: 'uri',
+        type: 'string',
+        title: 'Logo URL',
+        description: 'Public HTTPS URL for the integration logo.',
+        example: 'https://cdn.example.com/logo.png',
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Short description of the integration.',
+        example: 'An example product integration.',
+      },
+      supportedLanguages: {
+        items: {
+          $ref: '#/components/schemas/LanguageEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Supported Languages',
+        description: 'Locales supported by the integration.',
+        example: ['EN'],
+      },
+      listenEvents: {
+        items: {
+          $ref: '#/components/schemas/EventsEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Listen Events',
+        description: 'Platform events the integration can subscribe to.',
+      },
+      requiredRoles: {
+        items: {
+          $ref: '#/components/schemas/RolesEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Required Roles',
+        description: 'Roles required for this integration to operate.',
+      },
+      adminPanel: {
+        $ref: '#/components/schemas/AdminPanelDto',
+      },
+      clientPanel: {
+        $ref: '#/components/schemas/ClientPanelDto',
+      },
+      onboardingUrl: {
+        format: 'uri',
+        type: 'string',
+        title: 'Onboarding URL',
+        description: 'URL to onboard/configure the integration.',
+        example: 'https://example.com/onboarding',
+      },
+      setupAttributes: {
+        items: {
+          $ref: '#/components/schemas/AnyFieldDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Setup Attributes',
+        description:
+          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
+      },
+    },
+    type: 'object',
+    required: ['supportedTypes', 'title', 'supportedLanguages'],
+  },
+  InvoiceItemDataDto: {
+    properties: {
+      action: {
+        $ref: '#/components/schemas/InvoiceItemActionsEnum',
+      },
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description: 'The unique identifier for the product item.',
+      },
+      productId: {
+        type: 'string',
+        minLength: 1,
+        title: 'Product ID',
+        description: 'Unique identifier for the product.',
+      },
+      productName: {
+        type: 'string',
+        minLength: 1,
+        title: 'Product Name',
+        description: 'Name of the product.',
+      },
+      resourceName: {
+        type: 'string',
+        minLength: 1,
+        title: 'Resource Name',
+        description: 'Resource name associated with the product.',
+      },
+      productAttributes: {
+        title: 'Product Attributes',
+        description: 'Product-level attributes defined for the product type.',
+        type: 'object',
+        additionalProperties: true,
+      },
+      itemAttributes: {
+        title: 'Item Attributes',
+        description:
+          'Item-specific attributes unique to this product instance.',
+        type: 'object',
+        additionalProperties: true,
+      },
+      creationResponseData: {
+        title: 'Creation Response Data',
+        description: 'Data returned from the creation response.',
+        type: 'object',
+        additionalProperties: true,
+      },
+      startDate: {
+        type: 'string',
+        minLength: 1,
+        title: 'Start Date',
+        description: 'Start date of the product item.',
+      },
+      endDate: {
+        type: 'string',
+        minLength: 1,
+        title: 'End Date',
+        description: 'End date of the product item.',
+      },
+      price: {
+        type: 'number',
+        title: 'Price',
+        description: 'The price of the product item without tax and discount.',
+      },
+      fee: {
+        type: 'number',
+        title: 'Fee',
+        description: 'The fee associated with the product item.',
+      },
+      couponDiscountValue: {
+        type: 'number',
+        title: 'Coupon Discount Value',
+        description: 'The coupon discount value applied to the product item.',
+      },
+      upgradeRemainder: {
+        type: 'number',
+        title: 'Upgrade Remainder',
+        description: 'The upgrade remainder value for the product item.',
+      },
+      subTotal: {
+        type: 'number',
+        title: 'Subtotal',
+        description:
+          'The subtotal of the product item before tax and after discounts.',
+      },
+    },
+    type: 'object',
+    required: [
+      'action',
+      'productId',
+      'productName',
+      'resourceName',
+      'productAttributes',
+      'itemAttributes',
+      'startDate',
+      'endDate',
+    ],
+  },
+  TransactionData: {
+    properties: {
+      transactionId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Transaction ID',
+        description: 'Unique identifier for the transaction.',
+      },
+      amount: {
+        minLength: 1,
+        type: 'number',
+        title: 'Amount',
+        description: 'Transaction amount.',
+      },
+      paymentMethod: {
+        minLength: 1,
+        type: 'string',
+        title: 'Payment Method',
+        description: 'Payment method used for the transaction.',
+      },
+      date: {
+        minLength: 1,
+        type: 'string',
+        oneOf: [
+          {
+            format: 'date',
+            type: 'string',
+          },
+          {
+            format: 'date-time',
+            type: 'string',
+          },
+        ],
+        title: 'Date',
+        description: 'Transaction date.',
+        format: 'date-time',
+      },
+    },
+    type: 'object',
+    required: ['transactionId', 'amount', 'paymentMethod', 'date'],
+  },
+  BaseInvoiceRequestDto: {
+    properties: {
+      invoiceId: {
+        type: 'string',
+        title: 'Invoice ID',
+        description: "The core's identifier for the document being issued.",
+      },
+      company: {
+        $ref: '#/components/schemas/CompanyDataDto',
+      },
+      invoiceContact: {
+        $ref: '#/components/schemas/InvoiceContactData',
+      },
+      currency: {
+        $ref: '#/components/schemas/CurrencyEnum',
+      },
+      items: {
+        items: {
+          $ref: '#/components/schemas/InvoiceItemDataDto',
+        },
+        type: 'array',
+        title: 'Items',
+        description: 'Line items included in the invoice.',
+      },
+      transactions: {
+        items: {
+          $ref: '#/components/schemas/TransactionData',
+        },
+        type: 'array',
+        title: 'Transactions',
+        description: 'List of transactions associated with this invoice.',
+      },
+      totalAmount: {
+        type: 'number',
+        title: 'Total Amount',
+        description: 'Total invoice amount.',
+      },
+      discountAmount: {
+        type: 'number',
+        title: 'Discount Amount',
+        description: 'Discount amount.',
+      },
+    },
+    type: 'object',
+    required: [
+      'company',
+      'invoiceContact',
+      'currency',
+      'items',
+      'transactions',
+      'totalAmount',
+      'discountAmount',
+    ],
+  },
+  InvoiceRequestDto: {
+    properties: {
+      parentInvoiceId: {
+        type: 'string',
+        title: 'Parent Invoice ID',
+        description: 'Reference to parent invoice if applicable.',
+      },
+      invoiceId: {
+        type: 'string',
+        title: 'Invoice ID',
+        description: "The core's identifier for the document being issued.",
+      },
+      company: {
+        $ref: '#/components/schemas/CompanyDataDto',
+      },
+      invoiceContact: {
+        $ref: '#/components/schemas/InvoiceContactData',
+      },
+      currency: {
+        $ref: '#/components/schemas/CurrencyEnum',
+      },
+      items: {
+        items: {
+          $ref: '#/components/schemas/InvoiceItemDataDto',
+        },
+        type: 'array',
+        title: 'Items',
+        description: 'Line items included in the invoice.',
+      },
+      transactions: {
+        items: {
+          $ref: '#/components/schemas/TransactionData',
+        },
+        type: 'array',
+        title: 'Transactions',
+        description: 'List of transactions associated with this invoice.',
+      },
+      totalAmount: {
+        type: 'number',
+        title: 'Total Amount',
+        description: 'Total invoice amount.',
+      },
+      discountAmount: {
+        type: 'number',
+        title: 'Discount Amount',
+        description: 'Discount amount.',
+      },
+    },
+    type: 'object',
+    required: [
+      'company',
+      'invoiceContact',
+      'currency',
+      'items',
+      'transactions',
+      'totalAmount',
+      'discountAmount',
+    ],
+  },
+  CreditNoteRequestDto: {
+    properties: {
+      parentInvoiceId: {
+        type: 'string',
+        title: 'Parent Invoice ID',
+        description: 'Reference to the parent invoice being credited.',
+      },
+      invoiceId: {
+        type: 'string',
+        title: 'Invoice ID',
+        description: "The core's identifier for the document being issued.",
+      },
+      company: {
+        $ref: '#/components/schemas/CompanyDataDto',
+      },
+      invoiceContact: {
+        $ref: '#/components/schemas/InvoiceContactData',
+      },
+      currency: {
+        $ref: '#/components/schemas/CurrencyEnum',
+      },
+      items: {
+        items: {
+          $ref: '#/components/schemas/InvoiceItemDataDto',
+        },
+        type: 'array',
+        title: 'Items',
+        description: 'Line items included in the invoice.',
+      },
+      transactions: {
+        items: {
+          $ref: '#/components/schemas/TransactionData',
+        },
+        type: 'array',
+        title: 'Transactions',
+        description: 'List of transactions associated with this invoice.',
+      },
+      totalAmount: {
+        type: 'number',
+        title: 'Total Amount',
+        description: 'Total invoice amount.',
+      },
+      discountAmount: {
+        type: 'number',
+        title: 'Discount Amount',
+        description: 'Discount amount.',
+      },
+    },
+    type: 'object',
+    required: [
+      'company',
+      'invoiceContact',
+      'currency',
+      'items',
+      'transactions',
+      'totalAmount',
+      'discountAmount',
+    ],
+  },
+  TaxDetailsRequestDto: {
+    properties: {
+      companyCountry: {
+        $ref: '#/components/schemas/CountryEnum',
+      },
+      customerCountry: {
+        $ref: '#/components/schemas/CountryEnum',
+      },
+      customerTIN: {
+        type: 'string',
+        title: 'Customer TIN',
+        description: "Customer's Tax Identification Number.",
+      },
+      customerPostalCode: {
+        type: 'string',
+        title: 'Customer Postal Code',
+        description: "Customer's postal code.",
+      },
+      customerState: {
+        type: 'string',
+        title: 'Customer State',
+        description: "Customer's state or province.",
+      },
+      validatedAddress: {
+        type: 'boolean',
+        title: 'Validated Address',
+        description: 'Whether the customer address has been validated.',
+      },
+    },
+    type: 'object',
+    required: ['companyCountry', 'customerCountry', 'customerTIN'],
+  },
+  ProformaInvoiceResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      outboxId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Outbox ID',
+        description:
+          'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+      },
+      invoiceUrl: {
+        minLength: 1,
+        type: 'string',
+        format: 'uri',
+        title: 'Invoice URL',
+        description: 'URL to access the generated invoice document.',
+      },
+      invoiceNumber: {
+        minLength: 1,
+        type: 'string',
+        title: 'Invoice Number',
+        description: 'Invoice number assigned by the integration.',
+      },
+      invoiceId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Invoice ID',
+        description:
+          'Unique identifier for the invoice in the integration system.',
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'outboxId', 'code', 'message'],
+  },
+  TINValidationDetails: {
+    properties: {
+      companyName: {
+        maxLength: 250,
+        type: 'string',
+        minLength: 1,
+        title: 'Company Name',
+        description: 'Name of the company as registered with tax authorities.',
+      },
+      address1: {
+        minLength: 1,
+        type: 'string',
+        title: 'Address Line 1',
+        description: 'Primary address line.',
+      },
+      address2: {
+        maxLength: 250,
+        type: 'string',
+        minLength: 0,
+        title: 'Address Line 2',
+        description: 'Secondary address line.',
+      },
+      address3: {
+        maxLength: 250,
+        type: 'string',
+        minLength: 0,
+        title: 'Address Line 3',
+        description: 'Tertiary address line.',
+      },
+      postcode: {
+        maxLength: 16,
+        type: 'string',
+        minLength: 1,
+        title: 'Postcode',
+        description: 'Postal code.',
+      },
+      city: {
+        maxLength: 250,
+        type: 'string',
+        minLength: 1,
+        title: 'City',
+        description: 'City name.',
+      },
+      country: {
+        $ref: '#/components/schemas/CountryEnum',
+      },
+      state: {
+        maxLength: 250,
+        type: 'string',
+        minLength: 0,
+        title: 'State',
+        description: 'State or province.',
+      },
+      tin: {
+        maxLength: 20,
+        type: 'string',
+        minLength: 0,
+        title: 'TIN',
+        description: 'Tax Identification Number.',
+      },
+      taxOffice: {
+        maxLength: 250,
+        type: 'string',
+        minLength: 0,
+        title: 'Tax Office',
+        description: 'Tax office name or identifier.',
+      },
+      profession: {
+        maxLength: 250,
+        type: 'array',
+        minLength: 0,
+        title: 'Profession',
+        description: 'List of registered professions or business activities.',
+        items: {
+          type: 'string',
+        },
+      },
+    },
+    type: 'object',
+    required: ['address1', 'postcode', 'city', 'country'],
+  },
+  TaxDetailsResponseDto: {
+    properties: {
+      vatRate: {
+        type: 'number',
+        title: 'VAT Rate',
+        description: 'The applicable VAT rate for the transaction.',
+      },
+      TINValid: {
+        type: 'boolean',
+        title: 'TIN Valid',
+        description:
+          'Indicates whether the Tax Identification Number is valid.',
+      },
+      taxDetails: {
+        $ref: '#/components/schemas/TINValidationDetails',
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['vatRate', 'code', 'message'],
+  },
+  ProductInfoDto: {
+    properties: {
+      productAttributes: {
+        items: {
+          $ref: '#/components/schemas/AttributeFieldDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Product Attributes',
+        description: 'Configurable attributes that apply at the product level.',
+      },
+      itemAttributes: {
+        items: {
+          $ref: '#/components/schemas/AttributeFieldDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Item Attributes',
+        description: 'Configurable attributes that apply at the item level.',
+      },
+      payPerUseUnits: {
+        items: {
+          $ref: '#/components/schemas/UnitDto',
+        },
+        type: 'array',
+        minItems: 1,
+        title: 'Pay-Per-Use Units',
+        description: 'Optional metering units for pay-per-use billing.',
+        example: [
+          {
+            id: 'requests',
+            unitDescription: 'API request',
+            intervalDescription: 'Per month',
+          },
+        ],
+      },
+      responseDataFieldNames: {
+        title: 'Response Data Field Names',
+        description: 'Mapping of field names used in provider responses.',
+        type: 'object',
+        additionalProperties: {
+          type: 'string',
+        },
+        example: {
+          external_id: 'id',
+          status_text: 'status',
+        },
+      },
+      supportedActions: {
+        items: {
+          $ref: '#/components/schemas/ProductActionsEnum',
+        },
+        type: 'array',
+        minLength: 1,
+        title: 'Supported Actions',
+        description: 'Actions supported by this integration.',
+      },
+      title: {
+        minLength: 1,
+        type: 'string',
+        title: 'Title',
+        description: 'Integration display title.',
+        example: 'Example Product',
+      },
+      logo: {
+        format: 'uri',
+        type: 'string',
+        title: 'Logo URL',
+        description: 'Public HTTPS URL for the integration logo.',
+        example: 'https://cdn.example.com/logo.png',
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        description: 'Short description of the integration.',
+        example: 'An example product integration.',
+      },
+      supportedLanguages: {
+        items: {
+          $ref: '#/components/schemas/LanguageEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Supported Languages',
+        description: 'Locales supported by the integration.',
+        example: ['EN'],
+      },
+      listenEvents: {
+        items: {
+          $ref: '#/components/schemas/EventsEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Listen Events',
+        description: 'Platform events the integration can subscribe to.',
+      },
+      requiredRoles: {
+        items: {
+          $ref: '#/components/schemas/RolesEnum',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Required Roles',
+        description: 'Roles required for this integration to operate.',
+      },
+      adminPanel: {
+        $ref: '#/components/schemas/AdminPanelDto',
+      },
+      clientPanel: {
+        $ref: '#/components/schemas/ClientPanelDto',
+      },
+      onboardingUrl: {
+        format: 'uri',
+        type: 'string',
+        title: 'Onboarding URL',
+        description: 'URL to onboard/configure the integration.',
+        example: 'https://example.com/onboarding',
+      },
+      setupAttributes: {
+        items: {
+          $ref: '#/components/schemas/AnyFieldDto',
+        },
+        minItems: 1,
+        type: 'array',
+        title: 'Setup Attributes',
+        description:
+          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
+      },
+    },
+    type: 'object',
+    required: ['supportedActions', 'title', 'supportedLanguages'],
+  },
+  ProductItemDataDto: {
+    properties: {
+      action: {
+        $ref: '#/components/schemas/ProductActionsEnum',
+      },
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description: 'The unique identifier for the product item.',
+      },
+      productId: {
+        type: 'string',
+        minLength: 1,
+        title: 'Product ID',
+        description: 'Unique identifier for the product.',
+      },
+      productName: {
+        type: 'string',
+        minLength: 1,
+        title: 'Product Name',
+        description: 'Name of the product.',
+      },
+      resourceName: {
+        type: 'string',
+        minLength: 1,
+        title: 'Resource Name',
+        description: 'Resource name associated with the product.',
+      },
+      productAttributes: {
+        title: 'Product Attributes',
+        description: 'Product-level attributes defined for the product type.',
+        type: 'object',
+        additionalProperties: true,
+      },
+      itemAttributes: {
+        title: 'Item Attributes',
+        description:
+          'Item-specific attributes unique to this product instance.',
+        type: 'object',
+        additionalProperties: true,
+      },
+      creationResponseData: {
+        title: 'Creation Response Data',
+        description: 'Data returned from the creation response.',
+        type: 'object',
+        additionalProperties: true,
+      },
+      startDate: {
+        type: 'string',
+        minLength: 1,
+        title: 'Start Date',
+        description: 'Start date of the product item.',
+      },
+      endDate: {
+        type: 'string',
+        minLength: 1,
+        title: 'End Date',
+        description: 'End date of the product item.',
+      },
+      price: {
+        type: 'number',
+        title: 'Price',
+        description: 'The price of the product item without tax and discount.',
+      },
+      fee: {
+        type: 'number',
+        title: 'Fee',
+        description: 'The fee associated with the product item.',
+      },
+      couponDiscountValue: {
+        type: 'number',
+        title: 'Coupon Discount Value',
+        description: 'The coupon discount value applied to the product item.',
+      },
+      upgradeRemainder: {
+        type: 'number',
+        title: 'Upgrade Remainder',
+        description: 'The upgrade remainder value for the product item.',
+      },
+      subTotal: {
+        type: 'number',
+        title: 'Subtotal',
+        description:
+          'The subtotal of the product item before tax and after discounts.',
+      },
+    },
+    type: 'object',
+    required: [
+      'productId',
+      'productName',
+      'resourceName',
+      'productAttributes',
+      'itemAttributes',
+      'startDate',
+      'endDate',
+    ],
+  },
+  ProductCreateRequestDto: {
+    properties: {
+      clientData: {
+        $ref: '#/components/schemas/ClientDataDto',
+      },
+      itemData: {
+        $ref: '#/components/schemas/ProductItemDataDto',
+      },
+    },
+    type: 'object',
+    required: ['clientData', 'itemData'],
+  },
+  ProductDeleteRequestDto: {
+    properties: {
+      clientData: {
+        $ref: '#/components/schemas/ClientDataDto',
+      },
+      itemData: {
+        $ref: '#/components/schemas/ProductItemDataDto',
+      },
+    },
+    type: 'object',
+    required: ['clientData', 'itemData'],
+  },
+  ProductDowngradeRequestDto: {
+    properties: {
+      clientData: {
+        $ref: '#/components/schemas/ClientDataDto',
+      },
+      itemData: {
+        $ref: '#/components/schemas/ProductItemDataDto',
+      },
+      previousItemData: {
+        $ref: '#/components/schemas/ProductItemDataDto',
+      },
+    },
+    type: 'object',
+    required: ['clientData', 'itemData'],
+  },
+  ProductDowngradableRequestDto: {
+    properties: {
+      clientData: {
+        $ref: '#/components/schemas/ClientDataDto',
+      },
+      itemData: {
+        $ref: '#/components/schemas/ProductItemDataDto',
+      },
+    },
+    type: 'object',
+    required: ['clientData', 'itemData'],
+  },
+  ProductRenewRequestDto: {
+    properties: {
+      clientData: {
+        $ref: '#/components/schemas/ClientDataDto',
+      },
+      itemData: {
+        $ref: '#/components/schemas/ProductItemDataDto',
+      },
+    },
+    type: 'object',
+    required: ['clientData', 'itemData'],
+  },
+  ProductSuspendRequestDto: {
+    properties: {
+      clientData: {
+        $ref: '#/components/schemas/ClientDataDto',
+      },
+      itemData: {
+        $ref: '#/components/schemas/ProductItemDataDto',
+      },
+    },
+    type: 'object',
+    required: ['clientData', 'itemData'],
+  },
+  ProductUnsuspendRequestDto: {
+    properties: {
+      clientData: {
+        $ref: '#/components/schemas/ClientDataDto',
+      },
+      itemData: {
+        $ref: '#/components/schemas/ProductItemDataDto',
+      },
+    },
+    type: 'object',
+    required: ['clientData', 'itemData'],
+  },
+  ProductUpgradeRequestDto: {
+    properties: {
+      clientData: {
+        $ref: '#/components/schemas/ClientDataDto',
+      },
+      itemData: {
+        $ref: '#/components/schemas/ProductItemDataDto',
+      },
+      previousItemData: {
+        $ref: '#/components/schemas/ProductItemDataDto',
+      },
+    },
+    type: 'object',
+    required: ['clientData', 'itemData'],
+  },
+  ProductUpgradableRequestDto: {
+    properties: {
+      clientData: {
+        $ref: '#/components/schemas/ClientDataDto',
+      },
+      itemData: {
+        $ref: '#/components/schemas/ProductItemDataDto',
+      },
+    },
+    type: 'object',
+    required: ['clientData', 'itemData'],
+  },
+  ProductCreateResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description:
+          'The unique identifier of the product item that was created.',
+      },
+      outboxId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Outbox ID',
+        description:
+          'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+      },
+      data: {
+        type: 'object',
+        title: 'Data',
+        description: 'Optional data associated with the creation response.',
+        additionalProperties: true,
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'outboxId', 'code', 'message'],
+  },
+  ProductDeleteResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description:
+          'The unique identifier of the product item that was deleted.',
+      },
+      outboxId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Outbox ID',
+        description:
+          'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+      },
+      data: {
+        type: 'object',
+        title: 'Data',
+        description: 'Optional data associated with the deletion response.',
+        additionalProperties: true,
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'outboxId', 'code', 'message'],
+  },
+  ProductDowngradeResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description:
+          'The unique identifier of the product item that was downgraded.',
+      },
+      outboxId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Outbox ID',
+        description:
+          'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+      },
+      data: {
+        type: 'object',
+        title: 'Data',
+        description: 'Optional data associated with the downgrade response.',
+        additionalProperties: true,
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'outboxId', 'code', 'message'],
+  },
+  ProductDowngradableResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description: 'The unique identifier of the product item being checked.',
+      },
+      data: {
+        type: 'object',
+        title: 'Data',
+        description: 'Optional data associated with the downgradable check.',
+        additionalProperties: true,
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'code', 'message'],
+  },
+  ProductInfoResponseDto: {
+    properties: {
+      info: {
+        $ref: '#/components/schemas/ProductInfoDto',
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['info', 'code', 'message'],
+  },
+  ProductRenewResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description:
+          'The unique identifier of the product item that was renewed.',
+      },
+      outboxId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Outbox ID',
+        description:
+          'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+      },
+      data: {
+        type: 'object',
+        title: 'Data',
+        description: 'Optional data associated with the renewal response.',
+        additionalProperties: true,
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'outboxId', 'code', 'message'],
+  },
+  ProductSuspendResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description:
+          'The unique identifier of the product item that was suspended.',
+      },
+      outboxId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Outbox ID',
+        description:
+          'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+      },
+      data: {
+        type: 'object',
+        title: 'Data',
+        description: 'Optional data associated with the suspend response.',
+        additionalProperties: true,
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'outboxId', 'code', 'message'],
+  },
+  ProductUnsuspendResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description:
+          'The unique identifier of the product item that was unsuspended.',
+      },
+      outboxId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Outbox ID',
+        description:
+          'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+      },
+      data: {
+        type: 'object',
+        title: 'Data',
+        description: 'Optional data associated with the unsuspend response.',
+        additionalProperties: true,
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'outboxId', 'code', 'message'],
+  },
+  ProductUpgradeResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description:
+          'The unique identifier of the product item that was upgraded.',
+      },
+      outboxId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Outbox ID',
+        description:
+          'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+      },
+      data: {
+        type: 'object',
+        title: 'Data',
+        description: 'Optional data associated with the upgrade response.',
+        additionalProperties: true,
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'outboxId', 'code', 'message'],
+  },
+  ProductUpgradableResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      itemId: {
+        type: 'string',
+        title: 'Item ID',
+        description: 'The unique identifier of the product item being checked.',
+      },
+      data: {
+        type: 'object',
+        title: 'Data',
+        description: 'Optional data associated with the upgradable check.',
+        additionalProperties: true,
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'code', 'message'],
+  },
+  SubmenuDto: {
+    properties: {
+      label: {
+        minLength: 1,
+        type: 'string',
+        title: 'Label',
+        description: 'Text label for the tab.',
+      },
+      url: {
+        minLength: 1,
+        type: 'string',
+        format: 'uri',
+        title: 'URL',
+        description: 'URL associated with the tab.',
+      },
+    },
+    type: 'object',
+    required: ['label', 'url'],
+  },
+  ProformaInvoiceRequestDto: {
+    properties: {
+      invoiceId: {
+        type: 'string',
+        title: 'Invoice ID',
+        description: "The core's identifier for the document being issued.",
+      },
+      company: {
+        $ref: '#/components/schemas/CompanyDataDto',
+      },
+      invoiceContact: {
+        $ref: '#/components/schemas/InvoiceContactData',
+      },
+      currency: {
+        $ref: '#/components/schemas/CurrencyEnum',
+      },
+      items: {
+        items: {
+          $ref: '#/components/schemas/InvoiceItemDataDto',
+        },
+        type: 'array',
+        title: 'Items',
+        description: 'Line items included in the invoice.',
+      },
+      transactions: {
+        items: {
+          $ref: '#/components/schemas/TransactionData',
+        },
+        type: 'array',
+        title: 'Transactions',
+        description: 'List of transactions associated with this invoice.',
+      },
+      totalAmount: {
+        type: 'number',
+        title: 'Total Amount',
+        description: 'Total invoice amount.',
+      },
+      discountAmount: {
+        type: 'number',
+        title: 'Discount Amount',
+        description: 'Discount amount.',
+      },
+    },
+    type: 'object',
+    required: [
+      'company',
+      'invoiceContact',
+      'currency',
+      'items',
+      'transactions',
+      'totalAmount',
+      'discountAmount',
+    ],
+  },
+  InvoiceResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      outboxId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Outbox ID',
+        description:
+          'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+      },
+      invoiceUrl: {
+        minLength: 1,
+        type: 'string',
+        format: 'uri',
+        title: 'Invoice URL',
+        description: 'URL to access the generated invoice document.',
+      },
+      invoiceNumber: {
+        minLength: 1,
+        type: 'string',
+        title: 'Invoice Number',
+        description: 'Invoice number assigned by the integration.',
+      },
+      invoiceId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Invoice ID',
+        description:
+          'Unique identifier for the invoice in the integration system.',
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'outboxId', 'code', 'message'],
+  },
+  CreditNoteResponseDto: {
+    properties: {
+      status: {
+        $ref: '#/components/schemas/ResponseStatusEnum',
+      },
+      outboxId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Outbox ID',
+        description:
+          'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+      },
+      invoiceUrl: {
+        minLength: 1,
+        type: 'string',
+        format: 'uri',
+        title: 'Invoice URL',
+        description: 'URL to access the generated invoice document.',
+      },
+      invoiceNumber: {
+        minLength: 1,
+        type: 'string',
+        title: 'Invoice Number',
+        description: 'Invoice number assigned by the integration.',
+      },
+      invoiceId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Invoice ID',
+        description:
+          'Unique identifier for the invoice in the integration system.',
+      },
+      code: {
+        minLength: 1,
+        type: 'number',
+        title: 'Code',
+        description: 'Response code.',
+      },
+      message: {
+        minLength: 1,
+        type: 'string',
+        title: 'Message',
+        description: 'Response message.',
+      },
+    },
+    type: 'object',
+    required: ['status', 'outboxId', 'code', 'message'],
   },
   EventsEnum: {
     type: 'string',
@@ -2895,6 +5071,22 @@ export const ComponentsSchemas = {
   NotificationMessageTypeEnum: {
     type: 'string',
     enum: ['email', 'sms', 'push'],
+  },
+  SetupStatusEnum: {
+    type: 'string',
+    enum: ['success', 'failure', 'pending'],
+  },
+  ResponseStatusEnum: {
+    type: 'string',
+    enum: ['success', 'failure', 'pending'],
+  },
+  InvoiceItemActionsEnum: {
+    type: 'string',
+    enum: ['create', 'renew', 'upgrade', 'downgrade', 'transfer', 'trade'],
+  },
+  InvoiceTypesEnum: {
+    type: 'string',
+    enum: ['invoice', 'credit-note', 'proforma'],
   },
   AnyFieldDto: {
     title: 'AnyFieldDto',

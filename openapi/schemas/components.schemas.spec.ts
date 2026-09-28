@@ -1,3 +1,6 @@
+import 'reflect-metadata';
+import { getMetadataStorage } from 'class-validator';
+import * as Pkg from '../../index';
 import { ComponentsSchemas } from './components.schemas';
 
 /**
@@ -24,6 +27,10 @@ const NAMED_ENUMS = [
   'ProductActionsEnum',
   'OpenMethodEnum',
   'NotificationMessageTypeEnum',
+  'SetupStatusEnum',
+  'ResponseStatusEnum',
+  'InvoiceItemActionsEnum',
+  'InvoiceTypesEnum',
 ] as const;
 
 /**
@@ -151,5 +158,126 @@ describe('ComponentsSchemas - generic inline-enum regression tripwire', () => {
     }
 
     expect(offenders).toEqual([]);
+  });
+});
+
+/**
+ * Coverage of the core ↔ integration contract (issue #34): every DTO class the
+ * package exports must have a schema, and every `$ref` must point to one.
+ */
+type Ctor = abstract new (...args: never[]) => unknown;
+
+const isClass = (v: unknown): v is Ctor =>
+  typeof v === 'function' &&
+  /^class[\s{]/.test(Function.prototype.toString.call(v));
+
+/** Exported classes that carry class-validator metadata (own or inherited). */
+const exportedDtoClasses = (): Array<[string, Ctor]> => {
+  const storage = getMetadataStorage();
+  return Object.entries(Pkg)
+    .filter(([, v]) => isClass(v))
+    .filter(
+      ([, v]) =>
+        storage.getTargetValidationMetadatas(v as Ctor, '', true, false)
+          .length > 0,
+    ) as Array<[string, Ctor]>;
+};
+
+describe('ComponentsSchemas - contract coverage', () => {
+  it('has a schema for every exported DTO class with class-validator metadata', () => {
+    const missing = exportedDtoClasses()
+      .map(([name]) => name)
+      .filter((name) => !(name in Schemas));
+    expect(missing).toEqual([]);
+  });
+
+  it('keys each schema by the class name it is exported under', () => {
+    const renamed = exportedDtoClasses()
+      .filter(([exportName, cls]) => exportName !== cls.name)
+      .map(([exportName, cls]) => `${exportName} -> ${cls.name}`);
+    expect(renamed).toEqual([]);
+  });
+
+  it('covers the wire DTOs of the integration contract', () => {
+    const wire = [
+      'CompanyDataDto',
+      'ValidateAttributesRequestDto',
+      'ValidateAttributesResponseDto',
+      'SetupStatusResponseDto',
+      'SetupStatusEnum',
+      'BaseResponse',
+      'ErrorResponseDto',
+      'ResponseStatusEnum',
+      'NotificationSendRequestDto',
+      'NotificationSendResponseDto',
+      'AttachmentDto',
+      'EmailSenderDto',
+      'SmsSenderDto',
+      'PushSenderDto',
+      'EmailReceiverDto',
+      'SmsReceiverDto',
+      'PushReceiverDto',
+      'ProductCreateRequestDto',
+      'ProductCreateResponseDto',
+      'ProductRenewRequestDto',
+      'ProductRenewResponseDto',
+      'ProductUpgradeRequestDto',
+      'ProductUpgradeResponseDto',
+      'ProductDowngradeRequestDto',
+      'ProductDowngradeResponseDto',
+      'ProductSuspendRequestDto',
+      'ProductSuspendResponseDto',
+      'ProductUnsuspendRequestDto',
+      'ProductUnsuspendResponseDto',
+      'ProductDeleteRequestDto',
+      'ProductDeleteResponseDto',
+      'ProformaInvoiceRequestDto',
+      'ProformaInvoiceResponseDto',
+      'InvoiceRequestDto',
+      'InvoiceResponseDto',
+      'CreditNoteRequestDto',
+      'CreditNoteResponseDto',
+      'TaxDetailsRequestDto',
+      'TaxDetailsResponseDto',
+    ];
+    expect(wire.filter((name) => !(name in Schemas))).toEqual([]);
+  });
+
+  it('never registers two different classes under the same name', () => {
+    const storage = getMetadataStorage() as unknown as {
+      validationMetadatas: Map<unknown, unknown>;
+    };
+    const byName = new Map<string, Set<unknown>>();
+    for (const target of storage.validationMetadatas.keys()) {
+      if (typeof target !== 'function') continue;
+      const set = byName.get(target.name) ?? new Set<unknown>();
+      set.add(target);
+      byName.set(target.name, set);
+    }
+    const dupes = [...byName]
+      .filter(([, set]) => set.size > 1)
+      .map(([name]) => name);
+    expect(dupes).toEqual([]);
+  });
+
+  it('resolves every $ref to an existing component', () => {
+    const unresolved = new Set<string>();
+    const walk = (node: unknown): void => {
+      if (Array.isArray(node)) return node.forEach(walk);
+      if (node && typeof node === 'object') {
+        for (const [k, v] of Object.entries(node)) {
+          if (k === '$ref' && typeof v === 'string') {
+            const prefix = '#/components/schemas/';
+            if (!v.startsWith(prefix) || !(v.slice(prefix.length) in Schemas)) {
+              unresolved.add(v);
+            }
+          } else {
+            walk(v);
+          }
+        }
+      }
+    };
+    walk(Schemas);
+    expect([...unresolved]).toEqual([]);
   });
 });

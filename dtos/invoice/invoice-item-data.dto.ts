@@ -14,8 +14,7 @@ export class InvoiceItemDataDto extends ItemDataDto {
   @JSONSchema({
     title: 'Action',
     description: 'Invoice-specific action type for this item.',
-    type: 'string',
-    enum: Object.values(InvoiceItemActionsEnum),
+    $ref: '#/components/schemas/InvoiceItemActionsEnum',
   })
   action!: InvoiceItemActionsEnum;
 }

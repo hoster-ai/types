@@ -22,7 +22,7 @@ export class InvoiceInfoDto extends InfoDto {
     title: 'Supported Types',
     description: 'Types of invoice supported by this integration.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(InvoiceTypesEnum) },
+    items: { $ref: '#/components/schemas/InvoiceTypesEnum' },
   })
   supportedTypes: InvoiceTypesEnum[] = [];
 }

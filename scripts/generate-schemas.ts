@@ -13,9 +13,11 @@
  *    consumption simple and robust.
  *
  * How it works (high-level)
- *  1) Load DTO modules (side-effect imports) so their decorators register
- *     into class-validator's metadata storage.
- *  2) Use `validationMetadatasToSchemas` to generate raw JSON Schemas.
+ *  1) Load the package barrel (`index.ts`) so every exported DTO registers its
+ *     decorators into class-validator's metadata storage.
+ *  2) Use `validationMetadatasToSchemas` to generate raw JSON Schemas, plus
+ *     `targetConstructorToSchema` for exported subclasses that only inherit
+ *     their decorators (they have no metadata entry of their own).
  *  3) Remap any `#/definitions/...` refs to `#/components/schemas/...`.
  *  4) Sanitize the result:
  *     - Strip placeholder `$ref`s to Array/Object (Swagger shouldn’t resolve those).
@@ -24,9 +26,9 @@
  *  5) Write `components.schemas.ts` with a typed `const` export.
  *
  * Notes
- *  - Keep the side-effect imports up to date whenever you add new DTOs that
- *    should appear in the output. If a class isn’t imported anywhere, its
- *    decorators won’t be registered and it won’t be emitted.
+ *  - A DTO appears in the output only if it is exported from `index.ts`
+ *    (or referenced by one that is). `components.schemas.spec.ts` fails when an
+ *    exported DTO has no schema or a `$ref` points nowhere.
  *  - If you later decide to generate per-class schema files again, reintroduce
  *    the per-target write logic that was removed for simplicity.
  */
@@ -34,28 +36,16 @@ import 'reflect-metadata';
 import path from 'node:path';
 import fs from 'node:fs';
 import { getMetadataStorage } from 'class-validator';
-import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
+import {
+  targetConstructorToSchema,
+  validationMetadatasToSchemas,
+} from 'class-validator-jsonschema';
 
-// Import dtos to register their decorators in metadata storage
-import '../dtos/country.dto';
-import '../dtos/notification/notification-info.dto';
-import '../dtos/product/product-info.dto';
-import '../dtos/proxy-action-task.dto';
-// Concrete field DTOs (split from the deprecated mega FieldDto)
-import '../dtos/fields/boolean-field.dto';
-import '../dtos/fields/text-field.dto';
-import '../dtos/fields/textarea-field.dto';
-import '../dtos/fields/number-field.dto';
-import '../dtos/fields/phone-field.dto';
-import '../dtos/fields/email-field.dto';
-import '../dtos/fields/url-field.dto';
-import '../dtos/fields/countries-field.dto';
-import '../dtos/fields/currency-field.dto';
-import '../dtos/fields/date-field.dto';
-import '../dtos/fields/password-field.dto';
-import '../dtos/fields/select-field.dto';
-import '../dtos/fields/multi-select-field.dto';
-import { FIELD_DTO_CLASSES } from '../dtos/fields/any-field.dto';
+// Load the WHOLE public barrel so every DTO module the package exports
+// registers its decorators. One import instead of a hand-kept list, so a new
+// DTO cannot be forgotten here (issue #34); the spec checks the result.
+import * as Pkg from '../index';
+import { FIELD_DTO_CLASSES } from '../index';
 
 // Named enums shared across DTOs. We emit these as standalone component
 // schemas so DTO properties can `$ref` them instead of inlining the enum.
@@ -71,6 +61,10 @@ import { FieldTypeEnum } from '../enums/field-type.enum';
 import { ProductActionsEnum } from '../enums/item-actions.enum';
 import { OpenMethodEnum } from '../enums/open-method.enum';
 import { NotificationMessageTypeEnum } from '../enums/notification/notification-message-type.enum';
+import { SetupStatusEnum } from '../enums/setup-status.enum';
+import { ResponseStatusEnum } from '../enums/response-status.enum';
+import { InvoiceItemActionsEnum } from '../enums/invoice/invoice-item-actions.enum';
+import { InvoiceTypesEnum } from '../enums/invoice/invoice-types.enum';
 
 const ENUM_REGISTRY = {
   EventsEnum,
@@ -82,6 +76,10 @@ const ENUM_REGISTRY = {
   ProductActionsEnum,
   OpenMethodEnum,
   NotificationMessageTypeEnum,
+  SetupStatusEnum,
+  ResponseStatusEnum,
+  InvoiceItemActionsEnum,
+  InvoiceTypesEnum,
 };
 
 const enumSchemas = Object.fromEntries(
@@ -104,9 +102,26 @@ function main() {
 
   // 1) Build schema map from class-validator metadata
   const storage = getMetadataStorage();
-  const generatedSchemas = validationMetadatasToSchemas({
-    classValidatorMetadataStorage: storage,
-  });
+  const generatedSchemas: Record<string, unknown> =
+    validationMetadatasToSchemas({ classValidatorMetadataStorage: storage });
+
+  // 1b) Exported subclasses without decorators of their own (e.g.
+  //     `InvoiceResponseDto extends ProformaInvoiceResponseDto {}`) have no
+  //     metadata entry, so the call above skips them. Emit them from their
+  //     inherited metadata.
+  for (const value of Object.values(Pkg)) {
+    if (typeof value !== 'function' || value.name in generatedSchemas) continue;
+    const inherited = storage.getTargetValidationMetadatas(
+      value,
+      '',
+      true,
+      false,
+    );
+    if (inherited.length === 0) continue;
+    generatedSchemas[value.name] = targetConstructorToSchema(value, {
+      classValidatorMetadataStorage: storage,
+    });
+  }
 
   // Merge the named enum schemas in BEFORE remap/sanitize so they go through
   // the exact same passes as the generated DTO schemas. They carry both

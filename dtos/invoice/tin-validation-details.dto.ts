@@ -114,8 +114,7 @@ export class TINValidationDetails {
   @JSONSchema({
     title: 'Country',
     description: 'Country code.',
-    type: 'string',
-    enum: Object.values(CountryEnum),
+    $ref: '#/components/schemas/CountryEnum',
   })
   country!: CountryEnum;
 
