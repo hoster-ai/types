@@ -9,8 +9,9 @@
 ## Code
 
 ```typescript
-import { IsArray, IsOptional, IsString, IsNotEmpty } from 'class-validator';
+import { IsInt, IsOptional } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
+import { IsStringOrStringArray } from '../decorators/is-string-or-string-array.validator';
 
 /**
  * DTO for error response.
@@ -21,13 +22,12 @@ export class ErrorResponseDto {
    * A unique and specific error code for programmatic error handling.
    * @example 400
    */
-  @IsString()
-  @IsNotEmpty()
+  @IsInt()
   @JSONSchema({
     title: 'Code',
     description:
       'A unique and specific error code for programmatic error handling.',
-    type: 'number',
+    type: 'integer',
     example: 400,
   })
   code!: number;
@@ -39,8 +39,7 @@ export class ErrorResponseDto {
    * @example ["email must be an email", "password must be at least 8 characters"]
    */
   @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
+  @IsStringOrStringArray()
   @JSONSchema({
     title: 'Errors',
     description: 'A developer-friendly error message or an array of messages.',

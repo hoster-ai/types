@@ -21,7 +21,6 @@ export class BaseResponse {
    * Response code
    */
   @IsNumber()
-  @IsNotEmpty()
   @JSONSchema({
     title: 'Code',
     description: 'Response code.',
