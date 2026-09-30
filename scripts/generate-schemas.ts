@@ -70,6 +70,7 @@ import { SetupStatusEnum } from '../enums/setup-status.enum';
 import { ResponseStatusEnum } from '../enums/response-status.enum';
 import { InvoiceItemActionsEnum } from '../enums/invoice/invoice-item-actions.enum';
 import { InvoiceTypesEnum } from '../enums/invoice/invoice-types.enum';
+import { VatTreatmentEnum } from '../enums/invoice/vat-treatment.enum';
 
 const ENUM_REGISTRY = {
   EventsEnum,
@@ -85,6 +86,7 @@ const ENUM_REGISTRY = {
   ResponseStatusEnum,
   InvoiceItemActionsEnum,
   InvoiceTypesEnum,
+  VatTreatmentEnum,
 };
 
 const enumSchemas = Object.fromEntries(

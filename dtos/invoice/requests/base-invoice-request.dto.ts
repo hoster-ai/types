@@ -6,6 +6,7 @@ import {
   IsObject,
   IsOptional,
   IsString,
+  Min,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -17,8 +18,11 @@ import { InvoiceContactData } from '../../invoice-contact-data.dto';
 import { CurrencyEnum } from '../../../enums/currency.enum';
 
 /**
- * Request payload for calculating tax details.
- * Contains company and customer location information for tax rate determination.
+ * Common payload of every document request sent to invoice integrations.
+ *
+ * Amounts are decimal major units (e.g. 12.40), up to two decimal places — not
+ * cents. Per line `netAmount + vatAmount` is the line gross; the lines' sums equal
+ * `netTotal` and `vatTotal`, and `totalAmount = netTotal + vatTotal`.
  */
 export abstract class BaseInvoiceRequestDto {
   /**
@@ -102,25 +106,64 @@ export abstract class BaseInvoiceRequestDto {
   })
   transactions!: TransactionData[];
 
-  /** Total invoice amount */
+  /**
+   * Sum of the lines' `netAmount`. Decimal major units, up to two decimal places.
+   */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
+  @Min(0)
+  @JSONSchema({
+    title: 'Net Total',
+    description:
+      "Document total before VAT: the sum of the items' netAmount. Decimal major units (not cents), up to two decimal places.",
+    type: 'number',
+    minimum: 0,
+  })
+  netTotal!: number;
+
+  /**
+   * Sum of the lines' `vatAmount`. Decimal major units, up to two decimal places.
+   */
+  @IsDefined()
+  @IsNumber({ maxDecimalPlaces: 2 })
+  @Min(0)
+  @JSONSchema({
+    title: 'VAT Total',
+    description:
+      "Document VAT: the sum of the items' vatAmount. Decimal major units (not cents), up to two decimal places.",
+    type: 'number',
+    minimum: 0,
+  })
+  vatTotal!: number;
+
+  /**
+   * Gross invoice amount: `netTotal + vatTotal`. Decimal major units, up to two
+   * decimal places.
+   */
+  @IsDefined()
+  @IsNumber({ maxDecimalPlaces: 2 })
+  @Min(0)
   @JSONSchema({
     title: 'Total Amount',
-    description: 'Total invoice amount.',
+    description:
+      'Gross invoice amount: netTotal + vatTotal. Decimal major units (not cents), up to two decimal places.',
     type: 'number',
+    minimum: 0,
   })
   totalAmount!: number;
 
   /**
-   * Discount amount
+   * Discount amount, already reflected in the lines' `netAmount`.
    */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
+  @Min(0)
   @JSONSchema({
     title: 'Discount Amount',
-    description: 'Discount amount.',
+    description:
+      "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
     type: 'number',
+    minimum: 0,
   })
   discountAmount!: number;
 }

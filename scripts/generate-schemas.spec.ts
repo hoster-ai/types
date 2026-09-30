@@ -96,14 +96,14 @@ describe('buildComponentsSchemas', () => {
 
   it('keeps descriptions on $ref properties', () => {
     const props = built.TaxDetailsRequestDto.properties;
-    for (const name of ['companyCountry', 'customerCountry']) {
+    for (const name of ['sellerCountry', 'buyerCountry', 'paymentCountry']) {
       expect(props[name].$ref).toBe('#/components/schemas/CountryEnum');
       expect(props[name].description).toEqual(expect.any(String));
       expect(props[name].enum).toBeUndefined();
       expect(props[name].type).toBeUndefined();
     }
-    expect(props.companyCountry.description).not.toBe(
-      props.customerCountry.description,
+    expect(props.sellerCountry.description).not.toBe(
+      props.buyerCountry.description,
     );
   });
 });

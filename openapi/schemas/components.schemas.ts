@@ -2149,6 +2149,40 @@ export const ComponentsSchemas = {
         title: 'Action',
         description: 'Invoice-specific action type for this item.',
       },
+      netAmount: {
+        minimum: 0,
+        type: 'number',
+        title: 'Net Amount',
+        description:
+          'Line amount before VAT, after discounts. Decimal major units (not cents), up to two decimal places. netAmount + vatAmount = the line gross amount.',
+      },
+      vatRate: {
+        maximum: 100,
+        type: 'number',
+        minimum: 0,
+        title: 'VAT Rate',
+        description:
+          'VAT rate of the line as a percentage (e.g. 24 for 24%), 0-100, up to two decimal places.',
+      },
+      vatAmount: {
+        minimum: 0,
+        type: 'number',
+        title: 'VAT Amount',
+        description:
+          'VAT charged on the line. Decimal major units (not cents), up to two decimal places. netAmount + vatAmount = the line gross amount.',
+      },
+      treatment: {
+        $ref: '#/components/schemas/VatTreatmentEnum',
+        title: 'Treatment',
+        description: 'How VAT applies to the line.',
+      },
+      exemptionReason: {
+        minLength: 1,
+        type: 'string',
+        title: 'Exemption Reason',
+        description:
+          'Why no VAT is charged on the line (e.g. the legal reference printed on the invoice). Required when vatRate is 0 and treatment is not domestic.',
+      },
       itemId: {
         type: 'string',
         title: 'Item ID',
@@ -2233,6 +2267,10 @@ export const ComponentsSchemas = {
     type: 'object',
     required: [
       'action',
+      'netAmount',
+      'vatRate',
+      'vatAmount',
+      'treatment',
       'productId',
       'productName',
       'resourceName',
@@ -2318,15 +2356,33 @@ export const ComponentsSchemas = {
         title: 'Transactions',
         description: 'List of transactions associated with this invoice.',
       },
+      netTotal: {
+        minimum: 0,
+        type: 'number',
+        title: 'Net Total',
+        description:
+          "Document total before VAT: the sum of the items' netAmount. Decimal major units (not cents), up to two decimal places.",
+      },
+      vatTotal: {
+        minimum: 0,
+        type: 'number',
+        title: 'VAT Total',
+        description:
+          "Document VAT: the sum of the items' vatAmount. Decimal major units (not cents), up to two decimal places.",
+      },
       totalAmount: {
+        minimum: 0,
         type: 'number',
         title: 'Total Amount',
-        description: 'Total invoice amount.',
+        description:
+          'Gross invoice amount: netTotal + vatTotal. Decimal major units (not cents), up to two decimal places.',
       },
       discountAmount: {
+        minimum: 0,
         type: 'number',
         title: 'Discount Amount',
-        description: 'Discount amount.',
+        description:
+          "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
       },
     },
     type: 'object',
@@ -2336,6 +2392,8 @@ export const ComponentsSchemas = {
       'currency',
       'items',
       'transactions',
+      'netTotal',
+      'vatTotal',
       'totalAmount',
       'discountAmount',
     ],
@@ -2383,15 +2441,33 @@ export const ComponentsSchemas = {
         title: 'Transactions',
         description: 'List of transactions associated with this invoice.',
       },
+      netTotal: {
+        minimum: 0,
+        type: 'number',
+        title: 'Net Total',
+        description:
+          "Document total before VAT: the sum of the items' netAmount. Decimal major units (not cents), up to two decimal places.",
+      },
+      vatTotal: {
+        minimum: 0,
+        type: 'number',
+        title: 'VAT Total',
+        description:
+          "Document VAT: the sum of the items' vatAmount. Decimal major units (not cents), up to two decimal places.",
+      },
       totalAmount: {
+        minimum: 0,
         type: 'number',
         title: 'Total Amount',
-        description: 'Total invoice amount.',
+        description:
+          'Gross invoice amount: netTotal + vatTotal. Decimal major units (not cents), up to two decimal places.',
       },
       discountAmount: {
+        minimum: 0,
         type: 'number',
         title: 'Discount Amount',
-        description: 'Discount amount.',
+        description:
+          "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
       },
     },
     type: 'object',
@@ -2401,6 +2477,8 @@ export const ComponentsSchemas = {
       'currency',
       'items',
       'transactions',
+      'netTotal',
+      'vatTotal',
       'totalAmount',
       'discountAmount',
     ],
@@ -2408,9 +2486,24 @@ export const ComponentsSchemas = {
   CreditNoteRequestDto: {
     properties: {
       parentInvoiceId: {
+        minLength: 1,
         type: 'string',
         title: 'Parent Invoice ID',
-        description: 'Reference to the parent invoice being credited.',
+        description: "hoster.ai's identifier of the invoice being credited.",
+      },
+      parentExternalInvoiceId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Parent External Invoice ID',
+        description:
+          "The integration's identifier of the invoice being credited: the invoiceId it returned when it issued that invoice.",
+      },
+      parentInvoiceNumber: {
+        minLength: 1,
+        type: 'string',
+        title: 'Parent Invoice Number',
+        description:
+          'The number of the invoice being credited: the invoiceNumber the integration returned when it issued that invoice.',
       },
       invoiceId: {
         type: 'string',
@@ -2448,63 +2541,97 @@ export const ComponentsSchemas = {
         title: 'Transactions',
         description: 'List of transactions associated with this invoice.',
       },
+      netTotal: {
+        minimum: 0,
+        type: 'number',
+        title: 'Net Total',
+        description:
+          "Document total before VAT: the sum of the items' netAmount. Decimal major units (not cents), up to two decimal places.",
+      },
+      vatTotal: {
+        minimum: 0,
+        type: 'number',
+        title: 'VAT Total',
+        description:
+          "Document VAT: the sum of the items' vatAmount. Decimal major units (not cents), up to two decimal places.",
+      },
       totalAmount: {
+        minimum: 0,
         type: 'number',
         title: 'Total Amount',
-        description: 'Total invoice amount.',
+        description:
+          'Gross invoice amount: netTotal + vatTotal. Decimal major units (not cents), up to two decimal places.',
       },
       discountAmount: {
+        minimum: 0,
         type: 'number',
         title: 'Discount Amount',
-        description: 'Discount amount.',
+        description:
+          "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
       },
     },
     type: 'object',
     required: [
+      'parentInvoiceId',
+      'parentExternalInvoiceId',
+      'parentInvoiceNumber',
       'company',
       'invoiceContact',
       'currency',
       'items',
       'transactions',
+      'netTotal',
+      'vatTotal',
       'totalAmount',
       'discountAmount',
     ],
   },
   TaxDetailsRequestDto: {
     properties: {
-      companyCountry: {
+      sellerCountry: {
         $ref: '#/components/schemas/CountryEnum',
-        title: 'Company Country',
-        description: 'Country where the company is registered.',
+        title: 'Seller Country',
+        description:
+          "Country of the seller: the company's country, verified by KYC. Always one of the integration's supportedCountries.",
       },
-      customerCountry: {
+      buyerCountry: {
         $ref: '#/components/schemas/CountryEnum',
-        title: 'Customer Country',
-        description: 'Country where the customer is located.',
+        title: 'Buyer Country',
+        description: "Country of the buyer, from the client's invoice contact.",
       },
-      customerTIN: {
+      buyerVatNumber: {
+        minLength: 1,
         type: 'string',
-        title: 'Customer TIN',
-        description: "Customer's Tax Identification Number.",
+        title: 'Buyer VAT Number',
+        description:
+          'VAT number / TIN of the buyer. Absent when the buyer has none.',
       },
-      customerPostalCode: {
+      buyerPostalCode: {
         type: 'string',
-        title: 'Customer Postal Code',
-        description: "Customer's postal code.",
+        title: 'Buyer Postal Code',
+        description:
+          'Postal code of the buyer. Some countries have regions with special VAT rules that only the postal code reveals.',
       },
-      customerState: {
+      buyerState: {
         type: 'string',
-        title: 'Customer State',
-        description: "Customer's state or province.",
+        title: 'Buyer State',
+        description: 'State or province of the buyer.',
       },
-      validatedAddress: {
+      isBusinessContact: {
         type: 'boolean',
-        title: 'Validated Address',
-        description: 'Whether the customer address has been validated.',
+        title: 'Is Business Contact',
+        description:
+          "Whether the buyer's invoice contact is a business (B2B) rather than a consumer (B2C).",
+      },
+      paymentCountry: {
+        $ref: '#/components/schemas/CountryEnum',
+        title: 'Payment Country',
+        description:
+          "Country that issued the payment card, as reported by the payment provider. A second piece of evidence of the buyer's location for OSS.",
       },
     },
     type: 'object',
-    required: ['companyCountry', 'customerCountry', 'customerTIN'],
+    required: ['sellerCountry', 'buyerCountry', 'isBusinessContact'],
   },
   ProformaInvoiceResponseDto: {
     properties: {
@@ -2522,24 +2649,25 @@ export const ComponentsSchemas = {
           'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
       },
       invoiceUrl: {
-        minLength: 1,
-        type: 'string',
         format: 'uri',
+        type: 'string',
         title: 'Invoice URL',
-        description: 'URL to access the generated invoice document.',
+        description:
+          'URL to access the generated invoice document. Optional; when present it must be an https URL.',
       },
       invoiceNumber: {
         minLength: 1,
         type: 'string',
         title: 'Invoice Number',
-        description: 'Invoice number assigned by the integration.',
+        description:
+          'Invoice number assigned by the integration. Required when status is success; absent on failure or pending.',
       },
       invoiceId: {
         minLength: 1,
         type: 'string',
         title: 'Invoice ID',
         description:
-          'Unique identifier for the invoice in the integration system.',
+          'Unique identifier for the invoice in the integration system. Required when status is success; absent on failure or pending.',
       },
       code: {
         type: 'number',
@@ -2641,16 +2769,31 @@ export const ComponentsSchemas = {
   },
   TaxDetailsResponseDto: {
     properties: {
-      vatRate: {
-        type: 'number',
-        title: 'VAT Rate',
-        description: 'The applicable VAT rate for the transaction.',
-      },
-      TINValid: {
+      vatNumberValid: {
         type: 'boolean',
-        title: 'TIN Valid',
+        title: 'VAT Number Valid',
         description:
-          'Indicates whether the Tax Identification Number is valid.',
+          "Whether the buyer's VAT number is valid. Absent when the request carried no VAT number.",
+      },
+      vatRate: {
+        maximum: 100,
+        type: 'number',
+        minimum: 0,
+        title: 'VAT Rate',
+        description:
+          'The applicable VAT rate as a percentage (e.g. 24 for 24%), 0-100, up to two decimal places.',
+      },
+      treatment: {
+        $ref: '#/components/schemas/VatTreatmentEnum',
+        title: 'Treatment',
+        description: 'How VAT applies to this sale.',
+      },
+      exemptionReason: {
+        minLength: 1,
+        type: 'string',
+        title: 'Exemption Reason',
+        description:
+          'Why no VAT is charged (e.g. the legal reference printed on the invoice). Required when vatRate is 0 and treatment is not domestic.',
       },
       taxDetails: {
         $ref: '#/components/schemas/TINValidationDetails',
@@ -2671,7 +2814,7 @@ export const ComponentsSchemas = {
       },
     },
     type: 'object',
-    required: ['vatRate', 'code', 'message'],
+    required: ['vatRate', 'treatment', 'code', 'message'],
   },
   ProductItemDataDto: {
     properties: {
@@ -3326,15 +3469,33 @@ export const ComponentsSchemas = {
         title: 'Transactions',
         description: 'List of transactions associated with this invoice.',
       },
+      netTotal: {
+        minimum: 0,
+        type: 'number',
+        title: 'Net Total',
+        description:
+          "Document total before VAT: the sum of the items' netAmount. Decimal major units (not cents), up to two decimal places.",
+      },
+      vatTotal: {
+        minimum: 0,
+        type: 'number',
+        title: 'VAT Total',
+        description:
+          "Document VAT: the sum of the items' vatAmount. Decimal major units (not cents), up to two decimal places.",
+      },
       totalAmount: {
+        minimum: 0,
         type: 'number',
         title: 'Total Amount',
-        description: 'Total invoice amount.',
+        description:
+          'Gross invoice amount: netTotal + vatTotal. Decimal major units (not cents), up to two decimal places.',
       },
       discountAmount: {
+        minimum: 0,
         type: 'number',
         title: 'Discount Amount',
-        description: 'Discount amount.',
+        description:
+          "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
       },
     },
     type: 'object',
@@ -3344,6 +3505,8 @@ export const ComponentsSchemas = {
       'currency',
       'items',
       'transactions',
+      'netTotal',
+      'vatTotal',
       'totalAmount',
       'discountAmount',
     ],
@@ -3364,24 +3527,25 @@ export const ComponentsSchemas = {
           'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
       },
       invoiceUrl: {
-        minLength: 1,
-        type: 'string',
         format: 'uri',
+        type: 'string',
         title: 'Invoice URL',
-        description: 'URL to access the generated invoice document.',
+        description:
+          'URL to access the generated invoice document. Optional; when present it must be an https URL.',
       },
       invoiceNumber: {
         minLength: 1,
         type: 'string',
         title: 'Invoice Number',
-        description: 'Invoice number assigned by the integration.',
+        description:
+          'Invoice number assigned by the integration. Required when status is success; absent on failure or pending.',
       },
       invoiceId: {
         minLength: 1,
         type: 'string',
         title: 'Invoice ID',
         description:
-          'Unique identifier for the invoice in the integration system.',
+          'Unique identifier for the invoice in the integration system. Required when status is success; absent on failure or pending.',
       },
       code: {
         type: 'number',
@@ -3414,24 +3578,25 @@ export const ComponentsSchemas = {
           'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
       },
       invoiceUrl: {
-        minLength: 1,
-        type: 'string',
         format: 'uri',
+        type: 'string',
         title: 'Invoice URL',
-        description: 'URL to access the generated invoice document.',
+        description:
+          'URL to access the generated invoice document. Optional; when present it must be an https URL.',
       },
       invoiceNumber: {
         minLength: 1,
         type: 'string',
         title: 'Invoice Number',
-        description: 'Invoice number assigned by the integration.',
+        description:
+          'Invoice number assigned by the integration. Required when status is success; absent on failure or pending.',
       },
       invoiceId: {
         minLength: 1,
         type: 'string',
         title: 'Invoice ID',
         description:
-          'Unique identifier for the invoice in the integration system.',
+          'Unique identifier for the invoice in the integration system. Required when status is success; absent on failure or pending.',
       },
       code: {
         type: 'number',
@@ -4341,6 +4506,10 @@ export const ComponentsSchemas = {
   InvoiceTypesEnum: {
     type: 'string',
     enum: ['invoice', 'credit-note', 'proforma'],
+  },
+  VatTreatmentEnum: {
+    type: 'string',
+    enum: ['domestic', 'reverse_charge', 'oss', 'outside_scope', 'exempt'],
   },
   AnyFieldDto: {
     title: 'AnyFieldDto',

@@ -101,11 +101,13 @@ export * from './enums/setup-status.enum';
 export * from './enums/invoice/invoice-item-actions.enum';
 export * from './enums/invoice/invoice-types.enum';
 export * from './enums/invoice/invoice-actions.enum';
+export * from './enums/invoice/vat-treatment.enum';
 
 // Helpers
 export * from './helpers/country.helper';
 export * from './helpers/currency.helper';
 export * from './helpers/action-hooks.helper';
+export * from './helpers/vat-treatment.helper';
 
 // Validators
 export * from './validators/client-data-validator';

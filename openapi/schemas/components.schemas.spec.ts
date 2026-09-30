@@ -31,6 +31,7 @@ const NAMED_ENUMS = [
   'ResponseStatusEnum',
   'InvoiceItemActionsEnum',
   'InvoiceTypesEnum',
+  'VatTreatmentEnum',
 ] as const;
 
 /**
@@ -300,5 +301,76 @@ describe('ComponentsSchemas - oneOf/anyOf carry no contradicting siblings (#36)'
     };
     walk(Schemas, 'ComponentsSchemas');
     expect(offenders).toEqual([]);
+  });
+});
+
+describe('ComponentsSchemas - invoice tax contract (#40)', () => {
+  const props = (name: string): AnySchema => Schemas[name].properties;
+
+  it('carries the VAT of every line and the document totals', () => {
+    const item = Schemas.InvoiceItemDataDto;
+    for (const field of ['netAmount', 'vatRate', 'vatAmount', 'treatment']) {
+      expect(item.required).toContain(field);
+    }
+    expect(item.required).not.toContain('exemptionReason');
+    expect(item.properties.treatment.$ref).toBe(
+      '#/components/schemas/VatTreatmentEnum',
+    );
+    for (const dto of [
+      'ProformaInvoiceRequestDto',
+      'InvoiceRequestDto',
+      'CreditNoteRequestDto',
+    ]) {
+      for (const field of ['netTotal', 'vatTotal', 'totalAmount']) {
+        expect(Schemas[dto].required).toContain(field);
+      }
+    }
+  });
+
+  it('requires the three parent references only on a credit note', () => {
+    const parents = [
+      'parentInvoiceId',
+      'parentExternalInvoiceId',
+      'parentInvoiceNumber',
+    ];
+    for (const field of parents) {
+      expect(Schemas.CreditNoteRequestDto.required).toContain(field);
+    }
+    expect(props('InvoiceRequestDto').parentExternalInvoiceId).toBeUndefined();
+  });
+
+  it('does not force the document fields on a failure or pending report', () => {
+    for (const dto of [
+      'ProformaInvoiceResponseDto',
+      'InvoiceResponseDto',
+      'CreditNoteResponseDto',
+    ]) {
+      expect(Schemas[dto].required).toEqual(
+        expect.not.arrayContaining(['invoiceUrl']),
+      );
+      expect(Schemas[dto].required).toEqual(
+        expect.not.arrayContaining(['invoiceNumber', 'invoiceId']),
+      );
+      expect(props(dto).invoiceId).toBeDefined();
+      expect(props(dto).invoiceNumber).toBeDefined();
+    }
+  });
+
+  it('describes the tax integration answer', () => {
+    const response = Schemas.TaxDetailsResponseDto;
+    expect(response.required).toEqual(
+      expect.arrayContaining(['vatRate', 'treatment']),
+    );
+    expect(response.properties.vatRate).toMatchObject({
+      minimum: 0,
+      maximum: 100,
+    });
+    expect(response.properties.vatNumberValid.type).toBe('boolean');
+    expect(response.properties.TINValid).toBeUndefined();
+    expect(Schemas.TaxDetailsRequestDto.required.sort()).toEqual([
+      'buyerCountry',
+      'isBusinessContact',
+      'sellerCountry',
+    ]);
   });
 });

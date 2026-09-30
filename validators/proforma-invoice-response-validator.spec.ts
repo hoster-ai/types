@@ -42,13 +42,31 @@ describe('validateProformaInvoiceResponseDto', () => {
     },
   );
 
-  it('rejects a success without the document fields', async () => {
-    const body = omit(ISSUED, 'invoiceUrl', 'invoiceNumber', 'invoiceId');
+  it('rejects a success without the invoice number and id', async () => {
+    const body = omit(ISSUED, 'invoiceNumber', 'invoiceId');
     expect((await messages(body)).sort()).toEqual([
       'invoiceId',
       'invoiceNumber',
-      'invoiceUrl',
     ]);
+  });
+
+  it('accepts a success without an invoice url — not every integration hosts its documents', async () => {
+    expect(await messages(omit(ISSUED, 'invoiceUrl'))).toEqual([]);
+  });
+
+  it('rejects an invoice url that is not https', async () => {
+    expect(
+      await messages({
+        ...ISSUED,
+        invoiceUrl: 'http://invoices.example.com/doc-1.pdf',
+      }),
+    ).toEqual(['invoiceUrl']);
+    expect(
+      await messages({
+        ...ISSUED,
+        invoiceUrl: 'invoices.example.com/doc-1.pdf',
+      }),
+    ).toEqual(['invoiceUrl']);
   });
 
   it('rejects a report without status or outboxId — nothing to settle or correlate on', async () => {
