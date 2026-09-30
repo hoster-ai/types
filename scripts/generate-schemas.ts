@@ -55,7 +55,7 @@ import { FIELD_DTO_CLASSES } from '../index';
 // Named enums shared across DTOs. We emit these as standalone component
 // schemas so DTO properties can `$ref` them instead of inlining the enum.
 // This stops openapi-generator from minting one ad-hoc enum per property
-// (e.g. InfoDtoListenEventsEnum, ProductInfoDtoListenEventsEnum, ...) for
+// (`<Dto><Property>Enum`, one per DTO property) for
 // what is logically a single enum. Adding a future enum is one line here.
 import { EventsEnum } from '../enums/events.enum';
 import { RolesEnum } from '../enums/roles.enum';

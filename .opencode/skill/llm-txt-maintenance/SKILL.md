@@ -38,8 +38,8 @@ project-root/
   llm.txt                    # Main index (THIS FILE YOU MAINTAIN)
   llm/                       # Detailed documentation directory
     dtos/
-      actiondto.md
-      actiondto.md
+      attachmentdto.md
+      companydatadto.md
       ...
     enums/
     decorators/
@@ -77,12 +77,11 @@ Converting Source path to Details link:
 
 | Source                                         | Details Link                          |
 | ---------------------------------------------- | ------------------------------------- |
-| `dtos/action.dto.ts`                           | `llm/dtos/actiondto.md`               |
+| `dtos/attachment.dto.ts`                       | `llm/dtos/attachmentdto.md`           |
 | `dtos/invoice/requests/invoice-request.dto.ts` | `llm/dtos/invoicerequestdto.md`       |
 | `enums/country.enum.ts`                        | `llm/enums/countryenum.md`            |
 | `decorators/all-or-none.validator.ts`          | `llm/decorators/allornoneproperty.md` |
-| `validators/action-validator.ts`               | `llm/validators/validateactiondto.md` |
-| `transformers/menu.transformer.ts`             | `llm/transformers/transformmenu.md`   |
+| `validators/attachment-validator.ts`           | `llm/validators/validateattachmentdto.md` |
 
 **Key rules:**
 
@@ -176,7 +175,7 @@ When dispatching to a subagent, use this template:
 You are an expert at maintaining the llm.txt file in this project.
 
 ## Your Task
-[TASK DESCRIPTION: e.g., "Add NewFeatureDto to llm.txt" or "Update ProductInfoDto entry after field X changed"]
+[TASK DESCRIPTION: e.g., "Add NewFeatureDto to llm.txt" or "Update ProductItemDataDto entry after field X changed"]
 
 ## Context
 The llm.txt is located at: /Users/thomaspapamichail/projects/hoster/core/types/llm.txt

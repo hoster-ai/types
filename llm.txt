@@ -6,15 +6,6 @@ Each entry links to a separate file containing the full code and details.
 
 ## DTOS
 
-### ActionDto
-**Description:** Defines the structure for a UI action.
-
-**Source:** `dtos/action.dto.ts`
-
-**Details:** See [llm/dtos/actiondto.md](llm/dtos/actiondto.md)
-
----
-
 ### AddonFieldDto
 **Description:** Fields defined by the seller for a product, requested during checkout setup. Wraps a concrete field DTO under .field (an AnyFieldDto).
 
@@ -30,15 +21,6 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `dtos/fields/any-field.dto.ts`
 
 **Details:** See [llm/dtos/anyfielddto.md](llm/dtos/anyfielddto.md)
-
----
-
-### AdminPanelDto
-**Description:** Admin panel layout DTOs: tabs, moreActions, menu, and settings. Uses @AtLeastOneNonEmptyProperty and @IsOneOf. (also exports: AdminPanelMoreActionsDto)
-
-**Source:** `dtos/admin-panel.dto.ts`
-
-**Details:** See [llm/dtos/adminpaneldto.md](llm/dtos/adminpaneldto.md)
 
 ---
 
@@ -69,15 +51,6 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### BaseMenuDto
-**Description:** Base properties shared by all menu items. (also exports: MenuDtoWithUrl, MenuDtoWithSubmenu)
-
-**Source:** `dtos/menu.dto.ts`
-
-**Details:** See [llm/dtos/basemenudto.md](llm/dtos/basemenudto.md)
-
----
-
 ### BaseResponse
 **Description:** Base response class Used as a foundation for all API responses
 
@@ -102,15 +75,6 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `dtos/client-data.dto.ts`
 
 **Details:** See [llm/dtos/clientdatadto.md](llm/dtos/clientdatadto.md)
-
----
-
-### ClientPanelDto
-**Description:** Client panel layout DTOs: tabs, moreActions, and menu. Uses @AtLeastOneNonEmptyProperty and @IsOneOf. (also exports: ClientPanelMoreActionsDto)
-
-**Source:** `dtos/client-panel.dto.ts`
-
-**Details:** See [llm/dtos/clientpaneldto.md](llm/dtos/clientpaneldto.md)
 
 ---
 
@@ -312,30 +276,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### InfoDto
-**Description:** DTO for integration information. This is a central DTO that contains all the necessary information for a service integration, including UI configuration, supported features, and billing details.
-
-**Source:** `dtos/info.dto.ts`
-
-**Details:** See [llm/dtos/infodto.md](llm/dtos/infodto.md)
-
----
-
 ### InvoiceContactData
 **Description:** Billing contact information sent from hoster.ai to invoice integrations. Contains the details of the person or business for whom an invoice will be issued.
 
 **Source:** `dtos/invoice-contact-data.dto.ts`
 
 **Details:** See [llm/dtos/invoicecontactdata.md](llm/dtos/invoicecontactdata.md)
-
----
-
-### InvoiceInfoDto
-**Description:** Invoice integration information. Extends base integration info with invoice-specific configuration.
-
-**Source:** `dtos/invoice/invoice-info.dto.ts`
-
-**Details:** See [llm/dtos/invoiceinfodto.md](llm/dtos/invoiceinfodto.md)
 
 ---
 
@@ -390,15 +336,6 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `dtos/multilang-text.dto.ts`
 
 **Details:** See [llm/dtos/multilangtextdto.md](llm/dtos/multilangtextdto.md)
-
----
-
-### NotificationInfoDto
-**Description:** DTO for notification information. Extends the base InfoDto to include the notification message type.
-
-**Source:** `dtos/notification/notification-info.dto.ts`
-
-**Details:** See [llm/dtos/notificationinfodto.md](llm/dtos/notificationinfodto.md)
 
 ---
 
@@ -498,24 +435,6 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `dtos/product/responses/product-downgrade-response.dto.ts`
 
 **Details:** See [llm/dtos/productdowngraderesponsedto.md](llm/dtos/productdowngraderesponsedto.md)
-
----
-
-### ProductInfoDto
-**Description:** DTO for product information. Extends the base InfoDto to include the product attributes, optional pay-per-use units, and response mapping.
-
-**Source:** `dtos/product/product-info.dto.ts`
-
-**Details:** See [llm/dtos/productinfodto.md](llm/dtos/productinfodto.md)
-
----
-
-### ProductInfoResponseDto
-**Description:** Represents the response containing product information. This DTO extends the `BaseResponse` and includes the detailed product information.
-
-**Source:** `dtos/product/responses/product-info-response.dto.ts`
-
-**Details:** See [llm/dtos/productinforesponsedto.md](llm/dtos/productinforesponsedto.md)
 
 ---
 
@@ -663,15 +582,6 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### SettingsDto
-**Description:** Base settings DTO and its two variants for URL or Tabs. Uses custom @IsPropertyForbidden to forbid incompatible properties. (also exports: SettingsWithUrlDto, SettingsWithTabsDto)
-
-**Source:** `dtos/settings.dto.ts`
-
-**Details:** See [llm/dtos/settingsdto.md](llm/dtos/settingsdto.md)
-
----
-
 ### SetupStatusResponseDto
 **Description:** DTO for setup status response. Extends the base response to include the setup status.
 
@@ -699,30 +609,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### SubmenuDto
-**Description:** DTO for submenus. Extends the TabDto to represent a submenu item.
-
-**Source:** `dtos/submenu.dto.ts`
-
-**Details:** See [llm/dtos/submenudto.md](llm/dtos/submenudto.md)
-
----
-
 ### SuccessResponseDto
 **Description:** DTO for a successful response. Used to return the ID of a created resource.
 
 **Source:** `dtos/success-response.dto.ts`
 
 **Details:** See [llm/dtos/successresponsedto.md](llm/dtos/successresponsedto.md)
-
----
-
-### TabDto
-**Description:** DTO for tabs Used for defining tabs in the user interface
-
-**Source:** `dtos/tab.dto.ts`
-
-**Details:** See [llm/dtos/tabdto.md](llm/dtos/tabdto.md)
 
 ---
 
@@ -759,15 +651,6 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `dtos/invoice/transaction-data.dto.ts`
 
 **Details:** See [llm/dtos/transactiondata.md](llm/dtos/transactiondata.md)
-
----
-
-### UnitDto
-**Description:** DTO for billing units. Used for defining units for pay-per-use billing.
-
-**Source:** `dtos/unit.dto.ts`
-
-**Details:** See [llm/dtos/unitdto.md](llm/dtos/unitdto.md)
 
 ---
 
@@ -1017,15 +900,6 @@ Each entry links to a separate file containing the full code and details.
 
 ## VALIDATORS
 
-### validateActionDto
-**Description:** Validates a ActionDto object using class-validator decorators.
-
-**Source:** `validators/action-validator.ts`
-
-**Details:** See [llm/validators/validateactiondto.md](llm/validators/validateactiondto.md)
-
----
-
 ### validateAddonFieldDto
 **Description:** Validates an AddonFieldDto. The nested .field (a discriminated AnyFieldDto) is validated separately via validateAnyFieldDto and its errors merged under the 'field' property.
 
@@ -1041,33 +915,6 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `validators/any-field-validator.ts`
 
 **Details:** See [llm/validators/validateanyfielddto.md](llm/validators/validateanyfielddto.md)
-
----
-
-### validateAdminPanelDto
-**Description:** Validates an AdminPanelDto object using class-validator decorators.
-
-**Source:** `validators/admin-panel.validator.ts`
-
-**Details:** See [llm/validators/validateadminpaneldto.md](llm/validators/validateadminpaneldto.md)
-
----
-
-### validateAdminPanelMoreActionsDto
-**Description:** Validates an AdminPanelMoreActionsDto object using class-validator decorators.
-
-**Source:** `validators/admin-panel-more-actions.validator.ts`
-
-**Details:** See [llm/validators/validateadminpanelmoreactionsdto.md](llm/validators/validateadminpanelmoreactionsdto.md)
-
----
-
-### validateAdminPanelTabsDto
-**Description:** Validates an AdminPanelTabsDto object using class-validator decorators.
-
-**Source:** `validators/admin-panel-tabs.validator.ts`
-
-**Details:** See [llm/validators/validateadminpaneltabsdto.md](llm/validators/validateadminpaneltabsdto.md)
 
 ---
 
@@ -1095,15 +942,6 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `validators/client-data-validator.ts`
 
 **Details:** See [llm/validators/validateclientdatadto.md](llm/validators/validateclientdatadto.md)
-
----
-
-### validateClientPanelDto
-**Description:** Validates a ClientPanelDto object using class-validator decorators.
-
-**Source:** `validators/client-panel.validator.ts`
-
-**Details:** See [llm/validators/validateclientpaneldto.md](llm/validators/validateclientpaneldto.md)
 
 ---
 
@@ -1278,30 +1116,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### validateInfoDto
-**Description:** Validates an InfoDto object using class-validator decorators.
-
-**Source:** `validators/info-validator.ts`
-
-**Details:** See [llm/validators/validateinfodto.md](llm/validators/validateinfodto.md)
-
----
-
 ### validateInvoiceContactDataDto
 **Description:** Validates an InvoiceContactData object using class-validator decorators.
 
 **Source:** `validators/invoice-contact-data-validator.ts`
 
 **Details:** See [llm/validators/validateinvoicecontactdatadto.md](llm/validators/validateinvoicecontactdatadto.md)
-
----
-
-### validateInvoiceInfoDto
-**Description:** Validates an InvoiceInfoDto object using class-validator decorators.
-
-**Source:** `validators/invoice-info-validator.ts`
-
-**Details:** See [llm/validators/validateinvoiceinfodto.md](llm/validators/validateinvoiceinfodto.md)
 
 ---
 
@@ -1332,39 +1152,12 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### validateMenuWithSubmenuDto
-**Description:** Validates a MenuWithSubmenuDto object using class-validator decorators.
-
-**Source:** `validators/menu-with-submenu.validator.ts`
-
-**Details:** See [llm/validators/validatemenuwithsubmenudto.md](llm/validators/validatemenuwithsubmenudto.md)
-
----
-
-### validateMenuWithUrlDto
-**Description:** Validates a MenuWithUrlDto object using class-validator decorators.
-
-**Source:** `validators/menu-with-url.validator.ts`
-
-**Details:** See [llm/validators/validatemenuwithurldto.md](llm/validators/validatemenuwithurldto.md)
-
----
-
 ### validateMultilangTextDto
 **Description:** Validates a MultilangTextDto object using class-validator decorators.
 
 **Source:** `validators/multilang-text-validator.ts`
 
 **Details:** See [llm/validators/validatemultilangtextdto.md](llm/validators/validatemultilangtextdto.md)
-
----
-
-### validateNotificationInfoDto
-**Description:** Validates a NotificationInfoDto object using class-validator decorators.
-
-**Source:** `validators/notification-info.validator.ts`
-
-**Details:** See [llm/validators/validatenotificationinfodto.md](llm/validators/validatenotificationinfodto.md)
 
 ---
 
@@ -1410,15 +1203,6 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `validators/product-downgrade-request-validator.ts`
 
 **Details:** See [llm/validators/validateproductdowngraderequestdto.md](llm/validators/validateproductdowngraderequestdto.md)
-
----
-
-### validateProductInfoDto
-**Description:** Validates a ProductInfoDto object using class-validator decorators.
-
-**Source:** `validators/product-info.validator.ts`
-
-**Details:** See [llm/validators/validateproductinfodto.md](llm/validators/validateproductinfodto.md)
 
 ---
 
@@ -1494,24 +1278,6 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### validateSettingsWithTabsDto
-**Description:** Validates a SettingsWithTabsDto object using class-validator decorators.
-
-**Source:** `validators/settings-with-tabs.validator.ts`
-
-**Details:** See [llm/validators/validatesettingswithtabsdto.md](llm/validators/validatesettingswithtabsdto.md)
-
----
-
-### validateSettingsWithUrlDto
-**Description:** Validates a SettingsWithUrlDto object using class-validator decorators.
-
-**Source:** `validators/settings-with-url.validator.ts`
-
-**Details:** See [llm/validators/validatesettingswithurldto.md](llm/validators/validatesettingswithurldto.md)
-
----
-
 ### validateSmsReceiverDto
 **Description:** Validates a SmsReceiverDto object using class-validator decorators.
 
@@ -1530,15 +1296,6 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
-### validateTabDto
-**Description:** Validates a TabDto object using class-validator decorators.
-
-**Source:** `validators/tab-validator.ts`
-
-**Details:** See [llm/validators/validatetabdto.md](llm/validators/validatetabdto.md)
-
----
-
 ### validateTINValidationDetailsDto
 **Description:** Validates a TINValidationDetails object using class-validator decorators.
 
@@ -1554,15 +1311,6 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `validators/transaction-data-validator.ts`
 
 **Details:** See [llm/validators/validatetransactiondatadto.md](llm/validators/validatetransactiondatadto.md)
-
----
-
-### validateUnitDto
-**Description:** Validates a UnitDto object using class-validator decorators.
-
-**Source:** `validators/unit.validator.ts`
-
-**Details:** See [llm/validators/validateunitdto.md](llm/validators/validateunitdto.md)
 
 ---
 
@@ -1651,24 +1399,3 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `validators/proxy-action-task-validator.ts`
 
 **Details:** See [llm/validators/validateproxyactiontaskdto.md](llm/validators/validateproxyactiontaskdto.md)
-
-## TRANSFORMERS
-
-### transformMenu
-**Description:** Transformer function that converts plain objects to MenuDtoWithUrl or MenuDtoWithSubmenu based on the type property.
-
-**Source:** `transformers/menu.transformer.ts`
-
-**Details:** See [llm/transformers/transformmenu.md](llm/transformers/transformmenu.md)
-
----
-
-### transformSettings
-**Description:** Transformer function that converts plain objects to SettingsWithUrlDto or SettingsWithTabsDto based on the presence of url or tabs properties.
-
-**Source:** `transformers/settings.transformer.ts`
-
-**Details:** See [llm/transformers/transformsettings.md](llm/transformers/transformsettings.md)
-
----
-
