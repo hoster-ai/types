@@ -91,7 +91,7 @@ Integration info (the form an integration is registered with) and its admin/clie
 
 **Tax Manager DTOs:**
 
-- `tax-manager/tax-details-request.dto.ts`: Request payload for calculating tax details.
+- `tax-manager/tax-details-request.dto.ts`: Request payload for calculating tax details — `sellerCountry` (the company's KYC-verified country), `buyerCountry`, `isBusinessContact` (required); `buyerVatNumber`, `buyerPostalCode`, `buyerState`, `paymentCountry` (card-issuing country, second location evidence for OSS) optional.
 
 **Product DTOs:**
 
@@ -112,7 +112,14 @@ Integration info (the form an integration is registered with) and its admin/clie
 - `invoice/responses/proforma-invoice-response.dto.ts`: Response after creating a proforma invoice.
 - `invoice/responses/invoice-response.dto.ts`: Response after creating a standard invoice.
 - `invoice/responses/credit-note-response.dto.ts`: Response after creating a credit note.
-- `invoice/responses/tax-details-response.dto.ts`: Response with tax calculation details.
+- `invoice/responses/tax-details-response.dto.ts`: Response with tax calculation details — `vatRate` (%, 0–100, 2dp), `treatment` (`VatTreatmentEnum`), `vatNumberValid` (absent without a VAT number), `exemptionReason` (required when `vatRate` is 0 and `treatment` is not `domestic`).
+
+**Invoice contract notes:**
+
+- The tax integration is the source of the VAT: every invoice line carries `netAmount`, `vatRate`, `vatAmount`, `treatment` and, for a 0% rate outside `domestic`, `exemptionReason`; every document carries `netTotal`, `vatTotal` and `totalAmount` (gross).
+- Amounts are decimal major units with up to two decimal places (e.g. `12.40`), not cents. Per line `netAmount + vatAmount` is the line gross; the lines sum to `netTotal` / `vatTotal`, and `totalAmount = netTotal + vatTotal`. The sums are documented, not validated.
+- A credit note names the invoice it credits three ways, all required: `parentInvoiceId` (hoster.ai), `parentExternalInvoiceId` and `parentInvoiceNumber` (the `invoiceId` / `invoiceNumber` the integration returned for that invoice).
+- On `status: success` a document response must carry `invoiceNumber` and `invoiceId`; `invoiceUrl` is optional and must be https when present. `failure` / `pending` reports carry none of them.
 
 ### Enums
 
@@ -123,6 +130,7 @@ Enums provide a set of named constants for common types, preventing errors with 
 - `ProductItemActionsEnum`: Defines possible product item actions (create, renew, upgrade, downgrade, etc.).
 - `InvoiceItemActionsEnum`: Defines possible invoice item actions (create, renew, upgrade, downgrade, transfer, trade).
 - `InvoiceTypesEnum`: Defines invoice document types (invoice, credit-note, proforma).
+- `VatTreatmentEnum`: How VAT applies to a sale (domestic, reverse_charge, oss, outside_scope, exempt).
 - `CountryEnum`: A list of all countries.
 - `DurationEnum`: Defines billing durations (e.g., `MONTHLY`, `YEARLY`).
 - `EventsEnum`: Defines triggerable events.

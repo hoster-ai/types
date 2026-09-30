@@ -1,6 +1,6 @@
 # ProformaInvoiceResponseDto
 
-**Description:** Response from invoice integrations after issuing a proforma invoice. Contains the generated invoice details and access URL.
+**Description:** Response from invoice integrations after issuing a proforma invoice. On success invoiceNumber and invoiceId are required; invoiceUrl is optional (https when present).
 
 **Source:** `dtos/invoice/responses/proforma-invoice-response.dto.ts`
 
@@ -9,7 +9,14 @@
 ## Code
 
 ```typescript
-import { IsEnum, IsNotEmpty, IsString, IsUrl, ValidateIf } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+  ValidateIf,
+} from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { ResponseStatusEnum } from '../../../enums/response-status.enum';
 import { BaseResponse } from '../../base-response.dto';
@@ -34,8 +41,7 @@ export class ProformaInvoiceResponseDto extends BaseResponse {
     title: 'Status',
     description:
       'The status of the response, indicating the outcome of the issuance.',
-    type: 'string',
-    enum: Object.values(ResponseStatusEnum),
+    $ref: '#/components/schemas/ResponseStatusEnum',
   })
   status!: ResponseStatusEnum;
 
@@ -57,38 +63,50 @@ export class ProformaInvoiceResponseDto extends BaseResponse {
   outboxId!: string;
 
   /**
-   * URL to access the generated invoice document. The three document fields below exist
-   * only on a SUCCESS: a `failure` or `pending` report has no document to describe.
+   * URL to access the generated invoice document. Optional: not every integration
+   * hosts its documents. When present it must be an https URL.
    */
-  @ValidateIf((response: ProformaInvoiceResponseDto) => response.status === ResponseStatusEnum.SUCCESS)
-  @IsUrl()
-  @IsNotEmpty()
+  @IsOptional()
+  @IsUrl({ protocols: ['https'], require_protocol: true })
   @JSONSchema({
     title: 'Invoice URL',
-    description: 'URL to access the generated invoice document.',
+    description:
+      'URL to access the generated invoice document. Optional; when present it must be an https URL.',
     type: 'string',
     format: 'uri',
   })
   invoiceUrl?: string;
 
-  /** Invoice number assigned by the integration */
-  @ValidateIf((response: ProformaInvoiceResponseDto) => response.status === ResponseStatusEnum.SUCCESS)
+  /**
+   * Invoice number assigned by the integration. `invoiceNumber` and `invoiceId`
+   * exist only on a SUCCESS, where both are required: a `failure` or `pending`
+   * report has no document to describe.
+   */
+  @ValidateIf(
+    (response: ProformaInvoiceResponseDto) =>
+      response.status === ResponseStatusEnum.SUCCESS,
+  )
   @IsString()
   @IsNotEmpty()
   @JSONSchema({
     title: 'Invoice Number',
-    description: 'Invoice number assigned by the integration.',
+    description:
+      'Invoice number assigned by the integration. Required when status is success; absent on failure or pending.',
     type: 'string',
   })
   invoiceNumber?: string;
 
   /** Unique identifier for the invoice in the integration system */
-  @ValidateIf((response: ProformaInvoiceResponseDto) => response.status === ResponseStatusEnum.SUCCESS)
+  @ValidateIf(
+    (response: ProformaInvoiceResponseDto) =>
+      response.status === ResponseStatusEnum.SUCCESS,
+  )
   @IsString()
   @IsNotEmpty()
   @JSONSchema({
     title: 'Invoice ID',
-    description: 'Unique identifier for the invoice in the integration system.',
+    description:
+      'Unique identifier for the invoice in the integration system. Required when status is success; absent on failure or pending.',
     type: 'string',
   })
   invoiceId?: string;

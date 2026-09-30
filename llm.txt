@@ -61,7 +61,7 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### BaseInvoiceRequestDto
-**Description:** Request payload for calculating tax details. Contains company and customer location information for tax rate determination.
+**Description:** Common payload of every document request sent to invoice integrations. Amounts are decimal major units, 2dp (not cents); the lines sum to netTotal and vatTotal, and totalAmount = netTotal + vatTotal.
 
 **Source:** `dtos/invoice/requests/base-invoice-request.dto.ts`
 
@@ -97,7 +97,7 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### CreditNoteRequestDto
-**Description:** Request payload for creating a credit note. Extends proforma invoice with minimal variations to keep the API clean for invoice integration developers.
+**Description:** Request payload for creating a credit note. Names the credited invoice by hoster.ai id (parentInvoiceId) and by the integration id and number (parentExternalInvoiceId, parentInvoiceNumber) — all required.
 
 **Source:** `dtos/invoice/requests/credit-note-request.dto.ts`
 
@@ -286,7 +286,7 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### InvoiceItemDataDto
-**Description:** Order product item data sent to invoice integrations. Uses invoice-specific actions to avoid confusion with product integration actions.
+**Description:** Order product item data sent to invoice integrations, with invoice-specific actions and the line VAT (netAmount, vatRate, vatAmount, treatment, exemptionReason). Amounts are decimal major units, 2dp; netAmount + vatAmount = line gross.
 
 **Source:** `dtos/invoice/invoice-item-data.dto.ts`
 
@@ -547,7 +547,7 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### ProformaInvoiceResponseDto
-**Description:** Response from invoice integrations after successfully creating a proforma invoice. Contains the generated invoice details and access URL.
+**Description:** Response from invoice integrations after issuing a proforma invoice. On success invoiceNumber and invoiceId are required; invoiceUrl is optional (https when present).
 
 **Source:** `dtos/invoice/responses/proforma-invoice-response.dto.ts`
 
@@ -619,16 +619,16 @@ Each entry links to a separate file containing the full code and details.
 ---
 
 ### TaxDetailsRequestDto
-**Description:** Request payload for calculating tax details. Contains company and customer location information for tax rate determination.
+**Description:** Request payload for calculating tax details. The core sends the seller and buyer facts (seller country, buyer country, VAT number, postal code, B2B flag, card-issuing country); the tax integration decides the VAT rate and treatment.
 
-**Source:** `dtos/invoice/requests/tax-details-request.dto.ts`
+**Source:** `dtos/tax-manager/tax-details-request.dto.ts`
 
 **Details:** See [llm/dtos/taxdetailsrequestdto.md](llm/dtos/taxdetailsrequestdto.md)
 
 ---
 
 ### TaxDetailsResponseDto
-**Description:** Represents the response containing tax calculation details. Includes VAT rate and optional TIN validation information.
+**Description:** Tax calculation answer of the tax integration: VAT rate (%), VatTreatmentEnum treatment, VAT number validity and, for a 0% rate outside domestic, the exemption reason.
 
 **Source:** `dtos/invoice/responses/tax-details-response.dto.ts`
 
@@ -804,6 +804,15 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `enums/invoice/invoice-actions.enum.ts`
 
 **Details:** See [llm/enums/invoiceactionsenum.md](llm/enums/invoiceactionsenum.md)
+
+---
+
+### VatTreatmentEnum
+**Description:** How VAT applies to a sale, as decided by the tax integration: domestic, reverse_charge, oss, outside_scope, exempt.
+
+**Source:** `enums/invoice/vat-treatment.enum.ts`
+
+**Details:** See [llm/enums/vattreatmentenum.md](llm/enums/vattreatmentenum.md)
 
 ## DECORATORS
 
