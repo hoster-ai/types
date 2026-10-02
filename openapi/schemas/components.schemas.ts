@@ -250,20 +250,7 @@ export const ComponentsSchemas = {
       },
     },
     type: 'object',
-    required: [
-      'id',
-      'name',
-      'emails',
-      'invoiceEmail',
-      'privacyPolicyUrl',
-      'defaultLanguage',
-      'languages',
-      'telephone',
-      'address1',
-      'postcode',
-      'city',
-      'country',
-    ],
+    required: ['id', 'name', 'defaultLanguage', 'languages'],
   },
   CountryDto: {
     properties: {

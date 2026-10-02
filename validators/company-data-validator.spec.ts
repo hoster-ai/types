@@ -35,6 +35,21 @@ describe('CompanyDataDto Validator', () => {
     expect(errors.some((e) => e.property === 'name')).toBe(true);
   });
 
+  it('should return no errors when the optional seller-company fields are omitted', () => {
+    const minimalDto = {
+      id: '123',
+      name: 'Test Company',
+      defaultLanguage: LanguageEnum.ENGLISH,
+      languages: [LanguageEnum.ENGLISH],
+      // emails, invoiceEmail, privacyPolicyUrl, telephone, address1,
+      // postcode, city, country are all optional — the core cannot
+      // guarantee the seller filled their invoice contact details.
+    };
+
+    const errors = validateCompanyDataDto(minimalDto);
+    expect(errors).toHaveLength(0);
+  });
+
   it('should return error for invalid email format', () => {
     const invalidDto = {
       id: '123',

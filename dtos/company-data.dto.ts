@@ -41,41 +41,44 @@ export class CompanyDataDto {
   name!: string;
 
   /**
-   * An array of email addresses associated with the company.
+   * An array of email addresses associated with the company (optional).
    */
   @IsEmail({}, { each: true })
   @IsArray()
+  @IsOptional()
   @JSONSchema({
     title: 'Emails',
     description: 'Email addresses associated with the company.',
     type: 'array',
     items: { type: 'string', format: 'email' },
   })
-  emails!: string[];
+  emails?: string[];
 
   /**
-   * The email address used for invoicing.
+   * The email address used for invoicing (optional).
    */
   @IsEmail()
+  @IsOptional()
   @JSONSchema({
     title: 'Invoice Email',
     description: 'The email address used for invoicing.',
     type: 'string',
     format: 'email',
   })
-  invoiceEmail!: string;
+  invoiceEmail?: string;
 
   /**
-   * The URL for the company's privacy policy.
+   * The URL for the company's privacy policy (optional).
    */
   @IsUrl({ protocols: ['https'], require_protocol: true })
+  @IsOptional()
   @JSONSchema({
     title: 'Privacy Policy URL',
     description: "The URL for the company's privacy policy.",
     type: 'string',
     format: 'uri',
   })
-  privacyPolicyUrl!: string;
+  privacyPolicyUrl?: string;
 
   /**
    * The default language for the company.
@@ -102,15 +105,16 @@ export class CompanyDataDto {
   languages!: LanguageEnum[];
 
   /**
-   * The primary telephone number for the company.
+   * The primary telephone number for the company (optional).
    */
   @IsPhoneNumber()
+  @IsOptional()
   @JSONSchema({
     title: 'Telephone',
     description: 'The primary telephone number for the company.',
     type: 'string',
   })
-  telephone!: string;
+  telephone?: string;
 
   /**
    * The mobile phone number for the company (optional).
@@ -125,15 +129,16 @@ export class CompanyDataDto {
   mobile?: string;
 
   /**
-   * The first line of the company's address.
+   * The first line of the company's address (optional).
    */
   @IsString()
+  @IsOptional()
   @JSONSchema({
     title: 'Address Line 1',
     description: "The first line of the company's address.",
     type: 'string',
   })
-  address1!: string;
+  address1?: string;
 
   /**
    * The second line of the company's address (optional).
@@ -160,37 +165,40 @@ export class CompanyDataDto {
   address3?: string;
 
   /**
-   * The postal code for the company's address.
+   * The postal code for the company's address (optional).
    */
   @IsString()
+  @IsOptional()
   @JSONSchema({
     title: 'Postcode',
     description: "The postal code for the company's address.",
     type: 'string',
   })
-  postcode!: string;
+  postcode?: string;
 
   /**
-   * The city for the company's address.
+   * The city for the company's address (optional).
    */
   @IsString()
+  @IsOptional()
   @JSONSchema({
     title: 'City',
     description: "The city for the company's address.",
     type: 'string',
   })
-  city!: string;
+  city?: string;
 
   /**
-   * The country for the company's address.
+   * The country for the company's address (optional).
    */
   @IsEnum(CountryEnum)
+  @IsOptional()
   @JSONSchema({
     title: 'Country',
     description: "The country for the company's address.",
     $ref: '#/components/schemas/CountryEnum',
   })
-  country!: CountryEnum;
+  country?: CountryEnum;
 
   /**
    * The state or province for the company's address (optional).
