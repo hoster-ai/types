@@ -66,6 +66,30 @@ describe('InvoiceInfoDto Validator', () => {
   });
 
   describe('Invalid field values', () => {
+    it('should return error when supportedCountries is missing', () => {
+      const dto = { ...baseValidDto, supportedCountries: undefined };
+      const errors = validateInvoiceInfoDto(dto);
+      expect(errors.some((e) => e.property === 'supportedCountries')).toBe(
+        true,
+      );
+    });
+
+    it('should return error when supportedCountries is empty', () => {
+      const dto = { ...baseValidDto, supportedCountries: [] };
+      const errors = validateInvoiceInfoDto(dto);
+      expect(errors.some((e) => e.property === 'supportedCountries')).toBe(
+        true,
+      );
+    });
+
+    it('should return error for invalid supportedCountries enum', () => {
+      const dto = { ...baseValidDto, supportedCountries: ['XX'] };
+      const errors = validateInvoiceInfoDto(dto);
+      expect(errors.some((e) => e.property === 'supportedCountries')).toBe(
+        true,
+      );
+    });
+
     it('should return error for invalid supportedTypes enum', () => {
       const dto = { ...baseValidDto, supportedTypes: ['invalid-type'] };
       const errors = validateInvoiceInfoDto(dto);

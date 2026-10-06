@@ -1,4 +1,10 @@
-import { IsArray, IsEnum, IsNotEmpty } from 'class-validator';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsDefined,
+  IsEnum,
+  IsNotEmpty,
+} from 'class-validator';
 import { CountryEnum } from '../../enums/country.enum';
 import { InfoDto } from '../info.dto';
 import { InvoiceTypesEnum } from '../../enums/invoice/invoice-types.enum';
@@ -10,6 +16,17 @@ import { JSONSchema } from 'class-validator-jsonschema';
  */
 export class InvoiceInfoDto extends InfoDto {
   /** Countries supported by this invoice integration */
+  @IsDefined()
+  @IsArray()
+  @IsEnum(CountryEnum, { each: true })
+  @ArrayMinSize(1)
+  @JSONSchema({
+    title: 'Supported Countries',
+    description: 'Countries supported by this invoice integration.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/CountryEnum' },
+    example: ['GR'],
+  })
   supportedCountries!: CountryEnum[];
 
   /**
@@ -22,7 +39,7 @@ export class InvoiceInfoDto extends InfoDto {
     title: 'Supported Types',
     description: 'Types of invoice supported by this integration.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(InvoiceTypesEnum) },
+    items: { $ref: '#/components/schemas/InvoiceTypesEnum' },
   })
   supportedTypes: InvoiceTypesEnum[] = [];
 }

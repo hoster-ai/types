@@ -21,8 +21,7 @@ export class TaxDetailsRequestDto {
   @JSONSchema({
     title: 'Company Country',
     description: 'Country where the company is registered.',
-    type: 'string',
-    enum: Object.values(CountryEnum),
+    $ref: '#/components/schemas/CountryEnum',
   })
   companyCountry!: CountryEnum;
 
@@ -34,8 +33,7 @@ export class TaxDetailsRequestDto {
   @JSONSchema({
     title: 'Customer Country',
     description: 'Country where the customer is located.',
-    type: 'string',
-    enum: Object.values(CountryEnum),
+    $ref: '#/components/schemas/CountryEnum',
   })
   customerCountry!: CountryEnum;
 

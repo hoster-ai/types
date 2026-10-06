@@ -22,8 +22,7 @@ export class ProductCreateResponseDto extends BaseResponse {
     title: 'Status',
     description:
       'The status of the response, indicating the outcome of the creation.',
-    type: 'string',
-    enum: Object.values(ResponseStatusEnum),
+    $ref: '#/components/schemas/ResponseStatusEnum',
   })
   status!: ResponseStatusEnum;
 

@@ -16,7 +16,7 @@ import {
 } from 'class-validator';
 
 export function IsPlainObject(validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'isPlainObject',
       target: object.constructor,

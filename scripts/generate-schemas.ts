@@ -13,76 +13,53 @@
  *    consumption simple and robust.
  *
  * How it works (high-level)
- *  1) Load DTO modules (side-effect imports) so their decorators register
- *     into class-validator's metadata storage.
- *  2) Use `validationMetadatasToSchemas` to generate raw JSON Schemas.
+ *  1) Load the package barrel (`index.ts`) so every exported DTO registers its
+ *     decorators into class-validator's metadata storage.
+ *  2) Use `validationMetadatasToSchemas` to generate raw JSON Schemas, plus
+ *     `targetConstructorToSchema` for exported subclasses that only inherit
+ *     their decorators (they have no metadata entry of their own).
  *  3) Remap any `#/definitions/...` refs to `#/components/schemas/...`.
  *  4) Sanitize the result:
  *     - Strip placeholder `$ref`s to Array/Object (Swagger shouldn’t resolve those).
  *     - Remove empty property names and empty strings in `required` arrays.
  *     - Drop properties that resolve to an "empty" schema (e.g., forbidden/never fields).
- *  5) Write `components.schemas.ts` with a typed `const` export.
+ *     - Collapse keywords next to `$ref` / `oneOf` (`schema-passes.ts`).
+ *  5) `buildComponentsSchemas()` returns the map in memory; `write-schemas.ts`
+ *     (`npm run build:schemas`) writes it to `components.schemas.ts`.
  *
  * Notes
- *  - Keep the side-effect imports up to date whenever you add new DTOs that
- *    should appear in the output. If a class isn’t imported anywhere, its
- *    decorators won’t be registered and it won’t be emitted.
+ *  - A DTO appears in the output only if it is exported from `index.ts`
+ *    (or referenced by one that is). `components.schemas.spec.ts` fails when an
+ *    exported DTO has no schema or a `$ref` points nowhere.
  *  - If you later decide to generate per-class schema files again, reintroduce
  *    the per-target write logic that was removed for simplicity.
  */
 import 'reflect-metadata';
-import path from 'node:path';
-import fs from 'node:fs';
 import { getMetadataStorage } from 'class-validator';
-import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
+import {
+  targetConstructorToSchema,
+  validationMetadatasToSchemas,
+} from 'class-validator-jsonschema';
+import {
+  collapseCompositionSiblings,
+  collapseRefSiblings,
+  dropNonStringKeywords,
+  mapComponents,
+} from './schema-passes';
 
-// Import dtos to register their decorators in metadata storage
-import '../dtos/country.dto';
-import '../dtos/notification/notification-info.dto';
-import '../dtos/product/product-info.dto';
-import '../dtos/proxy-action-task.dto';
-// Concrete field DTOs (split from the deprecated mega FieldDto)
-import '../dtos/fields/boolean-field.dto';
-import '../dtos/fields/text-field.dto';
-import '../dtos/fields/textarea-field.dto';
-import '../dtos/fields/number-field.dto';
-import '../dtos/fields/phone-field.dto';
-import '../dtos/fields/email-field.dto';
-import '../dtos/fields/url-field.dto';
-import '../dtos/fields/countries-field.dto';
-import '../dtos/fields/currency-field.dto';
-import '../dtos/fields/date-field.dto';
-import '../dtos/fields/password-field.dto';
-import '../dtos/fields/select-field.dto';
-import '../dtos/fields/multi-select-field.dto';
-import { FIELD_DTO_CLASSES } from '../dtos/fields/any-field.dto';
+// Load the WHOLE public barrel so every DTO module the package exports
+// registers its decorators. One import instead of a hand-kept list, so a new
+// DTO cannot be forgotten here (issue #34); the spec checks the result.
+import * as Pkg from '../index';
 
-// Named enums shared across DTOs. We emit these as standalone component
-// schemas so DTO properties can `$ref` them instead of inlining the enum.
-// This stops openapi-generator from minting one ad-hoc enum per property
+// Every exported `*Enum` becomes a standalone component schema, so DTO
+// properties can `$ref` it instead of inlining the enum. This stops
+// openapi-generator from minting one ad-hoc enum per property
 // (e.g. InfoDtoListenEventsEnum, ProductInfoDtoListenEventsEnum, ...) for
-// what is logically a single enum. Adding a future enum is one line here.
-import { EventsEnum } from '../enums/events.enum';
-import { RolesEnum } from '../enums/roles.enum';
-import { LanguageEnum } from '../enums/language.enum';
-import { CountryEnum } from '../enums/country.enum';
-import { CurrencyEnum } from '../enums/currency.enum';
-import { FieldTypeEnum } from '../enums/field-type.enum';
-import { ProductActionsEnum } from '../enums/item-actions.enum';
-import { OpenMethodEnum } from '../enums/open-method.enum';
-import { NotificationMessageTypeEnum } from '../enums/notification/notification-message-type.enum';
-
-const ENUM_REGISTRY = {
-  EventsEnum,
-  RolesEnum,
-  LanguageEnum,
-  CountryEnum,
-  CurrencyEnum,
-  FieldTypeEnum,
-  ProductActionsEnum,
-  OpenMethodEnum,
-  NotificationMessageTypeEnum,
-};
+// what is logically a single enum.
+const ENUM_REGISTRY = Object.fromEntries(
+  Object.entries(Pkg).filter(([name]) => name.endsWith('Enum')),
+) as Record<string, Record<string, string>>;
 
 const enumSchemas = Object.fromEntries(
   Object.entries(ENUM_REGISTRY).map(([name, e]) => [
@@ -92,21 +69,44 @@ const enumSchemas = Object.fromEntries(
 );
 
 /**
- * Ensure an output directory exists.
+ * Build the full components map in memory (no file I/O), so the spec can
+ * compare it against the committed `ComponentsSchemas`.
  */
-function ensureDir(dir: string) {
-  fs.mkdirSync(dir, { recursive: true });
-}
-
-function main() {
-  const outDir = path.resolve(__dirname, '../openapi/schemas');
-  ensureDir(outDir);
-
+export function buildComponentsSchemas(): Record<string, unknown> {
   // 1) Build schema map from class-validator metadata
   const storage = getMetadataStorage();
-  const generatedSchemas = validationMetadatasToSchemas({
-    classValidatorMetadataStorage: storage,
-  });
+  const generatedSchemas: Record<string, unknown> =
+    validationMetadatasToSchemas({ classValidatorMetadataStorage: storage });
+
+  // 1b) Exported subclasses without decorators of their own (e.g.
+  //     `InvoiceResponseDto extends ProformaInvoiceResponseDto {}`) have no
+  //     metadata entry, so the call above skips them. Emit them from their
+  //     inherited metadata.
+  //     A name already taken by another class would make the subclass
+  //     silently share that class's schema, so fail loudly instead.
+  const ownMetadataTargets = new Set(
+    (
+      storage as unknown as { validationMetadatas: Map<unknown, unknown> }
+    ).validationMetadatas.keys(),
+  );
+  for (const value of Object.values(Pkg)) {
+    if (typeof value !== 'function' || ownMetadataTargets.has(value)) continue;
+    const inherited = storage.getTargetValidationMetadatas(
+      value,
+      '',
+      true,
+      false,
+    );
+    if (inherited.length === 0) continue;
+    if (Object.prototype.hasOwnProperty.call(generatedSchemas, value.name)) {
+      throw new Error(
+        `Two exported classes are named ${value.name}; schemas are keyed by class name.`,
+      );
+    }
+    generatedSchemas[value.name] = targetConstructorToSchema(value, {
+      classValidatorMetadataStorage: storage,
+    });
+  }
 
   // Merge the named enum schemas in BEFORE remap/sanitize so they go through
   // the exact same passes as the generated DTO schemas. They carry both
@@ -204,48 +204,30 @@ function main() {
           out[k] = sanitizeSchema(v);
         }
       }
-      return out;
-    }
-    return obj;
-  };
-
-  /**
-   * 3b) Collapse `$ref` sibling keywords.
-   *  class-validator-jsonschema MERGES the schema derived from validation
-   *  decorators (e.g. `@IsEnum` -> `{ type, enum }`) with the object passed to
-   *  `@JSONSchema`. When a `@JSONSchema` provides a `$ref`, the auto-generated
-   *  `enum`/`type` survive as siblings of that `$ref`. In OpenAPI 3.0 any
-   *  sibling of `$ref` is ignored, but if we leave the inline `enum` in place
-   *  openapi-generator mints an ad-hoc per-property enum from it. So whenever a
-   *  node carries a `$ref`, reduce it to just `{ $ref }`. This makes every
-   *  named-enum reference a real reference to the shared enum schema.
-   */
-  const collapseRefSiblings = (obj: any): any => {
-    if (Array.isArray(obj)) return obj.map(collapseRefSiblings);
-    if (obj && typeof obj === 'object') {
-      if (typeof (obj as any).$ref === 'string') {
-        return { $ref: (obj as any).$ref };
-      }
-      const out: any = {};
-      for (const [k, v] of Object.entries(obj)) {
-        out[k] = collapseRefSiblings(v);
+      // A property dropped above (forbidden/never field) must not stay
+      // required, or no payload can satisfy the schema.
+      if (out.required && out.properties) {
+        out.required = out.required.filter((x: string) => x in out.properties);
+        if (out.required.length === 0) delete out.required;
       }
       return out;
     }
     return obj;
   };
 
-  // 4) Emit full components map to be merged into an OpenAPI document
-  const componentsOut = path.join(outDir, 'components.schemas.ts');
-  // Remap and ensure required helper definitions exist
-  const remappedComponents = collapseRefSiblings(
+  // 3b/3c) Collapse keywords next to `$ref` / `oneOf` (see schema-passes.ts)
+  const remappedComponents = mapComponents(
     sanitizeSchema(remapRefs(schemas)),
-  ) as Record<string, unknown>;
+    (schema) =>
+      dropNonStringKeywords(
+        collapseCompositionSiblings(collapseRefSiblings(schema)),
+      ),
+  );
 
   // 4a) Manually inject `AnyFieldDto` as a discriminated `oneOf` of every concrete
   //     field DTO. `class-validator-jsonschema` cannot derive this from a TS union
   //     alias because there are no class-validator decorators attached to it.
-  const fieldOneOf = Object.values(FIELD_DTO_CLASSES).map((cls) => ({
+  const fieldOneOf = Object.values(Pkg.FIELD_DTO_CLASSES).map((cls) => ({
     $ref: `#/components/schemas/${cls.name}`,
   }));
   remappedComponents.AnyFieldDto = {
@@ -256,7 +238,7 @@ function main() {
     discriminator: {
       propertyName: 'type',
       mapping: Object.fromEntries(
-        Object.entries(FIELD_DTO_CLASSES).map(([literal, cls]) => [
+        Object.entries(Pkg.FIELD_DTO_CLASSES).map(([literal, cls]) => [
           literal,
           `#/components/schemas/${cls.name}`,
         ]),
@@ -264,10 +246,5 @@ function main() {
     },
   };
 
-  // 5) Write the file with a typed `const` export for easy import/merge in the API app
-  const componentsContent = `export const ComponentsSchemas = ${JSON.stringify(remappedComponents, null, 2)} as const;\n`;
-  fs.writeFileSync(componentsOut, componentsContent, 'utf8');
-  console.log(`Generated: ${path.relative(process.cwd(), componentsOut)}`);
+  return remappedComponents;
 }
-
-main();

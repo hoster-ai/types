@@ -27,8 +27,8 @@ import { JSONSchema } from 'class-validator-jsonschema';
 import { ProductActionsEnum } from '../../enums/item-actions.enum';
 
 /**
- * DTO for product information.
- * Extends the base InfoDto to include the product attributes, optional pay-per-use units, and response mapping.
+ * DTO for notification information.
+ * Extends the base InfoDto to include the notification message type.
  */
 export class ProductInfoDto extends InfoDto {
   /**
@@ -41,7 +41,7 @@ export class ProductInfoDto extends InfoDto {
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => AttributeFieldDto)
-  @UniqueFieldInArray('id')
+  @UniqueFieldInArray('field.id')
   @JSONSchema({
     title: 'Product Attributes',
     description: 'Configurable attributes that apply at the product level.',
@@ -59,7 +59,7 @@ export class ProductInfoDto extends InfoDto {
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => AttributeFieldDto)
-  @UniqueFieldInArray('id')
+  @UniqueFieldInArray('field.id')
   @JSONSchema({
     title: 'Item Attributes',
     description: 'Configurable attributes that apply at the item level.',
@@ -118,7 +118,7 @@ export class ProductInfoDto extends InfoDto {
     title: 'Supported Actions',
     description: 'Actions supported by this integration.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(ProductItemActionsEnum) },
+    items: { $ref: '#/components/schemas/ProductActionsEnum' },
   })
   supportedActions: ProductActionsEnum[] = [];
 }

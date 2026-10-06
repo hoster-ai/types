@@ -14,8 +14,7 @@ export class ProductItemDataDto extends ItemDataDto {
   @JSONSchema({
     title: 'Action',
     description: 'Product-specific action type for this item.',
-    type: 'string',
-    enum: Object.values(ProductActionsEnum),
+    $ref: '#/components/schemas/ProductActionsEnum',
   })
   action?: ProductActionsEnum;
 }

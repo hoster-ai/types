@@ -24,7 +24,7 @@ describe('TINValidationDetails Validator', () => {
         state: 'Attica',
         tin: 'EL123456789',
         taxOffice: 'Athens Tax Office',
-        profession: 'Software Development',
+        profession: ['Software Development', 'Consulting'],
       };
       expect(validateTINValidationDetailsDto(dto)).toHaveLength(0);
     });
@@ -53,6 +53,18 @@ describe('TINValidationDetails Validator', () => {
   });
 
   describe('Invalid field values', () => {
+    it('should return error when profession is a string, not an array', () => {
+      const dto = { ...baseValidDto, profession: 'Software Development' };
+      const errors = validateTINValidationDetailsDto(dto);
+      expect(errors.some((e) => e.property === 'profession')).toBe(true);
+    });
+
+    it('should return error for a profession entry exceeding max length', () => {
+      const dto = { ...baseValidDto, profession: ['a'.repeat(251)] };
+      const errors = validateTINValidationDetailsDto(dto);
+      expect(errors.some((e) => e.property === 'profession')).toBe(true);
+    });
+
     it('should return error for invalid country code', () => {
       const dto = { ...baseValidDto, country: 'INVALID' };
       const errors = validateTINValidationDetailsDto(dto);

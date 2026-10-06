@@ -203,6 +203,7 @@ export * from './decorators/is-one-of.validator';
 export * from './decorators/is-plain-object.validator';
 export * from './decorators/is-property-forbidden.validator';
 export * from './decorators/is-regex.validator';
+export * from './decorators/is-string-or-string-array.validator';
 export * from './decorators/min-less-or-equal.validator';
 export * from './decorators/unique-field-in-array.validator';
 
