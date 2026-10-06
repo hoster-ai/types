@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { validateSync } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { AdminPanelTabsDto } from '../dtos/admin-panel.dto';
+import { validateAdminPanelTabsDto } from './admin-panel-tabs.validator';
 
 describe('validateAdminPanelTabsDto', () => {
   const validTab = { label: 'Tab', url: 'https://example.com' };
@@ -108,4 +109,8 @@ describe('validateAdminPanelTabsDto', () => {
       }
     },
   );
+
+  it('validateAdminPanelTabsDto rejects an object with no tab group', () => {
+    expect(validateAdminPanelTabsDto({}).length).toBeGreaterThan(0);
+  });
 });

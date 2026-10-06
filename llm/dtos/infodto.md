@@ -30,7 +30,7 @@ import { Type } from 'class-transformer';
 import { AdminPanelDto } from './admin-panel.dto';
 import { ClientPanelDto } from './client-panel.dto';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { FieldDto } from './field.dto';
+import { AnyFieldDto } from './fields/any-field.dto';
 import { UniqueFieldInArray } from '../decorators/unique-field-in-array.validator';
 
 /**
@@ -94,7 +94,7 @@ export class InfoDto {
     title: 'Supported Languages',
     description: 'Locales supported by the integration.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(LanguageEnum) },
+    items: { $ref: '#/components/schemas/LanguageEnum' },
     example: ['EN'],
   })
   supportedLanguages!: LanguageEnum[];
@@ -111,7 +111,7 @@ export class InfoDto {
     title: 'Listen Events',
     description: 'Platform events the integration can subscribe to.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(EventsEnum) },
+    items: { $ref: '#/components/schemas/EventsEnum' },
   })
   listenEvents?: EventsEnum[];
 
@@ -126,7 +126,7 @@ export class InfoDto {
     title: 'Required Roles',
     description: 'Roles required for this integration to operate.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(RolesEnum) },
+    items: { $ref: '#/components/schemas/RolesEnum' },
   })
   requiredRoles?: RolesEnum[];
 
@@ -141,7 +141,7 @@ export class InfoDto {
     title: 'Admin Panel',
     description:
       'Admin UI links, tabs, and actions provided by the integration.',
-    type: 'object',
+    $ref: '#/components/schemas/AdminPanelDto',
   })
   adminPanel?: AdminPanelDto;
 
@@ -156,7 +156,7 @@ export class InfoDto {
     title: 'Client Panel',
     description:
       'Client UI links, tabs, and actions provided by the integration.',
-    type: 'object',
+    $ref: '#/components/schemas/ClientPanelDto',
   })
   clientPanel?: ClientPanelDto;
 
@@ -178,15 +178,14 @@ export class InfoDto {
   @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
-  @ValidateNested({ each: true })
-  @Type(() => FieldDto)
   @UniqueFieldInArray('id')
   @JSONSchema({
     title: 'Setup Attributes',
-    description: 'Configurable attributes that are used in the setup process.',
+    description:
+      'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
     type: 'array',
-    items: { $ref: '#/components/schemas/FieldDto' },
+    items: { $ref: '#/components/schemas/AnyFieldDto' },
   })
-  setupAttributes?: FieldDto[];
+  setupAttributes?: AnyFieldDto[];
 }
 ```

@@ -179,8 +179,7 @@ export class ClientDataDto {
   @JSONSchema({
     title: 'Country',
     description: 'Country code of the user.',
-    type: 'string',
-    enum: Object.values(CountryEnum),
+    $ref: '#/components/schemas/CountryEnum',
   })
   country!: CountryEnum;
 

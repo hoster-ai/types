@@ -83,8 +83,7 @@ export abstract class BaseInvoiceRequestDto {
   @JSONSchema({
     title: 'Currency',
     description: 'Currency of the invoice.',
-    type: 'string',
-    enum: Object.values(CurrencyEnum),
+    $ref: '#/components/schemas/CurrencyEnum',
   })
   currency!: CurrencyEnum;
 

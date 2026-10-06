@@ -9,7 +9,12 @@
 ## Code
 
 ```typescript
-import { IsDefined, IsObject, ValidateNested } from 'class-validator';
+import {
+  IsDefined,
+  IsObject,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { Type } from 'class-transformer';
 import { ProductItemDataDto } from '../product-item-data.dto';
@@ -55,7 +60,7 @@ export class ProductUpgradeRequestDto {
    * This object contains the state of the product instance prior to the upgrade.
    * @optional
    */
-  @IsDefined()
+  @IsOptional()
   @IsObject()
   @ValidateNested()
   @Type(() => ProductItemDataDto)

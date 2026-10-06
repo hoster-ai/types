@@ -53,12 +53,14 @@ export class TransactionData {
   @IsDate()
   @IsNotEmpty()
   @Type(() => Date)
-  @JSONSchema({
+  // Function form replaces the `oneOf [date, date-time]` that @IsDate emits
+  // instead of merging with it (a plain object would end up next to it).
+  @JSONSchema(() => ({
     title: 'Date',
     description: 'Transaction date.',
     type: 'string',
     format: 'date-time',
-  })
+  }))
   date!: Date;
 }
 ```

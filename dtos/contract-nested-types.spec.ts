@@ -9,7 +9,6 @@ import { TaxDetailsResponseDto } from './invoice/responses/tax-details-response.
 import { TINValidationDetails } from './invoice/tin-validation-details.dto';
 import { ProductInfoResponseDto } from './product/responses/product-info-response.dto';
 import { ProductInfoDto } from './product/product-info.dto';
-import { validateAdminPanelTabsDto } from '../validators/admin-panel-tabs.validator';
 
 /**
  * Nested contract DTOs must come out of `plainToInstance` as their declared
@@ -37,11 +36,5 @@ describe('contract DTOs - nested @Type targets', () => {
   it('builds the info of a product info response', () => {
     const dto = plainToInstance(ProductInfoResponseDto, { info: {} });
     expect(dto.info).toBeInstanceOf(ProductInfoDto);
-  });
-});
-
-describe('validateAdminPanelTabsDto', () => {
-  it('rejects an object with no tab group', () => {
-    expect(validateAdminPanelTabsDto({}).length).toBeGreaterThan(0);
   });
 });

@@ -70,8 +70,7 @@ export class ClientPanelDto {
   @JSONSchema({
     title: 'Tabs',
     description: 'Tab structure for Client panel.',
-    type: 'object',
-    properties: { tabs: { $ref: '#/components/schemas/ClientPanelTabsDto' } },
+    $ref: '#/components/schemas/ClientPanelTabsDto',
   })
   tabs?: ClientPanelTabsDto;
   /**
@@ -83,10 +82,7 @@ export class ClientPanelDto {
   @JSONSchema({
     title: 'More Actions',
     description: 'Additional actions in Client panel.',
-    type: 'object',
-    properties: {
-      moreActions: { $ref: '#/components/schemas/ClientPanelMoreActionsDto' },
-    },
+    $ref: '#/components/schemas/ClientPanelMoreActionsDto',
   })
   moreActions?: ClientPanelMoreActionsDto;
   /**

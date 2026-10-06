@@ -3,6 +3,7 @@ import { buildComponentsSchemas } from './generate-schemas';
 import {
   collapseCompositionSiblings,
   collapseRefSiblings,
+  dropNonStringKeywords,
 } from './schema-passes';
 import { ComponentsSchemas } from '../openapi/schemas/components.schemas';
 
@@ -87,6 +88,41 @@ describe('collapseCompositionSiblings', () => {
   });
 });
 
+describe('dropNonStringKeywords', () => {
+  it('strips string-only keywords from non-string schemas', () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        amount: { type: 'number', minLength: 1 },
+        flag: { type: 'boolean', minLength: 1 },
+        list: {
+          type: 'array',
+          minLength: 1,
+          items: { type: 'string', minLength: 1 },
+        },
+        name: { type: 'string', minLength: 1, maxLength: 5, pattern: 'a' },
+      },
+    };
+    expect(dropNonStringKeywords(schema)).toEqual({
+      type: 'object',
+      properties: {
+        amount: { type: 'number' },
+        flag: { type: 'boolean' },
+        list: { type: 'array', items: { type: 'string', minLength: 1 } },
+        name: { type: 'string', minLength: 1, maxLength: 5, pattern: 'a' },
+      },
+    });
+  });
+
+  it('treats property names as names, not keywords', () => {
+    const schema = {
+      type: 'object',
+      properties: { minLength: { type: 'integer' } },
+    };
+    expect(dropNonStringKeywords(schema)).toEqual(schema);
+  });
+});
+
 describe('buildComponentsSchemas', () => {
   const built = JSON.parse(JSON.stringify(buildComponentsSchemas()));
 
@@ -105,5 +141,19 @@ describe('buildComponentsSchemas', () => {
     expect(props.companyCountry.description).not.toBe(
       props.customerCountry.description,
     );
+  });
+
+  it('never requires a property the schema dropped', () => {
+    const schemas = built as Record<
+      string,
+      { required?: string[]; properties?: object }
+    >;
+    for (const [name, schema] of Object.entries(schemas)) {
+      if (!schema.required) continue;
+      const missing = schema.required.filter(
+        (p) => !(p in (schema.properties ?? {})),
+      );
+      expect({ name, missing }).toEqual({ name, missing: [] });
+    }
   });
 });

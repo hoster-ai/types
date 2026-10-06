@@ -95,8 +95,7 @@ export class CompanyDataDto {
   @JSONSchema({
     title: 'Default Language',
     description: 'The default language for the company.',
-    type: 'string',
-    enum: Object.values(LanguageEnum),
+    $ref: '#/components/schemas/LanguageEnum',
   })
   defaultLanguage!: LanguageEnum;
 
@@ -109,7 +108,7 @@ export class CompanyDataDto {
     title: 'Languages',
     description: 'Supported languages for the company.',
     type: 'array',
-    items: { type: 'string', enum: Object.values(LanguageEnum) },
+    items: { $ref: '#/components/schemas/LanguageEnum' },
   })
   languages!: LanguageEnum[];
 
@@ -200,8 +199,7 @@ export class CompanyDataDto {
   @JSONSchema({
     title: 'Country',
     description: "The country for the company's address.",
-    type: 'string',
-    enum: Object.values(CountryEnum),
+    $ref: '#/components/schemas/CountryEnum',
   })
   country!: CountryEnum;
 
@@ -240,5 +238,18 @@ export class CompanyDataDto {
     type: 'string',
   })
   taxOffice?: string;
+
+  /**
+   * The logo URL for the company (optional).
+   */
+  @IsString()
+  @IsOptional()
+  @JSONSchema({
+    title: 'Logo URL',
+    description: 'The logo URL for the company.',
+    type: 'string',
+    format: 'uri',
+  })
+  logoUrl?: string;
 }
 ```
