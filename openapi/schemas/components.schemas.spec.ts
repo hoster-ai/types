@@ -9,7 +9,7 @@ import { ComponentsSchemas } from './components.schemas';
  *
  * Background: DTO enum properties used to inline `{ type: 'string', enum: [...] }`,
  * which made openapi-generator mint one ad-hoc enum per property
- * (InfoDtoListenEventsEnum, ProductInfoDtoListenEventsEnum, ...) for what is
+ * (`<Dto><Property>Enum`, one per DTO property) for what is
  * logically a single enum. We now emit each shared enum as a standalone named
  * component schema and reference it via `$ref`. These tests fail if that
  * regresses (e.g. a new DTO adds an inline enum without registering + $ref-ing it).
@@ -61,20 +61,28 @@ describe('ComponentsSchemas - named enum schemas', () => {
 describe('ComponentsSchemas - enum properties are $refs (no inline enums)', () => {
   const refExpectations: Array<{ label: string; node: () => any }> = [
     {
-      label: 'InfoDto.listenEvents.items',
-      node: () => Schemas.InfoDto.properties.listenEvents.items,
+      label: 'JwtPayloadDto.acceptedRoles.items',
+      node: () => Schemas.JwtPayloadDto.properties.acceptedRoles.items,
     },
     {
-      label: 'InfoDto.requiredRoles.items',
-      node: () => Schemas.InfoDto.properties.requiredRoles.items,
+      label: 'CompanyDataDto.languages.items',
+      node: () => Schemas.CompanyDataDto.properties.languages.items,
     },
     {
-      label: 'InfoDto.supportedLanguages.items',
-      node: () => Schemas.InfoDto.properties.supportedLanguages.items,
+      label: 'CompanyDataDto.defaultLanguage',
+      node: () => Schemas.CompanyDataDto.properties.defaultLanguage,
     },
     {
-      label: 'ProductInfoDto.supportedActions.items',
-      node: () => Schemas.ProductInfoDto.properties.supportedActions.items,
+      label: 'ProductItemDataDto.action',
+      node: () => Schemas.ProductItemDataDto.properties.action,
+    },
+    {
+      label: 'InvoiceItemDataDto.action',
+      node: () => Schemas.InvoiceItemDataDto.properties.action,
+    },
+    {
+      label: 'SetupStatusResponseDto.status',
+      node: () => Schemas.SetupStatusResponseDto.properties.status,
     },
     {
       label: 'CountryDto.code',
@@ -83,14 +91,6 @@ describe('ComponentsSchemas - enum properties are $refs (no inline enums)', () =
     {
       label: 'MultilangTextDto.language',
       node: () => Schemas.MultilangTextDto.properties.language,
-    },
-    {
-      label: 'NotificationInfoDto.type',
-      node: () => Schemas.NotificationInfoDto.properties.type,
-    },
-    {
-      label: 'ActionDto.openMethod',
-      node: () => Schemas.ActionDto.properties.openMethod,
     },
     {
       label: 'CountriesFieldDto.value.items',
@@ -112,7 +112,7 @@ describe('ComponentsSchemas - enum properties are $refs (no inline enums)', () =
   );
 
   it('keeps the array node structure intact for array enum properties', () => {
-    const arr = Schemas.InfoDto.properties.supportedLanguages;
+    const arr = Schemas.CompanyDataDto.properties.languages;
     expect(arr.type).toBe('array');
     expect(isRef(arr.items)).toBe(true);
     // The array node itself must NOT carry an inline enum.
