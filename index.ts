@@ -175,6 +175,7 @@ export * from './validators/transaction-data-validator';
 // Decorators
 export * from './decorators/all-or-none.validator';
 export * from './decorators/at-least-one-non-empty.validator';
+export * from './decorators/is-e164.validator';
 export * from './decorators/is-money-amount.validator';
 export * from './decorators/is-of-allowed-types.validator';
 export * from './decorators/is-one-of.validator';
