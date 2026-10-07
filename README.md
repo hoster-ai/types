@@ -153,6 +153,10 @@ Enums provide a set of named constants for common types, preventing errors with 
   - `getAllCountriesData` now returns a `Record<CountryEnum, CountryDto>` (instead of an array) sorted by the localized `name`, which keeps the map structure intact while preserving alphabetical order for deterministic downstream processing.
 - After editing the enum or country data, rerun `npm run build:schemas` (see **Generating JSON Schemas**) so the OpenAPI bundle reflects the latest list.
 
+#### VAT Helpers
+
+- `helpers/vat-treatment.helper.ts` exposes `requiresExemptionReason` (a 0% line outside `domestic` needs an `exemptionReason`), `roundAmount` (half up to two decimals), `ZERO_RATE_TREATMENTS`, `EXEMPTION_REASON_MAX_LENGTH` (500) and `AMOUNT_TOLERANCE` (0.01).
+
 ### Interfaces
 
 - `product/product.interface.ts`: Defines the contract for a product module.
@@ -188,6 +192,9 @@ This package includes validation functions that leverage `class-validator` to en
 
 - `validateInvoiceContactDataDto`: Validates invoice contact data.
 - `validateInvoiceItemDataDto`: Validates invoice item data.
+- `validateCreditNoteRequestDto`: Validates credit note requests (parent references, lines and totals).
+- `validateTaxDetailsRequestDto`: Validates tax details requests.
+- `validateTaxDetailsResponseDto`: Validates tax details answers (rate, treatment, exemption reason, VAT number check).
 - `validateTinValidationDetailsDto`: Validates TIN validation details.
 - `validateTransactionDataDto`: Validates transaction data.
 
@@ -210,12 +217,18 @@ The package includes custom `class-validator` decorators for advanced validation
 
 - `@AllOrNoneProperty`: Ensures specified properties are either all present or all absent together.
 - `@AtLeastOneNonEmptyProperty`: Ensures at least one of the specified properties is non-empty.
+- `@IsExemptionReason`: The `exemptionReason` of a VAT line: required when `vatRate` is 0 and `treatment` is not `domestic` (also under `skipMissingProperties`), then non-blank and at most 500 characters.
+- `@IsMoneyAmount`: A required amount in decimal major units: zero or positive, at most two decimal places.
 - `@IsOfAllowedTypes`: Validates if a value is one of the allowed types with additional constraints.
 - `@IsOneOf`: Validates if a value is an instance of one of the specified classes.
 - `@IsPlainObject`: Validates if a value is a plain object with key-value pairs.
 - `@IsPropertyForbidden`: Ensures a specific property is not present in the object.
 - `@IsRegex`: Validates if a string is a valid regular expression.
 - `@IsStringOrStringArray`: Validates if a value is a string or an array of strings.
+- `@IsVatRate`: A required VAT rate: a percentage from 0 to 100 with at most two decimal places.
+- `@MatchesAmount`: An amount within 0.01 of a value computed from the object (e.g. the sum of the lines).
+- `@MatchesVatTreatment`: `reverse_charge`, `outside_scope` and `exempt` need `vatRate` 0; optionally, `reverse_charge` needs `vatNumberValid: true`.
+- `@MaxDecimalPlaces`: A number with at most N decimal places, without throwing on exponential numbers like `1e-7`.
 - `@MinLessOrEqualMaxProperty`: Ensures minimum values are less than or equal to maximum values.
 - `@UniqueFieldInArray`: Ensures all objects in an array have unique values for a specified field.
 

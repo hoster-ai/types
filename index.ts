@@ -143,6 +143,9 @@ export * from './validators/product-downgrade-response-validator';
 export * from './validators/proforma-invoice-response-validator';
 export * from './validators/invoice-response-validator';
 export * from './validators/credit-note-response-validator';
+export * from './validators/credit-note-request-validator';
+export * from './validators/tax-details-request-validator';
+export * from './validators/tax-details-response-validator';
 export * from './validators/product-delete-request-validator';
 export * from './validators/product-downgrade-request-validator';
 export * from './validators/product-downgradable-request-validator';
@@ -172,6 +175,7 @@ export * from './validators/transaction-data-validator';
 // Decorators
 export * from './decorators/all-or-none.validator';
 export * from './decorators/at-least-one-non-empty.validator';
+export * from './decorators/is-money-amount.validator';
 export * from './decorators/is-of-allowed-types.validator';
 export * from './decorators/is-one-of.validator';
 export * from './decorators/is-plain-object.validator';
@@ -181,6 +185,7 @@ export * from './decorators/is-string-or-string-array.validator';
 export * from './decorators/max-decimal-places.validator';
 export * from './decorators/min-less-or-equal.validator';
 export * from './decorators/unique-field-in-array.validator';
+export * from './decorators/vat-line.validator';
 
 // Interfaces
 export * from './dtos/product/product.interface';

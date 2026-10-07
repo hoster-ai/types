@@ -834,6 +834,24 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### IsExemptionReason
+**Description:** Composite class-validator decorator for the exemptionReason of a VAT line: required when vatRate is 0 and treatment is not domestic (also under skipMissingProperties), then a non-blank string of at most 500 characters; absent or null elsewhere.
+
+**Source:** `decorators/vat-line.validator.ts`
+
+**Details:** See [llm/decorators/isexemptionreason.md](llm/decorators/isexemptionreason.md)
+
+---
+
+### IsMoneyAmount
+**Description:** Composite class-validator decorator for a required amount in decimal major units: a number, zero or positive, with at most two decimal places.
+
+**Source:** `decorators/is-money-amount.validator.ts`
+
+**Details:** See [llm/decorators/ismoneyamount.md](llm/decorators/ismoneyamount.md)
+
+---
+
 ### IsOfAllowedTypes
 **Description:** Custom class-validator decorator that validates if a value is one of the allowed types with additional constraints.
 
@@ -894,6 +912,33 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `decorators/is-string-or-string-array.validator.ts`
 
 **Details:** See [llm/decorators/isstringorstringarray.md](llm/decorators/isstringorstringarray.md)
+
+---
+
+### IsVatRate
+**Description:** Composite class-validator decorator for a required VAT rate: a percentage from 0 to 100 with at most two decimal places.
+
+**Source:** `decorators/vat-line.validator.ts`
+
+**Details:** See [llm/decorators/isexemptionreason.md](llm/decorators/isexemptionreason.md)
+
+---
+
+### MatchesAmount
+**Description:** Custom class-validator decorator that checks an amount is within 0.01 of a value computed from the object (e.g. the sum of the lines); skipped when that value is not a finite number.
+
+**Source:** `decorators/is-money-amount.validator.ts`
+
+**Details:** See [llm/decorators/ismoneyamount.md](llm/decorators/ismoneyamount.md)
+
+---
+
+### MatchesVatTreatment
+**Description:** Custom class-validator decorator that checks a VAT treatment against its line: reverse_charge, outside_scope and exempt need vatRate 0; with requireValidVatNumber, reverse_charge also needs vatNumberValid: true.
+
+**Source:** `decorators/vat-line.validator.ts`
+
+**Details:** See [llm/decorators/isexemptionreason.md](llm/decorators/isexemptionreason.md)
 
 ---
 
@@ -1356,6 +1401,33 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `validators/credit-note-response-validator.ts`
 
 **Details:** See [llm/validators/validatecreditnoteresponsedto.md](llm/validators/validatecreditnoteresponsedto.md)
+
+### validateCreditNoteRequestDto
+**Description:** Validates a CreditNoteRequestDto object: parent references, lines and totals, with nothing skipped.
+
+**Source:** `validators/credit-note-request-validator.ts`
+
+**Details:** See [llm/validators/validatecreditnoterequestdto.md](llm/validators/validatecreditnoterequestdto.md)
+
+---
+
+### validateTaxDetailsRequestDto
+**Description:** Validates a TaxDetailsRequestDto object.
+
+**Source:** `validators/tax-details-request-validator.ts`
+
+**Details:** See [llm/validators/validatetaxdetailsrequestdto.md](llm/validators/validatetaxdetailsrequestdto.md)
+
+---
+
+### validateTaxDetailsResponseDto
+**Description:** Validates a TaxDetailsResponseDto object, including the rules between vatRate, treatment, exemptionReason and vatNumberValid, with nothing skipped.
+
+**Source:** `validators/tax-details-response-validator.ts`
+
+**Details:** See [llm/validators/validatetaxdetailsresponsedto.md](llm/validators/validatetaxdetailsresponsedto.md)
+
+---
 
 ### validateInvoiceResponseDto
 **Description:** Validates an invoice response object.

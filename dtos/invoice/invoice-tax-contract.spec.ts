@@ -121,7 +121,11 @@ describe('TaxDetailsResponseDto', () => {
 
   it('rejects an exponential vatRate instead of throwing', () => {
     expect(
-      failing(TaxDetailsResponseDto, { ...RESPONSE, vatRate: 1e-7 }),
+      failing(TaxDetailsResponseDto, {
+        ...RESPONSE,
+        vatRate: 1e-7,
+        treatment: VatTreatmentEnum.OSS,
+      }),
     ).toEqual(['vatRate']);
   });
 
@@ -186,11 +190,12 @@ describe('invoice document requests - totals and credit note parent', () => {
   });
 
   it.each(TOTAL_FIELDS)('rejects a negative or 3dp %s', (field) => {
+    // Only the field itself: totalAmount is also checked against the others.
     expect(
-      failingOf(InvoiceRequestDto, { ...TOTALS, [field]: -1 }, TOTAL_FIELDS),
+      failingOf(InvoiceRequestDto, { ...TOTALS, [field]: -1 }, [field]),
     ).toEqual([field]);
     expect(
-      failingOf(InvoiceRequestDto, { ...TOTALS, [field]: 1.001 }, TOTAL_FIELDS),
+      failingOf(InvoiceRequestDto, { ...TOTALS, [field]: 1.001 }, [field]),
     ).toEqual([field]);
   });
 

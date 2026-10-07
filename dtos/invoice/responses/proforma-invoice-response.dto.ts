@@ -68,6 +68,7 @@ export class ProformaInvoiceResponseDto extends BaseResponse {
       'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
     type: 'string',
     format: 'uri',
+    nullable: true,
   })
   invoiceUrl?: string;
 

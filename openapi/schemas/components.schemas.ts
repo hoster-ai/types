@@ -2220,38 +2220,41 @@ export const ComponentsSchemas = {
         description: 'Invoice-specific action type for this item.',
       },
       netAmount: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Net Amount',
         description:
-          'Line amount before VAT, after discounts. Decimal major units (not cents), up to two decimal places. netAmount + vatAmount = the line gross amount.',
+          'Line amount before VAT, after discounts: what the line bills. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note. netAmount + vatAmount = the line gross amount. price, fee, couponDiscountValue, upgradeRemainder and subTotal are informational.',
       },
       vatRate: {
-        maximum: 100,
         type: 'number',
         minimum: 0,
+        maximum: 100,
         title: 'VAT Rate',
         description:
           'VAT rate of the line as a percentage (e.g. 24 for 24%), 0-100, up to two decimal places.',
       },
       vatAmount: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'VAT Amount',
         description:
-          'VAT charged on the line. Decimal major units (not cents), up to two decimal places. netAmount + vatAmount = the line gross amount.',
+          'VAT charged on the line: netAmount × vatRate / 100 rounded half up, within 0.01. Decimal major units (not cents), up to two decimal places. netAmount + vatAmount = the line gross amount.',
       },
       treatment: {
         $ref: '#/components/schemas/VatTreatmentEnum',
         title: 'Treatment',
-        description: 'How VAT applies to the line.',
+        description:
+          'How VAT applies to the line. reverse_charge, outside_scope and exempt charge no VAT, so they come with vatRate 0.',
       },
       exemptionReason: {
-        minLength: 1,
         type: 'string',
+        pattern: '\\S',
+        maxLength: 500,
         title: 'Exemption Reason',
         description:
-          'Why no VAT is charged on the line (e.g. the legal reference printed on the invoice). Required when vatRate is 0 and treatment is not domestic.',
+          'Why no VAT is charged on the line (e.g. the legal reference printed on the invoice). Required when vatRate is 0 and treatment is not domestic: then non-blank, at most 500 characters. Absent or null elsewhere.',
+        nullable: true,
       },
       itemId: {
         type: 'string',
@@ -2418,29 +2421,29 @@ export const ComponentsSchemas = {
         description: 'List of transactions associated with this invoice.',
       },
       netTotal: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Net Total',
         description:
-          "Document total before VAT: the sum of the items' netAmount. Decimal major units (not cents), up to two decimal places.",
+          "Document total before VAT: the sum of the items' netAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
       },
       vatTotal: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'VAT Total',
         description:
-          "Document VAT: the sum of the items' vatAmount. Decimal major units (not cents), up to two decimal places.",
+          "Document VAT: the sum of the items' vatAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
       },
       totalAmount: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Total Amount',
         description:
-          'Gross invoice amount: netTotal + vatTotal. Decimal major units (not cents), up to two decimal places.',
+          'Gross invoice amount: netTotal + vatTotal, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.',
       },
       discountAmount: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Discount Amount',
         description:
           "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
@@ -2503,29 +2506,29 @@ export const ComponentsSchemas = {
         description: 'List of transactions associated with this invoice.',
       },
       netTotal: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Net Total',
         description:
-          "Document total before VAT: the sum of the items' netAmount. Decimal major units (not cents), up to two decimal places.",
+          "Document total before VAT: the sum of the items' netAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
       },
       vatTotal: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'VAT Total',
         description:
-          "Document VAT: the sum of the items' vatAmount. Decimal major units (not cents), up to two decimal places.",
+          "Document VAT: the sum of the items' vatAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
       },
       totalAmount: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Total Amount',
         description:
-          'Gross invoice amount: netTotal + vatTotal. Decimal major units (not cents), up to two decimal places.',
+          'Gross invoice amount: netTotal + vatTotal, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.',
       },
       discountAmount: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Discount Amount',
         description:
           "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
@@ -2603,29 +2606,29 @@ export const ComponentsSchemas = {
         description: 'List of transactions associated with this invoice.',
       },
       netTotal: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Net Total',
         description:
-          "Document total before VAT: the sum of the items' netAmount. Decimal major units (not cents), up to two decimal places.",
+          "Document total before VAT: the sum of the items' netAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
       },
       vatTotal: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'VAT Total',
         description:
-          "Document VAT: the sum of the items' vatAmount. Decimal major units (not cents), up to two decimal places.",
+          "Document VAT: the sum of the items' vatAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
       },
       totalAmount: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Total Amount',
         description:
-          'Gross invoice amount: netTotal + vatTotal. Decimal major units (not cents), up to two decimal places.',
+          'Gross invoice amount: netTotal + vatTotal, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.',
       },
       discountAmount: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Discount Amount',
         description:
           "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
@@ -2715,6 +2718,7 @@ export const ComponentsSchemas = {
         title: 'Invoice URL',
         description:
           'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
+        nullable: true,
       },
       invoiceNumber: {
         minLength: 1,
@@ -2833,12 +2837,12 @@ export const ComponentsSchemas = {
         type: 'boolean',
         title: 'VAT Number Valid',
         description:
-          "Whether the buyer's VAT number is valid. Absent when the request carried no VAT number.",
+          "Whether the buyer's VAT number is valid. Absent when the request carried no VAT number. treatment reverse_charge requires true.",
       },
       vatRate: {
-        maximum: 100,
         type: 'number',
         minimum: 0,
+        maximum: 100,
         title: 'VAT Rate',
         description:
           'The applicable VAT rate as a percentage (e.g. 24 for 24%), 0-100, up to two decimal places.',
@@ -2846,14 +2850,17 @@ export const ComponentsSchemas = {
       treatment: {
         $ref: '#/components/schemas/VatTreatmentEnum',
         title: 'Treatment',
-        description: 'How VAT applies to this sale.',
+        description:
+          'How VAT applies to this sale. reverse_charge, outside_scope and exempt charge no VAT, so they come with vatRate 0; reverse_charge also needs vatNumberValid: true.',
       },
       exemptionReason: {
-        minLength: 1,
         type: 'string',
+        pattern: '\\S',
+        maxLength: 500,
         title: 'Exemption Reason',
         description:
-          'Why no VAT is charged (e.g. the legal reference printed on the invoice). Required when vatRate is 0 and treatment is not domestic.',
+          'Why no VAT is charged (e.g. the legal reference printed on the invoice). Required when vatRate is 0 and treatment is not domestic: then non-blank, at most 500 characters. Absent or null elsewhere.',
+        nullable: true,
       },
       taxDetails: {
         $ref: '#/components/schemas/TINValidationDetails',
@@ -3530,29 +3537,29 @@ export const ComponentsSchemas = {
         description: 'List of transactions associated with this invoice.',
       },
       netTotal: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Net Total',
         description:
-          "Document total before VAT: the sum of the items' netAmount. Decimal major units (not cents), up to two decimal places.",
+          "Document total before VAT: the sum of the items' netAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
       },
       vatTotal: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'VAT Total',
         description:
-          "Document VAT: the sum of the items' vatAmount. Decimal major units (not cents), up to two decimal places.",
+          "Document VAT: the sum of the items' vatAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
       },
       totalAmount: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Total Amount',
         description:
-          'Gross invoice amount: netTotal + vatTotal. Decimal major units (not cents), up to two decimal places.',
+          'Gross invoice amount: netTotal + vatTotal, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.',
       },
       discountAmount: {
-        minimum: 0,
         type: 'number',
+        minimum: 0,
         title: 'Discount Amount',
         description:
           "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
@@ -3592,6 +3599,7 @@ export const ComponentsSchemas = {
         title: 'Invoice URL',
         description:
           'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
+        nullable: true,
       },
       invoiceNumber: {
         minLength: 1,
@@ -3643,6 +3651,7 @@ export const ComponentsSchemas = {
         title: 'Invoice URL',
         description:
           'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
+        nullable: true,
       },
       invoiceNumber: {
         minLength: 1,

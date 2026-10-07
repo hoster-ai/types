@@ -13,28 +13,31 @@ import {
   IsArray,
   IsDefined,
   IsEnum,
-  IsNumber,
   IsObject,
   IsOptional,
   IsString,
-  Min,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { JSONSchema } from 'class-validator-jsonschema';
 import { CompanyDataDto } from '../../company-data.dto';
 import { InvoiceItemDataDto } from '../invoice-item-data.dto';
 import { TransactionData } from '../transaction-data.dto';
 import { InvoiceContactData } from '../../invoice-contact-data.dto';
 import { CurrencyEnum } from '../../../enums/currency.enum';
-import { MaxDecimalPlaces } from '../../../decorators/max-decimal-places.validator';
+import {
+  IsMoneyAmount,
+  MatchesAmount,
+  sumOf,
+} from '../../../decorators/is-money-amount.validator';
 
 /**
  * Common payload of every document request sent to invoice integrations.
  *
  * Amounts are decimal major units (e.g. 12.40), up to two decimal places — not
- * cents. Per line `netAmount + vatAmount` is the line gross; the lines' sums equal
- * `netTotal` and `vatTotal`, and `totalAmount = netTotal + vatTotal`.
+ * cents — and zero or positive, on a credit note too: the document type makes it
+ * a reversal. Per line `netAmount + vatAmount` is the line gross; the lines' sums
+ * equal `netTotal` and `vatTotal`, and `totalAmount = netTotal + vatTotal`, each
+ * within 0.01.
  */
 export abstract class BaseInvoiceRequestDto {
   /**
@@ -48,11 +51,6 @@ export abstract class BaseInvoiceRequestDto {
    */
   @IsOptional()
   @IsString()
-  @JSONSchema({
-    title: 'Invoice ID',
-    description: "The core's identifier for the document being issued.",
-    type: 'string',
-  })
   invoiceId?: string;
 
   /**
@@ -62,11 +60,6 @@ export abstract class BaseInvoiceRequestDto {
   @IsObject()
   @ValidateNested()
   @Type(() => CompanyDataDto)
-  @JSONSchema({
-    title: 'Company',
-    description: 'Company data.',
-    $ref: '#/components/schemas/CompanyDataDto',
-  })
   company!: CompanyDataDto;
 
   /**
@@ -76,20 +69,10 @@ export abstract class BaseInvoiceRequestDto {
   @IsObject()
   @ValidateNested()
   @Type(() => InvoiceContactData)
-  @JSONSchema({
-    title: 'Invoice Contact',
-    description: 'Invoice contact data (without invoiceContactId).',
-    $ref: '#/components/schemas/InvoiceContactData',
-  })
   invoiceContact!: InvoiceContactData;
 
   @IsDefined()
   @IsEnum(CurrencyEnum)
-  @JSONSchema({
-    title: 'Currency',
-    description: 'Currency of the invoice.',
-    $ref: '#/components/schemas/CurrencyEnum',
-  })
   currency!: CurrencyEnum;
 
   /** Line items included in the invoice */
@@ -97,12 +80,6 @@ export abstract class BaseInvoiceRequestDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => InvoiceItemDataDto)
-  @JSONSchema({
-    title: 'Items',
-    description: 'Line items included in the invoice.',
-    type: 'array',
-    items: { $ref: '#/components/schemas/InvoiceItemDataDto' },
-  })
   items!: InvoiceItemDataDto[];
 
   /** List of transactions associated with this invoice */
@@ -110,77 +87,45 @@ export abstract class BaseInvoiceRequestDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => TransactionData)
-  @JSONSchema({
-    title: 'Transactions',
-    description: 'List of transactions associated with this invoice.',
-    type: 'array',
-    items: { $ref: '#/components/schemas/TransactionData' },
-  })
   transactions!: TransactionData[];
 
   /**
-   * Sum of the lines' `netAmount`. Decimal major units, up to two decimal places.
+   * Sum of the lines' `netAmount`, within 0.01. Decimal major units, up to two
+   * decimal places.
    */
-  @IsDefined()
-  @IsNumber()
-  @MaxDecimalPlaces(2)
-  @Min(0)
-  @JSONSchema({
-    title: 'Net Total',
-    description:
-      "Document total before VAT: the sum of the items' netAmount. Decimal major units (not cents), up to two decimal places.",
-    type: 'number',
-    minimum: 0,
-  })
+  @IsMoneyAmount()
+  @MatchesAmount(
+    (request: BaseInvoiceRequestDto) => sumOf(request.items, 'netAmount'),
+    "the sum of the items' netAmount",
+  )
   netTotal!: number;
 
   /**
-   * Sum of the lines' `vatAmount`. Decimal major units, up to two decimal places.
+   * Sum of the lines' `vatAmount`, within 0.01. Decimal major units, up to two
+   * decimal places.
    */
-  @IsDefined()
-  @IsNumber()
-  @MaxDecimalPlaces(2)
-  @Min(0)
-  @JSONSchema({
-    title: 'VAT Total',
-    description:
-      "Document VAT: the sum of the items' vatAmount. Decimal major units (not cents), up to two decimal places.",
-    type: 'number',
-    minimum: 0,
-  })
+  @IsMoneyAmount()
+  @MatchesAmount(
+    (request: BaseInvoiceRequestDto) => sumOf(request.items, 'vatAmount'),
+    "the sum of the items' vatAmount",
+  )
   vatTotal!: number;
 
   /**
-   * Gross invoice amount: `netTotal + vatTotal`. Decimal major units, up to two
-   * decimal places.
+   * Gross invoice amount: `netTotal + vatTotal`, within 0.01. Decimal major
+   * units, up to two decimal places.
    */
-  @IsDefined()
-  @IsNumber()
-  @MaxDecimalPlaces(2)
-  @Min(0)
-  @JSONSchema({
-    title: 'Total Amount',
-    description:
-      'Gross invoice amount: netTotal + vatTotal. Decimal major units (not cents), up to two decimal places.',
-    type: 'number',
-    minimum: 0,
-  })
+  @IsMoneyAmount()
+  @MatchesAmount(
+    (request: BaseInvoiceRequestDto) => request.netTotal + request.vatTotal,
+    'netTotal + vatTotal',
+  )
   totalAmount!: number;
 
   /**
    * Discount amount, already reflected in the lines' `netAmount`.
    */
-  @IsDefined()
-  @IsNumber()
-  @MaxDecimalPlaces(2)
-  @Min(0)
-  @JSONSchema({
-    title: 'Discount Amount',
-    description:
-      "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
-    type: 'number',
-    minimum: 0,
-  })
+  @IsMoneyAmount()
   discountAmount!: number;
 }
 ```

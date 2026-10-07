@@ -70,7 +70,8 @@ describe('InvoiceItemDataDto Validator', () => {
       ['vatRate', 100.01],
       ['treatment', 'zero_rated'],
     ])('rejects %s = %p', (field, value) => {
-      expect(errorsOf({ ...baseValidDto, [field]: value })).toEqual([field]);
+      // vatAmount may also fail: it is checked against netAmount and vatRate.
+      expect(errorsOf({ ...baseValidDto, [field]: value })).toContain(field);
     });
 
     it('accepts 2dp amounts and a 2dp rate', () => {
