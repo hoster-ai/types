@@ -43,6 +43,7 @@ import {
 import {
   collapseCompositionSiblings,
   collapseRefSiblings,
+  dropNonStringKeywords,
   mapComponents,
 } from './schema-passes';
 
@@ -50,44 +51,15 @@ import {
 // registers its decorators. One import instead of a hand-kept list, so a new
 // DTO cannot be forgotten here (issue #34); the spec checks the result.
 import * as Pkg from '../index';
-import { FIELD_DTO_CLASSES } from '../index';
 
-// Named enums shared across DTOs. We emit these as standalone component
-// schemas so DTO properties can `$ref` them instead of inlining the enum.
-// This stops openapi-generator from minting one ad-hoc enum per property
+// Every exported `*Enum` becomes a standalone component schema, so DTO
+// properties can `$ref` it instead of inlining the enum. This stops
+// openapi-generator from minting one ad-hoc enum per property
 // (`<Dto><Property>Enum`, one per DTO property) for
-// what is logically a single enum. Adding a future enum is one line here.
-import { EventsEnum } from '../enums/events.enum';
-import { RolesEnum } from '../enums/roles.enum';
-import { LanguageEnum } from '../enums/language.enum';
-import { CountryEnum } from '../enums/country.enum';
-import { CurrencyEnum } from '../enums/currency.enum';
-import { FieldTypeEnum } from '../enums/field-type.enum';
-import { ProductActionsEnum } from '../enums/item-actions.enum';
-import { OpenMethodEnum } from '../enums/open-method.enum';
-import { NotificationMessageTypeEnum } from '../enums/notification/notification-message-type.enum';
-import { SetupStatusEnum } from '../enums/setup-status.enum';
-import { ResponseStatusEnum } from '../enums/response-status.enum';
-import { InvoiceItemActionsEnum } from '../enums/invoice/invoice-item-actions.enum';
-import { InvoiceTypesEnum } from '../enums/invoice/invoice-types.enum';
-import { VatTreatmentEnum } from '../enums/invoice/vat-treatment.enum';
-
-const ENUM_REGISTRY = {
-  EventsEnum,
-  RolesEnum,
-  LanguageEnum,
-  CountryEnum,
-  CurrencyEnum,
-  FieldTypeEnum,
-  ProductActionsEnum,
-  OpenMethodEnum,
-  NotificationMessageTypeEnum,
-  SetupStatusEnum,
-  ResponseStatusEnum,
-  InvoiceItemActionsEnum,
-  InvoiceTypesEnum,
-  VatTreatmentEnum,
-};
+// what is logically a single enum.
+const ENUM_REGISTRY = Object.fromEntries(
+  Object.entries(Pkg).filter(([name]) => name.endsWith('Enum')),
+) as Record<string, Record<string, string>>;
 
 const enumSchemas = Object.fromEntries(
   Object.entries(ENUM_REGISTRY).map(([name, e]) => [
@@ -110,8 +82,15 @@ export function buildComponentsSchemas(): Record<string, unknown> {
   //     `InvoiceResponseDto extends ProformaInvoiceResponseDto {}`) have no
   //     metadata entry, so the call above skips them. Emit them from their
   //     inherited metadata.
+  //     A name already taken by another class would make the subclass
+  //     silently share that class's schema, so fail loudly instead.
+  const ownMetadataTargets = new Set(
+    (
+      storage as unknown as { validationMetadatas: Map<unknown, unknown> }
+    ).validationMetadatas.keys(),
+  );
   for (const value of Object.values(Pkg)) {
-    if (typeof value !== 'function' || value.name in generatedSchemas) continue;
+    if (typeof value !== 'function' || ownMetadataTargets.has(value)) continue;
     const inherited = storage.getTargetValidationMetadatas(
       value,
       '',
@@ -119,6 +98,11 @@ export function buildComponentsSchemas(): Record<string, unknown> {
       false,
     );
     if (inherited.length === 0) continue;
+    if (Object.prototype.hasOwnProperty.call(generatedSchemas, value.name)) {
+      throw new Error(
+        `Two exported classes are named ${value.name}; schemas are keyed by class name.`,
+      );
+    }
     generatedSchemas[value.name] = targetConstructorToSchema(value, {
       classValidatorMetadataStorage: storage,
     });
@@ -220,6 +204,12 @@ export function buildComponentsSchemas(): Record<string, unknown> {
           out[k] = sanitizeSchema(v);
         }
       }
+      // A property dropped above (forbidden/never field) must not stay
+      // required, or no payload can satisfy the schema.
+      if (out.required && out.properties) {
+        out.required = out.required.filter((x: string) => x in out.properties);
+        if (out.required.length === 0) delete out.required;
+      }
       return out;
     }
     return obj;
@@ -228,13 +218,16 @@ export function buildComponentsSchemas(): Record<string, unknown> {
   // 3b/3c) Collapse keywords next to `$ref` / `oneOf` (see schema-passes.ts)
   const remappedComponents = mapComponents(
     sanitizeSchema(remapRefs(schemas)),
-    (schema) => collapseCompositionSiblings(collapseRefSiblings(schema)),
+    (schema) =>
+      dropNonStringKeywords(
+        collapseCompositionSiblings(collapseRefSiblings(schema)),
+      ),
   );
 
   // 4a) Manually inject `AnyFieldDto` as a discriminated `oneOf` of every concrete
   //     field DTO. `class-validator-jsonschema` cannot derive this from a TS union
   //     alias because there are no class-validator decorators attached to it.
-  const fieldOneOf = Object.values(FIELD_DTO_CLASSES).map((cls) => ({
+  const fieldOneOf = Object.values(Pkg.FIELD_DTO_CLASSES).map((cls) => ({
     $ref: `#/components/schemas/${cls.name}`,
   }));
   remappedComponents.AnyFieldDto = {
@@ -245,7 +238,7 @@ export function buildComponentsSchemas(): Record<string, unknown> {
     discriminator: {
       propertyName: 'type',
       mapping: Object.fromEntries(
-        Object.entries(FIELD_DTO_CLASSES).map(([literal, cls]) => [
+        Object.entries(Pkg.FIELD_DTO_CLASSES).map(([literal, cls]) => [
           literal,
           `#/components/schemas/${cls.name}`,
         ]),

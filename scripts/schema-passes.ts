@@ -32,7 +32,7 @@ const SCHEMA_MAP_KEYWORDS = new Set([
  * are copied as-is and the keys of a `properties`-like map are treated as
  * names, never as keywords.
  */
-const walkSchema = (
+export const walkSchema = (
   schema: unknown,
   visit: (
     node: JsonObject,
@@ -119,6 +119,24 @@ export const collapseCompositionSiblings = (schema: unknown): unknown =>
     const out: JsonObject = {};
     for (const [k, v] of Object.entries(node)) {
       if (isComposition && SHAPE_KEYWORDS.includes(k)) continue;
+      out[k] = recurse(k, v);
+    }
+    return out;
+  });
+
+/**
+ * Strip string-only keywords from non-string schemas.
+ *  `@IsNotEmpty` emits `minLength: 1` whatever the property type, so numbers,
+ *  booleans and arrays end up with a keyword that does not apply to them
+ *  (on an array it reads like `minItems` but checks nothing).
+ */
+const STRING_KEYWORDS = ['minLength', 'maxLength', 'pattern'];
+export const dropNonStringKeywords = (schema: unknown): unknown =>
+  walkSchema(schema, (node, recurse) => {
+    const nonString = typeof node.type === 'string' && node.type !== 'string';
+    const out: JsonObject = {};
+    for (const [k, v] of Object.entries(node)) {
+      if (nonString && STRING_KEYWORDS.includes(k)) continue;
       out[k] = recurse(k, v);
     }
     return out;

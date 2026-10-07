@@ -11,7 +11,13 @@
 ```typescript
 import { ResponseStatusEnum } from '../../../enums/response-status.enum';
 import { BaseResponse } from '../../base-response.dto';
-import { IsEnum, IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsObject,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
@@ -27,8 +33,7 @@ export class ProductRenewResponseDto extends BaseResponse {
     title: 'Status',
     description:
       'The status of the response, indicating the outcome of the renewal.',
-    type: 'string',
-    enum: Object.values(ResponseStatusEnum),
+    $ref: '#/components/schemas/ResponseStatusEnum',
   })
   status!: ResponseStatusEnum;
 

@@ -34,12 +34,16 @@ export class DateFieldDto extends BaseFieldDto {
    */
   @IsISO8601()
   @IsOptional()
-  @JSONSchema({
+  // Function form replaces the `oneOf [date, date-time]` that @IsISO8601
+  // emits; `anyOf` because without format checks both branches match.
+  @JSONSchema(() => ({
     title: 'Value',
     description: 'ISO 8601 date or date-time string.',
-    type: 'string',
-    format: 'date-time',
-  })
+    anyOf: [
+      { type: 'string', format: 'date' },
+      { type: 'string', format: 'date-time' },
+    ],
+  }))
   value?: string;
 }
 ```

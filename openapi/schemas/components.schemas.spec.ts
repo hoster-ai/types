@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { getMetadataStorage } from 'class-validator';
 import * as Pkg from '../../index';
+import { walkSchema } from '../../scripts/schema-passes';
 import { ComponentsSchemas } from './components.schemas';
 
 /**
@@ -17,30 +18,24 @@ import { ComponentsSchemas } from './components.schemas';
 type AnySchema = Record<string, any>;
 const Schemas = ComponentsSchemas as Record<string, AnySchema>;
 
-const NAMED_ENUMS = [
-  'EventsEnum',
-  'RolesEnum',
-  'LanguageEnum',
-  'CountryEnum',
-  'CurrencyEnum',
-  'FieldTypeEnum',
-  'ProductActionsEnum',
-  'OpenMethodEnum',
-  'NotificationMessageTypeEnum',
-  'SetupStatusEnum',
-  'ResponseStatusEnum',
-  'InvoiceItemActionsEnum',
-  'InvoiceTypesEnum',
-  'VatTreatmentEnum',
-] as const;
+// Same rule as the generator: every exported `*Enum` is a named schema.
+const NAMED_ENUMS = Object.keys(Pkg).filter((name) => name.endsWith('Enum'));
 
 /**
- * Paths (relative to a top-level schema) that are allowed to keep an inline
- * enum because they are single-value `@IsIn` discriminators, not real enums.
- * These are length-1 enums so the generic tripwire skips them anyway, but the
- * allowlist documents the intent explicitly.
+ * Visit every schema node of a component (data keywords like `enum`/`example`
+ * and property names are skipped by `walkSchema`, so they never look like
+ * keywords).
  */
-const DISCRIMINATOR_ALLOWLIST = new Set<string>([]);
+const forEachNode = (
+  schema: unknown,
+  fn: (node: Record<string, any>) => void,
+): void => {
+  walkSchema(schema, (node, recurse) => {
+    fn(node);
+    for (const [k, v] of Object.entries(node)) recurse(k, v);
+    return node;
+  });
+};
 
 const isRef = (node: any): boolean =>
   !!node && typeof node === 'object' && typeof node.$ref === 'string';
@@ -126,33 +121,17 @@ describe('ComponentsSchemas - enum properties are $refs (no inline enums)', () =
 });
 
 describe('ComponentsSchemas - generic inline-enum regression tripwire', () => {
-  it('contains no inline enum (length >= 2) outside top-level named enum defs and the discriminator allowlist', () => {
+  it('contains no inline enum (length >= 2) outside top-level named enum defs', () => {
+    // Single-value `@IsIn` discriminators (MenuDtoWithUrl.type, ...) are
+    // length-1 enums, so they are not real enums and pass.
     const offenders: string[] = [];
-
-    const walk = (node: any, path: string, topKey: string) => {
-      if (Array.isArray(node)) {
-        node.forEach((child, i) => walk(child, `${path}[${i}]`, topKey));
-        return;
-      }
-      if (node && typeof node === 'object') {
-        if (Array.isArray(node.enum) && node.enum.length >= 2) {
-          const isTopLevelNamedEnumDef = path === topKey;
-          const relative = path.slice(topKey.length + 1); // strip "TopKey."
-          const isAllowlisted = DISCRIMINATOR_ALLOWLIST.has(
-            `${topKey}.${relative}`,
-          );
-          if (!isTopLevelNamedEnumDef && !isAllowlisted) {
-            offenders.push(path);
-          }
-        }
-        for (const [k, v] of Object.entries(node)) {
-          walk(v, `${path}.${k}`, topKey);
-        }
-      }
-    };
-
     for (const [topKey, schema] of Object.entries(Schemas)) {
-      walk(schema, topKey, topKey);
+      forEachNode(schema, (node) => {
+        if (node === schema && NAMED_ENUMS.includes(topKey)) return;
+        if (Array.isArray(node.enum) && node.enum.length >= 2) {
+          offenders.push(`${topKey}${node.title ? ` (${node.title})` : ''}`);
+        }
+      });
     }
 
     expect(offenders).toEqual([]);
@@ -260,22 +239,16 @@ describe('ComponentsSchemas - contract coverage', () => {
 
   it('resolves every $ref to an existing component', () => {
     const unresolved = new Set<string>();
-    const walk = (node: unknown): void => {
-      if (Array.isArray(node)) return node.forEach(walk);
-      if (node && typeof node === 'object') {
-        for (const [k, v] of Object.entries(node)) {
-          if (k === '$ref' && typeof v === 'string') {
-            const prefix = '#/components/schemas/';
-            if (!v.startsWith(prefix) || !(v.slice(prefix.length) in Schemas)) {
-              unresolved.add(v);
-            }
-          } else {
-            walk(v);
-          }
+    const prefix = '#/components/schemas/';
+    for (const schema of Object.values(Schemas)) {
+      forEachNode(schema, (node) => {
+        const ref = node.$ref;
+        if (typeof ref !== 'string') return;
+        if (!ref.startsWith(prefix) || !(ref.slice(prefix.length) in Schemas)) {
+          unresolved.add(ref);
         }
-      }
-    };
-    walk(Schemas);
+      });
+    }
     expect([...unresolved]).toEqual([]);
   });
 });
@@ -284,22 +257,14 @@ describe('ComponentsSchemas - oneOf/anyOf carry no contradicting siblings (#36)'
   it('has no shape keyword next to a oneOf/anyOf', () => {
     const shapeKeywords = ['type', 'items', 'format', 'minLength', 'enum'];
     const offenders: string[] = [];
-    const walk = (node: unknown, path: string): void => {
-      if (Array.isArray(node)) {
-        node.forEach((child, i) => walk(child, `${path}[${i}]`));
-        return;
-      }
-      if (node && typeof node === 'object') {
-        const obj = node as Record<string, unknown>;
-        if (Array.isArray(obj.oneOf) || Array.isArray(obj.anyOf)) {
-          for (const k of shapeKeywords) {
-            if (k in obj) offenders.push(`${path}.${k}`);
-          }
+    for (const [topKey, schema] of Object.entries(Schemas)) {
+      forEachNode(schema, (node) => {
+        if (!Array.isArray(node.oneOf) && !Array.isArray(node.anyOf)) return;
+        for (const k of shapeKeywords) {
+          if (k in node) offenders.push(`${topKey}: ${node.title ?? ''}.${k}`);
         }
-        for (const [k, v] of Object.entries(obj)) walk(v, `${path}.${k}`);
-      }
-    };
-    walk(Schemas, 'ComponentsSchemas');
+      });
+    }
     expect(offenders).toEqual([]);
   });
 });

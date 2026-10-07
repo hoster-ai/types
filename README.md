@@ -215,6 +215,7 @@ The package includes custom `class-validator` decorators for advanced validation
 - `@IsPlainObject`: Validates if a value is a plain object with key-value pairs.
 - `@IsPropertyForbidden`: Ensures a specific property is not present in the object.
 - `@IsRegex`: Validates if a string is a valid regular expression.
+- `@IsStringOrStringArray`: Validates if a value is a string or an array of strings.
 - `@MinLessOrEqualMaxProperty`: Ensures minimum values are less than or equal to maximum values.
 - `@UniqueFieldInArray`: Ensures all objects in an array have unique values for a specified field.
 

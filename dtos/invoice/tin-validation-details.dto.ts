@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsDefined,
   IsEnum,
   IsOptional,
@@ -167,14 +168,14 @@ export class TINValidationDetails {
    * List of registered professions or business activities
    */
   @IsOptional()
-  @IsString()
-  @MinLength(0)
-  @MaxLength(250)
+  @IsArray()
+  @IsString({ each: true })
+  @MaxLength(250, { each: true })
   @JSONSchema({
     title: 'Profession',
     description: 'List of registered professions or business activities.',
     type: 'array',
-    items: { type: 'string' },
+    items: { type: 'string', maxLength: 250 },
   })
   profession?: string[];
 }

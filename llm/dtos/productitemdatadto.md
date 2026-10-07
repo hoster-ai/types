@@ -11,7 +11,7 @@
 ```typescript
 import { IsEnum, IsOptional } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { ProductItemActionsEnum } from '../../enums/item-actions.enum';
+import { ProductActionsEnum } from '../../enums/item-actions.enum';
 import { ItemDataDto } from '../item-data.dto';
 
 /**
@@ -25,8 +25,7 @@ export class ProductItemDataDto extends ItemDataDto {
   @JSONSchema({
     title: 'Action',
     description: 'Product-specific action type for this item.',
-    type: 'string',
-    enum: Object.values(ProductActionsEnum),
+    $ref: '#/components/schemas/ProductActionsEnum',
   })
   action?: ProductActionsEnum;
 }

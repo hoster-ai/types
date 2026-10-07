@@ -21,6 +21,7 @@ import {
 } from 'class-validator';
 import { CountryEnum } from '../enums/country.enum';
 import { LanguageEnum } from '../enums/language.enum';
+import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * Data Transfer Object for company data.
@@ -31,6 +32,11 @@ export class CompanyDataDto {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'ID',
+    description: 'The unique identifier for the company.',
+    type: 'string',
+  })
   id!: string;
 
   /**
@@ -38,6 +44,11 @@ export class CompanyDataDto {
    */
   @IsString()
   @IsNotEmpty()
+  @JSONSchema({
+    title: 'Name',
+    description: 'The name of the company.',
+    type: 'string',
+  })
   name!: string;
 
   /**
@@ -46,6 +57,12 @@ export class CompanyDataDto {
   @IsEmail({}, { each: true })
   @IsArray()
   @IsOptional()
+  @JSONSchema({
+    title: 'Emails',
+    description: 'Email addresses associated with the company.',
+    type: 'array',
+    items: { type: 'string', format: 'email' },
+  })
   emails?: string[];
 
   /**
@@ -53,6 +70,12 @@ export class CompanyDataDto {
    */
   @IsEmail()
   @IsOptional()
+  @JSONSchema({
+    title: 'Invoice Email',
+    description: 'The email address used for invoicing.',
+    type: 'string',
+    format: 'email',
+  })
   invoiceEmail?: string;
 
   /**
@@ -60,12 +83,23 @@ export class CompanyDataDto {
    */
   @IsUrl({ protocols: ['https'], require_protocol: true })
   @IsOptional()
+  @JSONSchema({
+    title: 'Privacy Policy URL',
+    description: "The URL for the company's privacy policy.",
+    type: 'string',
+    format: 'uri',
+  })
   privacyPolicyUrl?: string;
 
   /**
    * The default language for the company.
    */
   @IsEnum(LanguageEnum)
+  @JSONSchema({
+    title: 'Default Language',
+    description: 'The default language for the company.',
+    $ref: '#/components/schemas/LanguageEnum',
+  })
   defaultLanguage!: LanguageEnum;
 
   /**
@@ -73,6 +107,12 @@ export class CompanyDataDto {
    */
   @IsEnum(LanguageEnum, { each: true })
   @IsArray()
+  @JSONSchema({
+    title: 'Languages',
+    description: 'Supported languages for the company.',
+    type: 'array',
+    items: { $ref: '#/components/schemas/LanguageEnum' },
+  })
   languages!: LanguageEnum[];
 
   /**
@@ -80,6 +120,11 @@ export class CompanyDataDto {
    */
   @IsPhoneNumber()
   @IsOptional()
+  @JSONSchema({
+    title: 'Telephone',
+    description: 'The primary telephone number for the company.',
+    type: 'string',
+  })
   telephone?: string;
 
   /**
@@ -87,6 +132,11 @@ export class CompanyDataDto {
    */
   @IsPhoneNumber()
   @IsOptional()
+  @JSONSchema({
+    title: 'Mobile',
+    description: 'The mobile phone number for the company.',
+    type: 'string',
+  })
   mobile?: string;
 
   /**
@@ -94,6 +144,11 @@ export class CompanyDataDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({
+    title: 'Address Line 1',
+    description: "The first line of the company's address.",
+    type: 'string',
+  })
   address1?: string;
 
   /**
@@ -101,6 +156,11 @@ export class CompanyDataDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({
+    title: 'Address Line 2',
+    description: "The second line of the company's address.",
+    type: 'string',
+  })
   address2?: string;
 
   /**
@@ -108,6 +168,11 @@ export class CompanyDataDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({
+    title: 'Address Line 3',
+    description: "The third line of the company's address.",
+    type: 'string',
+  })
   address3?: string;
 
   /**
@@ -115,6 +180,11 @@ export class CompanyDataDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({
+    title: 'Postcode',
+    description: "The postal code for the company's address.",
+    type: 'string',
+  })
   postcode?: string;
 
   /**
@@ -122,6 +192,11 @@ export class CompanyDataDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({
+    title: 'City',
+    description: "The city for the company's address.",
+    type: 'string',
+  })
   city?: string;
 
   /**
@@ -129,6 +204,11 @@ export class CompanyDataDto {
    */
   @IsEnum(CountryEnum)
   @IsOptional()
+  @JSONSchema({
+    title: 'Country',
+    description: "The country for the company's address.",
+    $ref: '#/components/schemas/CountryEnum',
+  })
   country?: CountryEnum;
 
   /**
@@ -136,6 +216,11 @@ export class CompanyDataDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({
+    title: 'State',
+    description: "The state or province for the company's address.",
+    type: 'string',
+  })
   state?: string;
 
   /**
@@ -143,6 +228,11 @@ export class CompanyDataDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({
+    title: 'VAT',
+    description: 'The VAT number for the company.',
+    type: 'string',
+  })
   vat?: string;
 
   /**
@@ -150,6 +240,11 @@ export class CompanyDataDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({
+    title: 'Tax Office',
+    description: 'The tax office for the company.',
+    type: 'string',
+  })
   taxOffice?: string;
 
   /**
@@ -157,6 +252,12 @@ export class CompanyDataDto {
    */
   @IsString()
   @IsOptional()
+  @JSONSchema({
+    title: 'Logo URL',
+    description: 'The logo URL for the company.',
+    type: 'string',
+    format: 'uri',
+  })
   logoUrl?: string;
 }
 ```

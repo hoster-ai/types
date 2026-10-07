@@ -888,6 +888,15 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### IsStringOrStringArray
+**Description:** Custom class-validator decorator that validates a value is a string or an array whose items are all strings.
+
+**Source:** `decorators/is-string-or-string-array.validator.ts`
+
+**Details:** See [llm/decorators/isstringorstringarray.md](llm/decorators/isstringorstringarray.md)
+
+---
+
 ### MinLessOrEqualMaxProperty
 **Description:** Custom class-validator decorator that ensures minimum values are less than or equal to maximum values for specified property pairs.
 
