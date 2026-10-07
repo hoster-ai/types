@@ -19,7 +19,7 @@ export function IsOneOf(
   validClasses: Function[],
   validationOptions?: ValidationOptions,
 ) {
-  return function (object: Object, propertyName: string) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'isOneOf',
       target: object.constructor,

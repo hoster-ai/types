@@ -11,7 +11,11 @@ import { NotificationSendRequestDto } from '../dtos/notification/requests/notifi
 export function validateNotificationRequestDto(
   data: object,
 ): ValidationError[] {
-  const dto = plainToInstance(NotificationSendRequestDto, data);
+  // Clone: class-transformer deletes `__type` from the input it transforms.
+  const dto = plainToInstance(
+    NotificationSendRequestDto,
+    JSON.parse(JSON.stringify(data)),
+  );
   const errors = validateSync(dto, { forbidUnknownValues: false });
 
   return errors;

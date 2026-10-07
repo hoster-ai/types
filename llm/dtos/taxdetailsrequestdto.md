@@ -2,7 +2,7 @@
 
 **Description:** Request payload for calculating tax details. Contains company and customer location information for tax rate determination.
 
-**Source:** `dtos/invoice/requests/tax-details-request.dto.ts`
+**Source:** `dtos/tax-manager/tax-details-request.dto.ts`
 
 **Language:** typescript
 
@@ -16,7 +16,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { CountryEnum } from '../../../enums/country.enum';
+import { CountryEnum } from '../../enums/country.enum';
 import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
@@ -32,8 +32,7 @@ export class TaxDetailsRequestDto {
   @JSONSchema({
     title: 'Company Country',
     description: 'Country where the company is registered.',
-    type: 'string',
-    enum: Object.values(CountryEnum),
+    $ref: '#/components/schemas/CountryEnum',
   })
   companyCountry!: CountryEnum;
 
@@ -45,8 +44,7 @@ export class TaxDetailsRequestDto {
   @JSONSchema({
     title: 'Customer Country',
     description: 'Country where the customer is located.',
-    type: 'string',
-    enum: Object.values(CountryEnum),
+    $ref: '#/components/schemas/CountryEnum',
   })
   customerCountry!: CountryEnum;
 

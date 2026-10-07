@@ -26,8 +26,7 @@ export class ProductDowngradableResponseDto extends BaseResponse {
   @JSONSchema({
     title: 'Status',
     description: 'The status of the response, indicating success or failure.',
-    type: 'string',
-    enum: Object.values(ResponseStatusEnum),
+    $ref: '#/components/schemas/ResponseStatusEnum',
   })
   status!: ResponseStatusEnum;
 

@@ -621,7 +621,7 @@ Each entry links to a separate file containing the full code and details.
 ### TaxDetailsRequestDto
 **Description:** Request payload for calculating tax details. Contains company and customer location information for tax rate determination.
 
-**Source:** `dtos/invoice/requests/tax-details-request.dto.ts`
+**Source:** `dtos/tax-manager/tax-details-request.dto.ts`
 
 **Details:** See [llm/dtos/taxdetailsrequestdto.md](llm/dtos/taxdetailsrequestdto.md)
 
@@ -876,6 +876,15 @@ Each entry links to a separate file containing the full code and details.
 **Source:** `decorators/is-regex.validator.ts`
 
 **Details:** See [llm/decorators/isregex.md](llm/decorators/isregex.md)
+
+---
+
+### IsStringOrStringArray
+**Description:** Custom class-validator decorator that validates a value is a string or an array whose items are all strings.
+
+**Source:** `decorators/is-string-or-string-array.validator.ts`
+
+**Details:** See [llm/decorators/isstringorstringarray.md](llm/decorators/isstringorstringarray.md)
 
 ---
 

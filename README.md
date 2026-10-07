@@ -101,7 +101,6 @@ Integration info (the form an integration is registered with) and its admin/clie
 
 **Invoice DTOs:**
 
-- `invoice/invoice-info.dto.ts`: Contains detailed information about an invoice integration.
 - `invoice/invoice-item-data.dto.ts`: Extends `ItemDataDto` with invoice-specific action type.
 - `invoice/transaction-data.dto.ts`: Transaction details (ID, amount, payment method, date).
 - `invoice/tin-validation-details.dto.ts`: Tax Identification Number validation details.
@@ -207,6 +206,7 @@ The package includes custom `class-validator` decorators for advanced validation
 - `@IsPlainObject`: Validates if a value is a plain object with key-value pairs.
 - `@IsPropertyForbidden`: Ensures a specific property is not present in the object.
 - `@IsRegex`: Validates if a string is a valid regular expression.
+- `@IsStringOrStringArray`: Validates if a value is a string or an array of strings.
 - `@MinLessOrEqualMaxProperty`: Ensures minimum values are less than or equal to maximum values.
 - `@UniqueFieldInArray`: Ensures all objects in an array have unique values for a specified field.
 

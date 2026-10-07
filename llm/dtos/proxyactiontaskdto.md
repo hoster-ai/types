@@ -37,7 +37,7 @@ export class ProxyActionTaskDto {
   /**
    * Absolute target of the onward call, action route included (`${integration.url}/${action}`).
    */
-  @IsUrl({ require_tld: false })
+  @IsUrl({ require_tld: false, require_protocol: true })
   @JSONSchema({
     title: 'Integration URL',
     description: 'Absolute URL the proxy calls, action included.',
@@ -60,7 +60,7 @@ export class ProxyActionTaskDto {
    * Where the proxy reports what the integration answered. The integration's own deferred
    * report needs no url: its hooks are public, well-known routes per action.
    */
-  @IsUrl({ require_tld: false })
+  @IsUrl({ require_tld: false, require_protocol: true })
   @JSONSchema({
     title: 'Hook URL',
     description: "The core's proxy hook for this action.",
