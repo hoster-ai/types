@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "build:schemas": "ts-node scripts/write-schemas.ts && prettier --write openapi/schemas/components.schemas.ts",
     "prepack": "npm run build:schemas && npm run build",
     "test": "jest",

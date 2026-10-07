@@ -1,6 +1,6 @@
 ---
 name: hoster-types
-description: Conventions for authoring DTOs, validators, custom decorators, enums, and LLM docs in the @hosterai/types package (this repo). Use whenever creating or editing files under dtos/, validators/, decorators/, enums/, transformers/, helpers/, llm/, llm.txt, openapi/, or index.ts — i.e. any time the work touches class-validator DTOs, their validators or specs, custom validation decorators, enum definitions, OpenAPI schema generation, or the LLM-friendly reference docs that ship with this package. Also use when writing commit messages or deciding what to run before pushing.
+description: Conventions for authoring DTOs, validators, custom decorators, enums, and LLM docs in the @hosterai/types package (this repo). Use whenever creating or editing files under dtos/, validators/, decorators/, enums/, helpers/, llm/, llm.txt, openapi/, or index.ts — i.e. any time the work touches class-validator DTOs, their validators or specs, custom validation decorators, enum definitions, OpenAPI schema generation, or the LLM-friendly reference docs that ship with this package. Also use when writing commit messages or deciding what to run before pushing.
 ---
 
 # @hosterai/types — Authoring Conventions
@@ -15,10 +15,9 @@ Keep style consistent with what exists. When in doubt, mirror a recently-touched
 - `enums/` — String enums. Subfolders for domain (`invoice/`, `notification/`).
 - `validators/` — Thin functions wrapping `validateSync` for each DTO + co-located `.spec.ts`.
 - `decorators/` — Custom `class-validator` decorators + co-located `.spec.ts`.
-- `transformers/` — `class-transformer` helpers.
 - `helpers/` — Pure utility functions.
 - `openapi/schemas/components.schemas.ts` — **Generated**. Do not hand-edit. Run `npm run build:schemas`.
-- `llm.txt` + `llm/{dtos,enums,validators,decorators,transformers}/*.md` — LLM-friendly mirror of the public API.
+- `llm.txt` + `llm/{dtos,enums,validators,decorators}/*.md` — LLM-friendly mirror of the public API.
 
 ## File naming
 
@@ -61,7 +60,7 @@ Keep style consistent with what exists. When in doubt, mirror a recently-touched
 
 ## LLM docs (`llm.txt` + `llm/`)
 
-- Every public DTO / enum / validator / decorator / transformer has a matching `llm/<kind>/<lowercasename>.md` file with description, source path, and full code dump.
+- Every public DTO / enum / validator / decorator has a matching `llm/<kind>/<lowercasename>.md` file with description, source path, and full code dump.
 - `llm.txt` is the index pointing to those files; alphabetized within each section.
 - When adding or renaming public API, update both. See [references/llm-docs.md](references/llm-docs.md).
 

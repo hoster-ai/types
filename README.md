@@ -101,7 +101,6 @@ Integration info (the form an integration is registered with) and its admin/clie
 
 **Invoice DTOs:**
 
-- `invoice/invoice-info.dto.ts`: Contains detailed information about an invoice integration.
 - `invoice/invoice-item-data.dto.ts`: Extends `ItemDataDto` with invoice-specific action type.
 - `invoice/transaction-data.dto.ts`: Transaction details (ID, amount, payment method, date).
 - `invoice/tin-validation-details.dto.ts`: Tax Identification Number validation details.

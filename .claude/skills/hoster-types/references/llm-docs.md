@@ -5,13 +5,12 @@ This package publishes an LLM-friendly mirror of its public API so AI assistants
 ## Layout
 
 ```
-llm.txt                  # index — one section per kind (DTOS, ENUMS, VALIDATORS, DECORATORS, TRANSFORMERS)
+llm.txt                  # index — one section per kind (DTOS, ENUMS, DECORATORS, VALIDATORS)
 llm/
   dtos/<lowercasename>.md
   enums/<lowercasename>.md
   validators/<lowercasename>.md
   decorators/<lowercasename>.md
-  transformers/<lowercasename>.md
 ```
 
 `<lowercasename>` = the exported class/function name in all-lowercase, no separators. E.g. `BaseInvoiceRequestDto` → `baseinvoicerequestdto.md`.
@@ -63,7 +62,7 @@ Entries inside each `## SECTION` are **alphabetized by ExportedName**.
 
 Update `llm.txt` + `llm/` whenever you:
 
-- Add a new public DTO / enum / validator / decorator / transformer
+- Add a new public DTO / enum / validator / decorator
 - Rename one (rename both the `.md` file and the index entry)
 - Change the description (top TSDoc comment) — propagate to both places
 - Change the file contents — refresh the embedded code block
