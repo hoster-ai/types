@@ -64,14 +64,19 @@ export class ProformaInvoiceResponseDto extends BaseResponse {
 
   /**
    * URL to access the generated invoice document. Optional: not every integration
-   * hosts its documents. When present it must be an https URL.
+   * hosts its documents. When present on a SUCCESS it must be an https URL; it
+   * is ignored on a `failure` or `pending` report.
    */
+  @ValidateIf(
+    (response: ProformaInvoiceResponseDto) =>
+      response.status === ResponseStatusEnum.SUCCESS,
+  )
   @IsOptional()
   @IsUrl({ protocols: ['https'], require_protocol: true })
   @JSONSchema({
     title: 'Invoice URL',
     description:
-      'URL to access the generated invoice document. Optional; when present it must be an https URL.',
+      'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
     type: 'string',
     format: 'uri',
   })

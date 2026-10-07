@@ -29,6 +29,7 @@ import { VatTreatmentEnum } from '../../../enums/invoice/vat-treatment.enum';
 import { requiresExemptionReason } from '../../../helpers/vat-treatment.helper';
 import { BaseResponse } from '../../base-response.dto';
 import { TINValidationDetails } from '../tin-validation-details.dto';
+import { MaxDecimalPlaces } from '../../../decorators/max-decimal-places.validator';
 
 /**
  * Represents the response containing tax calculation details.
@@ -55,7 +56,8 @@ export class TaxDetailsResponseDto extends BaseResponse {
    * decimal places.
    */
   @IsDefined()
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsNumber()
+  @MaxDecimalPlaces(2)
   @Min(0)
   @Max(100)
   @JSONSchema({
@@ -86,8 +88,7 @@ export class TaxDetailsResponseDto extends BaseResponse {
    */
   @ValidateIf(
     (response: TaxDetailsResponseDto) =>
-      requiresExemptionReason(response) ||
-      response.exemptionReason !== undefined,
+      requiresExemptionReason(response) || response.exemptionReason != null,
   )
   @IsString()
   @IsNotEmpty()

@@ -16,6 +16,7 @@ import { InvoiceItemDataDto } from '../invoice-item-data.dto';
 import { TransactionData } from '../transaction-data.dto';
 import { InvoiceContactData } from '../../invoice-contact-data.dto';
 import { CurrencyEnum } from '../../../enums/currency.enum';
+import { MaxDecimalPlaces } from '../../../decorators/max-decimal-places.validator';
 
 /**
  * Common payload of every document request sent to invoice integrations.
@@ -110,7 +111,8 @@ export abstract class BaseInvoiceRequestDto {
    * Sum of the lines' `netAmount`. Decimal major units, up to two decimal places.
    */
   @IsDefined()
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsNumber()
+  @MaxDecimalPlaces(2)
   @Min(0)
   @JSONSchema({
     title: 'Net Total',
@@ -125,7 +127,8 @@ export abstract class BaseInvoiceRequestDto {
    * Sum of the lines' `vatAmount`. Decimal major units, up to two decimal places.
    */
   @IsDefined()
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsNumber()
+  @MaxDecimalPlaces(2)
   @Min(0)
   @JSONSchema({
     title: 'VAT Total',
@@ -141,7 +144,8 @@ export abstract class BaseInvoiceRequestDto {
    * decimal places.
    */
   @IsDefined()
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsNumber()
+  @MaxDecimalPlaces(2)
   @Min(0)
   @JSONSchema({
     title: 'Total Amount',
@@ -156,7 +160,8 @@ export abstract class BaseInvoiceRequestDto {
    * Discount amount, already reflected in the lines' `netAmount`.
    */
   @IsDefined()
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsNumber()
+  @MaxDecimalPlaces(2)
   @Min(0)
   @JSONSchema({
     title: 'Discount Amount',

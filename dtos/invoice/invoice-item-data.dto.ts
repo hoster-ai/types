@@ -13,6 +13,7 @@ import { InvoiceItemActionsEnum } from '../../enums/invoice/invoice-item-actions
 import { VatTreatmentEnum } from '../../enums/invoice/vat-treatment.enum';
 import { requiresExemptionReason } from '../../helpers/vat-treatment.helper';
 import { ItemDataDto } from '../item-data.dto';
+import { MaxDecimalPlaces } from '../../decorators/max-decimal-places.validator';
 
 /**
  * Order product item data sent to invoice integrations.
@@ -38,7 +39,8 @@ export class InvoiceItemDataDto extends ItemDataDto {
    * decimal places.
    */
   @IsDefined()
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsNumber()
+  @MaxDecimalPlaces(2)
   @Min(0)
   @JSONSchema({
     title: 'Net Amount',
@@ -54,7 +56,8 @@ export class InvoiceItemDataDto extends ItemDataDto {
    * decimal places.
    */
   @IsDefined()
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsNumber()
+  @MaxDecimalPlaces(2)
   @Min(0)
   @Max(100)
   @JSONSchema({
@@ -71,7 +74,8 @@ export class InvoiceItemDataDto extends ItemDataDto {
    * VAT charged on the line. Decimal major units, up to two decimal places.
    */
   @IsDefined()
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsNumber()
+  @MaxDecimalPlaces(2)
   @Min(0)
   @JSONSchema({
     title: 'VAT Amount',
@@ -98,7 +102,7 @@ export class InvoiceItemDataDto extends ItemDataDto {
    */
   @ValidateIf(
     (item: InvoiceItemDataDto) =>
-      requiresExemptionReason(item) || item.exemptionReason !== undefined,
+      requiresExemptionReason(item) || item.exemptionReason != null,
   )
   @IsString()
   @IsNotEmpty()

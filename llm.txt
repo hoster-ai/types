@@ -897,6 +897,15 @@ Each entry links to a separate file containing the full code and details.
 
 ---
 
+### MaxDecimalPlaces
+**Description:** Custom class-validator decorator that validates a number has at most N decimal places, without throwing on exponential numbers like 1e-7.
+
+**Source:** `decorators/max-decimal-places.validator.ts`
+
+**Details:** See [llm/decorators/maxdecimalplaces.md](llm/decorators/maxdecimalplaces.md)
+
+---
+
 ### MinLessOrEqualMaxProperty
 **Description:** Custom class-validator decorator that ensures minimum values are less than or equal to maximum values for specified property pairs.
 

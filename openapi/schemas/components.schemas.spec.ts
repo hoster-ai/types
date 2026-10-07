@@ -310,12 +310,9 @@ describe('ComponentsSchemas - invoice tax contract (#40)', () => {
       'InvoiceResponseDto',
       'CreditNoteResponseDto',
     ]) {
-      expect(Schemas[dto].required).toEqual(
-        expect.not.arrayContaining(['invoiceUrl']),
-      );
-      expect(Schemas[dto].required).toEqual(
-        expect.not.arrayContaining(['invoiceNumber', 'invoiceId']),
-      );
+      for (const field of ['invoiceUrl', 'invoiceNumber', 'invoiceId']) {
+        expect(Schemas[dto].required ?? []).not.toContain(field);
+      }
       expect(props(dto).invoiceId).toBeDefined();
       expect(props(dto).invoiceNumber).toBeDefined();
     }
@@ -332,7 +329,7 @@ describe('ComponentsSchemas - invoice tax contract (#40)', () => {
     });
     expect(response.properties.vatNumberValid.type).toBe('boolean');
     expect(response.properties.TINValid).toBeUndefined();
-    expect(Schemas.TaxDetailsRequestDto.required.sort()).toEqual([
+    expect([...Schemas.TaxDetailsRequestDto.required].sort()).toEqual([
       'buyerCountry',
       'isBusinessContact',
       'sellerCountry',

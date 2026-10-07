@@ -42,6 +42,18 @@ describe('validateProformaInvoiceResponseDto', () => {
     },
   );
 
+  it('ignores the invoice url on a failure report', async () => {
+    expect(
+      await messages({
+        code: 200,
+        message: 'not issued',
+        status: ResponseStatusEnum.FAILURE,
+        outboxId: ISSUED.outboxId,
+        invoiceUrl: '',
+      }),
+    ).toEqual([]);
+  });
+
   it('rejects a success without the invoice number and id', async () => {
     const body = omit(ISSUED, 'invoiceNumber', 'invoiceId');
     expect((await messages(body)).sort()).toEqual([

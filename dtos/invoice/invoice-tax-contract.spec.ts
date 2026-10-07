@@ -107,6 +107,24 @@ describe('TaxDetailsResponseDto', () => {
     ).toEqual(['exemptionReason']);
   });
 
+  it('accepts exemptionReason: null where no reason is needed', () => {
+    expect(
+      failing(TaxDetailsResponseDto, {
+        code: 200,
+        message: 'ok',
+        vatRate: 24,
+        treatment: VatTreatmentEnum.DOMESTIC,
+        exemptionReason: null,
+      }),
+    ).toEqual([]);
+  });
+
+  it('rejects an exponential vatRate instead of throwing', () => {
+    expect(
+      failing(TaxDetailsResponseDto, { ...RESPONSE, vatRate: 1e-7 }),
+    ).toEqual(['vatRate']);
+  });
+
   it.each(['vatRate', 'treatment'])('requires %s', (field) => {
     expect(failing(TaxDetailsResponseDto, without(RESPONSE, field))).toEqual([
       field,

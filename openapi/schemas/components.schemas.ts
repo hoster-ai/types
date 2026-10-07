@@ -2714,7 +2714,7 @@ export const ComponentsSchemas = {
         type: 'string',
         title: 'Invoice URL',
         description:
-          'URL to access the generated invoice document. Optional; when present it must be an https URL.',
+          'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
       },
       invoiceNumber: {
         minLength: 1,
@@ -3591,7 +3591,7 @@ export const ComponentsSchemas = {
         type: 'string',
         title: 'Invoice URL',
         description:
-          'URL to access the generated invoice document. Optional; when present it must be an https URL.',
+          'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
       },
       invoiceNumber: {
         minLength: 1,
@@ -3642,7 +3642,7 @@ export const ComponentsSchemas = {
         type: 'string',
         title: 'Invoice URL',
         description:
-          'URL to access the generated invoice document. Optional; when present it must be an https URL.',
+          'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
       },
       invoiceNumber: {
         minLength: 1,
