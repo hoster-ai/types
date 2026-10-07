@@ -1,6 +1,6 @@
 # TaxDetailsRequestDto
 
-**Description:** Request payload for calculating tax details. Contains company and customer location information for tax rate determination.
+**Description:** Request payload for calculating tax details. The core sends the seller and buyer facts (seller country, buyer country, VAT number, postal code, B2B flag, card-issuing country); the tax integration decides the VAT rate and treatment.
 
 **Source:** `dtos/tax-manager/tax-details-request.dto.ts`
 
@@ -13,6 +13,7 @@ import {
   IsBoolean,
   IsDefined,
   IsEnum,
+  IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -21,79 +22,102 @@ import { JSONSchema } from 'class-validator-jsonschema';
 
 /**
  * Request payload for calculating tax details.
- * Contains company and customer location information for tax rate determination.
+ * The core sends the seller and buyer facts; the tax integration decides the VAT
+ * rate and treatment (`TaxDetailsResponseDto`).
  */
 export class TaxDetailsRequestDto {
   /**
-   * Country where the company is registered
+   * Country of the seller — the company's country, verified by KYC. Always one
+   * of the integration's `supportedCountries`.
    */
   @IsDefined()
   @IsEnum(CountryEnum)
   @JSONSchema({
-    title: 'Company Country',
-    description: 'Country where the company is registered.',
+    title: 'Seller Country',
+    description:
+      "Country of the seller: the company's country, verified by KYC. Always one of the integration's supportedCountries.",
     $ref: '#/components/schemas/CountryEnum',
   })
-  companyCountry!: CountryEnum;
+  sellerCountry!: CountryEnum;
 
   /**
-   * Country where the customer is located
+   * Country of the buyer, from the client's invoice contact.
    */
   @IsDefined()
   @IsEnum(CountryEnum)
   @JSONSchema({
-    title: 'Customer Country',
-    description: 'Country where the customer is located.',
+    title: 'Buyer Country',
+    description: "Country of the buyer, from the client's invoice contact.",
     $ref: '#/components/schemas/CountryEnum',
   })
-  customerCountry!: CountryEnum;
+  buyerCountry!: CountryEnum;
 
   /**
-   * Customer's Tax Identification Number
+   * VAT number / TIN of the buyer. Absent when the buyer has none.
+   */
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  @JSONSchema({
+    title: 'Buyer VAT Number',
+    description:
+      'VAT number / TIN of the buyer. Absent when the buyer has none.',
+    type: 'string',
+  })
+  buyerVatNumber?: string;
+
+  /**
+   * Postal code of the buyer. Some countries have VAT-exempt regions that only
+   * the postal code reveals.
+   */
+  @IsOptional()
+  @IsString()
+  @JSONSchema({
+    title: 'Buyer Postal Code',
+    description:
+      'Postal code of the buyer. Some countries have regions with special VAT rules that only the postal code reveals.',
+    type: 'string',
+  })
+  buyerPostalCode?: string;
+
+  /**
+   * State or province of the buyer.
+   */
+  @IsOptional()
+  @IsString()
+  @JSONSchema({
+    title: 'Buyer State',
+    description: 'State or province of the buyer.',
+    type: 'string',
+  })
+  buyerState?: string;
+
+  /**
+   * Whether the buyer's invoice contact is a business (B2B) rather than a
+   * consumer (B2C).
    */
   @IsDefined()
-  @IsString()
-  @JSONSchema({
-    title: 'Customer TIN',
-    description: "Customer's Tax Identification Number.",
-    type: 'string',
-  })
-  customerTIN!: string;
-
-  /**
-   * Customer's postal code
-   */
-  @IsOptional()
-  @IsString()
-  @JSONSchema({
-    title: 'Customer Postal Code',
-    description: "Customer's postal code.",
-    type: 'string',
-  })
-  customerPostalCode?: string;
-
-  /**
-   * Customer's state or province
-   */
-  @IsOptional()
-  @IsString()
-  @JSONSchema({
-    title: 'Customer State',
-    description: "Customer's state or province.",
-    type: 'string',
-  })
-  customerState?: string;
-
-  /**
-   * Indicates whether the customer address has been validated
-   */
-  @IsOptional()
   @IsBoolean()
   @JSONSchema({
-    title: 'Validated Address',
-    description: 'Whether the customer address has been validated.',
+    title: 'Is Business Contact',
+    description:
+      "Whether the buyer's invoice contact is a business (B2B) rather than a consumer (B2C).",
     type: 'boolean',
   })
-  validatedAddress?: boolean;
+  isBusinessContact!: boolean;
+
+  /**
+   * Country that issued the payment card, as reported by the payment provider.
+   * A second piece of evidence of the buyer's location for OSS.
+   */
+  @IsOptional()
+  @IsEnum(CountryEnum)
+  @JSONSchema({
+    title: 'Payment Country',
+    description:
+      "Country that issued the payment card, as reported by the payment provider. A second piece of evidence of the buyer's location for OSS.",
+    $ref: '#/components/schemas/CountryEnum',
+  })
+  paymentCountry?: CountryEnum;
 }
 ```

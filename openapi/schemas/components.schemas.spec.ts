@@ -9,7 +9,7 @@ import { ComponentsSchemas } from './components.schemas';
  *
  * Background: DTO enum properties used to inline `{ type: 'string', enum: [...] }`,
  * which made openapi-generator mint one ad-hoc enum per property
- * (InfoDtoListenEventsEnum, ProductInfoDtoListenEventsEnum, ...) for what is
+ * (`<Dto><Property>Enum`, one per DTO property) for what is
  * logically a single enum. We now emit each shared enum as a standalone named
  * component schema and reference it via `$ref`. These tests fail if that
  * regresses (e.g. a new DTO adds an inline enum without registering + $ref-ing it).
@@ -61,20 +61,28 @@ describe('ComponentsSchemas - named enum schemas', () => {
 describe('ComponentsSchemas - enum properties are $refs (no inline enums)', () => {
   const refExpectations: Array<{ label: string; node: () => any }> = [
     {
-      label: 'InfoDto.listenEvents.items',
-      node: () => Schemas.InfoDto.properties.listenEvents.items,
+      label: 'JwtPayloadDto.acceptedRoles.items',
+      node: () => Schemas.JwtPayloadDto.properties.acceptedRoles.items,
     },
     {
-      label: 'InfoDto.requiredRoles.items',
-      node: () => Schemas.InfoDto.properties.requiredRoles.items,
+      label: 'CompanyDataDto.languages.items',
+      node: () => Schemas.CompanyDataDto.properties.languages.items,
     },
     {
-      label: 'InfoDto.supportedLanguages.items',
-      node: () => Schemas.InfoDto.properties.supportedLanguages.items,
+      label: 'CompanyDataDto.defaultLanguage',
+      node: () => Schemas.CompanyDataDto.properties.defaultLanguage,
     },
     {
-      label: 'ProductInfoDto.supportedActions.items',
-      node: () => Schemas.ProductInfoDto.properties.supportedActions.items,
+      label: 'ProductItemDataDto.action',
+      node: () => Schemas.ProductItemDataDto.properties.action,
+    },
+    {
+      label: 'InvoiceItemDataDto.action',
+      node: () => Schemas.InvoiceItemDataDto.properties.action,
+    },
+    {
+      label: 'SetupStatusResponseDto.status',
+      node: () => Schemas.SetupStatusResponseDto.properties.status,
     },
     {
       label: 'CountryDto.code',
@@ -83,14 +91,6 @@ describe('ComponentsSchemas - enum properties are $refs (no inline enums)', () =
     {
       label: 'MultilangTextDto.language',
       node: () => Schemas.MultilangTextDto.properties.language,
-    },
-    {
-      label: 'NotificationInfoDto.type',
-      node: () => Schemas.NotificationInfoDto.properties.type,
-    },
-    {
-      label: 'ActionDto.openMethod',
-      node: () => Schemas.ActionDto.properties.openMethod,
     },
     {
       label: 'CountriesFieldDto.value.items',
@@ -112,7 +112,7 @@ describe('ComponentsSchemas - enum properties are $refs (no inline enums)', () =
   );
 
   it('keeps the array node structure intact for array enum properties', () => {
-    const arr = Schemas.InfoDto.properties.supportedLanguages;
+    const arr = Schemas.CompanyDataDto.properties.languages;
     expect(arr.type).toBe('array');
     expect(isRef(arr.items)).toBe(true);
     // The array node itself must NOT carry an inline enum.
@@ -266,5 +266,73 @@ describe('ComponentsSchemas - oneOf/anyOf carry no contradicting siblings (#36)'
       });
     }
     expect(offenders).toEqual([]);
+  });
+});
+
+describe('ComponentsSchemas - invoice tax contract (#40)', () => {
+  const props = (name: string): AnySchema => Schemas[name].properties;
+
+  it('carries the VAT of every line and the document totals', () => {
+    const item = Schemas.InvoiceItemDataDto;
+    for (const field of ['netAmount', 'vatRate', 'vatAmount', 'treatment']) {
+      expect(item.required).toContain(field);
+    }
+    expect(item.required).not.toContain('exemptionReason');
+    expect(item.properties.treatment.$ref).toBe(
+      '#/components/schemas/VatTreatmentEnum',
+    );
+    for (const dto of [
+      'ProformaInvoiceRequestDto',
+      'InvoiceRequestDto',
+      'CreditNoteRequestDto',
+    ]) {
+      for (const field of ['netTotal', 'vatTotal', 'totalAmount']) {
+        expect(Schemas[dto].required).toContain(field);
+      }
+    }
+  });
+
+  it('requires the three parent references only on a credit note', () => {
+    const parents = [
+      'parentInvoiceId',
+      'parentExternalInvoiceId',
+      'parentInvoiceNumber',
+    ];
+    for (const field of parents) {
+      expect(Schemas.CreditNoteRequestDto.required).toContain(field);
+    }
+    expect(props('InvoiceRequestDto').parentExternalInvoiceId).toBeUndefined();
+  });
+
+  it('does not force the document fields on a failure or pending report', () => {
+    for (const dto of [
+      'ProformaInvoiceResponseDto',
+      'InvoiceResponseDto',
+      'CreditNoteResponseDto',
+    ]) {
+      for (const field of ['invoiceUrl', 'invoiceNumber', 'invoiceId']) {
+        expect(Schemas[dto].required ?? []).not.toContain(field);
+      }
+      expect(props(dto).invoiceId).toBeDefined();
+      expect(props(dto).invoiceNumber).toBeDefined();
+    }
+  });
+
+  it('describes the tax integration answer', () => {
+    const response = Schemas.TaxDetailsResponseDto;
+    expect(response.required).toEqual(
+      expect.arrayContaining(['vatRate', 'treatment']),
+    );
+    expect(response.properties.vatRate).toMatchObject({
+      minimum: 0,
+      maximum: 100,
+    });
+    expect(response.properties.vatNumberValid.type).toBe('boolean');
+    expect(response.properties.TINValid).toBeUndefined();
+    expect([...Schemas.TaxDetailsRequestDto.required].sort()).toEqual([
+      'buyerCountry',
+      'isBusinessContact',
+      'sellerCountry',
+    ]);
   });
 });

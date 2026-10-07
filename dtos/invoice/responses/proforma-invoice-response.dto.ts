@@ -1,6 +1,7 @@
 import {
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUrl,
   ValidateIf,
@@ -51,24 +52,31 @@ export class ProformaInvoiceResponseDto extends BaseResponse {
   outboxId!: string;
 
   /**
-   * URL to access the generated invoice document. The three document fields below exist
-   * only on a SUCCESS: a `failure` or `pending` report has no document to describe.
+   * URL to access the generated invoice document. Optional: not every integration
+   * hosts its documents. When present on a SUCCESS it must be an https URL; it
+   * is ignored on a `failure` or `pending` report.
    */
   @ValidateIf(
     (response: ProformaInvoiceResponseDto) =>
       response.status === ResponseStatusEnum.SUCCESS,
   )
-  @IsUrl()
-  @IsNotEmpty()
+  @IsOptional()
+  @IsUrl({ protocols: ['https'], require_protocol: true })
   @JSONSchema({
     title: 'Invoice URL',
-    description: 'URL to access the generated invoice document.',
+    description:
+      'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
     type: 'string',
     format: 'uri',
+    nullable: true,
   })
   invoiceUrl?: string;
 
-  /** Invoice number assigned by the integration */
+  /**
+   * Invoice number assigned by the integration. `invoiceNumber` and `invoiceId`
+   * exist only on a SUCCESS, where both are required: a `failure` or `pending`
+   * report has no document to describe.
+   */
   @ValidateIf(
     (response: ProformaInvoiceResponseDto) =>
       response.status === ResponseStatusEnum.SUCCESS,
@@ -77,7 +85,8 @@ export class ProformaInvoiceResponseDto extends BaseResponse {
   @IsNotEmpty()
   @JSONSchema({
     title: 'Invoice Number',
-    description: 'Invoice number assigned by the integration.',
+    description:
+      'Invoice number assigned by the integration. Required when status is success; absent on failure or pending.',
     type: 'string',
   })
   invoiceNumber?: string;
@@ -91,7 +100,8 @@ export class ProformaInvoiceResponseDto extends BaseResponse {
   @IsNotEmpty()
   @JSONSchema({
     title: 'Invoice ID',
-    description: 'Unique identifier for the invoice in the integration system.',
+    description:
+      'Unique identifier for the invoice in the integration system. Required when status is success; absent on failure or pending.',
     type: 'string',
   })
   invoiceId?: string;

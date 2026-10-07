@@ -55,7 +55,7 @@ import * as Pkg from '../index';
 // Every exported `*Enum` becomes a standalone component schema, so DTO
 // properties can `$ref` it instead of inlining the enum. This stops
 // openapi-generator from minting one ad-hoc enum per property
-// (e.g. InfoDtoListenEventsEnum, ProductInfoDtoListenEventsEnum, ...) for
+// (`<Dto><Property>Enum`, one per DTO property) for
 // what is logically a single enum.
 const ENUM_REGISTRY = Object.fromEntries(
   Object.entries(Pkg).filter(([name]) => name.endsWith('Enum')),

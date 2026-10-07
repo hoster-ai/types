@@ -2,7 +2,6 @@ import {
   IsArray,
   IsDefined,
   IsEnum,
-  IsNumber,
   IsObject,
   IsOptional,
   IsString,
@@ -15,10 +14,20 @@ import { InvoiceItemDataDto } from '../invoice-item-data.dto';
 import { TransactionData } from '../transaction-data.dto';
 import { InvoiceContactData } from '../../invoice-contact-data.dto';
 import { CurrencyEnum } from '../../../enums/currency.enum';
+import {
+  IsMoneyAmount,
+  MatchesAmount,
+  sumOf,
+} from '../../../decorators/is-money-amount.validator';
 
 /**
- * Request payload for calculating tax details.
- * Contains company and customer location information for tax rate determination.
+ * Common payload of every document request sent to invoice integrations.
+ *
+ * Amounts are decimal major units (e.g. 12.40), up to two decimal places — not
+ * cents — and zero or positive, on a credit note too: the document type makes it
+ * a reversal. Per line `netAmount + vatAmount` is the line gross; the lines' sums
+ * equal `netTotal` and `vatTotal`, and `totalAmount = netTotal + vatTotal`, each
+ * within 0.01.
  */
 export abstract class BaseInvoiceRequestDto {
   /**
@@ -102,25 +111,70 @@ export abstract class BaseInvoiceRequestDto {
   })
   transactions!: TransactionData[];
 
-  /** Total invoice amount */
-  @IsDefined()
-  @IsNumber()
+  /**
+   * Sum of the lines' `netAmount`, within 0.01. Decimal major units, up to two
+   * decimal places.
+   */
+  @IsMoneyAmount()
+  @MatchesAmount(
+    (request: BaseInvoiceRequestDto) => sumOf(request.items, 'netAmount'),
+    "the sum of the items' netAmount",
+  )
+  @JSONSchema({
+    title: 'Net Total',
+    description:
+      "Document total before VAT: the sum of the items' netAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
+    type: 'number',
+    minimum: 0,
+  })
+  netTotal!: number;
+
+  /**
+   * Sum of the lines' `vatAmount`, within 0.01. Decimal major units, up to two
+   * decimal places.
+   */
+  @IsMoneyAmount()
+  @MatchesAmount(
+    (request: BaseInvoiceRequestDto) => sumOf(request.items, 'vatAmount'),
+    "the sum of the items' vatAmount",
+  )
+  @JSONSchema({
+    title: 'VAT Total',
+    description:
+      "Document VAT: the sum of the items' vatAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
+    type: 'number',
+    minimum: 0,
+  })
+  vatTotal!: number;
+
+  /**
+   * Gross invoice amount: `netTotal + vatTotal`, within 0.01. Decimal major
+   * units, up to two decimal places.
+   */
+  @IsMoneyAmount()
+  @MatchesAmount(
+    (request: BaseInvoiceRequestDto) => request.netTotal + request.vatTotal,
+    'netTotal + vatTotal',
+  )
   @JSONSchema({
     title: 'Total Amount',
-    description: 'Total invoice amount.',
+    description:
+      'Gross invoice amount: netTotal + vatTotal, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.',
     type: 'number',
+    minimum: 0,
   })
   totalAmount!: number;
 
   /**
-   * Discount amount
+   * Discount amount, already reflected in the lines' `netAmount`.
    */
-  @IsDefined()
-  @IsNumber()
+  @IsMoneyAmount()
   @JSONSchema({
     title: 'Discount Amount',
-    description: 'Discount amount.',
+    description:
+      "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
     type: 'number',
+    minimum: 0,
   })
   discountAmount!: number;
 }

@@ -11,7 +11,7 @@ description: Use when adding, updating, or removing entries from the project llm
 
 **ALWAYS dispatch to a subagent when asked to:**
 
-- Add new DTO/Enum/Decorator/Validator/Transformer to llm.txt
+- Add new DTO/Enum/Decorator/Validator to llm.txt
 - Update existing entries in llm.txt
 - Remove entries from llm.txt
 - Create or update corresponding llm/\*.md files
@@ -27,7 +27,7 @@ Use the Task tool with `subagent_type=swarm-worker` and pass:
 
 ## Overview
 
-Maintains the `llm.txt` index file that serves as a reference guide to all project types (DTOs, Enums, Decorators, Validators, Transformers). Each entry links to detailed `.md` files in the `llm/` subdirectory.
+Maintains the `llm.txt` index file that serves as a reference guide to all project types (DTOs, Enums, Decorators, Validators). Each entry links to detailed `.md` files in the `llm/` subdirectory.
 
 **Core principle:** Every type in the codebase should be documented in `llm.txt` with a corresponding `llm/*.md` file.
 
@@ -38,13 +38,12 @@ project-root/
   llm.txt                    # Main index (THIS FILE YOU MAINTAIN)
   llm/                       # Detailed documentation directory
     dtos/
-      actiondto.md
-      actiondto.md
+      attachmentdto.md
+      companydatadto.md
       ...
     enums/
     decorators/
     validators/
-    transformers/
 ```
 
 ## Sections (in order)
@@ -53,7 +52,6 @@ project-root/
 2. **ENUMS** - Enumerations
 3. **DECORATORS** - Custom class-validator decorators
 4. **VALIDATORS** - Validator functions
-5. **TRANSFORMERS** - Transformer functions
 
 ## Entry Format
 
@@ -75,14 +73,13 @@ Each entry follows this EXACT format:
 
 Converting Source path to Details link:
 
-| Source                                         | Details Link                          |
-| ---------------------------------------------- | ------------------------------------- |
-| `dtos/action.dto.ts`                           | `llm/dtos/actiondto.md`               |
-| `dtos/invoice/requests/invoice-request.dto.ts` | `llm/dtos/invoicerequestdto.md`       |
-| `enums/country.enum.ts`                        | `llm/enums/countryenum.md`            |
-| `decorators/all-or-none.validator.ts`          | `llm/decorators/allornoneproperty.md` |
-| `validators/action-validator.ts`               | `llm/validators/validateactiondto.md` |
-| `transformers/menu.transformer.ts`             | `llm/transformers/transformmenu.md`   |
+| Source                                         | Details Link                              |
+| ---------------------------------------------- | ----------------------------------------- |
+| `dtos/attachment.dto.ts`                       | `llm/dtos/attachmentdto.md`               |
+| `dtos/invoice/requests/invoice-request.dto.ts` | `llm/dtos/invoicerequestdto.md`           |
+| `enums/country.enum.ts`                        | `llm/enums/countryenum.md`                |
+| `decorators/all-or-none.validator.ts`          | `llm/decorators/allornoneproperty.md`     |
+| `validators/attachment-validator.ts`           | `llm/validators/validateattachmentdto.md` |
 
 **Key rules:**
 
@@ -94,7 +91,7 @@ Converting Source path to Details link:
 
 **ALWAYS maintain alphabetical order within each section.** When adding a new entry:
 
-1. Find the correct section (DTOS/ENUMS/DECORATORS/VALIDATORS/TRANSFORMERS)
+1. Find the correct section (DTOS/ENUMS/DECORATORS/VALIDATORS)
 2. Insert in alphabetical order by name
 3. Follow exact formatting
 
@@ -136,7 +133,6 @@ Converting Source path to Details link:
 - `## ENUMS`
 - `## DECORATORS`
 - `## VALIDATORS`
-- `## TRANSFORMERS`
 
 **Alphabetical ordering applies per section, case-insensitive**
 
@@ -146,7 +142,7 @@ Converting Source path to Details link:
 | --------------------------- | ----------------------------------------------------- |
 | Inserting out of order      | Always insert alphabetically                          |
 | Wrong link path             | Use path conversion rules                             |
-| Missing backticks on source | Source path in backticks: `dtos/action.dto.ts`        |
+| Missing backticks on source | Source path in backticks: `dtos/attachment.dto.ts`    |
 | Missing `---` separator     | Each entry ends with `---`                            |
 | Wrong section               | Check the type: validators go in VALIDATORS, not DTOS |
 
@@ -176,7 +172,7 @@ When dispatching to a subagent, use this template:
 You are an expert at maintaining the llm.txt file in this project.
 
 ## Your Task
-[TASK DESCRIPTION: e.g., "Add NewFeatureDto to llm.txt" or "Update ProductInfoDto entry after field X changed"]
+[TASK DESCRIPTION: e.g., "Add NewFeatureDto to llm.txt" or "Update ProductItemDataDto entry after field X changed"]
 
 ## Context
 The llm.txt is located at: /Users/thomaspapamichail/projects/hoster/core/types/llm.txt
@@ -190,8 +186,8 @@ The llm/ directory is at: /Users/thomaspapamichail/projects/hoster/core/types/ll
 **Details:** See [llm/path/filename.md](llm/path/filename.md)
 ---
 2. ALWAYS maintain alphabetical order within each section
-3. Path conversion: dtos/action.dto.ts → llm/dtos/actiondto.md
-4. Sections in order: DTOS → ENUMS → DECORATORS → VALIDATORS → TRANSFORMERS
+3. Path conversion: dtos/attachment.dto.ts → llm/dtos/attachmentdto.md
+4. Sections in order: DTOS → ENUMS → DECORATORS → VALIDATORS
 
 ## Deliverables
 1. Updated llm.txt with changes

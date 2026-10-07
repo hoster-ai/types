@@ -4,7 +4,7 @@ This package contains the core types for the Hoster AI platform.
 
 ## Files
 
-- `llm.txt`: Comprehensive documentation of all DTOs, enums, validators, decorators, and transformers in the package. This file serves as an LLM-friendly reference for AI assistants.
+- `llm.txt`: Comprehensive documentation of all DTOs, enums, validators, and decorators in the package. This file serves as an LLM-friendly reference for AI assistants.
 
 [![NPM Version](https://img.shields.io/npm/v/@hosterai/types.svg)](https://www.npmjs.com/package/@hosterai/types)
 [![NPM Downloads](https://img.shields.io/npm/dm/@hosterai/types.svg)](https://www.npmjs.com/package/@hosterai/types)
@@ -53,7 +53,6 @@ DTOs define the shape of data that is exchanged between different parts of the s
 
 **Available DTOs:**
 
-- `action.dto.ts`: Defines the structure for a UI action.
 - `attachment.dto.ts`: Represents a file attachment.
 - `base-response.dto.ts`: A base structure for API responses.
 - `client-data.dto.ts`: Defines the data structure for a client.
@@ -66,23 +65,16 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `field-option.dto.ts`: Represents options for form fields (used for checkboxes, radioboxes, and selects).
 - `item-data.dto.ts`: Represents the data of a specific product item (IDs, attributes, dates, pricing).
 - `invoice-contact-data.dto.ts`: Billing contact information for invoice integrations.
-- `info.dto.ts`: Contains all necessary information for a service integration.
 - `jwt.dto.ts`: DTOs related to JSON Web Tokens.
-- `menu.dto.ts`: Defines the structure for menu items.
-- `settings.dto.ts`: Settings base DTO and variants (`SettingsWithUrlDto`, `SettingsWithTabsDto`).
-- `admin-panel.dto.ts`: Admin panel UI configuration (tabs, moreActions, menu, settings).
-- `client-panel.dto.ts`: Client panel UI configuration (tabs, moreActions, menu).
 - `multilang-text.dto.ts`: A DTO for handling text in multiple languages.
 - `response-data.dto.ts`: A generic wrapper for response data.
 - `setup-status-response.dto.ts`: DTO for returning the setup status.
 - `success-response.dto.ts`: Defines the structure for successful API responses.
-- `tab.dto.ts`: Represents a tab in a user interface.
-- `submenu.dto.ts`: Represents a submenu item.
-- `unit.dto.ts`: Represents a unit for pay-per-use billing.
+
+Integration info (the form an integration is registered with) and its admin/client panel DTOs are not part of this package; they live in the api.
 
 **Notification DTOs:**
 
-- `notification/notification-info.dto.ts`: Contains detailed information about a notification.
 - `notification/requests/notification-send-request.dto.ts`: The primary DTO for requesting a new notification.
 - `notification/responses/notification-send-response.dto.ts`: Response after successfully sending a notification.
 - `notification/receiver/receiver-email.dto.ts`: Defines the receiver for an email notification.
@@ -99,18 +91,16 @@ DTOs define the shape of data that is exchanged between different parts of the s
 
 **Tax Manager DTOs:**
 
-- `tax-manager/tax-details-request.dto.ts`: Request payload for calculating tax details.
+- `tax-manager/tax-details-request.dto.ts`: Request payload for calculating tax details — `sellerCountry` (the company's KYC-verified country), `buyerCountry`, `isBusinessContact` (required); `buyerVatNumber`, `buyerPostalCode`, `buyerState`, `paymentCountry` (card-issuing country, second location evidence for OSS) optional.
 
 **Product DTOs:**
 
-- `product/product-info.dto.ts`: Contains detailed information about a product. Uses `AttributeFieldDto` for product/item attributes.
 - `product/product-item-data.dto.ts`: Extends `ItemDataDto` with product-specific action type.
 - `product/requests/*`: DTOs for product-related requests (create, delete, upgrade, downgrade, renew, suspend, unsuspend, upgradable, downgradable).
 - `product/responses/*`: DTOs for product-related responses.
 
 **Invoice DTOs:**
 
-- `invoice/invoice-info.dto.ts`: Contains detailed information about an invoice integration.
 - `invoice/invoice-item-data.dto.ts`: Extends `ItemDataDto` with invoice-specific action type.
 - `invoice/transaction-data.dto.ts`: Transaction details (ID, amount, payment method, date).
 - `invoice/tin-validation-details.dto.ts`: Tax Identification Number validation details.
@@ -121,7 +111,14 @@ DTOs define the shape of data that is exchanged between different parts of the s
 - `invoice/responses/proforma-invoice-response.dto.ts`: Response after creating a proforma invoice.
 - `invoice/responses/invoice-response.dto.ts`: Response after creating a standard invoice.
 - `invoice/responses/credit-note-response.dto.ts`: Response after creating a credit note.
-- `invoice/responses/tax-details-response.dto.ts`: Response with tax calculation details.
+- `invoice/responses/tax-details-response.dto.ts`: Response with tax calculation details — `vatRate` (%, 0–100, 2dp), `treatment` (`VatTreatmentEnum`), `vatNumberValid` (absent without a VAT number), `exemptionReason` (required when `vatRate` is 0 and `treatment` is not `domestic`).
+
+**Invoice contract notes:**
+
+- The tax integration is the source of the VAT: every invoice line carries `netAmount`, `vatRate`, `vatAmount`, `treatment` and, for a 0% rate outside `domestic`, `exemptionReason`; every document carries `netTotal`, `vatTotal` and `totalAmount` (gross).
+- Amounts are decimal major units with up to two decimal places (e.g. `12.40`), not cents. Per line `netAmount + vatAmount` is the line gross; the lines sum to `netTotal` / `vatTotal`, and `totalAmount = netTotal + vatTotal`. The sums are documented, not validated.
+- A credit note names the invoice it credits three ways, all required: `parentInvoiceId` (hoster.ai), `parentExternalInvoiceId` and `parentInvoiceNumber` (the `invoiceId` / `invoiceNumber` the integration returned for that invoice).
+- On `status: success` a document response must carry `invoiceNumber` and `invoiceId`; `invoiceUrl` is optional and must be https when present. `failure` / `pending` reports carry none of them.
 
 ### Enums
 
@@ -132,6 +129,7 @@ Enums provide a set of named constants for common types, preventing errors with 
 - `ProductItemActionsEnum`: Defines possible product item actions (create, renew, upgrade, downgrade, etc.).
 - `InvoiceItemActionsEnum`: Defines possible invoice item actions (create, renew, upgrade, downgrade, transfer, trade).
 - `InvoiceTypesEnum`: Defines invoice document types (invoice, credit-note, proforma).
+- `VatTreatmentEnum`: How VAT applies to a sale (domestic, reverse_charge, oss, outside_scope, exempt).
 - `CountryEnum`: A list of all countries.
 - `DurationEnum`: Defines billing durations (e.g., `MONTHLY`, `YEARLY`).
 - `EventsEnum`: Defines triggerable events.
@@ -154,6 +152,10 @@ Enums provide a set of named constants for common types, preventing errors with 
   - `getAllCountriesData` now returns a `Record<CountryEnum, CountryDto>` (instead of an array) sorted by the localized `name`, which keeps the map structure intact while preserving alphabetical order for deterministic downstream processing.
 - After editing the enum or country data, rerun `npm run build:schemas` (see **Generating JSON Schemas**) so the OpenAPI bundle reflects the latest list.
 
+#### VAT Helpers
+
+- `helpers/vat-treatment.helper.ts` exposes `requiresExemptionReason` (a 0% line outside `domestic` needs an `exemptionReason`), `roundAmount` (half up to two decimals), `ZERO_RATE_TREATMENTS`, `EXEMPTION_REASON_MAX_LENGTH` (500) and `AMOUNT_TOLERANCE` (0.01).
+
 ### Interfaces
 
 - `product/product.interface.ts`: Defines the contract for a product module.
@@ -166,55 +168,37 @@ This package includes validation functions that leverage `class-validator` to en
 
 **Core Validators:**
 
-- `validateActionDto`: Validates UI actions.
 - `validateClientDataDto`: Validates client data.
 - `validateCompanyDataDto`: Validates company data.
 - `validateFieldDto`: Validates dynamic fields.
 - `validateFieldOptionDto`: Validates field options.
 - `validateJwtDto`: Validates JWT data.
 - `validateMultilangTextDto`: Validates multilingual text objects.
-- `validateUnitDto`: Validates billing unit data.
 - `validateAttachmentDto`: Validates file attachments.
 - `validateAttributeFieldDto`: Validates attribute fields.
 - `validateAddonFieldDto`: Validates addon fields.
 - `validateCountryDto`: Validates country data.
-- `validateTabDto`: Validates tab data.
 - `validateItemDataDto`: Validates item data.
 - `validateProductItemDataDto`: Validates product item data.
-- `validateInfoDto`: Validates integration info.
-
-**Panel Validators:**
-
-- `validateAdminPanelDto`: Validates admin panel configuration.
-- `validateAdminPanelTabsDto`: Validates admin panel tabs.
-- `validateAdminPanelMoreActionsDto`: Validates admin panel additional actions.
-- `validateClientPanelDto`: Validates client panel configuration.
-
-**Menu & Settings Validators:**
-
-- `validateMenuWithUrlDto`: Validates menu items with direct URLs.
-- `validateMenuWithSubmenuDto`: Validates menu items with submenus.
-- `validateSettingsWithUrlDto`: Validates settings with URL configuration.
-- `validateSettingsWithTabsDto`: Validates settings with tabs configuration.
 
 **Notification Validators:**
 
 - `validateNotificationRequestDto`: Validates the main notification request.
-- `validateNotificationInfoDto`: Validates notification information.
 - `validateEmailReceiverDto`, `validateSmsReceiverDto`, `validatePushReceiverDto`: Validators for notification receivers.
 - `validateEmailSenderDto`, `validateSmsSenderDto`, `validatePushSenderDto`: Validators for notification senders.
 
 **Invoice Validators:**
 
-- `validateInvoiceInfoDto`: Validates invoice integration info.
 - `validateInvoiceContactDataDto`: Validates invoice contact data.
 - `validateInvoiceItemDataDto`: Validates invoice item data.
+- `validateCreditNoteRequestDto`: Validates credit note requests (parent references, lines and totals).
+- `validateTaxDetailsRequestDto`: Validates tax details requests.
+- `validateTaxDetailsResponseDto`: Validates tax details answers (rate, treatment, exemption reason, VAT number check).
 - `validateTinValidationDetailsDto`: Validates TIN validation details.
 - `validateTransactionDataDto`: Validates transaction data.
 
 **Product Validators:**
 
-- `validateProductInfoDto`: Validates product information.
 - `validateProductCreateRequestDto`: Validates product creation requests.
 - `validateProductDeleteRequestDto`: Validates product deletion requests.
 - `validateProductRenewRequestDto`: Validates product renewal requests.
@@ -232,21 +216,20 @@ The package includes custom `class-validator` decorators for advanced validation
 
 - `@AllOrNoneProperty`: Ensures specified properties are either all present or all absent together.
 - `@AtLeastOneNonEmptyProperty`: Ensures at least one of the specified properties is non-empty.
+- `@IsExemptionReason`: The `exemptionReason` of a VAT line: required when `vatRate` is 0 and `treatment` is not `domestic` (also under `skipMissingProperties`), then non-blank and at most 500 characters.
+- `@IsMoneyAmount`: A required amount in decimal major units: zero or positive, at most two decimal places.
 - `@IsOfAllowedTypes`: Validates if a value is one of the allowed types with additional constraints.
 - `@IsOneOf`: Validates if a value is an instance of one of the specified classes.
 - `@IsPlainObject`: Validates if a value is a plain object with key-value pairs.
 - `@IsPropertyForbidden`: Ensures a specific property is not present in the object.
 - `@IsRegex`: Validates if a string is a valid regular expression.
 - `@IsStringOrStringArray`: Validates if a value is a string or an array of strings.
+- `@IsVatRate`: A required VAT rate: a percentage from 0 to 100 with at most two decimal places.
+- `@MatchesAmount`: An amount within 0.01 of a value computed from the object (e.g. the sum of the lines).
+- `@MatchesVatTreatment`: `reverse_charge`, `outside_scope` and `exempt` need `vatRate` 0; optionally, `reverse_charge` needs `vatNumberValid: true`.
+- `@MaxDecimalPlaces`: A number with at most N decimal places, without throwing on exponential numbers like `1e-7`.
 - `@MinLessOrEqualMaxProperty`: Ensures minimum values are less than or equal to maximum values.
 - `@UniqueFieldInArray`: Ensures all objects in an array have unique values for a specified field.
-
-### Transformers
-
-Transformer functions for converting plain objects to typed DTOs:
-
-- `transformMenu`: Converts plain objects to `MenuDtoWithUrl` or `MenuDtoWithSubmenu` based on the type property.
-- `transformSettings`: Converts plain objects to `SettingsWithUrlDto` or `SettingsWithTabsDto` based on the presence of url or tabs properties.
 
 ## Generating JSON Schemas
 

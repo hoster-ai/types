@@ -1,33 +1,4 @@
 export const ComponentsSchemas = {
-  ActionDto: {
-    properties: {
-      icon: {
-        minLength: 1,
-        type: 'string',
-        title: 'Icon',
-        description: 'Name of the icon to display for the action.',
-      },
-      label: {
-        type: 'string',
-        title: 'Label',
-        description: 'Text label for the action.',
-      },
-      openMethod: {
-        $ref: '#/components/schemas/OpenMethodEnum',
-        title: 'Open Method',
-        description: "Method by which the action's URL should be opened.",
-      },
-      url: {
-        minLength: 1,
-        type: 'string',
-        format: 'url',
-        title: 'URL',
-        description: 'URL to navigate to when the action is triggered.',
-      },
-    },
-    type: 'object',
-    required: ['icon', 'openMethod', 'url'],
-  },
   AttachmentDto: {
     properties: {
       filename: {
@@ -279,20 +250,7 @@ export const ComponentsSchemas = {
       },
     },
     type: 'object',
-    required: [
-      'id',
-      'name',
-      'emails',
-      'invoiceEmail',
-      'privacyPolicyUrl',
-      'defaultLanguage',
-      'languages',
-      'telephone',
-      'address1',
-      'postcode',
-      'city',
-      'country',
-    ],
+    required: ['id', 'name', 'defaultLanguage', 'languages'],
   },
   CountryDto: {
     properties: {
@@ -1629,108 +1587,6 @@ export const ComponentsSchemas = {
     type: 'object',
     required: ['jwt'],
   },
-  TabDto: {
-    properties: {
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Text label for the tab.',
-      },
-      url: {
-        minLength: 1,
-        type: 'string',
-        format: 'uri',
-        title: 'URL',
-        description: 'URL associated with the tab.',
-      },
-    },
-    type: 'object',
-    required: ['label', 'url'],
-  },
-  BaseMenuDto: {
-    properties: {
-      icon: {
-        minLength: 1,
-        type: 'string',
-        title: 'Icon',
-        description: 'Icon for the menu item.',
-      },
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Label for the menu item.',
-      },
-    },
-    type: 'object',
-    required: ['icon', 'label'],
-  },
-  MenuDtoWithUrl: {
-    properties: {
-      type: {
-        type: 'string',
-        enum: ['only-url'],
-        minLength: 1,
-        title: 'Type',
-        description: 'Type of the menu item.',
-      },
-      url: {
-        minLength: 1,
-        type: 'string',
-        format: 'uri',
-        title: 'URL',
-        description: 'URL associated with the menu item.',
-      },
-      icon: {
-        minLength: 1,
-        type: 'string',
-        title: 'Icon',
-        description: 'Icon for the menu item.',
-      },
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Label for the menu item.',
-      },
-    },
-    type: 'object',
-    required: ['type', 'url', 'icon', 'label'],
-  },
-  MenuDtoWithSubmenu: {
-    properties: {
-      type: {
-        type: 'string',
-        enum: ['with-submenu'],
-        minLength: 1,
-        title: 'Type',
-        description: 'Type of the menu item.',
-      },
-      submenu: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        type: 'array',
-        title: 'Submenu',
-        description: 'List of tabs that will appear in the submenu.',
-      },
-      icon: {
-        minLength: 1,
-        type: 'string',
-        title: 'Icon',
-        description: 'Icon for the menu item.',
-      },
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Label for the menu item.',
-      },
-    },
-    type: 'object',
-    required: ['type', 'submenu', 'icon', 'label'],
-  },
   SetupStatusResponseDto: {
     properties: {
       status: {
@@ -1752,252 +1608,6 @@ export const ComponentsSchemas = {
     },
     type: 'object',
     required: ['status', 'code', 'message'],
-  },
-  UnitDto: {
-    properties: {
-      id: {
-        minLength: 1,
-        type: 'string',
-        title: 'Unit ID',
-        description: 'Unit identifier.',
-        example: 'messages',
-      },
-      unitDescription: {
-        minLength: 1,
-        type: 'string',
-        title: 'Unit Description',
-        description: 'What is measured.',
-        example: 'Message sent',
-      },
-      intervalDescription: {
-        minLength: 1,
-        type: 'string',
-        title: 'Interval Description',
-        description: 'Billing interval.',
-        example: 'Per month',
-      },
-    },
-    type: 'object',
-    required: ['id', 'unitDescription', 'intervalDescription'],
-  },
-  SettingsDto: {
-    properties: {
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Label of the settings page.',
-      },
-      icon: {
-        type: 'string',
-        title: 'Icon',
-        description: 'Icon of the settings page.',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Description of the settings page.',
-      },
-    },
-    type: 'object',
-    required: ['label', 'icon', 'description'],
-  },
-  SettingsWithUrlDto: {
-    properties: {
-      url: {
-        format: 'url',
-        type: 'string',
-        title: 'URL',
-        description: 'URL to the settings page.',
-      },
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Label of the settings page.',
-      },
-      icon: {
-        type: 'string',
-        title: 'Icon',
-        description: 'Icon of the settings page.',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Description of the settings page.',
-      },
-    },
-    type: 'object',
-    required: ['url', 'label', 'icon', 'description'],
-  },
-  SettingsWithTabsDto: {
-    properties: {
-      tabs: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        type: 'array',
-        title: 'Tabs',
-        description: 'List of tabs for the settings page.',
-      },
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Label of the settings page.',
-      },
-      icon: {
-        type: 'string',
-        title: 'Icon',
-        description: 'Icon of the settings page.',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Description of the settings page.',
-      },
-    },
-    type: 'object',
-    required: ['tabs', 'label', 'icon', 'description'],
-  },
-  AdminPanelTabsDto: {
-    properties: {
-      product: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Product Tabs',
-        description: 'Tabs shown on the product detail page in Admin panel.',
-      },
-      item: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Item Tabs',
-        description: 'Tabs shown on the item detail page in Admin panel.',
-      },
-      client: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Client Tabs',
-        description: 'Tabs shown on the client profile page in Admin panel.',
-      },
-      user: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'User Tabs',
-        description: 'Tabs shown on the user page in Admin panel.',
-      },
-      order: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Order Tabs',
-        description: 'Tabs shown on the order page in Admin panel.',
-      },
-    },
-    type: 'object',
-  },
-  AdminPanelMoreActionsDto: {
-    properties: {
-      client: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Client Actions',
-        description: 'Additional actions available on the client page.',
-      },
-      item: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Item Actions',
-        description: 'Additional actions available on the item page.',
-      },
-      invoice: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Invoice Actions',
-        description: 'Additional actions available on the invoice page.',
-      },
-      user: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'User Actions',
-        description: 'Additional actions available on the user page.',
-      },
-      order: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Order Actions',
-        description: 'Additional actions available on the order page.',
-      },
-    },
-    type: 'object',
-  },
-  AdminPanelDto: {
-    properties: {
-      tabs: {
-        $ref: '#/components/schemas/AdminPanelTabsDto',
-        title: 'Tabs',
-        description: 'Tab structure for Admin panel sections.',
-      },
-      moreActions: {
-        $ref: '#/components/schemas/AdminPanelMoreActionsDto',
-        title: 'More Actions',
-        description: 'Additional actions in Admin panel sections.',
-      },
-      menu: {
-        title: 'Menu',
-        description: 'Admin panel main menu (URL or submenu variant).',
-        oneOf: [
-          {
-            $ref: '#/components/schemas/MenuDtoWithSubmenu',
-          },
-          {
-            $ref: '#/components/schemas/MenuDtoWithUrl',
-          },
-        ],
-      },
-      settings: {
-        title: 'Settings',
-        description: 'Admin panel settings page configuration.',
-        oneOf: [
-          {
-            $ref: '#/components/schemas/SettingsWithUrlDto',
-          },
-          {
-            $ref: '#/components/schemas/SettingsWithTabsDto',
-          },
-        ],
-      },
-    },
-    type: 'object',
   },
   ProxyActionTaskDto: {
     properties: {
@@ -2046,145 +1656,6 @@ export const ComponentsSchemas = {
       'deadLetterQueue',
       'payload',
     ],
-  },
-  ClientPanelTabsDto: {
-    properties: {
-      item: {
-        items: {
-          $ref: '#/components/schemas/TabDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Item Tabs',
-        description: 'Tabs shown on the item page in Client panel.',
-      },
-    },
-    type: 'object',
-  },
-  ClientPanelMoreActionsDto: {
-    properties: {
-      item: {
-        items: {
-          $ref: '#/components/schemas/ActionDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Item Actions',
-        description:
-          'Additional actions available on the item page in Client panel.',
-      },
-    },
-    type: 'object',
-  },
-  ClientPanelDto: {
-    properties: {
-      tabs: {
-        $ref: '#/components/schemas/ClientPanelTabsDto',
-        title: 'Tabs',
-        description: 'Tab structure for Client panel.',
-      },
-      moreActions: {
-        $ref: '#/components/schemas/ClientPanelMoreActionsDto',
-        title: 'More Actions',
-        description: 'Additional actions in Client panel.',
-      },
-      menu: {
-        title: 'Menu',
-        description: 'Client panel main menu (URL or submenu variant).',
-        oneOf: [
-          {
-            $ref: '#/components/schemas/MenuDtoWithSubmenu',
-          },
-          {
-            $ref: '#/components/schemas/MenuDtoWithUrl',
-          },
-        ],
-      },
-    },
-    type: 'object',
-  },
-  InfoDto: {
-    properties: {
-      title: {
-        minLength: 1,
-        type: 'string',
-        title: 'Title',
-        description: 'Integration display title.',
-        example: 'Example Product',
-      },
-      logo: {
-        format: 'uri',
-        type: 'string',
-        title: 'Logo URL',
-        description: 'Public HTTPS URL for the integration logo.',
-        example: 'https://cdn.example.com/logo.png',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Short description of the integration.',
-        example: 'An example product integration.',
-      },
-      supportedLanguages: {
-        items: {
-          $ref: '#/components/schemas/LanguageEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Supported Languages',
-        description: 'Locales supported by the integration.',
-        example: ['EN'],
-      },
-      listenEvents: {
-        items: {
-          $ref: '#/components/schemas/EventsEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Listen Events',
-        description: 'Platform events the integration can subscribe to.',
-      },
-      requiredRoles: {
-        items: {
-          $ref: '#/components/schemas/RolesEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Required Roles',
-        description: 'Roles required for this integration to operate.',
-      },
-      adminPanel: {
-        $ref: '#/components/schemas/AdminPanelDto',
-        title: 'Admin Panel',
-        description:
-          'Admin UI links, tabs, and actions provided by the integration.',
-      },
-      clientPanel: {
-        $ref: '#/components/schemas/ClientPanelDto',
-        title: 'Client Panel',
-        description:
-          'Client UI links, tabs, and actions provided by the integration.',
-      },
-      onboardingUrl: {
-        format: 'uri',
-        type: 'string',
-        title: 'Onboarding URL',
-        description: 'URL to onboard/configure the integration.',
-        example: 'https://example.com/onboarding',
-      },
-      setupAttributes: {
-        items: {
-          $ref: '#/components/schemas/AnyFieldDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Setup Attributes',
-        description:
-          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
-      },
-    },
-    type: 'object',
-    required: ['title', 'supportedLanguages'],
   },
   InvoiceContactData: {
     properties: {
@@ -2444,110 +1915,6 @@ export const ComponentsSchemas = {
     },
     type: 'object',
     required: ['validatedAttributes', 'code', 'message'],
-  },
-  NotificationInfoDto: {
-    properties: {
-      type: {
-        $ref: '#/components/schemas/NotificationMessageTypeEnum',
-        title: 'Notification Type',
-        description: 'Notification channel type.',
-        example: 'email',
-      },
-      payPerUseUnits: {
-        items: {
-          $ref: '#/components/schemas/UnitDto',
-        },
-        type: 'array',
-        title: 'Pay-Per-Use Units',
-        description: 'Optional metering units for pay-per-use billing.',
-        example: [
-          {
-            id: 'messages',
-            unitDescription: 'Message sent',
-            intervalDescription: 'Per month',
-          },
-        ],
-      },
-      title: {
-        minLength: 1,
-        type: 'string',
-        title: 'Title',
-        description: 'Integration display title.',
-        example: 'Example Product',
-      },
-      logo: {
-        format: 'uri',
-        type: 'string',
-        title: 'Logo URL',
-        description: 'Public HTTPS URL for the integration logo.',
-        example: 'https://cdn.example.com/logo.png',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Short description of the integration.',
-        example: 'An example product integration.',
-      },
-      supportedLanguages: {
-        items: {
-          $ref: '#/components/schemas/LanguageEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Supported Languages',
-        description: 'Locales supported by the integration.',
-        example: ['EN'],
-      },
-      listenEvents: {
-        items: {
-          $ref: '#/components/schemas/EventsEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Listen Events',
-        description: 'Platform events the integration can subscribe to.',
-      },
-      requiredRoles: {
-        items: {
-          $ref: '#/components/schemas/RolesEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Required Roles',
-        description: 'Roles required for this integration to operate.',
-      },
-      adminPanel: {
-        $ref: '#/components/schemas/AdminPanelDto',
-        title: 'Admin Panel',
-        description:
-          'Admin UI links, tabs, and actions provided by the integration.',
-      },
-      clientPanel: {
-        $ref: '#/components/schemas/ClientPanelDto',
-        title: 'Client Panel',
-        description:
-          'Client UI links, tabs, and actions provided by the integration.',
-      },
-      onboardingUrl: {
-        format: 'uri',
-        type: 'string',
-        title: 'Onboarding URL',
-        description: 'URL to onboard/configure the integration.',
-        example: 'https://example.com/onboarding',
-      },
-      setupAttributes: {
-        items: {
-          $ref: '#/components/schemas/AnyFieldDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Setup Attributes',
-        description:
-          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
-      },
-    },
-    type: 'object',
-    required: ['type', 'title', 'supportedLanguages'],
   },
   EmailSenderDto: {
     properties: {
@@ -2845,118 +2212,49 @@ export const ComponentsSchemas = {
     type: 'object',
     required: ['notificationId'],
   },
-  InvoiceInfoDto: {
-    properties: {
-      supportedCountries: {
-        items: {
-          $ref: '#/components/schemas/CountryEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Supported Countries',
-        description: 'Countries supported by this invoice integration.',
-        example: ['GR'],
-      },
-      supportedTypes: {
-        items: {
-          $ref: '#/components/schemas/InvoiceTypesEnum',
-        },
-        type: 'array',
-        title: 'Supported Types',
-        description: 'Types of invoice supported by this integration.',
-      },
-      title: {
-        minLength: 1,
-        type: 'string',
-        title: 'Title',
-        description: 'Integration display title.',
-        example: 'Example Product',
-      },
-      logo: {
-        format: 'uri',
-        type: 'string',
-        title: 'Logo URL',
-        description: 'Public HTTPS URL for the integration logo.',
-        example: 'https://cdn.example.com/logo.png',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Short description of the integration.',
-        example: 'An example product integration.',
-      },
-      supportedLanguages: {
-        items: {
-          $ref: '#/components/schemas/LanguageEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Supported Languages',
-        description: 'Locales supported by the integration.',
-        example: ['EN'],
-      },
-      listenEvents: {
-        items: {
-          $ref: '#/components/schemas/EventsEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Listen Events',
-        description: 'Platform events the integration can subscribe to.',
-      },
-      requiredRoles: {
-        items: {
-          $ref: '#/components/schemas/RolesEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Required Roles',
-        description: 'Roles required for this integration to operate.',
-      },
-      adminPanel: {
-        $ref: '#/components/schemas/AdminPanelDto',
-        title: 'Admin Panel',
-        description:
-          'Admin UI links, tabs, and actions provided by the integration.',
-      },
-      clientPanel: {
-        $ref: '#/components/schemas/ClientPanelDto',
-        title: 'Client Panel',
-        description:
-          'Client UI links, tabs, and actions provided by the integration.',
-      },
-      onboardingUrl: {
-        format: 'uri',
-        type: 'string',
-        title: 'Onboarding URL',
-        description: 'URL to onboard/configure the integration.',
-        example: 'https://example.com/onboarding',
-      },
-      setupAttributes: {
-        items: {
-          $ref: '#/components/schemas/AnyFieldDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Setup Attributes',
-        description:
-          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
-      },
-    },
-    type: 'object',
-    required: [
-      'supportedCountries',
-      'supportedTypes',
-      'title',
-      'supportedLanguages',
-    ],
-  },
   InvoiceItemDataDto: {
     properties: {
       action: {
         $ref: '#/components/schemas/InvoiceItemActionsEnum',
         title: 'Action',
         description: 'Invoice-specific action type for this item.',
+      },
+      netAmount: {
+        type: 'number',
+        minimum: 0,
+        title: 'Net Amount',
+        description:
+          'Line amount before VAT, after discounts: what the line bills. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note. netAmount + vatAmount = the line gross amount. price, fee, couponDiscountValue, upgradeRemainder and subTotal are informational.',
+      },
+      vatRate: {
+        type: 'number',
+        minimum: 0,
+        maximum: 100,
+        title: 'VAT Rate',
+        description:
+          'VAT rate of the line as a percentage (e.g. 24 for 24%), 0-100, up to two decimal places.',
+      },
+      vatAmount: {
+        type: 'number',
+        minimum: 0,
+        title: 'VAT Amount',
+        description:
+          'VAT charged on the line: netAmount × vatRate / 100 rounded half up, within 0.01. Decimal major units (not cents), up to two decimal places. netAmount + vatAmount = the line gross amount.',
+      },
+      treatment: {
+        $ref: '#/components/schemas/VatTreatmentEnum',
+        title: 'Treatment',
+        description:
+          'How VAT applies to the line. reverse_charge, outside_scope and exempt charge no VAT, so they come with vatRate 0.',
+      },
+      exemptionReason: {
+        type: 'string',
+        pattern: '\\S',
+        maxLength: 500,
+        title: 'Exemption Reason',
+        description:
+          'Why no VAT is charged on the line (e.g. the legal reference printed on the invoice). Required when vatRate is 0 and treatment is not domestic: then non-blank, at most 500 characters. Absent or null elsewhere.',
+        nullable: true,
       },
       itemId: {
         type: 'string',
@@ -3042,6 +2340,10 @@ export const ComponentsSchemas = {
     type: 'object',
     required: [
       'action',
+      'netAmount',
+      'vatRate',
+      'vatAmount',
+      'treatment',
       'productId',
       'productName',
       'resourceName',
@@ -3118,15 +2420,33 @@ export const ComponentsSchemas = {
         title: 'Transactions',
         description: 'List of transactions associated with this invoice.',
       },
+      netTotal: {
+        type: 'number',
+        minimum: 0,
+        title: 'Net Total',
+        description:
+          "Document total before VAT: the sum of the items' netAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
+      },
+      vatTotal: {
+        type: 'number',
+        minimum: 0,
+        title: 'VAT Total',
+        description:
+          "Document VAT: the sum of the items' vatAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
+      },
       totalAmount: {
         type: 'number',
+        minimum: 0,
         title: 'Total Amount',
-        description: 'Total invoice amount.',
+        description:
+          'Gross invoice amount: netTotal + vatTotal, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.',
       },
       discountAmount: {
         type: 'number',
+        minimum: 0,
         title: 'Discount Amount',
-        description: 'Discount amount.',
+        description:
+          "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
       },
     },
     type: 'object',
@@ -3136,6 +2456,8 @@ export const ComponentsSchemas = {
       'currency',
       'items',
       'transactions',
+      'netTotal',
+      'vatTotal',
       'totalAmount',
       'discountAmount',
     ],
@@ -3183,15 +2505,33 @@ export const ComponentsSchemas = {
         title: 'Transactions',
         description: 'List of transactions associated with this invoice.',
       },
+      netTotal: {
+        type: 'number',
+        minimum: 0,
+        title: 'Net Total',
+        description:
+          "Document total before VAT: the sum of the items' netAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
+      },
+      vatTotal: {
+        type: 'number',
+        minimum: 0,
+        title: 'VAT Total',
+        description:
+          "Document VAT: the sum of the items' vatAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
+      },
       totalAmount: {
         type: 'number',
+        minimum: 0,
         title: 'Total Amount',
-        description: 'Total invoice amount.',
+        description:
+          'Gross invoice amount: netTotal + vatTotal, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.',
       },
       discountAmount: {
         type: 'number',
+        minimum: 0,
         title: 'Discount Amount',
-        description: 'Discount amount.',
+        description:
+          "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
       },
     },
     type: 'object',
@@ -3201,6 +2541,8 @@ export const ComponentsSchemas = {
       'currency',
       'items',
       'transactions',
+      'netTotal',
+      'vatTotal',
       'totalAmount',
       'discountAmount',
     ],
@@ -3208,9 +2550,24 @@ export const ComponentsSchemas = {
   CreditNoteRequestDto: {
     properties: {
       parentInvoiceId: {
+        minLength: 1,
         type: 'string',
         title: 'Parent Invoice ID',
-        description: 'Reference to the parent invoice being credited.',
+        description: "hoster.ai's identifier of the invoice being credited.",
+      },
+      parentExternalInvoiceId: {
+        minLength: 1,
+        type: 'string',
+        title: 'Parent External Invoice ID',
+        description:
+          "The integration's identifier of the invoice being credited: the invoiceId it returned when it issued that invoice.",
+      },
+      parentInvoiceNumber: {
+        minLength: 1,
+        type: 'string',
+        title: 'Parent Invoice Number',
+        description:
+          'The number of the invoice being credited: the invoiceNumber the integration returned when it issued that invoice.',
       },
       invoiceId: {
         type: 'string',
@@ -3248,63 +2605,97 @@ export const ComponentsSchemas = {
         title: 'Transactions',
         description: 'List of transactions associated with this invoice.',
       },
+      netTotal: {
+        type: 'number',
+        minimum: 0,
+        title: 'Net Total',
+        description:
+          "Document total before VAT: the sum of the items' netAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
+      },
+      vatTotal: {
+        type: 'number',
+        minimum: 0,
+        title: 'VAT Total',
+        description:
+          "Document VAT: the sum of the items' vatAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
+      },
       totalAmount: {
         type: 'number',
+        minimum: 0,
         title: 'Total Amount',
-        description: 'Total invoice amount.',
+        description:
+          'Gross invoice amount: netTotal + vatTotal, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.',
       },
       discountAmount: {
         type: 'number',
+        minimum: 0,
         title: 'Discount Amount',
-        description: 'Discount amount.',
+        description:
+          "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
       },
     },
     type: 'object',
     required: [
+      'parentInvoiceId',
+      'parentExternalInvoiceId',
+      'parentInvoiceNumber',
       'company',
       'invoiceContact',
       'currency',
       'items',
       'transactions',
+      'netTotal',
+      'vatTotal',
       'totalAmount',
       'discountAmount',
     ],
   },
   TaxDetailsRequestDto: {
     properties: {
-      companyCountry: {
+      sellerCountry: {
         $ref: '#/components/schemas/CountryEnum',
-        title: 'Company Country',
-        description: 'Country where the company is registered.',
+        title: 'Seller Country',
+        description:
+          "Country of the seller: the company's country, verified by KYC. Always one of the integration's supportedCountries.",
       },
-      customerCountry: {
+      buyerCountry: {
         $ref: '#/components/schemas/CountryEnum',
-        title: 'Customer Country',
-        description: 'Country where the customer is located.',
+        title: 'Buyer Country',
+        description: "Country of the buyer, from the client's invoice contact.",
       },
-      customerTIN: {
+      buyerVatNumber: {
+        minLength: 1,
         type: 'string',
-        title: 'Customer TIN',
-        description: "Customer's Tax Identification Number.",
+        title: 'Buyer VAT Number',
+        description:
+          'VAT number / TIN of the buyer. Absent when the buyer has none.',
       },
-      customerPostalCode: {
+      buyerPostalCode: {
         type: 'string',
-        title: 'Customer Postal Code',
-        description: "Customer's postal code.",
+        title: 'Buyer Postal Code',
+        description:
+          'Postal code of the buyer. Some countries have regions with special VAT rules that only the postal code reveals.',
       },
-      customerState: {
+      buyerState: {
         type: 'string',
-        title: 'Customer State',
-        description: "Customer's state or province.",
+        title: 'Buyer State',
+        description: 'State or province of the buyer.',
       },
-      validatedAddress: {
+      isBusinessContact: {
         type: 'boolean',
-        title: 'Validated Address',
-        description: 'Whether the customer address has been validated.',
+        title: 'Is Business Contact',
+        description:
+          "Whether the buyer's invoice contact is a business (B2B) rather than a consumer (B2C).",
+      },
+      paymentCountry: {
+        $ref: '#/components/schemas/CountryEnum',
+        title: 'Payment Country',
+        description:
+          "Country that issued the payment card, as reported by the payment provider. A second piece of evidence of the buyer's location for OSS.",
       },
     },
     type: 'object',
-    required: ['companyCountry', 'customerCountry', 'customerTIN'],
+    required: ['sellerCountry', 'buyerCountry', 'isBusinessContact'],
   },
   ProformaInvoiceResponseDto: {
     properties: {
@@ -3322,24 +2713,26 @@ export const ComponentsSchemas = {
           'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
       },
       invoiceUrl: {
-        minLength: 1,
-        type: 'string',
         format: 'uri',
+        type: 'string',
         title: 'Invoice URL',
-        description: 'URL to access the generated invoice document.',
+        description:
+          'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
+        nullable: true,
       },
       invoiceNumber: {
         minLength: 1,
         type: 'string',
         title: 'Invoice Number',
-        description: 'Invoice number assigned by the integration.',
+        description:
+          'Invoice number assigned by the integration. Required when status is success; absent on failure or pending.',
       },
       invoiceId: {
         minLength: 1,
         type: 'string',
         title: 'Invoice ID',
         description:
-          'Unique identifier for the invoice in the integration system.',
+          'Unique identifier for the invoice in the integration system. Required when status is success; absent on failure or pending.',
       },
       code: {
         type: 'number',
@@ -3440,16 +2833,34 @@ export const ComponentsSchemas = {
   },
   TaxDetailsResponseDto: {
     properties: {
+      vatNumberValid: {
+        type: 'boolean',
+        title: 'VAT Number Valid',
+        description:
+          "Whether the buyer's VAT number is valid. Absent when the request carried no VAT number. treatment reverse_charge requires true.",
+      },
       vatRate: {
         type: 'number',
+        minimum: 0,
+        maximum: 100,
         title: 'VAT Rate',
-        description: 'The applicable VAT rate for the transaction.',
-      },
-      TINValid: {
-        type: 'boolean',
-        title: 'TIN Valid',
         description:
-          'Indicates whether the Tax Identification Number is valid.',
+          'The applicable VAT rate as a percentage (e.g. 24 for 24%), 0-100, up to two decimal places.',
+      },
+      treatment: {
+        $ref: '#/components/schemas/VatTreatmentEnum',
+        title: 'Treatment',
+        description:
+          'How VAT applies to this sale. reverse_charge, outside_scope and exempt charge no VAT, so they come with vatRate 0; reverse_charge also needs vatNumberValid: true.',
+      },
+      exemptionReason: {
+        type: 'string',
+        pattern: '\\S',
+        maxLength: 500,
+        title: 'Exemption Reason',
+        description:
+          'Why no VAT is charged (e.g. the legal reference printed on the invoice). Required when vatRate is 0 and treatment is not domestic: then non-blank, at most 500 characters. Absent or null elsewhere.',
+        nullable: true,
       },
       taxDetails: {
         $ref: '#/components/schemas/TINValidationDetails',
@@ -3470,144 +2881,7 @@ export const ComponentsSchemas = {
       },
     },
     type: 'object',
-    required: ['vatRate', 'code', 'message'],
-  },
-  ProductInfoDto: {
-    properties: {
-      productAttributes: {
-        items: {
-          $ref: '#/components/schemas/AttributeFieldDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Product Attributes',
-        description: 'Configurable attributes that apply at the product level.',
-      },
-      itemAttributes: {
-        items: {
-          $ref: '#/components/schemas/AttributeFieldDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Item Attributes',
-        description: 'Configurable attributes that apply at the item level.',
-      },
-      payPerUseUnits: {
-        items: {
-          $ref: '#/components/schemas/UnitDto',
-        },
-        type: 'array',
-        minItems: 1,
-        title: 'Pay-Per-Use Units',
-        description: 'Optional metering units for pay-per-use billing.',
-        example: [
-          {
-            id: 'requests',
-            unitDescription: 'API request',
-            intervalDescription: 'Per month',
-          },
-        ],
-      },
-      responseDataFieldNames: {
-        title: 'Response Data Field Names',
-        description: 'Mapping of field names used in provider responses.',
-        type: 'object',
-        additionalProperties: {
-          type: 'string',
-        },
-        example: {
-          external_id: 'id',
-          status_text: 'status',
-        },
-      },
-      supportedActions: {
-        items: {
-          $ref: '#/components/schemas/ProductActionsEnum',
-        },
-        type: 'array',
-        title: 'Supported Actions',
-        description: 'Actions supported by this integration.',
-      },
-      title: {
-        minLength: 1,
-        type: 'string',
-        title: 'Title',
-        description: 'Integration display title.',
-        example: 'Example Product',
-      },
-      logo: {
-        format: 'uri',
-        type: 'string',
-        title: 'Logo URL',
-        description: 'Public HTTPS URL for the integration logo.',
-        example: 'https://cdn.example.com/logo.png',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        description: 'Short description of the integration.',
-        example: 'An example product integration.',
-      },
-      supportedLanguages: {
-        items: {
-          $ref: '#/components/schemas/LanguageEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Supported Languages',
-        description: 'Locales supported by the integration.',
-        example: ['EN'],
-      },
-      listenEvents: {
-        items: {
-          $ref: '#/components/schemas/EventsEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Listen Events',
-        description: 'Platform events the integration can subscribe to.',
-      },
-      requiredRoles: {
-        items: {
-          $ref: '#/components/schemas/RolesEnum',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Required Roles',
-        description: 'Roles required for this integration to operate.',
-      },
-      adminPanel: {
-        $ref: '#/components/schemas/AdminPanelDto',
-        title: 'Admin Panel',
-        description:
-          'Admin UI links, tabs, and actions provided by the integration.',
-      },
-      clientPanel: {
-        $ref: '#/components/schemas/ClientPanelDto',
-        title: 'Client Panel',
-        description:
-          'Client UI links, tabs, and actions provided by the integration.',
-      },
-      onboardingUrl: {
-        format: 'uri',
-        type: 'string',
-        title: 'Onboarding URL',
-        description: 'URL to onboard/configure the integration.',
-        example: 'https://example.com/onboarding',
-      },
-      setupAttributes: {
-        items: {
-          $ref: '#/components/schemas/AnyFieldDto',
-        },
-        minItems: 1,
-        type: 'array',
-        title: 'Setup Attributes',
-        description:
-          'Configurable attributes that are used in the setup process. Each item is a concrete field DTO discriminated by its `type` literal.',
-      },
-    },
-    type: 'object',
-    required: ['supportedActions', 'title', 'supportedLanguages'],
+    required: ['vatRate', 'treatment', 'code', 'message'],
   },
   ProductItemDataDto: {
     properties: {
@@ -4022,28 +3296,6 @@ export const ComponentsSchemas = {
     type: 'object',
     required: ['status', 'code', 'message'],
   },
-  ProductInfoResponseDto: {
-    properties: {
-      info: {
-        $ref: '#/components/schemas/ProductInfoDto',
-        title: 'Info',
-        description: 'The detailed information of the product.',
-      },
-      code: {
-        type: 'number',
-        title: 'Code',
-        description: 'Response code.',
-      },
-      message: {
-        minLength: 1,
-        type: 'string',
-        title: 'Message',
-        description: 'Response message.',
-      },
-    },
-    type: 'object',
-    required: ['info', 'code', 'message'],
-  },
   ProductRenewResponseDto: {
     properties: {
       status: {
@@ -4246,25 +3498,6 @@ export const ComponentsSchemas = {
     type: 'object',
     required: ['status', 'code', 'message'],
   },
-  SubmenuDto: {
-    properties: {
-      label: {
-        minLength: 1,
-        type: 'string',
-        title: 'Label',
-        description: 'Text label for the tab.',
-      },
-      url: {
-        minLength: 1,
-        type: 'string',
-        format: 'uri',
-        title: 'URL',
-        description: 'URL associated with the tab.',
-      },
-    },
-    type: 'object',
-    required: ['label', 'url'],
-  },
   ProformaInvoiceRequestDto: {
     properties: {
       invoiceId: {
@@ -4303,15 +3536,33 @@ export const ComponentsSchemas = {
         title: 'Transactions',
         description: 'List of transactions associated with this invoice.',
       },
+      netTotal: {
+        type: 'number',
+        minimum: 0,
+        title: 'Net Total',
+        description:
+          "Document total before VAT: the sum of the items' netAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
+      },
+      vatTotal: {
+        type: 'number',
+        minimum: 0,
+        title: 'VAT Total',
+        description:
+          "Document VAT: the sum of the items' vatAmount, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.",
+      },
       totalAmount: {
         type: 'number',
+        minimum: 0,
         title: 'Total Amount',
-        description: 'Total invoice amount.',
+        description:
+          'Gross invoice amount: netTotal + vatTotal, within 0.01. Decimal major units (not cents), up to two decimal places, zero or positive also on a credit note.',
       },
       discountAmount: {
         type: 'number',
+        minimum: 0,
         title: 'Discount Amount',
-        description: 'Discount amount.',
+        description:
+          "Discount amount, already reflected in the items' netAmount. Decimal major units (not cents), up to two decimal places.",
       },
     },
     type: 'object',
@@ -4321,6 +3572,8 @@ export const ComponentsSchemas = {
       'currency',
       'items',
       'transactions',
+      'netTotal',
+      'vatTotal',
       'totalAmount',
       'discountAmount',
     ],
@@ -4341,24 +3594,26 @@ export const ComponentsSchemas = {
           'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
       },
       invoiceUrl: {
-        minLength: 1,
-        type: 'string',
         format: 'uri',
+        type: 'string',
         title: 'Invoice URL',
-        description: 'URL to access the generated invoice document.',
+        description:
+          'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
+        nullable: true,
       },
       invoiceNumber: {
         minLength: 1,
         type: 'string',
         title: 'Invoice Number',
-        description: 'Invoice number assigned by the integration.',
+        description:
+          'Invoice number assigned by the integration. Required when status is success; absent on failure or pending.',
       },
       invoiceId: {
         minLength: 1,
         type: 'string',
         title: 'Invoice ID',
         description:
-          'Unique identifier for the invoice in the integration system.',
+          'Unique identifier for the invoice in the integration system. Required when status is success; absent on failure or pending.',
       },
       code: {
         type: 'number',
@@ -4391,24 +3646,26 @@ export const ComponentsSchemas = {
           'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
       },
       invoiceUrl: {
-        minLength: 1,
-        type: 'string',
         format: 'uri',
+        type: 'string',
         title: 'Invoice URL',
-        description: 'URL to access the generated invoice document.',
+        description:
+          'URL to access the generated invoice document. Optional; when present on success it must be an https URL. Ignored on failure or pending.',
+        nullable: true,
       },
       invoiceNumber: {
         minLength: 1,
         type: 'string',
         title: 'Invoice Number',
-        description: 'Invoice number assigned by the integration.',
+        description:
+          'Invoice number assigned by the integration. Required when status is success; absent on failure or pending.',
       },
       invoiceId: {
         minLength: 1,
         type: 'string',
         title: 'Invoice ID',
         description:
-          'Unique identifier for the invoice in the integration system.',
+          'Unique identifier for the invoice in the integration system. Required when status is success; absent on failure or pending.',
       },
       code: {
         type: 'number',
@@ -5348,6 +4605,10 @@ export const ComponentsSchemas = {
   InvoiceActionsEnum: {
     type: 'string',
     enum: ['invoice/proforma', 'invoice/invoice', 'invoice/credit-note'],
+  },
+  VatTreatmentEnum: {
+    type: 'string',
+    enum: ['domestic', 'reverse_charge', 'oss', 'outside_scope', 'exempt'],
   },
   AnyFieldDto: {
     title: 'AnyFieldDto',

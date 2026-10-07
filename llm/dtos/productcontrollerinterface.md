@@ -10,7 +10,6 @@
 
 ```typescript
 import { JwtDto } from '../jwt.dto';
-import { ProductInfoResponseDto } from './responses/product-info-response.dto';
 import { ErrorResponseDto } from '../error-response.dto';
 import { ProductCreateRequestDto } from './requests/product-create-request.dto';
 import { ProductCreateResponseDto } from './responses/product-create-response.dto';
@@ -36,8 +35,6 @@ import { SetupStatusResponseDto } from '../setup-status-response.dto';
 import { CompanyDataDto } from '../company-data.dto';
 
 export interface ProductControllerInterface {
-  info(request: Request & JwtDto): ProductInfoResponseDto | ErrorResponseDto;
-
   create(
     requestBody: ProductCreateRequestDto & JwtDto,
   ): Promise<ProductCreateResponseDto>;
