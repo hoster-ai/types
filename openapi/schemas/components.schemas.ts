@@ -4567,6 +4567,7 @@ export const ComponentsSchemas = {
       'ITEM_REFUND',
       'ORDERS_READ',
       'ORDERS_WRITE',
+      'PURCHASE_ORDERS_ACCESS',
       'TRANSACTIONS_READ',
       'TRANSACTIONS_WRITE',
       'POLICIES_READ',
