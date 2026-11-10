@@ -12,6 +12,7 @@
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { ProductSuspendRequestDto } from '../dtos/product/requests/product-suspend-request.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a product suspend request object.
@@ -23,6 +24,9 @@ export const validateProductSuspendRequestDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const request = plainToInstance(ProductSuspendRequestDto, plainObject);
-  return await validate(request, { skipMissingProperties: true });
+  return await validate(request, {
+    ...STRICT_VALIDATION_OPTIONS,
+    skipMissingProperties: true,
+  });
 };
 ```

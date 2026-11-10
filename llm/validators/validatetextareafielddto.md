@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { TextareaFieldDto } from '../../dtos/fields/textarea-field.dto';
+import { STRICT_VALIDATION_OPTIONS } from '../validation-options';
 
 /**
  * Validates a TextareaFieldDto object using class-validator decorators.
@@ -20,6 +21,9 @@ import { TextareaFieldDto } from '../../dtos/fields/textarea-field.dto';
  * @returns An array of validation errors, empty if validation succeeds.
  */
 export function validateTextareaFieldDto(data: object): ValidationError[] {
-  return validateSync(plainToInstance(TextareaFieldDto, data));
+  return validateSync(
+    plainToInstance(TextareaFieldDto, data),
+    STRICT_VALIDATION_OPTIONS,
+  );
 }
 ```

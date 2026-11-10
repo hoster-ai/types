@@ -12,6 +12,7 @@
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { ProductRenewRequestDto } from '../dtos/product/requests/product-renew-request.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a product renew request object.
@@ -23,6 +24,9 @@ export const validateProductRenewRequestDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const request = plainToInstance(ProductRenewRequestDto, plainObject);
-  return await validate(request, { skipMissingProperties: true });
+  return await validate(request, {
+    ...STRICT_VALIDATION_OPTIONS,
+    skipMissingProperties: true,
+  });
 };
 ```

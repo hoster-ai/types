@@ -12,6 +12,7 @@
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { ProxyActionTaskDto } from '../dtos/proxy-action-task.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates the body of an ACTION Cloud Task, as the proxy worker receives it.
@@ -23,6 +24,6 @@ export const validateProxyActionTaskDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const task = plainToInstance(ProxyActionTaskDto, plainObject);
-  return await validate(task);
+  return await validate(task, STRICT_VALIDATION_OPTIONS);
 };
 ```

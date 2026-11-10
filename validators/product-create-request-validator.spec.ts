@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import 'reflect-metadata';
 import { validateProductCreateRequestDto } from './product-create-request-validator';
 import { CountryEnum } from '../enums/country.enum';
-import { DurationEnum } from '../enums/duration.enum';
 
 describe('validateProductCreateRequestDto', () => {
   it('should return no errors for a valid request', async () => {
@@ -20,7 +19,6 @@ describe('validateProductCreateRequestDto', () => {
       itemData: {
         productAttributes: { key: 'value' },
         itemAttributes: { key: 'value' },
-        duration: DurationEnum.ONE_MONTH,
       },
     };
 

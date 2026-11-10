@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import { validateProductDowngradeRequestDto } from './product-downgrade-request-validator';
 import { CountryEnum } from '../enums/country.enum';
-import { DurationEnum } from '../enums/duration.enum';
 
 describe('validateProductDowngradeRequestDto', () => {
   it('should return no errors for a valid request', async () => {
@@ -20,13 +19,11 @@ describe('validateProductDowngradeRequestDto', () => {
         itemId: 'item-123',
         productAttributes: { key: 'value' },
         itemAttributes: { key: 'value' },
-        duration: DurationEnum.ONE_MONTH,
       },
       previousItemData: {
         itemId: 'item-123',
         productAttributes: { key: 'value' },
         itemAttributes: { key: 'value' },
-        duration: DurationEnum.ONE_MONTH,
       },
     };
 

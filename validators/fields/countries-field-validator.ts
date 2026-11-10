@@ -1,6 +1,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { CountriesFieldDto } from '../../dtos/fields/countries-field.dto';
+import { STRICT_VALIDATION_OPTIONS } from '../validation-options';
 
 /**
  * Validates a CountriesFieldDto object using class-validator decorators.
@@ -9,5 +10,8 @@ import { CountriesFieldDto } from '../../dtos/fields/countries-field.dto';
  * @returns An array of validation errors, empty if validation succeeds.
  */
 export function validateCountriesFieldDto(data: object): ValidationError[] {
-  return validateSync(plainToInstance(CountriesFieldDto, data));
+  return validateSync(
+    plainToInstance(CountriesFieldDto, data),
+    STRICT_VALIDATION_OPTIONS,
+  );
 }

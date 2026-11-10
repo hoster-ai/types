@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { CreditNoteRequestDto } from '../dtos/invoice/requests/credit-note-request.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a CreditNoteRequestDto object using class-validator decorators.
@@ -24,7 +25,7 @@ import { CreditNoteRequestDto } from '../dtos/invoice/requests/credit-note-reque
  */
 export function validateCreditNoteRequestDto(data: object): ValidationError[] {
   const dto = plainToInstance(CreditNoteRequestDto, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   return errors;
 }

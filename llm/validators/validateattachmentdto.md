@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { AttachmentDto } from '../dtos/attachment.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates an AttachmentDto object using class-validator decorators.
@@ -21,7 +22,7 @@ import { AttachmentDto } from '../dtos/attachment.dto';
  */
 export function validateAttachmentDto(data: object): ValidationError[] {
   const dto = plainToInstance(AttachmentDto, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   return errors;
 }

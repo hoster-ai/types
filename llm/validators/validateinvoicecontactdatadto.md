@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { InvoiceContactData } from '../dtos/invoice-contact-data.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates an InvoiceContactData object using class-validator decorators.
@@ -21,7 +22,7 @@ import { InvoiceContactData } from '../dtos/invoice-contact-data.dto';
  */
 export function validateInvoiceContactDataDto(data: object): ValidationError[] {
   const dto = plainToInstance(InvoiceContactData, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   return errors;
 }

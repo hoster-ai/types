@@ -13,6 +13,7 @@ import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { AddonFieldDto } from '../dtos/addon-field.dto';
 import { validateAnyFieldDto } from './any-field-validator';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates an AddonFieldDto object.
@@ -26,7 +27,7 @@ import { validateAnyFieldDto } from './any-field-validator';
  */
 export function validateAddonFieldDto(data: object): ValidationError[] {
   const dto = plainToInstance(AddonFieldDto, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   const field = (data as { field?: unknown })?.field;
   if (field && typeof field === 'object') {

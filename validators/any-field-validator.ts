@@ -1,6 +1,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { FIELD_DTO_CLASSES } from '../dtos/fields/any-field.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates any field DTO by reading the string-literal `type` discriminator and
@@ -32,5 +33,5 @@ export function validateAnyFieldDto(data: object): ValidationError[] {
   const Cls = FIELD_DTO_CLASSES[
     type as keyof typeof FIELD_DTO_CLASSES
   ] as new () => object;
-  return validateSync(plainToInstance(Cls, data));
+  return validateSync(plainToInstance(Cls, data), STRICT_VALIDATION_OPTIONS);
 }

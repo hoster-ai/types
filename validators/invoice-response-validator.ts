@@ -1,6 +1,7 @@
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { InvoiceResponseDto } from '../dtos/invoice/responses/invoice-response.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates an invoice response object.
@@ -16,5 +17,5 @@ export const validateInvoiceResponseDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const response = plainToInstance(InvoiceResponseDto, plainObject);
-  return await validate(response);
+  return await validate(response, STRICT_VALIDATION_OPTIONS);
 };

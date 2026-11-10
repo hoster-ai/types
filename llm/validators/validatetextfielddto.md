@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { TextFieldDto } from '../../dtos/fields/text-field.dto';
+import { STRICT_VALIDATION_OPTIONS } from '../validation-options';
 
 /**
  * Validates a TextFieldDto object using class-validator decorators.
@@ -20,6 +21,9 @@ import { TextFieldDto } from '../../dtos/fields/text-field.dto';
  * @returns An array of validation errors, empty if validation succeeds.
  */
 export function validateTextFieldDto(data: object): ValidationError[] {
-  return validateSync(plainToInstance(TextFieldDto, data));
+  return validateSync(
+    plainToInstance(TextFieldDto, data),
+    STRICT_VALIDATION_OPTIONS,
+  );
 }
 ```

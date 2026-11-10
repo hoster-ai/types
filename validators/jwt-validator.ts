@@ -1,6 +1,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { JwtDto } from '../dtos/jwt.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a JwtDto object using class-validator decorators.
@@ -10,7 +11,7 @@ import { JwtDto } from '../dtos/jwt.dto';
  */
 export function validateJwtDto(data: object): ValidationError[] {
   const dto = plainToInstance(JwtDto, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   return errors;
 }

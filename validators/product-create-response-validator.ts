@@ -1,6 +1,7 @@
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { ProductCreateResponseDto } from '../dtos/product/responses/product-create-response.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a product create response object.
@@ -16,5 +17,5 @@ export const validateProductCreateResponseDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const response = plainToInstance(ProductCreateResponseDto, plainObject);
-  return await validate(response);
+  return await validate(response, STRICT_VALIDATION_OPTIONS);
 };

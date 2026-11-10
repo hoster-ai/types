@@ -1,6 +1,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { PasswordFieldDto } from '../../dtos/fields/password-field.dto';
+import { STRICT_VALIDATION_OPTIONS } from '../validation-options';
 
 /**
  * Validates a PasswordFieldDto object using class-validator decorators.
@@ -9,5 +10,8 @@ import { PasswordFieldDto } from '../../dtos/fields/password-field.dto';
  * @returns An array of validation errors, empty if validation succeeds.
  */
 export function validatePasswordFieldDto(data: object): ValidationError[] {
-  return validateSync(plainToInstance(PasswordFieldDto, data));
+  return validateSync(
+    plainToInstance(PasswordFieldDto, data),
+    STRICT_VALIDATION_OPTIONS,
+  );
 }

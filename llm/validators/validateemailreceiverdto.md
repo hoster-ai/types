@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { EmailReceiverDto } from '../dtos/notification/receiver/receiver-email.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a EmailReceiverDto object using class-validator decorators.
@@ -21,7 +22,7 @@ import { EmailReceiverDto } from '../dtos/notification/receiver/receiver-email.d
  */
 export function validateEmailReceiverDto(data: object): ValidationError[] {
   const dto = plainToInstance(EmailReceiverDto, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   return errors;
 }

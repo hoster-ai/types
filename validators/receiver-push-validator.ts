@@ -1,6 +1,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { PushReceiverDto } from '../dtos/notification/receiver/receiver-push.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a PushReceiverDto object using class-validator decorators.
@@ -10,7 +11,7 @@ import { PushReceiverDto } from '../dtos/notification/receiver/receiver-push.dto
  */
 export function validatePushReceiverDto(data: object): ValidationError[] {
   const dto = plainToInstance(PushReceiverDto, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   return errors;
 }

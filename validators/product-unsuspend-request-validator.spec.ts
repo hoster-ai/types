@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import { validateProductUnsuspendRequestDto } from './product-unsuspend-request-validator';
 import { CountryEnum } from '../enums/country.enum';
-import { DurationEnum } from '../enums/duration.enum';
 
 describe('validateProductUnsuspendRequestDto', () => {
   it('should return no errors for a valid request', async () => {
@@ -20,7 +19,6 @@ describe('validateProductUnsuspendRequestDto', () => {
         itemId: 'item-123',
         productAttributes: { key: 'value' },
         itemAttributes: { key: 'value' },
-        duration: DurationEnum.ONE_MONTH,
       },
     };
 

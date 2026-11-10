@@ -30,7 +30,7 @@ describe('InvoiceContactData Validator', () => {
         address2: 'Suite 100',
         address3: 'Building A',
         state: 'California',
-        tin: 'US123456789',
+        TIN: 'US123456789',
         taxOffice: 'IRS',
         profession: 'Software Development',
       };

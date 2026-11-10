@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { SelectFieldDto } from '../../dtos/fields/select-field.dto';
+import { STRICT_VALIDATION_OPTIONS } from '../validation-options';
 
 /**
  * Validates a SelectFieldDto object using class-validator decorators.
@@ -20,6 +21,9 @@ import { SelectFieldDto } from '../../dtos/fields/select-field.dto';
  * @returns An array of validation errors, empty if validation succeeds.
  */
 export function validateSelectFieldDto(data: object): ValidationError[] {
-  return validateSync(plainToInstance(SelectFieldDto, data));
+  return validateSync(
+    plainToInstance(SelectFieldDto, data),
+    STRICT_VALIDATION_OPTIONS,
+  );
 }
 ```

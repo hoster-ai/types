@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { ItemDataDto } from '../dtos/item-data.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates an ItemDataDto object using class-validator decorators.
@@ -21,7 +22,7 @@ import { ItemDataDto } from '../dtos/item-data.dto';
  */
 export function validateItemDataDto(data: object): ValidationError[] {
   const dto = plainToInstance(ItemDataDto, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   return errors;
 }
