@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { CompanyDataDto } from '../dtos/company-data.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a CompanyDataDto object using class-validator decorators.
@@ -21,7 +22,7 @@ import { CompanyDataDto } from '../dtos/company-data.dto';
  */
 export function validateCompanyDataDto(data: object): ValidationError[] {
   const dto = plainToInstance(CompanyDataDto, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   return errors;
 }

@@ -164,6 +164,8 @@ Enums provide a set of named constants for common types, preventing errors with 
 
 This package includes validation functions that leverage `class-validator` to ensure that incoming data conforms to the DTO definitions.
 
+Every validator is strict: it runs `class-validator` with `whitelist: true, forbidNonWhitelisted: true`, so a property the DTO does not declare is reported as a `whitelistValidation` error at every validated level (including the nested `field` of an attribute or addon field).
+
 **Available Validators:**
 
 **Core Validators:**

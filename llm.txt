@@ -972,6 +972,8 @@ Each entry links to a separate file containing the full code and details.
 
 ## VALIDATORS
 
+All validators run with `whitelist: true, forbidNonWhitelisted: true` (`validators/validation-options.ts`): any undeclared property, at any validated nesting level, is a `whitelistValidation` error.
+
 ### validateAddonFieldDto
 **Description:** Validates an AddonFieldDto. The nested .field (a discriminated AnyFieldDto) is validated separately via validateAnyFieldDto and its errors merged under the 'field' property.
 

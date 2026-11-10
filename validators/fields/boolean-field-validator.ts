@@ -1,6 +1,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { BooleanFieldDto } from '../../dtos/fields/boolean-field.dto';
+import { STRICT_VALIDATION_OPTIONS } from '../validation-options';
 
 /**
  * Validates a BooleanFieldDto object using class-validator decorators.
@@ -9,5 +10,8 @@ import { BooleanFieldDto } from '../../dtos/fields/boolean-field.dto';
  * @returns An array of validation errors, empty if validation succeeds.
  */
 export function validateBooleanFieldDto(data: object): ValidationError[] {
-  return validateSync(plainToInstance(BooleanFieldDto, data));
+  return validateSync(
+    plainToInstance(BooleanFieldDto, data),
+    STRICT_VALIDATION_OPTIONS,
+  );
 }

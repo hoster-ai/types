@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { NumberFieldDto } from '../../dtos/fields/number-field.dto';
+import { STRICT_VALIDATION_OPTIONS } from '../validation-options';
 
 /**
  * Validates a NumberFieldDto object using class-validator decorators.
@@ -20,6 +21,9 @@ import { NumberFieldDto } from '../../dtos/fields/number-field.dto';
  * @returns An array of validation errors, empty if validation succeeds.
  */
 export function validateNumberFieldDto(data: object): ValidationError[] {
-  return validateSync(plainToInstance(NumberFieldDto, data));
+  return validateSync(
+    plainToInstance(NumberFieldDto, data),
+    STRICT_VALIDATION_OPTIONS,
+  );
 }
 ```

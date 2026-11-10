@@ -2,6 +2,7 @@ import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { AttributeFieldDto } from '../dtos/attribute-field.dto';
 import { validateAnyFieldDto } from './any-field-validator';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates an AttributeFieldDto object using class-validator decorators.
@@ -15,7 +16,7 @@ import { validateAnyFieldDto } from './any-field-validator';
  */
 export function validateAttributeFieldDto(data: object): ValidationError[] {
   const dto = plainToInstance(AttributeFieldDto, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   const field = (data as { field?: unknown })?.field;
   if (field && typeof field === 'object') {

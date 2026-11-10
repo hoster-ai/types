@@ -118,4 +118,57 @@ describe('AttributeFieldDto Validator', () => {
       expect(fieldErr?.children?.some((c) => c.property === 'type')).toBe(true);
     });
   });
+
+  describe('Undeclared properties', () => {
+    const forbidden = (errs: { constraints?: Record<string, string> }[]) =>
+      errs.some((e) => e.constraints?.whitelistValidation !== undefined);
+
+    it('should reject an unknown property on the wrapper', () => {
+      const errors = validateAttributeFieldDto({
+        ...baseValidDto,
+        sticky: true,
+      });
+      const err = errors.find((e) => e.property === 'sticky');
+      expect(err?.constraints?.whitelistValidation).toBeDefined();
+    });
+
+    it('should reject an unknown property inside `field`', () => {
+      const errors = validateAttributeFieldDto({
+        field: { ...validField, evil: 'x' },
+      });
+      const fieldErr = errors.find((e) => e.property === 'field');
+      const evil = fieldErr?.children?.find((c) => c.property === 'evil');
+      expect(evil?.constraints?.whitelistValidation).toBeDefined();
+    });
+
+    it('should reject an unknown property nested deeper inside `field`', () => {
+      const errors = validateAttributeFieldDto({
+        field: {
+          ...validField,
+          label: [{ language: LanguageEnum.ENGLISH, text: 'CPU', evil: 'x' }],
+        },
+      });
+      const fieldErr = errors.find((e) => e.property === 'field');
+      const label = fieldErr?.children?.find((c) => c.property === 'label');
+      const item = label?.children?.[0];
+      expect(item && forbidden(item.children ?? [])).toBe(true);
+    });
+
+    it('should reject unknown properties on the wrapper and inside `field` together', () => {
+      const errors = validateAttributeFieldDto({
+        field: {
+          id: 'a',
+          type: 'TEXT',
+          label: [{ language: LanguageEnum.ENGLISH, text: 'A' }],
+          required: false,
+          disabled: false,
+          evil: 'x',
+        },
+        sticky: true,
+      });
+      expect(errors.find((e) => e.property === 'sticky')).toBeDefined();
+      const fieldErr = errors.find((e) => e.property === 'field');
+      expect(fieldErr?.children?.some((c) => c.property === 'evil')).toBe(true);
+    });
+  });
 });

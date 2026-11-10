@@ -12,6 +12,7 @@
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { ProductDeleteRequestDto } from '../dtos/product/requests/product-delete-request.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a product delete request object.
@@ -23,6 +24,9 @@ export const validateProductDeleteRequestDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const request = plainToInstance(ProductDeleteRequestDto, plainObject);
-  return await validate(request, { skipMissingProperties: true });
+  return await validate(request, {
+    ...STRICT_VALIDATION_OPTIONS,
+    skipMissingProperties: true,
+  });
 };
 ```

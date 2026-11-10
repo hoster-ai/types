@@ -12,6 +12,7 @@
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { ProformaInvoiceResponseDto } from '../dtos/invoice/responses/proforma-invoice-response.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a proforma invoice response object.
@@ -27,6 +28,6 @@ export const validateProformaInvoiceResponseDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const response = plainToInstance(ProformaInvoiceResponseDto, plainObject);
-  return await validate(response);
+  return await validate(response, STRICT_VALIDATION_OPTIONS);
 };
 ```

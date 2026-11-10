@@ -1,6 +1,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { CurrencyFieldDto } from '../../dtos/fields/currency-field.dto';
+import { STRICT_VALIDATION_OPTIONS } from '../validation-options';
 
 /**
  * Validates a CurrencyFieldDto object using class-validator decorators.
@@ -9,5 +10,8 @@ import { CurrencyFieldDto } from '../../dtos/fields/currency-field.dto';
  * @returns An array of validation errors, empty if validation succeeds.
  */
 export function validateCurrencyFieldDto(data: object): ValidationError[] {
-  return validateSync(plainToInstance(CurrencyFieldDto, data));
+  return validateSync(
+    plainToInstance(CurrencyFieldDto, data),
+    STRICT_VALIDATION_OPTIONS,
+  );
 }

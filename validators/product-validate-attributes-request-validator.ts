@@ -1,6 +1,7 @@
 import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { ValidateAttributesRequestDto } from '../dtos/requests/validate-attributes-request.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a product validate attributes request object.
@@ -12,5 +13,5 @@ export const validateValidateAttributesRequestDto = async (
   plainObject: Record<string, unknown>,
 ): Promise<ValidationError[]> => {
   const request = plainToInstance(ValidateAttributesRequestDto, plainObject);
-  return await validate(request);
+  return await validate(request, STRICT_VALIDATION_OPTIONS);
 };

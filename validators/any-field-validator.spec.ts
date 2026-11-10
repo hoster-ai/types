@@ -62,4 +62,24 @@ describe('AnyField dispatcher', () => {
       expect(run().some((e) => e.property === 'type')).toBe(true);
     });
   });
+
+  describe('undeclared properties', () => {
+    it('rejects an unknown top-level property', () => {
+      const errors = validateAnyFieldDto({ ...minimalBase('TEXT'), evil: 'x' });
+      const err = errors.find((e) => e.property === 'evil');
+      expect(err?.constraints?.whitelistValidation).toBeDefined();
+    });
+
+    it('rejects an unknown property inside a nested DTO', () => {
+      const errors = validateAnyFieldDto({
+        ...minimalBase('TEXT'),
+        label: [{ language: LanguageEnum.ENGLISH, text: 'X', evil: 'x' }],
+      });
+      const label = errors.find((e) => e.property === 'label');
+      const item = label?.children?.[0];
+      expect(
+        item?.children?.some((c) => c.constraints?.whitelistValidation),
+      ).toBe(true);
+    });
+  });
 });

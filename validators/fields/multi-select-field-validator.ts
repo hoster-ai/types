@@ -1,6 +1,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { MultiSelectFieldDto } from '../../dtos/fields/multi-select-field.dto';
+import { STRICT_VALIDATION_OPTIONS } from '../validation-options';
 
 /**
  * Validates a MultiSelectFieldDto object using class-validator decorators.
@@ -9,5 +10,8 @@ import { MultiSelectFieldDto } from '../../dtos/fields/multi-select-field.dto';
  * @returns An array of validation errors, empty if validation succeeds.
  */
 export function validateMultiSelectFieldDto(data: object): ValidationError[] {
-  return validateSync(plainToInstance(MultiSelectFieldDto, data));
+  return validateSync(
+    plainToInstance(MultiSelectFieldDto, data),
+    STRICT_VALIDATION_OPTIONS,
+  );
 }

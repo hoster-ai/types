@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { TaxDetailsRequestDto } from '../dtos/tax-manager/tax-details-request.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a TaxDetailsRequestDto object using class-validator decorators.
@@ -24,7 +25,7 @@ import { TaxDetailsRequestDto } from '../dtos/tax-manager/tax-details-request.dt
  */
 export function validateTaxDetailsRequestDto(data: object): ValidationError[] {
   const dto = plainToInstance(TaxDetailsRequestDto, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   return errors;
 }

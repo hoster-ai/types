@@ -38,4 +38,21 @@ describe('AddonFieldDto Validator', () => {
       expect(fieldErr?.children?.some((c) => c.property === 'type')).toBe(true);
     });
   });
+
+  describe('Undeclared properties', () => {
+    it('should reject an unknown property on the wrapper', () => {
+      const errors = validateAddonFieldDto({ ...baseValidDto, sticky: true });
+      const err = errors.find((e) => e.property === 'sticky');
+      expect(err?.constraints?.whitelistValidation).toBeDefined();
+    });
+
+    it('should reject an unknown property inside `field`', () => {
+      const errors = validateAddonFieldDto({
+        field: { ...validField, evil: 'x' },
+      });
+      const fieldErr = errors.find((e) => e.property === 'field');
+      const evil = fieldErr?.children?.find((c) => c.property === 'evil');
+      expect(evil?.constraints?.whitelistValidation).toBeDefined();
+    });
+  });
 });

@@ -1,6 +1,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { NotificationSendRequestDto } from '../dtos/notification/requests/notification-send-request.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a NotificationRequestDto object using class-validator decorators.
@@ -16,7 +17,10 @@ export function validateNotificationRequestDto(
     NotificationSendRequestDto,
     JSON.parse(JSON.stringify(data)),
   );
-  const errors = validateSync(dto, { forbidUnknownValues: false });
+  const errors = validateSync(dto, {
+    ...STRICT_VALIDATION_OPTIONS,
+    forbidUnknownValues: false,
+  });
 
   return errors;
 }

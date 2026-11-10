@@ -12,6 +12,7 @@
 import { validateSync, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { TINValidationDetails } from '../dtos/invoice/tin-validation-details.dto';
+import { STRICT_VALIDATION_OPTIONS } from './validation-options';
 
 /**
  * Validates a TINValidationDetails object using class-validator decorators.
@@ -23,7 +24,7 @@ export function validateTINValidationDetailsDto(
   data: object,
 ): ValidationError[] {
   const dto = plainToInstance(TINValidationDetails, data);
-  const errors = validateSync(dto);
+  const errors = validateSync(dto, STRICT_VALIDATION_OPTIONS);
 
   return errors;
 }
