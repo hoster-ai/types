@@ -13,6 +13,7 @@ import { ResponseStatusEnum } from '../../../enums/response-status.enum';
 import { BaseResponse } from '../../base-response.dto';
 import {
   IsEnum,
+  IsISO8601,
   IsNotEmpty,
   IsObject,
   IsOptional,
@@ -64,6 +65,28 @@ export class ProductCreateResponseDto extends BaseResponse {
     type: 'string',
   })
   outboxId!: string;
+
+  /**
+   * The item's expiry date at the provider after the creation, as an ISO 8601 date or date-time.
+   * Only read on a SUCCESS: when present the core stores it as the item's end date, when absent
+   * the core computes the end date from the item's duration.
+   * @optional
+   */
+  @IsOptional()
+  // strict: απορρίπτει ημερομηνίες που δεν υπάρχουν (π.χ. 31 Φεβρουαρίου)
+  @IsISO8601({ strict: true })
+  // Function form replaces the `oneOf [date, date-time]` that @IsISO8601
+  // emits; `anyOf` because without format checks both branches match.
+  @JSONSchema(() => ({
+    title: 'End Date',
+    description:
+      "The item's expiry date at the provider, as an ISO 8601 date or date-time. Read only on a success; when absent the core computes it from the item's duration.",
+    anyOf: [
+      { type: 'string', format: 'date' },
+      { type: 'string', format: 'date-time' },
+    ],
+  }))
+  endDate?: string;
 
   /**
    * Optional data associated with the creation response.

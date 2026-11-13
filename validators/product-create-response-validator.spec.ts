@@ -57,4 +57,26 @@ describe('validateProductCreateResponseDto', () => {
     const body = omit(VALID, 'code', 'message', '');
     expect((await messages(body)).sort()).toEqual(['code', 'message']);
   });
+
+  it('accepts an ISO 8601 endDate, as a date-time or a plain date', async () => {
+    expect(
+      await messages({ ...VALID, endDate: '2027-11-13T10:00:00.000Z' }),
+    ).toEqual([]);
+    expect(await messages({ ...VALID, endDate: '2027-11-13' })).toEqual([]);
+  });
+
+  it('rejects an endDate for a day that does not exist', async () => {
+    expect(await messages({ ...VALID, endDate: '2027-02-31' })).toEqual([
+      'endDate',
+    ]);
+  });
+
+  it('rejects an endDate that is not an ISO 8601 string', async () => {
+    expect(await messages({ ...VALID, endDate: 'next year' })).toEqual([
+      'endDate',
+    ]);
+    expect(await messages({ ...VALID, endDate: 1794564000000 })).toEqual([
+      'endDate',
+    ]);
+  });
 });

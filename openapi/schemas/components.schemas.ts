@@ -3157,6 +3157,21 @@ export const ComponentsSchemas = {
         description:
           'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
       },
+      endDate: {
+        title: 'End Date',
+        description:
+          "The item's expiry date at the provider, as an ISO 8601 date or date-time. Read only on a success; when absent the core computes it from the item's duration.",
+        anyOf: [
+          {
+            type: 'string',
+            format: 'date',
+          },
+          {
+            type: 'string',
+            format: 'date-time',
+          },
+        ],
+      },
       data: {
         type: 'object',
         title: 'Data',
@@ -3316,6 +3331,21 @@ export const ComponentsSchemas = {
         title: 'Outbox ID',
         description:
           'The outbox action identifier, echoed verbatim from the X-Idempotency-Key header sent by the core, used for correlation and anti-replay.',
+      },
+      endDate: {
+        title: 'End Date',
+        description:
+          "The item's expiry date at the provider, as an ISO 8601 date or date-time. Read only on a success; when absent the core computes it from the item's duration.",
+        anyOf: [
+          {
+            type: 'string',
+            format: 'date',
+          },
+          {
+            type: 'string',
+            format: 'date-time',
+          },
+        ],
       },
       data: {
         type: 'object',
