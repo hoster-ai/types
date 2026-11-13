@@ -71,6 +71,19 @@ describe('validateProductCreateResponseDto', () => {
     ]);
   });
 
+  it('accepts a date-time with a numeric offset', async () => {
+    expect(
+      await messages({ ...VALID, endDate: '2027-11-13T10:00:00+02:00' }),
+    ).toEqual([]);
+  });
+
+  it.each(['20271113', '2027-W46-3', '2027', '2027-11-13T10:00:00'])(
+    'rejects %s, an ISO 8601 form outside RFC 3339',
+    async (endDate) => {
+      expect(await messages({ ...VALID, endDate })).toEqual(['endDate']);
+    },
+  );
+
   it('rejects an endDate that is not an ISO 8601 string', async () => {
     expect(await messages({ ...VALID, endDate: 'next year' })).toEqual([
       'endDate',

@@ -3160,7 +3160,7 @@ export const ComponentsSchemas = {
       endDate: {
         title: 'End Date',
         description:
-          "The item's expiry date at the provider, as an ISO 8601 date or date-time. Read only on a success; when absent the core computes it from the item's duration.",
+          "The item's expiry date at the provider, as an RFC 3339 date or date-time with a time zone. Read only on a success; when absent the core computes it from the item's duration.",
         anyOf: [
           {
             type: 'string',
@@ -3335,7 +3335,7 @@ export const ComponentsSchemas = {
       endDate: {
         title: 'End Date',
         description:
-          "The item's expiry date at the provider, as an ISO 8601 date or date-time. Read only on a success; when absent the core computes it from the item's duration.",
+          "The item's expiry date at the provider, as an RFC 3339 date or date-time with a time zone. Read only on a success; when absent the core computes it from the item's duration.",
         anyOf: [
           {
             type: 'string',
